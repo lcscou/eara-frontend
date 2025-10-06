@@ -1,5 +1,5 @@
-import { createTheme, MantineColorsTuple } from "@mantine/core";
-
+import { Button, createTheme, MantineColorsTuple } from "@mantine/core";
+import classes from "./Button.module.css";
 const primaryColor: MantineColorsTuple = [
   "#f0f0fa",
   "#dddcee",
@@ -22,15 +22,23 @@ const secondaryColor: MantineColorsTuple = [
   "#a1d337",
   "#8fbf29",
   "#7ba61f",
-  "#689011"
-]
+  "#689011",
+];
+
+const textColorDark: MantineColorsTuple = Array.from(
+  { length: 10 },
+  () => "#121536"
+);
 
 export const theme = createTheme({
   primaryColor: "primaryColor",
   primaryShade: { dark: 9, light: 9 },
-  colors: { primaryColor, secondaryColor },
+  colors: { primaryColor, secondaryColor, textColorDark },
   fontFamily: "var(--font-inter)",
   components: {
+    Button: {
+      classNames: classes,
+    },
     Title: {
       styles: {
         root: {
