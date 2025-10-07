@@ -1,18 +1,24 @@
-import { HttpLink } from "@apollo/client";
 import {
-  registerApolloClient ,
   ApolloClient,
   InMemoryCache,
-} from "@apollo/client-integration-nextjs";
+  HttpLink,
+  NormalizedCacheObject,
+} from "@apollo/client";
 
-// import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc';
-
-
-export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
+export function createApolloClient(initialState: NormalizedCacheObject = {}) {
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    ssrMode: typeof window === "undefined",
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+      credentials: "same-origin",
     }),
+    cache: new InMemoryCache().restore(initialState),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "cache-and-network",
+        nextFetchPolicy: "cache-first",
+        returnPartialData: true,
+      },
+    },
   });
-});
+}

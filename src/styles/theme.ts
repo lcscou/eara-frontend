@@ -42,7 +42,8 @@ export const theme = createTheme({
     Title: {
       styles: {
         root: {
-          fontWeight: 700,
+          fontWeight: 500,
+          
         },
       },
     },

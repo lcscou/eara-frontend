@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^4.0.7",
+    "@apollo/client-integration-nextjs": "^0.13.2",
     "@apollo/experimental-nextjs-app-support": "^0.13.2",
     "@eddeee888/gcg-operation-location-migration": "^0.1.0",
     "@mantine/core": "^8.3.3",

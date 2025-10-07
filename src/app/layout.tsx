@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import { MantineProvider } from "./providers/MantineProvider";

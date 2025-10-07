@@ -1,28 +1,31 @@
-"use client";
+// components/ApolloProvider.tsx
+'use client';
 
-import { HttpLink } from "@apollo/client";
-import {
-  ApolloNextAppProvider,
-  ApolloClient,
-  InMemoryCache,
-} from "@apollo/client-integration-nextjs";
+import React from 'react';
+import { ApolloProvider as BaseApolloProvider } from '@apollo/client/react';
+import { NormalizedCacheObject } from '@apollo/client';
 
-const client = () => {
-  const httpLink = new HttpLink({
-    uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
-    fetchOptions: { cache: "no-store" },
-  });
+// If using integration helper:
+// import { useApollo, ApolloNextProvider } from '@/lib/apollo-client';
 
-  return new ApolloClient({
-    cache: new InMemoryCache(),
-    link: httpLink,
-  });
-};
+// If fallback:
+import { createApolloClient } from '@/lib/apollo-client';
 
-export function ApolloProvider({ children }: React.PropsWithChildren) {
-  return (
-    <ApolloNextAppProvider makeClient={client}>
-      {children}
-    </ApolloNextAppProvider>
-  );
+interface ApolloProviderProps {
+  children: React.ReactNode;
+  initialApolloState?: NormalizedCacheObject;
+}
+
+export function ApolloProvider({ children, initialApolloState }: ApolloProviderProps) {
+  // Option A: integration helper
+  // try {
+  //   const apollo = useApollo(initialApolloState);
+  //   return <ApolloNextProvider client={apollo}>{children}</ApolloNextProvider>;
+  // } catch (_e) {
+  //   // fallback path
+  // }
+
+  // Option B: manual fallback
+  const client = React.useMemo(() => createApolloClient(initialApolloState), [initialApolloState]);
+  return <BaseApolloProvider client={client}>{children}</BaseApolloProvider>;
 }

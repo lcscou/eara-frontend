@@ -10,98 +10,63 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 
-interface MenusProps {
-  label: string;
-  href: string;
-  submenu?: MenusProps[];
-}
+import { useQuery } from "@apollo/client/react";
+import { Get_MenuDocument, Get_MenuQuery } from "@/graphql/generated/graphql";
 
-const menus: MenusProps[] = [
-  {
-    label: "Why animal research",
-    href: "#",
-    submenu: [
-      {
-        href: "#",
-        label: "Know more",
-      },
-    ],
-  },
-  {
-    label: "Beyond animal research",
-    href: "#",
-    submenu: [
-      {
-        href: "#",
-        label: "Know more",
-      },
-    ],
-  },
-  {
-    label: "Policy",
-    href: "#",
-    submenu: [
-      {
-        href: "#",
-        label: "Know more",
-      },
-      {
-        href: "#",
-        label: "Know even more",
-      },
-    ],
-  },
-  {
-    label: "Transparency",
-    href: "#",
-  },
-];
-
-const menus2: MenusProps[] = [
-  {
-    label: "News",
-    href: "#",
-  },
-  {
-    label: "Events",
-    href: "#",
-  },
-  {
-    label: "Projects",
-    href: "#",
-  },
-  {
-    label: "Membership",
-    href: "#",
-  },
-  {
-    label: "About EARA",
-    href: "#",
-  },
-];
+type DeepNonNullable<T> = {
+  [K in keyof T]-?: NonNullable<T[K]>;
+};
 
 export default function Header() {
+  const { data, loading, dataState } = useQuery(Get_MenuDocument, {
+    fetchPolicy: "cache-and-network",
+    nextFetchPolicy: "cache-first",
+    returnPartialData: true,
+  });
+
+  const MAIN_MENU_LEFT = data?.menus?.nodes?.filter((menu) =>
+    menu?.locations?.find((loc) => loc == "MAIN_MENU_LEFT")
+  )[0];
+  const MAIN_MENU_RIGHT = data?.menus?.nodes?.filter((menu) =>
+    menu?.locations?.find((loc) => loc == "MAIN_MENU_RIGHT")
+  )[0];
+
+  console.log(dataState);
+
   return (
     <>
-      <Container fluid>
-        <header className="bg-gray-100 p-5 rounded-b-lg flex justify-between items-center gap-10">
+      <Container fluid className="fixed w-full">
+        <header  className="bg-[#ffffff80] backdrop-blur-sm  p-6   rounded-b-lg flex justify-between items-center gap-10 h-[110px]">
           <div id="menu-left" className="flex gap-10">
             <Button unstyled component="a" href="/">
-              <Image src="/logo-eara.svg" w={200} alt="Logo Eara" />
+              <Image
+                src="/logo-eara.svg"
+                className="max-w-[250px]"
+                alt="Logo Eara"
+              />
             </Button>
             <Group gap={10}>
-              {menus.map((menu) => (
-                <MenuItem key={menu.label} menus={menu} />
+              {MAIN_MENU_LEFT?.menuItems?.nodes?.map((menu) => (
+                <MenuItem key={menu?.label} menus={menu} />
               ))}
             </Group>
           </div>
           <div id="menu-right" className="flex gap-10">
             <Group gap={10}>
-              {menus2.map((menu) => (
-                <MenuItem key={menu.label} color="textColorDark" menus={menu} />
+              {MAIN_MENU_RIGHT?.menuItems?.nodes?.map((menu) => (
+                <MenuItem
+                  key={menu?.label}
+                  color="textColorDark"
+                  menus={menu}
+                />
               ))}
             </Group>
-            <Button unstyled bg='secondaryColor.7' c="white" className="w-[40px] cursor-pointer flex items-center justify-center rounded-full aspect-square">
+            <Button
+              unstyled
+              bg="secondaryColor.7"
+              c="white"
+              className="w-[40px] cursor-pointer flex items-center justify-center rounded-full aspect-square"
+            >
               <IconSearch size={18} />
             </Button>
           </div>
@@ -111,26 +76,40 @@ export default function Header() {
   );
 }
 
-export function MenuItem({ menus, color = 'primaryColor.9' }: { menus: MenusProps, color?: string }) {
+export function MenuItem({
+  menus,
+  color = "primaryColor.9",
+}: {
+  menus: MenuNodes;
+  color?: string;
+}) {
   return (
     <>
-      <Menu key={menus.label} position="bottom-start" trigger="click-hover">
+      <Menu
+        key={menus.__typename}
+        position="bottom-start"
+        trigger="click-hover"
+      >
         <Menu.Target>
           <Button
             variant="menu"
             c={color}
-            rightSection={menus.submenu && <IconChevronDown size={16} />}
-            component={menus.submenu ? "button" : "a"}
-            href={menus.submenu ? "" : menus.href}
+            rightSection={
+              menus.childItems?.nodes.length > 0 && (
+                <IconChevronDown size={16} />
+              )
+            }
+            component={menus.childItems?.nodes.length > 0 ? "button" : "a"}
+            href={menus.childItems?.nodes.length > 0 ? null : menus.href}
           >
             {menus.label}
           </Button>
         </Menu.Target>
 
-        {menus.submenu && (
+        {menus.childItems?.nodes.length > 0 && (
           <Menu.Dropdown className="min-w-[200px]">
-            {menus.submenu.map((s) => (
-              <Menu.Item key={s.label} component="a" href={s.href}>
+            {menus.childItems?.nodes.map((s) => (
+              <Menu.Item key={s.label} component="a" href={s.uri}>
                 {s.label}
               </Menu.Item>
             ))}
