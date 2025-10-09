@@ -1,28 +1,16 @@
 "use client";
 import { Button, Image, Container, Group, Menu } from "@mantine/core";
-import Link from "next/link";
-import {
-  IconChevronDown,
-  IconChevronsDown,
-  IconGauge,
-  IconMessageCircle,
-  IconSearch,
-  IconSettings,
-} from "@tabler/icons-react";
+import { IconChevronDown, IconSearch } from "@tabler/icons-react";
 
-import { useQuery } from "@apollo/client/react";
-import { Get_MenuDocument, Get_MenuQuery } from "@/graphql/generated/graphql";
+import { useSuspenseQuery } from "@apollo/client/react";
+import { Get_MenuDocument } from "@/graphql/generated/graphql";
 
 type DeepNonNullable<T> = {
   [K in keyof T]-?: NonNullable<T[K]>;
 };
 
 export default function Header() {
-  const { data, loading, dataState } = useQuery(Get_MenuDocument, {
-    fetchPolicy: "cache-and-network",
-    nextFetchPolicy: "cache-first",
-    returnPartialData: true,
-  });
+  const { data } = useSuspenseQuery(Get_MenuDocument);
 
   const MAIN_MENU_LEFT = data?.menus?.nodes?.filter((menu) =>
     menu?.locations?.find((loc) => loc == "MAIN_MENU_LEFT")
@@ -31,12 +19,10 @@ export default function Header() {
     menu?.locations?.find((loc) => loc == "MAIN_MENU_RIGHT")
   )[0];
 
-  console.log(dataState);
-
   return (
     <>
       <Container fluid className="fixed w-full">
-        <header  className="bg-[#ffffff80] backdrop-blur-sm  p-6   rounded-b-lg flex justify-between items-center gap-10 h-[110px]">
+        <header className="bg-[#ffffff80] backdrop-blur-sm  p-6   rounded-b-lg flex justify-between items-center gap-10 h-[110px]">
           <div id="menu-left" className="flex gap-10">
             <Button unstyled component="a" href="/">
               <Image
@@ -69,6 +55,9 @@ export default function Header() {
             >
               <IconSearch size={18} />
             </Button>
+          </div>
+          <div className="bg-[#ffffff80] backdrop-blur-sm  p-6   rounded-b-lg flex justify-between items-center gap-10 h-[110px]">
+            Mega Menu
           </div>
         </header>
       </Container>

@@ -1,31 +1,44 @@
-// components/ApolloProvider.tsx
-'use client';
+"use client";
+// ^ this file needs the "use client" pragma
 
-import React from 'react';
-import { ApolloProvider as BaseApolloProvider } from '@apollo/client/react';
-import { NormalizedCacheObject } from '@apollo/client';
+import { HttpLink } from "@apollo/client";
+import {
+  ApolloNextAppProvider,
+  ApolloClient,
+  InMemoryCache,
+} from "@apollo/client-integration-nextjs";
 
-// If using integration helper:
-// import { useApollo, ApolloNextProvider } from '@/lib/apollo-client';
+// have a function to create a client for you
+function makeClient() {
+  const httpLink = new HttpLink({
+    // this needs to be an absolute url, as relative urls cannot be used in SSR
+    uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+    // you can disable result caching here if you want to
+    // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
+    fetchOptions: {
+      // you can pass additional options that should be passed to `fetch` here,
+      // e.g. Next.js-related `fetch` options regarding caching and revalidation
+      // see https://nextjs.org/docs/app/api-reference/functions/fetch#fetchurl-options
+    },
+    // you can override the default `fetchOptions` on a per query basis
+    // via the `context` property on the options passed as a second argument
+    // to an Apollo Client data fetching hook, e.g.:
+    // const { data } = useSuspenseQuery(MY_QUERY, { context: { fetchOptions: { ... }}});
+  });
 
-// If fallback:
-import { createApolloClient } from '@/lib/apollo-client';
-
-interface ApolloProviderProps {
-  children: React.ReactNode;
-  initialApolloState?: NormalizedCacheObject;
+  // use the `ApolloClient` from "@apollo/client-integration-nextjs"
+  return new ApolloClient({
+    // use the `InMemoryCache` from "@apollo/client-integration-nextjs"
+    cache: new InMemoryCache(),
+    link: httpLink,
+  });
 }
 
-export function ApolloProvider({ children, initialApolloState }: ApolloProviderProps) {
-  // Option A: integration helper
-  // try {
-  //   const apollo = useApollo(initialApolloState);
-  //   return <ApolloNextProvider client={apollo}>{children}</ApolloNextProvider>;
-  // } catch (_e) {
-  //   // fallback path
-  // }
-
-  // Option B: manual fallback
-  const client = React.useMemo(() => createApolloClient(initialApolloState), [initialApolloState]);
-  return <BaseApolloProvider client={client}>{children}</BaseApolloProvider>;
+// you need to create a component to wrap your app in
+export function ApolloWrapper({ children }: React.PropsWithChildren) {
+  return (
+    <ApolloNextAppProvider makeClient={makeClient}>
+      {children}
+    </ApolloNextAppProvider>
+  );
 }

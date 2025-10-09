@@ -1,24 +1,21 @@
+import { HttpLink } from "@apollo/client";
 import {
+  registerApolloClient,
   ApolloClient,
   InMemoryCache,
-  HttpLink,
-  NormalizedCacheObject,
-} from "@apollo/client";
+} from "@apollo/client-integration-nextjs";
 
-export function createApolloClient(initialState: NormalizedCacheObject = {}) {
+export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   return new ApolloClient({
-    ssrMode: typeof window === "undefined",
+    cache: new InMemoryCache(),
     link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
-      credentials: "same-origin",
-    }),
-    cache: new InMemoryCache().restore(initialState),
-    defaultOptions: {
-      watchQuery: {
-        fetchPolicy: "cache-and-network",
-        nextFetchPolicy: "cache-first",
-        returnPartialData: true,
+      // this needs to be an absolute url, as relative urls cannot be used in SSR
+       uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+      fetchOptions: {
+        // you can pass additional options that should be passed to `fetch` here,
+        // e.g. Next.js-related `fetch` options regarding caching and revalidation
+        // see https://nextjs.org/docs/app/api-reference/functions/fetch#fetchurl-options
       },
-    },
+    }),
   });
-}
+});
