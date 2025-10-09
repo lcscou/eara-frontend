@@ -38,6 +38,9 @@ export const theme = createTheme({
   components: {
     Button: {
       classNames: classes,
+      defaultProps:{
+       radius: '100px'
+      }
     },
     Title: {
       styles: {

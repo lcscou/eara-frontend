@@ -1,8 +1,9 @@
 'use client'
 
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Header from '@/components/ui/Header/Header'
 import Hero from '@/components/ui/Hero/Hero'
-import { Container } from '@mantine/core'
+import { Container, Group } from '@mantine/core'
 
 export default function Home() {
   return (
@@ -20,6 +21,10 @@ export default function Home() {
                   they are used responsibly and humanely.
                 </h2>
                 <p>Trusted, up-to-date information on animal research for different audiences.</p>
+                <Group>
+                  <ButtonEara label="Learn Since Still Needs Animals" variant="filled" />
+                  <ButtonEara label="Learn Since Still Needs Animals" variant="outline" />
+                </Group>
               </div>
             </Container>
           </>
