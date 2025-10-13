@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-
 @theme {
   --color-primaryColor: #312f86;
   --color-secondaryColor:  #8FBF29;
+  --color-earaDark: #272727;
+  --color-earaDark-lighter: #272727;
 }

@@ -15,6 +15,8 @@ const config: CodegenConfig = {
         withHooks: true,
         withHOC: false,
         withComponent: false,
+        extractAllFieldsToTypes: true,
+        flattenGeneratedTypesIncludeFragments: true
       },
       
     },

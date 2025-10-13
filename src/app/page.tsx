@@ -1,15 +1,10 @@
 'use client'
-
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import Header from '@/components/ui/Header/Header'
 import Hero from '@/components/ui/Hero/Hero'
 import { Container, Group } from '@mantine/core'
-
 export default function Home() {
   return (
     <>
-      <Header></Header>
-
       <Hero
         bgImageSrc="/eara-hero-bg.png"
         content={

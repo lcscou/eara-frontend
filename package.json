@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --hostname 0.0.0.0",
     "build": "next build --turbopack",
     "codegen": "graphql-codegen --config codegen.ts",
     "generate-component": "tsx utils/component-generator/generate-component.ts",

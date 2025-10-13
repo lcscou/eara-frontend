@@ -1,30 +1,39 @@
 'use client'
-import { Button, Image, Container, Group, Menu, Grid, Stack, Burger } from '@mantine/core'
-import { IconChevronDown, IconSearch } from '@tabler/icons-react'
-
+import {
+  GetMenuDocument,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
+} from '@/graphql/generated/graphql'
 import { useSuspenseQuery } from '@apollo/client/react'
-import { GetMenuDocument } from '@/graphql/generated/graphql'
-import { MouseEvent, useState } from 'react'
-import { useRef } from 'react'
-import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { Burger, Button, Container, Group, Image, Menu, Stack } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
+import { IconChevronDown, IconSearch } from '@tabler/icons-react'
+import gsap from 'gsap'
+import { SplitText } from 'gsap/SplitText'
+
+import { MouseEvent, useRef, useState } from 'react'
 
 export default function Header() {
-  const { data } = useSuspenseQuery(GetMenuDocument)
+  const { data } = useSuspenseQuery(GetMenuDocument, { fetchPolicy: 'cache-first' })
   const isMobile = useMediaQuery('(min-width: 1300px)')
-  gsap.registerPlugin(useGSAP)
+  gsap.registerPlugin(useGSAP, SplitText)
   const [opened, { toggle }] = useDisclosure()
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [megaMenuContent, setMegaMenuContent] = useState<
-    { id?: string; location?: unknown } | undefined
+    { id?: string; location?: never } | undefined
   >()
   const container = useRef(null)
-
   useGSAP(
     () => {
-      gsap.from('.megamenu', { y: 50, opacity: 0, scaleY: 0.7, ease: 'circ', duration: 0.3 })
-      gsap.from('.megamenu-col', { x: 50, opacity: 0, stagger: 0.14, ease: 'circ', delay: 0.1 })
+      gsap.from('.megamenu', { opacity: 0, scaleY: 0.7, ease: 'circ', duration: 0.3 })
+      gsap.from('.megamenu-col', {
+        x: 50,
+        opacity: 0,
+        stagger: 0.1,
+        ease: 'circ',
+        delay: 0.1,
+        masks: 'lines',
+      })
     },
     { dependencies: [megaMenuOpen, megaMenuContent?.id] }
   )
@@ -54,7 +63,7 @@ export default function Header() {
 
   return (
     <>
-      <Container fluid className="fixed w-full">
+      <Container fluid className="fixed z-[999999] w-full">
         <header
           ref={container}
           className="flex h-[110px] items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm"
@@ -85,7 +94,7 @@ export default function Header() {
               {isMobile ? (
                 <Group gap={10}>
                   {MAIN_MENU_RIGHT?.menuItems?.nodes?.map((menu) => (
-                    <MenuItem key={menu?.label} color="textColorDark" menus={menu} />
+                    <MenuItem key={menu?.id} color="textColorDark" menus={menu} />
                   ))}
                 </Group>
               ) : (
@@ -107,9 +116,9 @@ export default function Header() {
         {megaMenuOpen && (
           <div
             onMouseLeave={handleMouseLeave}
-            className="megamenu mt-1 flex min-h-[300px] origin-top gap-10 rounded-lg bg-[#ffffff80] py-14 backdrop-blur-sm"
+            className="megamenu mt-1 flex min-h-[300px] origin-top-left gap-10 rounded-lg bg-[#ffffff80] py-14 backdrop-blur-sm"
           >
-            <div className="grid w-full grid-cols-4 px-80" gutter={40}>
+            <div className="grid w-full grid-cols-4 px-80">
               {megaMenuContent?.id && megaMenuContent?.location && (
                 <MegaMenuItems
                   menuItems={
@@ -138,9 +147,8 @@ export function MenuItem({
   mouseLeaveCb,
   id,
   location,
-  IsMegaMenuOpen,
 }: {
-  menus: any
+  menus: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem
   color?: string
   id: string
   IsMegaMenuOpen?: boolean
@@ -152,7 +160,7 @@ export function MenuItem({
     <>
       <Menu key={menus.__typename} position="bottom-start">
         <Menu.Target>
-          {menus.childItems?.nodes.length > 0 ? (
+          {menus?.childItems!.nodes?.length > 0 ? (
             <Button
               variant="menu"
               c={color}
@@ -173,17 +181,17 @@ export function MenuItem({
               data-location={location}
               onMouseEnter={() => mouseLeaveCb}
               component="a"
-              href={menus.href}
+              {...(menus.uri ? { href: menus.uri } : {})}
             >
               {menus.label}
             </Button>
           )}
         </Menu.Target>
 
-        {menus.childItems?.nodes.length > 0 && (
+        {menus.childItems!.nodes.length > 0 && (
           <Menu.Dropdown className="min-w-[200px]">
             {menus.childItems?.nodes.map((s) => (
-              <Menu.Item key={s.label} component="a" href={s.uri}>
+              <Menu.Item key={s.label} component="a" {...(menus.uri ? { href: menus.uri } : {})}>
                 {s.label}
               </Menu.Item>
             ))}
@@ -194,18 +202,7 @@ export function MenuItem({
   )
 }
 
-type MenuItem = {
-  __typename: 'MenuItem'
-  childItems: {
-    __typename: 'MenuItemToMenuItemConnection'
-    nodes: MenuItem[]
-  }
-  id: string
-  label: string
-  uri: string
-}
-
-export function MegaMenuItems({ menuItems }: { menuItems: MenuItem[] }) {
+export function MegaMenuItems({ menuItems }: { menuItems: never[] }) {
   return (
     <>
       {menuItems &&
@@ -213,13 +210,20 @@ export function MegaMenuItems({ menuItems }: { menuItems: MenuItem[] }) {
           return (
             index <= 3 && (
               <div className="megamenu-col" key={menu.id}>
-                <a className="text-primaryColor font-bold" href={menu.uri}>
+                <a
+                  className="text-primaryColor font-bold hover:translate-x-0.5"
+                  {...(menu.uri ? { href: menu.uri } : {})}
+                >
                   {menu.label}
                 </a>
-                {menu.childItems.nodes.length > 0 && (
+                {menu?.childItems!.nodes.length > 0 && (
                   <Stack gap={2}>
-                    {menu.childItems.nodes.map((e) => (
-                      <a key={e.id} href={e.uri}>
+                    {menu.childItems!.nodes.map((e) => (
+                      <a
+                        className="hover:translate-x-0.5 hover:font-semibold"
+                        key={e.id}
+                        {...(e.uri ? { href: e.uri } : {})}
+                      >
                         {e.label}
                       </a>
                     ))}
