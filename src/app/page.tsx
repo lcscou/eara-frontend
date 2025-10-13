@@ -1,7 +1,7 @@
 'use client'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
-import { Container, Group } from '@mantine/core'
+import { Container, Group, Title, Text } from '@mantine/core'
 export default function Home() {
   return (
     <>
@@ -9,13 +9,15 @@ export default function Home() {
         bgImageSrc="/eara-hero-bg.png"
         content={
           <>
-            <Container>
+            <Container mt={110}>
               <div className="flex flex-col items-center justify-center gap-10">
-                <h2 className="text-center text-[64px] leading-[100%] text-white">
+                <Title order={1} className="text-center">
                   The place to learn about animal research: why science still needs animals and how
                   they are used responsibly and humanely.
-                </h2>
-                <p>Trusted, up-to-date information on animal research for different audiences.</p>
+                </Title>
+                <Text>
+                  Trusted, up-to-date information on animal research for different audiences.
+                </Text>
                 <Group>
                   <ButtonEara label="Learn Since Still Needs Animals" variant="filled" />
                   <ButtonEara label="Learn Since Still Needs Animals" variant="outline" />

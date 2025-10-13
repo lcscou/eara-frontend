@@ -5,4 +5,9 @@
   --color-secondaryColor:  #8FBF29;
   --color-earaDark: #272727;
   --color-earaDark-lighter: #272727;
+  --color-earaBgLight: #EDEDFA;
+}
+
+body{
+  background-color: var(--color-earaBgLight) !important;
 }
