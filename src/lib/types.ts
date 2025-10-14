@@ -13,6 +13,13 @@ export interface HeroProps {
 export interface CardProps {
   id: string
 }
+export interface QuoteProps{
+  texto:string
+  author:string
+  avatar?:string
+  variant?:"light" | "dark"
+}
+
 export interface ButtonEaraProps {
   label: string
   link?: string
