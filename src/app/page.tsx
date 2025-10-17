@@ -1,4 +1,5 @@
 'use client'
+import CardExamples from '@/components/ui/Card/Card.examples'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
 import { Container, Group, Title, Text } from '@mantine/core'
@@ -27,6 +28,7 @@ export default function Home() {
           </>
         }
       />
+      <CardExamples />
     </>
   )
 }
