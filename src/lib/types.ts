@@ -52,6 +52,13 @@ export interface CardProps {
   shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'sm'
   radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'md'
 }
+export interface QuoteProps{
+  texto:string
+  author:string
+  avatar?:string
+  variant?:"light" | "dark"
+}
+
 export interface ButtonEaraProps {
   label: string
   link?: string

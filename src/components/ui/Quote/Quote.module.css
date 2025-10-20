@@ -1,0 +1,15 @@
+.root {
+    border-radius: 16px;
+    padding: 40px;
+}
+
+.root h2 {
+    font-size: 30px;
+    line-height: 140%;
+    font-style: italic;
+}
+
+.root h5 {
+    font-size: 14px;
+    font-weight: 500;
+}
