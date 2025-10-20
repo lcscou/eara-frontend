@@ -124,9 +124,10 @@ export default function Card({
     useSimpleTitle = false
   ) => {
     // Determinar alinhamento baseado na prop textAlign
-    const alignmentProps = textAlign === 'center'
-      ? { align: 'center' as const, style: { textAlign: 'center' as const } }
-      : { align: 'flex-start' as const, style: { textAlign: 'left' as const } }
+    const alignmentProps =
+      textAlign === 'center'
+        ? { align: 'center' as const, style: { textAlign: 'center' as const } }
+        : { align: 'flex-start' as const, style: { textAlign: 'left' as const } }
 
     const groupJustify = textAlign === 'center' ? 'center' : 'flex-start'
 
@@ -142,7 +143,7 @@ export default function Card({
         ) : (
           <Group gap="xs" justify={groupJustify}>
             {includeIcon && icon && <Box className={styles.iconContainer}>{icon}</Box>}
-            <Title order={3} fw={600} className={styles.title} {...titleProps}>
+            <Title order={6} fw={600} className={styles.title} {...titleProps}>
               {title}
             </Title>
           </Group>
@@ -277,11 +278,12 @@ export default function Card({
         styles.card,
         isVerticalWithImage && styles.verticalHalf,
         isHorizontalWithImage && styles.horizontalHalf,
-        !isVerticalWithImage && !isHorizontalWithImage && {
-          [styles.bgLight]: bgColor === 'light',
-          [styles.bgDark]: bgColor === 'dark',
-          [styles.bgWhite]: bgColor === 'white',
-        },
+        !isVerticalWithImage &&
+          !isHorizontalWithImage && {
+            [styles.bgLight]: bgColor === 'light',
+            [styles.bgDark]: bgColor === 'dark',
+            [styles.bgWhite]: bgColor === 'white',
+          },
         className
       )}
     >

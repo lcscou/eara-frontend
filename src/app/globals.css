@@ -1,14 +1,23 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primaryColor: #312f86;
-  --color-secondaryColor:  #8FBF29;
+  --color-secondaryColor: #8fbf29;
   --color-earaDark: #272727;
   --color-earaDark-lighter: #272727;
-  --color-earaBgLight: #EDEDFA;
-  --color-earaBgDark: #E2E2E5;
+  --color-earaBgLight: #ededfa;
+  --color-earaBgDark: #e2e2e5;
 }
 
-body{
+html {
+  font-size: 16px;
+}
+body {
   background-color: var(--color-earaBgLight) !important;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
 }

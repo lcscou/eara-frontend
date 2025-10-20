@@ -30,7 +30,7 @@ export default function Footer({}: FooterProps) {
                 <Image w={350} src="/logo-eara-light.svg" alt="Logo Eara" />
               </Grid.Col>
               <Grid.Col span={{ sm: 4 }}>
-                <Title order={4} c="earaDark.5">
+                <Title order={6} c="earaDark.5">
                   Social Media
                 </Title>
                 <Group>
@@ -49,7 +49,7 @@ export default function Footer({}: FooterProps) {
                 </Group>
               </Grid.Col>
               <Grid.Col span={{ sm: 4 }}>
-                <Title order={4} size={30}>
+                <Title order={6} size={30}>
                   Subscribe our newsletter
                 </Title>
               </Grid.Col>
@@ -83,7 +83,7 @@ export function FooterColumn({
   return (
     <>
       <Grid.Col key={data.id} span={{ sm: 1 }}>
-        <Title order={4} c="earaDark.5">
+        <Title order={6} c="earaDark.5">
           {data.label}
         </Title>
         <Stack className="mt-4" gap={5}>
@@ -95,7 +95,10 @@ export function FooterColumn({
                 </Button>
               )}
               {child?.menuAcf?.content && (
-                <p dangerouslySetInnerHTML={{ __html: child.menuAcf?.content }}></p>
+                <p
+                  className="max-w-[250px] whitespace-break-spaces"
+                  dangerouslySetInnerHTML={{ __html: child.menuAcf?.content }}
+                ></p>
               )}
             </div>
           ))}

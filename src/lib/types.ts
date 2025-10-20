@@ -5,7 +5,6 @@ export interface PageTitleBarProps {
   date?: string | null
   readingTime?: number | null
   featuredImage?: string | null
-
 }
 export interface HeroProps {
   content: ReactElement
@@ -53,11 +52,11 @@ export interface CardProps {
   shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'sm'
   radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'md'
 }
-export interface QuoteProps{
-  texto:string
-  author:string
-  avatar?:string
-  variant?:"light" | "dark"
+export interface QuoteProps {
+  texto: string
+  author: string
+  avatar?: string
+  variant?: 'light' | 'dark'
 }
 
 export interface ButtonEaraProps {
@@ -81,4 +80,11 @@ export type MenuItemProps = {
 }
 export interface FooterProps {
   id?: string
+}
+
+export interface SectionProps {
+  children: React.ReactNode
+  title: string
+  description?: string
+  subtitle?: string
 }

@@ -4,6 +4,7 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
 import Quote from '@/components/ui/Quote/Quote'
 import { Container, Group, Title, Text } from '@mantine/core'
+import Section from '@/components/ui/Section/Section'
 export default function Home() {
   return (
     <>
@@ -29,6 +30,13 @@ export default function Home() {
           </>
         }
       />
+      <Section
+        title="Become a Member"
+        subtitle="Member"
+        description="More than 500 institutions across Europe have signed Transparency Agreements. In 2022 alone, 6,996,249 animals were used for scientific purposes, data openly reported by the EU."
+      >
+        <h2>ola</h2>
+      </Section>
       <CardExamples />
       <div className="pt-[120px]">
         <Container size="sm">
