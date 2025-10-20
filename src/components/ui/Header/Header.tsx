@@ -1,30 +1,34 @@
 'use client'
 import {
   GetMenuDocument,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
 } from '@/graphql/generated/graphql'
 import { useSuspenseQuery } from '@apollo/client/react'
 import { useGSAP } from '@gsap/react'
-import { Burger, Button, Container, Group, Image, Menu, Stack } from '@mantine/core'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
+import { Burger, Button, Container, Group, Image, Menu, NavLink, Stack } from '@mantine/core'
+import { useClickOutside, useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { IconChevronDown, IconSearch } from '@tabler/icons-react'
+import clsx from 'clsx'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
-
-import { MouseEvent, useRef, useState } from 'react'
-
+import { MouseEvent, useMemo, useRef, useState } from 'react'
 export default function Header() {
   const { data } = useSuspenseQuery(GetMenuDocument, { fetchPolicy: 'cache-first' })
   const isMobile = useMediaQuery('(min-width: 1300px)')
   gsap.registerPlugin(useGSAP, SplitText)
-  const [opened, { toggle }] = useDisclosure()
+  const [opened, { toggle, close }] = useDisclosure()
+  const ref = useClickOutside(() => close())
+  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [megaMenuContent, setMegaMenuContent] = useState<
-    { id?: string; location?: never } | undefined
+    | { id?: string; location?: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu }
+    | undefined
   >()
   const container = useRef(null)
   useGSAP(
     () => {
+      gsap.from('.mobilemenu', { opacity: 0, y: 50, ease: 'circ', duration: 0.3 })
       gsap.from('.megamenu', { opacity: 0, scaleY: 0.7, ease: 'circ', duration: 0.3 })
       gsap.from('.megamenu-col', {
         x: 50,
@@ -35,35 +39,34 @@ export default function Header() {
         masks: 'lines',
       })
     },
-    { dependencies: [megaMenuOpen, megaMenuContent?.id] }
+    { dependencies: [megaMenuOpen, megaMenuContent?.id, opened] }
   )
-
-  const MAIN_MENU_LEFT = data?.menus?.nodes?.filter((menu) =>
-    menu?.locations?.find((loc) => loc == 'MAIN_MENU_LEFT')
-  )[0]
-  const MAIN_MENU_RIGHT = data?.menus?.nodes?.filter((menu) =>
-    menu?.locations?.find((loc) => loc == 'MAIN_MENU_RIGHT')
-  )[0]
-
+  const [MAIN_MENU_LEFT, MAIN_MENU_RIGHT] = useMemo(() => {
+    const menus = data?.menus?.nodes ?? []
+    const left = menus.find((m) => m?.locations?.includes('MAIN_MENU_LEFT'))
+    const right = menus.find((m) => m?.locations?.includes('MAIN_MENU_RIGHT'))
+    return [left, right]
+  }, [data])
   function getMegaMenuItems(location: typeof MAIN_MENU_RIGHT, id: string) {
-    return location?.menuItems?.nodes.filter((el) => el.id === id)[0]?.childItems || []
+    return (
+      location?.menuItems?.nodes.filter((el) => el.id === id)[0]?.childItems ?? {
+        nodes: [],
+      }
+    )
   }
-
   function handleMouseEnter(e: MouseEvent<HTMLButtonElement>) {
     const id = e.currentTarget.dataset?.id
     const location =
       e.currentTarget.dataset?.location === 'MAIN_MENU_LEFT' ? MAIN_MENU_LEFT : MAIN_MENU_RIGHT
     setMegaMenuContent({ id: id, location: location })
-
     setMegaMenuOpen(true)
   }
   function handleMouseLeave() {
     setMegaMenuOpen(false)
   }
-
   return (
     <>
-      <Container fluid className="fixed z-[999999] w-full">
+      <Container ref={ref} fluid className="fixed z-[999999] w-full">
         <header
           ref={container}
           className="flex h-[110px] items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm"
@@ -73,7 +76,6 @@ export default function Header() {
               <Button unstyled component="a" href="/">
                 <Image src="/logo-eara.svg" className="max-w-[250px]" alt="Logo Eara" />
               </Button>
-
               {isMobile && (
                 <Group gap={10}>
                   {MAIN_MENU_LEFT?.menuItems?.nodes?.map((menu) => (
@@ -83,7 +85,7 @@ export default function Header() {
                       mouseEnterCb={handleMouseEnter}
                       mouseLeaveCb={handleMouseLeave}
                       IsMegaMenuOpen={megaMenuOpen}
-                      key={menu?.label}
+                      key={menu?.id}
                       menus={menu}
                     />
                   ))}
@@ -111,7 +113,6 @@ export default function Header() {
             </div>
           </>
         </header>
-
         {/* MegaMenu */}
         {megaMenuOpen && (
           <div
@@ -133,13 +134,93 @@ export default function Header() {
             </div>
           </div>
         )}
+        {opened && (
+          <div
+            className={clsx(
+              'mobilemenu mt-2 w-full rounded-lg bg-[#ffffff80] p-6 backdrop-blur-lg'
+            )}
+          >
+            {MAIN_MENU_LEFT?.menuItems?.nodes?.map((menu) => (
+              <>
+                <NavLink
+                  key={menu.id}
+                  {...(menu.uri ? { href: menu.uri } : {})}
+                  label={menu.label}
+                  className="rounded"
+                  childrenOffset={28}
+                >
+                  {menu.childItems?.nodes.length &&
+                    menu.childItems.nodes.map((a) => (
+                      <>
+                        <NavLink
+                          key={a.id}
+                          {...(a.uri ? { href: a.uri } : {})}
+                          label={a.label}
+                          className="rounded"
+                          childrenOffset={28}
+                        >
+                          {a.childItems?.nodes &&
+                            a.childItems.nodes.map((b) => (
+                              <>
+                                <NavLink
+                                  key={b.id}
+                                  {...(b.uri ? { href: b.uri } : {})}
+                                  label={b.label}
+                                  className="rounded"
+                                  childrenOffset={28}
+                                ></NavLink>
+                              </>
+                            ))}
+                        </NavLink>
+                      </>
+                    ))}
+                </NavLink>
+              </>
+            ))}
+            {MAIN_MENU_RIGHT?.menuItems?.nodes?.map((menu) => (
+              <>
+                <NavLink
+                  key={menu.id}
+                  {...(menu.uri ? { href: menu.uri } : {})}
+                  label={menu.label}
+                  className="rounded"
+                  childrenOffset={28}
+                >
+                  {menu.childItems?.nodes.length &&
+                    menu.childItems.nodes.map((a) => (
+                      <>
+                        <NavLink
+                          key={a.id}
+                          {...(a.uri ? { href: a.uri } : {})}
+                          label={a.label}
+                          className="rounded"
+                          childrenOffset={28}
+                        >
+                          {a.childItems?.nodes &&
+                            a.childItems.nodes.map((b) => (
+                              <>
+                                <NavLink
+                                  key={b.id}
+                                  {...(b.uri ? { href: b.uri } : {})}
+                                  label={b.label}
+                                  className="rounded"
+                                  childrenOffset={28}
+                                ></NavLink>
+                              </>
+                            ))}
+                        </NavLink>
+                      </>
+                    ))}
+                </NavLink>
+              </>
+            ))}
+          </div>
+        )}
       </Container>
     </>
   )
 }
-
 import { MouseEvent as ReactMouseEvent } from 'react'
-
 export function MenuItem({
   menus,
   color = 'primaryColor.9',
@@ -148,17 +229,17 @@ export function MenuItem({
   id,
   location,
 }: {
-  menus: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem
+  menus: Partial<GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem>
   color?: string
-  id: string
+  id?: string
   IsMegaMenuOpen?: boolean
-  location: string
+  location?: string
   mouseEnterCb?: (e: ReactMouseEvent<HTMLButtonElement>) => void
   mouseLeaveCb?: (e: ReactMouseEvent<HTMLButtonElement>) => void
 }) {
   return (
     <>
-      <Menu key={menus.__typename} position="bottom-start">
+      <Menu key={menus.__typename} opened={false}>
         <Menu.Target>
           {menus?.childItems!.nodes?.length > 0 ? (
             <Button
@@ -187,7 +268,6 @@ export function MenuItem({
             </Button>
           )}
         </Menu.Target>
-
         {menus.childItems!.nodes.length > 0 && (
           <Menu.Dropdown className="min-w-[200px]">
             {menus.childItems?.nodes.map((s) => (
@@ -201,8 +281,9 @@ export function MenuItem({
     </>
   )
 }
-
-export function MegaMenuItems({ menuItems }: { menuItems: never[] }) {
+type MenuItemType =
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem
+export function MegaMenuItems({ menuItems }: { menuItems: MenuItemType[] }) {
   return (
     <>
       {menuItems &&

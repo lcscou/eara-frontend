@@ -12,7 +12,7 @@ export default function Home() {
           <>
             <Container mt={110}>
               <div className="flex flex-col items-center justify-center gap-10">
-                <Title order={1} className="text-center">
+                <Title order={1} className="sm:text-center">
                   The place to learn about animal research: why science still needs animals and how
                   they are used responsibly and humanely.
                 </Title>

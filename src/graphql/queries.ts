@@ -101,6 +101,9 @@ export const MenuItemFieldsFragment = gql`
     id
     label
     uri
+    menuAcf {
+      content
+    }
   }
 `
 export const GetMenu = gql`

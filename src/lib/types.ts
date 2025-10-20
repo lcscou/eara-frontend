@@ -9,6 +9,7 @@ export interface PageTitleBarProps {
 export interface HeroProps {
   content: ReactElement
   bgImageSrc?: string
+  bgImageSrcMobile?: string
 }
 export interface CardProps {
   // Identificação
