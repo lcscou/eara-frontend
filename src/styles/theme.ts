@@ -1,4 +1,4 @@
-import { Button, createTheme, MantineColorsTuple } from '@mantine/core'
+import { createTheme, MantineColorsTuple } from '@mantine/core'
 import classes from './Button.module.css'
 import TitleClasses from './Title.module.css'
 const primaryColor: MantineColorsTuple = [

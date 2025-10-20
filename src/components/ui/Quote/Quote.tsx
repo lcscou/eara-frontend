@@ -1,4 +1,4 @@
-import { Avatar, Group, Stack, Title } from '@mantine/core'
+import { Avatar, Group, Stack } from '@mantine/core'
 import { IconQuoteFilled } from '@tabler/icons-react'
 import s from './Quote.module.css'
 import clsx from 'clsx'

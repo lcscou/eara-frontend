@@ -1,5 +1,4 @@
 import { Button } from '@mantine/core'
-import styles from './ButtonEara.module.css'
 import { ButtonEaraProps } from '@/lib/types'
 
 export default function ButtonEara({

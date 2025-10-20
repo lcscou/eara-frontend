@@ -3,6 +3,7 @@ export interface PageTitleBarProps {
   title?: string | null
   author?: string | null
   date?: string | null
+  readingTime?: number | null
   featuredImage?: string | null
 
 }

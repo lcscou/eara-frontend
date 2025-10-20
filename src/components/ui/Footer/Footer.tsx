@@ -10,12 +10,13 @@ import {
 import { useSuspenseQuery } from '@apollo/client/react'
 import {
   GetMenuDocument,
+  GetMenuQuery,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
 } from '@/graphql/generated/graphql'
 
 export default function Footer({}: FooterProps) {
-  const { data } = useSuspenseQuery(GetMenuDocument, { fetchPolicy: 'cache-first' })
-  const MAIN_FOOTER = data?.menus?.nodes?.filter((menu) =>
+  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, { fetchPolicy: 'cache-first' })
+  const MAIN_FOOTER = data.menus?.nodes?.filter((menu) =>
     menu?.locations?.find((loc) => loc == 'MAIN_FOOTER')
   )[0]
 

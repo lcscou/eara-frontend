@@ -5,8 +5,6 @@ import './globals.css'
 import { ApolloWrapper } from './providers/ApolloProvider'
 import '@mantine/core/styles.css'
 
-import Header from '@/components/ui/Header/Header'
-import Footer from '@/components/ui/Footer/Footer'
 import { PreloadQuery } from '@/lib/apollo-client'
 import { GetMenuDocument } from '@/graphql/generated/graphql'
 

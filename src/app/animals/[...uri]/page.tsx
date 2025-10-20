@@ -1,19 +1,19 @@
 import { cache } from 'react'
-import { GetAnimalDocument, GetPageDocument } from '@/graphql/generated/graphql'
+import { GetAnimalDocument, GetAnimalQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
-import PageTemplate from '@/components/templates/Page/PageTemplate'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import SingleAnimals from '@/components/templates/SingleAnimals'
 type AnimalProps = {
   params: { uri: string[] }
 }
-const getAnimalData = cache(async (uri: string[]) => {
+const getAnimalData = cache(async (uri: string[]):Promise<GetAnimalQuery> => {
   const client = getClient()
-  const { data } = await client.query({
+  const { data } = await client.query<GetAnimalQuery>({
     query: GetAnimalDocument,
     variables: { id: uri.join('') },
   })
+  if (!data) notFound()
   return data
 })
 export async function generateMetadata({ params }: AnimalProps): Promise<Metadata> {

@@ -1,6 +1,7 @@
 'use client'
 import {
   GetMenuDocument,
+  GetMenuQuery,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
 } from '@/graphql/generated/graphql'
@@ -14,7 +15,7 @@ import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { MouseEvent, useMemo, useRef, useState } from 'react'
 export default function Header() {
-  const { data } = useSuspenseQuery(GetMenuDocument, { fetchPolicy: 'cache-first' })
+  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, { fetchPolicy: 'cache-first' })
   const isMobile = useMediaQuery('(min-width: 1300px)')
   gsap.registerPlugin(useGSAP, SplitText)
   const [opened, { toggle, close }] = useDisclosure()

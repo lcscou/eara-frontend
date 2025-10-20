@@ -1,5 +1,5 @@
 import { cache } from 'react'
-import { GetEventsDocument } from '@/graphql/generated/graphql'
+import { GetEventsDocument, GetEventsQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -7,12 +7,13 @@ import SingleEvents from '@/components/templates/Events/SingleEvents'
 type EventProps = {
   params: { uri: string[] }
 }
-const getEventData = cache(async (uri: string[]) => {
+const getEventData = cache(async (uri: string[]): Promise<GetEventsQuery> => {
   const client = getClient()
-  const { data } = await client.query({
+  const { data } = await client.query<GetEventsQuery>({
     query: GetEventsDocument,
     variables: { id: uri.join('') },
   })
+  if (!data) notFound()
   return data
 })
 export async function generateMetadata({ params }: EventProps): Promise<Metadata> {
