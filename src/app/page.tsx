@@ -34,9 +34,7 @@ export default function Home() {
         title="Become a Member"
         subtitle="Member"
         description="More than 500 institutions across Europe have signed Transparency Agreements. In 2022 alone, 6,996,249 animals were used for scientific purposes, data openly reported by the EU."
-      >
-        <h2>ola</h2>
-      </Section>
+      ></Section>
       <CardExamples />
       <div className="pt-[120px]">
         <Container size="sm">
