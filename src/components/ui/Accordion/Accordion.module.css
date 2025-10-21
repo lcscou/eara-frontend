@@ -1,0 +1,112 @@
+/* Accordion.module.css */
+
+.root {
+  width: 100%;
+}
+
+.item {
+  color: black;
+  border-radius: 50px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.greenItem {
+  background: transparent;
+}
+
+.blueItem {
+  background: transparent;
+}
+
+.lightblueItem {
+  background: transparent;
+}
+
+.transparentItem {
+  background: transparent;
+  border: 2px solid #312f86;
+}
+
+.greenItem .control {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  background: #8fbf29;
+  color: #312f86;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blueItem .control {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  background: #312f86;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lightblueItem .control {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  background: #b8bce8;
+  color: #312f86;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.transparentItem .control {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  background: transparent;
+  color: #312f86;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.greenItem span {
+  color: #312f86;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+.blueItem span {
+  color: #fff;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+.lightblueItem span {
+  color: #312f86;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+.transparentItem span {
+  color: #312f86;
+  font-weight: 600;
+  margin-left: 20px;
+}
+.control:focus {
+  outline: 0px solid rgba(255, 255, 255, 0.18);
+  outline-offset: 2px;
+}
+.panel {
+  padding: 12px 16px;
+  background: transparent;
+  color: inherit;
+  line-height: 1.5;
+  border-radius: 0 0 12px 12px;
+  box-shadow: none;
+}

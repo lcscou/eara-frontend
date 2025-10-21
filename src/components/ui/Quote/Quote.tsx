@@ -10,7 +10,7 @@ export default function Quote({ texto, author, avatar, variant = 'dark' }: Quote
         className={clsx(
           s.root,
           variant === 'light'
-            ? 'bg-color-#e3e3e3 font-normal text-black'
+            ? 'bg-color-earaBgDark font-normal text-black'
             : 'bg-white font-light text-black'
         )}
       >
