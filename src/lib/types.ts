@@ -19,7 +19,15 @@ export interface QuoteProps{
   avatar?:string
   variant?:"light" | "dark"
 }
-
+export interface AccordionItem {
+  value: string      // valor único para cada item
+  titulo: string
+  conteudo: React.ReactNode
+}
+export interface AccordionProps{
+  items: AccordionItem[]
+  variant?:"green" | "blue" | "lightblue" | "transparent"
+}
 export interface ButtonEaraProps {
   label: string
   link?: string
