@@ -4,6 +4,7 @@ import { MantineProvider } from './providers/MantineProvider'
 import './globals.css'
 import { ApolloWrapper } from './providers/ApolloProvider'
 import '@mantine/core/styles.css'
+import '@mantine/carousel/styles.css'
 
 import { PreloadQuery } from '@/lib/apollo-client'
 import { GetMenuDocument } from '@/graphql/generated/graphql'

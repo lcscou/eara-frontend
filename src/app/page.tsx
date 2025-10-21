@@ -4,37 +4,73 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
 import Quote from '@/components/ui/Quote/Quote'
 import { Container, Group, Title, Text } from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
 import Section from '@/components/ui/Section/Section'
 export default function Home() {
   return (
     <>
-      <Hero
-        bgImageSrc="/eara-hero-bg.png"
-        content={
-          <>
-            <Container mt={110}>
-              <div className="flex flex-col items-center justify-center gap-10">
-                <Title order={1} className="sm:text-center">
-                  The place to learn about animal research: why science still needs animals and how
-                  they are used responsibly and humanely.
-                </Title>
-                <Text>
-                  Trusted, up-to-date information on animal research for different audiences.
-                </Text>
-                <Group>
-                  <ButtonEara label="Learn Since Still Needs Animals" variant="with-arrow" />
-                  <ButtonEara label="Learn Since Still Needs Animals" variant="outline" />
-                </Group>
-              </div>
-            </Container>
-          </>
-        }
-      />
+      <Carousel withIndicators controlSize={50}>
+        <Carousel.Slide>
+          {' '}
+          <Hero
+            bgImageSrc="/eara-hero-bg.png"
+            content={
+              <>
+                <Container mt={110}>
+                  <div className="flex flex-col items-center justify-center gap-10">
+                    <Title order={1} className="sm:text-center">
+                      The place to learn about animal research: why science still needs animals and
+                      how they are used responsibly and humanely.
+                    </Title>
+                    <Text>
+                      Trusted, up-to-date information on animal research for different audiences.
+                    </Text>
+                    <Group>
+                      <ButtonEara label="Learn Since Still Needs Animals" variant="with-arrow" />
+                      <ButtonEara label="Learn Since Still Needs Animals" variant="outline" />
+                    </Group>
+                  </div>
+                </Container>
+              </>
+            }
+          />
+        </Carousel.Slide>
+        <Carousel.Slide>
+          <Hero
+            bgImageSrc="/eara-hero-bg.png"
+            content={
+              <>
+                <Container mt={110}>
+                  <div className="flex flex-col items-center justify-center gap-10">
+                    <Title order={1} className="sm:text-center">
+                      The place to learn about animal research: why science still needs animals and
+                      how they are used responsibly and humanely.
+                    </Title>
+                    <Text>
+                      Trusted, up-to-date information on animal research for different audiences.
+                    </Text>
+                    <Group>
+                      <ButtonEara label="Learn Since Still Needs Animals" variant="with-arrow" />
+                      <ButtonEara label="Learn Since Still Needs Animals" variant="outline" />
+                    </Group>
+                  </div>
+                </Container>
+              </>
+            }
+          />
+        </Carousel.Slide>
+        <Carousel.Slide></Carousel.Slide>
+        {/* ...other slides */}
+      </Carousel>
+
       <Section
         title="Become a Member"
         subtitle="Member"
         description="More than 500 institutions across Europe have signed Transparency Agreements. In 2022 alone, 6,996,249 animals were used for scientific purposes, data openly reported by the EU."
-      ></Section>
+      >
+        {/* AQUI VAI O SEU COMPONENTE */}
+      </Section>
+
       <CardExamples />
       <div className="pt-[120px]">
         <Container size="sm">

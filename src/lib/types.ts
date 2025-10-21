@@ -12,26 +12,17 @@ export interface HeroProps {
   bgImageSrcMobile?: string
 }
 export interface CardProps {
-  // Identificação
   id?: string
-
-  // Layout e variante
-  variant?: 'vertical' | 'horizontal' // default: 'horizontal'
-  textAlign?: 'left' | 'center' // default: 'left'
-
-  // Conteúdo principal
+  variant?: 'vertical' | 'horizontal'
+  textAlign?: 'left' | 'center'
   title: string
   description: string
   date?: string
-
-  // Mídia
   image?: string
-  imagePosition?: 'left' | 'right' // default: 'left'
+  imagePosition?: 'left' | 'right'
   icon?: ReactElement
   avatar?: string
-  avatarSize?: 'small' | 'large' // default: 'large'
-
-  // Interações
+  avatarSize?: 'small' | 'large'
   links?: Array<{
     label: string
     href: string
@@ -44,13 +35,11 @@ export interface CardProps {
     onClick?: () => void
     variant?: 'filled' | 'outline' | 'anchor-text'
   }
-
-  // Estilo
-  bgColor?: 'light' | 'dark' | 'white' // default: 'white'
+  bgColor?: 'light' | 'dark' | 'white'
   className?: string
-  withBorder?: boolean // default: true
-  shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'sm'
-  radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'md'
+  withBorder?: boolean
+  shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 export interface QuoteProps {
   texto: string
@@ -58,7 +47,6 @@ export interface QuoteProps {
   avatar?: string
   variant?: 'light' | 'dark'
 }
-
 export interface ButtonEaraProps {
   label: string
   link?: string
@@ -81,7 +69,6 @@ export type MenuItemProps = {
 export interface FooterProps {
   id?: string
 }
-
 export interface SectionProps extends React.PropsWithChildren {
   title: string
   description?: string

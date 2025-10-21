@@ -11,7 +11,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
       fetchOptions: {
-        cache: 'force-cache',
+        cache: 'default',
       },
     }),
   })
