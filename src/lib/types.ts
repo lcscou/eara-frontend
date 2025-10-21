@@ -66,6 +66,38 @@ export type MenuItemProps = {
   label: string
   uri: string
 }
+export interface TickerProps {
+  // Identificação
+  id?: string
+
+  // Mensagens do ticker
+  messages: Array<{
+    id: string
+    text: string
+    link?: string
+    linkLabel?: string // default: 'KNOW MORE'
+    target?: '_self' | '_blank' // default: '_self'
+  }>
+
+  // Configurações de comportamento
+  autoPlay?: boolean // default: true
+  autoPlayInterval?: number // default: 5000ms
+  showNavigation?: boolean // default: true
+  pauseOnHover?: boolean // default: true
+  dismissible?: boolean // default: false
+  onDismiss?: () => void
+
+  // Posicionamento
+  position?: 'static' | 'fixed-bottom' // default: 'static'
+
+  // Estilo
+  bgColor?: 'primary' | 'secondary' | 'light' | 'dark' | 'white' // default: 'secondary'
+  textColor?: 'white' | 'dark' | 'auto' // default: 'auto'
+  className?: string
+  radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'xl'
+  size?: 'sm' | 'md' | 'lg' // default: 'md'
+}
+
 export interface FooterProps {
   id?: string
 }

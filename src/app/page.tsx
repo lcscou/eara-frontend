@@ -1,5 +1,6 @@
 'use client'
 import CardExamples from '@/components/ui/Card/Card.examples'
+import Ticker from '@/components/ui/Ticker/Ticker'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
 import Quote from '@/components/ui/Quote/Quote'
@@ -82,6 +83,32 @@ export default function Home() {
           />
         </Container>
       </div>
+      <Ticker
+        messages={[
+          {
+            id: '1',
+            text: 'EARA conference will happen on 24 November 2025. Join our upcoming webinar on ethical research practices. Join our upcoming webinar on ethical research practices!!',
+            link: '/conference-2025',
+            linkLabel: 'KNOW MORE',
+          },
+          {
+            id: '2',
+            text: 'New research guidelines published for animal welfare',
+            link: '/guidelines',
+            linkLabel: 'READ MORE',
+          },
+          {
+            id: '3',
+            text: 'Join our upcoming webinar on ethical research practices',
+            link: '/webinar',
+            linkLabel: 'REGISTER',
+          },
+        ]}
+        bgColor="secondary"
+        textColor="dark"
+        position="fixed-bottom"
+        dismissible={true}
+      />
     </>
   )
 }

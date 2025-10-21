@@ -1,0 +1,376 @@
+/* Ticker wrapper to allow mobile dismiss button outside overflow */
+.tickerWrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Fixed bottom wrapper adjustments */
+.tickerWrapper.fixedBottom {
+  position: fixed;
+  bottom: 60px;
+  left: 20px;
+  right: 20px;
+  z-index: 1000;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: auto;
+}
+
+/* Base ticker styles */
+.ticker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  min-height: 60px;
+}
+
+.ticker:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 20px -3px rgba(0, 0, 0, 0.15),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Fixed position variant - now handled by wrapper */
+.fixedBottom .ticker:hover {
+  transform: translateY(-2px);
+}
+
+/* Background color variants */
+.bgPrimary {
+  background-color: var(--color-primaryColor);
+}
+
+.bgSecondary {
+  background-color: var(--color-secondaryColor);
+}
+
+.bgLight {
+  background-color: var(--color-earaBgLight);
+}
+
+.bgDark {
+  background-color: var(--color-earaBgDark);
+}
+
+.bgWhite {
+  background-color: white;
+  border: 1px solid #e9ecef;
+}
+
+/* Text color variants */
+.textWhite {
+  color: white;
+}
+
+.textDark {
+  color: var(--color-earaDark);
+}
+
+/* Dismiss button */
+.dismissButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+  margin-left: 1rem;
+  flex-shrink: 0;
+}
+
+.dismissButton:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dismissButton svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Mobile dismiss button - positioned above the ticker bar */
+.dismissButtonMobile {
+  position: absolute;
+  top: -18px;
+  right: 1rem;
+  background: var(--color-secondaryColor);
+  border: none;
+  border-radius: 12px 12px 0 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 3;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.dismissButtonMobile:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.dismissButtonMobile svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Color variants for mobile dismiss button to match ticker background */
+.bgPrimary .dismissButtonMobile {
+  background: var(--color-primaryColor);
+}
+
+.bgSecondary .dismissButtonMobile {
+  background: var(--color-secondaryColor);
+}
+
+.bgLight .dismissButtonMobile {
+  background: #f8f9fa;
+  color: var(--color-earaDark);
+}
+
+.bgDark .dismissButtonMobile {
+  background: var(--color-earaDark);
+}
+
+.bgWhite .dismissButtonMobile {
+  background: white;
+  color: var(--color-earaDark);
+}
+
+/* Responsive dismiss buttons */
+@media (max-width: 480px) {
+  .dismissButton {
+    display: none;
+  }
+
+  .dismissButtonMobile {
+    display: flex;
+  }
+}
+
+@media (min-width: 481px) {
+  .dismissButtonMobile {
+    display: none;
+  }
+}
+
+/* Size variants */
+.sizeSm {
+  min-height: 50px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+.sizeMd {
+  min-height: 60px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+}
+
+.sizeLg {
+  min-height: 70px;
+  padding: 1.25rem 2rem;
+  font-size: 1.125rem;
+}
+
+/* Navigation arrows */
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.navButton:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.navButton svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Content area */
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0; /* Para permitir text overflow */
+}
+
+.messageContainer {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.messageText {
+  flex: 1;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-right: 1rem;
+  white-space: nowrap;
+}
+
+.messageTextScrolling {
+  animation: scrollText var(--animation-duration, 12s) linear 1;
+  animation-fill-mode: forwards;
+  display: inline-block;
+  /* Allow text to extend beyond container for animation */
+  width: max-content;
+  min-width: 100%;
+}
+
+.messageTextStatic {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* Keyframe for text scrolling animation */
+@keyframes scrollText {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(0);
+  }
+  90% {
+    transform: translateX(var(--scroll-end, 0px));
+  }
+  100% {
+    transform: translateX(var(--scroll-end, 0px));
+  }
+}
+
+.linkSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  font: 600 0.875rem/1 inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 2;
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+.linkSection:hover {
+  opacity: 0.8;
+}
+
+.linkSection:hover .linkArrow {
+  transform: translateX(2px);
+}
+
+.linkArrow {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* Fade transition for message changes */
+.messageContent {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.messageContent.transitioning {
+  opacity: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ticker {
+    padding: 0.875rem 1.25rem;
+    min-height: 55px;
+  }
+
+  .sizeSm {
+    min-height: 45px;
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  .sizeMd {
+    min-height: 55px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .sizeLg {
+    min-height: 65px;
+    padding: 1rem 1.5rem;
+    font-size: 1.0625rem;
+  }
+
+  .navigation {
+    margin-right: 0.75rem;
+  }
+
+  .messageText {
+    margin-right: 0.75rem;
+  }
+
+  .linkSection {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .messageText {
+    max-width: 200px;
+  }
+
+  .linkSection {
+    font-size: 0.75rem;
+    padding-left: 0.5rem;
+    gap: 0;
+  }
+}
