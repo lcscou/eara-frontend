@@ -1,4 +1,4 @@
-import { Button, createTheme, MantineColorsTuple } from '@mantine/core'
+import { createTheme, MantineColorsTuple } from '@mantine/core'
 import classes from './Button.module.css'
 import TitleClasses from './Title.module.css'
 const primaryColor: MantineColorsTuple = [
@@ -25,7 +25,6 @@ const secondaryColor: MantineColorsTuple = [
   '#7ba61f',
   '#689011',
 ]
-
 const textColorDark: MantineColorsTuple = [
   '#121536',
   '#121536',
@@ -38,7 +37,6 @@ const textColorDark: MantineColorsTuple = [
   '#121536',
   '#121536',
 ]
-
 const earaDark: MantineColorsTuple = [
   '#f5f5f5',
   '#e7e7e7',
@@ -51,12 +49,21 @@ const earaDark: MantineColorsTuple = [
   '#656565',
   '#272727',
 ]
-
 export const theme = createTheme({
   primaryColor: 'primaryColor',
   primaryShade: { dark: 9, light: 9 },
   colors: { primaryColor, secondaryColor, textColorDark, earaDark },
-  fontFamily: 'var(--font-inter)',
+  // fontFamily: 'var(--font-inter)',
+  headings: {
+    sizes: {
+      h1: { fontSize: '3.815rem', lineHeight: '1' },
+      h2: { fontSize: '3.052rem', lineHeight: '1' },
+      h3: { fontSize: '2.441rem', lineHeight: '1' },
+      h4: { fontSize: '1.953rem', lineHeight: '1' },
+      h5: { fontSize: '1.563rem', lineHeight: '1' },
+      h6: { fontSize: '1.25rem', lineHeight: '1' },
+    },
+  },
   components: {
     Button: {
       classNames: classes,

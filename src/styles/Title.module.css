@@ -1,5 +1,10 @@
-.root[data-order="1"]{
-    font-size: 56px;
-    line-height: 100%;
-    font-weight: 500;
+@media (max-width: 768px) {
+  .root[data-order='1'] {
+    font-size: calc(3.815rem - 1rem);
+    line-height: 110%;
+  }
+  .root[data-order='2'] {
+    font-size: calc(3.052rem - 1rem);
+    line-height: 110%;
+  }
 }

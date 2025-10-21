@@ -3,21 +3,60 @@ export interface PageTitleBarProps {
   title?: string | null
   author?: string | null
   date?: string | null
+  readingTime?: number | null
   featuredImage?: string | null
-  readingTime?:  number | null
 }
 export interface HeroProps {
   content: ReactElement
   bgImageSrc?: string
+  bgImageSrcMobile?: string
 }
 export interface CardProps {
-  id: string
+  // Identificação
+  id?: string
+
+  // Layout e variante
+  variant?: 'vertical' | 'horizontal' // default: 'horizontal'
+  textAlign?: 'left' | 'center' // default: 'left'
+
+  // Conteúdo principal
+  title: string
+  description: string
+  date?: string
+
+  // Mídia
+  image?: string
+  imagePosition?: 'left' | 'right' // default: 'left'
+  icon?: ReactElement
+  avatar?: string
+  avatarSize?: 'small' | 'large' // default: 'large'
+
+  // Interações
+  links?: Array<{
+    label: string
+    href: string
+    variant?: 'default' | 'arrow'
+  }>
+  button?: {
+    label: string
+    href?: string
+    target?: HTMLAttributeAnchorTarget
+    onClick?: () => void
+    variant?: 'filled' | 'outline' | 'anchor-text'
+  }
+
+  // Estilo
+  bgColor?: 'light' | 'dark' | 'white' // default: 'white'
+  className?: string
+  withBorder?: boolean // default: true
+  shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'sm'
+  radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default: 'md'
 }
-export interface QuoteProps{
-  texto:string
-  author:string
-  avatar?:string
-  variant?:"light" | "dark"
+export interface QuoteProps {
+  texto: string
+  author: string
+  avatar?: string
+  variant?: 'light' | 'dark'
 }
 export interface AccordionItem {
   value: string      // valor único para cada item
@@ -49,4 +88,11 @@ export type MenuItemProps = {
 }
 export interface FooterProps {
   id?: string
+}
+
+export interface SectionProps {
+  children: React.ReactNode
+  title: string
+  description?: string
+  subtitle?: string
 }

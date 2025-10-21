@@ -1,6 +1,7 @@
 import { cache } from 'react'
 import {
-  GetDiseasesDocument
+  GetDiseasesDocument,
+  GetDiseasesQuery
 } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
 import { notFound } from 'next/navigation'
@@ -9,12 +10,13 @@ import SingleDiseases from '@/components/templates/Diseases/SingleDiseases'
 type DiseaseProps = {
   params: { uri: string[] }
 }
-const getDiseaseData = cache(async (uri: string[]) => {
+const getDiseaseData = cache(async (uri: string[]): Promise<GetDiseasesQuery> => {
   const client = getClient()
-  const { data } = await client.query({
+  const { data } = await client.query<GetDiseasesQuery>({
     query: GetDiseasesDocument,
     variables: { id: uri.join('') },
   })
+  if (!data) notFound()
   return data
 })
 export async function generateMetadata({ params }: DiseaseProps): Promise<Metadata> {

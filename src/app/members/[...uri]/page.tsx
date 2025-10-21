@@ -1,5 +1,5 @@
 import { cache } from 'react'
-import { GetMembersDocument } from '@/graphql/generated/graphql'
+import { GetMembersDocument, GetMembersQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -7,12 +7,13 @@ import SingleMembers from '@/components/templates/Members/SingleMembers'
 type MemberProps = {
   params: { uri: string[] }
 }
-const getMemberData = cache(async (uri: string[]) => {
+const getMemberData = cache(async (uri: string[]): Promise<GetMembersQuery> => {
   const client = getClient()
-  const { data } = await client.query({
+  const { data } = await client.query<GetMembersQuery>({
     query: GetMembersDocument,
     variables: { id: uri.join('') },
   })
+  if (!data) notFound()
   return data
 })
 export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
