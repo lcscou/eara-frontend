@@ -1,0 +1,17 @@
+.withArrow:hover {
+  transition: all 0.3s ease;
+}
+.withArrow:hover .arrowIcon svg path {
+  /* transform: translateX(4px); */
+  animation: bounce-in-right 0.2s alternate ease-in-out 2;
+  /* margin-left: 10px; */
+}
+
+@-webkit-keyframes bounce-in-right {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(4px);
+  }
+}

@@ -22,7 +22,7 @@ export default function Home() {
                   Trusted, up-to-date information on animal research for different audiences.
                 </Text>
                 <Group>
-                  <ButtonEara label="Learn Since Still Needs Animals" variant="filled" />
+                  <ButtonEara label="Learn Since Still Needs Animals" variant="with-arrow" />
                   <ButtonEara label="Learn Since Still Needs Animals" variant="outline" />
                 </Group>
               </div>

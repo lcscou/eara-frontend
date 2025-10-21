@@ -1,6 +1,8 @@
 import { Button } from '@mantine/core'
 import { ButtonEaraProps } from '@/lib/types'
-
+import { IconArrowRight } from '@tabler/icons-react'
+import clsx from 'clsx'
+import s from './ButtonEara.module.css'
 export default function ButtonEara({
   RightSection,
   label,
@@ -21,7 +23,7 @@ export default function ButtonEara({
           rightSection={RightSection}
           // fw="medium"
           tt="uppercase"
-          size="md"
+          size="lg"
           styles={{
             label: {
               fontWeight: '400',
@@ -41,13 +43,52 @@ export default function ButtonEara({
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}
           rightSection={RightSection}
-          variant='outline'
+          variant="outline"
           tt="uppercase"
-          size="md"
+          size="lg"
           c="white"
           styles={{
-            root:{
-              borderColor: "white"
+            root: {
+              borderColor: 'white',
+            },
+            label: {
+              fontWeight: '400',
+              fontSize: '15px',
+              letterSpacing: '.8px',
+            },
+          }}
+        >
+          {label}
+        </Button>
+      )}
+      {variant == 'with-arrow' && (
+        <Button
+          className={s.withArrow}
+          // component={link ?? 'a'}
+          leftSection={leftSection}
+          {...(link ? { component: 'a' } : {})}
+          {...(link ? { href: link } : {})}
+          {...(link && target ? { target: target } : {})}
+          rightSection={
+            <div
+              className={clsx(
+                'flex aspect-square h-[48.4px] items-center justify-center rounded-full p-1',
+                s.arrowIcon
+              )}
+            >
+              <IconArrowRight
+                className={clsx('bg-secondaryColor h-full w-full rounded-full p-2 text-black')}
+              />
+            </div>
+          }
+          variant="filled"
+          tt="uppercase"
+          size="lg"
+          c="white"
+          styles={{
+            root: {
+              paddingRight: '0px',
+              // borderColor: "white"
             },
             label: {
               fontWeight: '400',
