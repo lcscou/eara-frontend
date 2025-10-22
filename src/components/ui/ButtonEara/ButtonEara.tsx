@@ -14,7 +14,7 @@ export default function ButtonEara({
 }: ButtonEaraProps) {
   return (
     <>
-      {variant == 'filled' && (
+      {variant == 'filledx' && (
         <Button
           // component={link ?? 'a'}
           leftSection={leftSection}
