@@ -115,3 +115,12 @@ export interface SectionProps extends React.PropsWithChildren {
   description?: string
   subtitle?: string
 }
+
+export interface BackToTopProps {
+  id: string
+}
+
+export interface InfoButtonProps {
+  content: string | React.ReactNode
+  width?: number
+}

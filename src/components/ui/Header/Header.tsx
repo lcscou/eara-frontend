@@ -13,7 +13,7 @@ import { IconChevronDown, IconSearch } from '@tabler/icons-react'
 import clsx from 'clsx'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
-import { MouseEvent, useMemo, useRef, useState } from 'react'
+import { MouseEvent, MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from 'react'
 export default function Header() {
   const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, { fetchPolicy: 'cache-first' })
   const isMobile = useMediaQuery('(min-width: 1300px)')
@@ -221,7 +221,6 @@ export default function Header() {
     </>
   )
 }
-import { MouseEvent as ReactMouseEvent } from 'react'
 export function MenuItem({
   menus,
   color = 'primaryColor.9',
