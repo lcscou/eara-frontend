@@ -1,5 +1,5 @@
-import { Button } from '@mantine/core'
 import { ButtonEaraProps } from '@/lib/types'
+import { Button } from '@mantine/core'
 import { IconArrowRight } from '@tabler/icons-react'
 import clsx from 'clsx'
 import s from './ButtonEara.module.css'
@@ -14,7 +14,7 @@ export default function ButtonEara({
 }: ButtonEaraProps) {
   return (
     <>
-      {variant == 'filledx' && (
+      {variant == 'filled' && (
         <Button
           // component={link ?? 'a'}
           leftSection={leftSection}

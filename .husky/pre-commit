@@ -1,1 +1,4 @@
+echo "🔎 Checking TypeScript..."
+yarn tsc --noEmit
+echo "🧹 Making code beauty..."
 npx lint-staged
