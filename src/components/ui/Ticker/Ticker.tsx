@@ -61,8 +61,6 @@ export default function Ticker({
     return textWidth
   }, [])
 
-
-
   // Função para verificar overflow de todas as mensagens
   const checkAllMessagesOverflow = useCallback(() => {
     if (!textRef.current) return
@@ -216,11 +214,7 @@ export default function Ticker({
 
       return Math.max(minDuration, Math.min(maxDuration, calculatedDuration))
     },
-    [
-      messages,
-      screenWidth,
-      measureTextWidth,
-    ]
+    [messages, screenWidth, measureTextWidth]
   )
 
   // Auto-play functionality - usa timeout individual por mensagem
@@ -256,6 +250,7 @@ export default function Ticker({
     isCurrentMessageOverflowing,
     currentIndex,
     getAnimationDuration,
+    currentMessage.id,
   ])
 
   // Check text overflow for all messages when component mounts or messages change
@@ -271,13 +266,14 @@ export default function Ticker({
   }, [messages, checkAllMessagesOverflow])
 
   // Determine text color automatically
-  const actualTextColor = textColor !== 'auto'
-    ? textColor
-    : (bgColor === 'secondary' || bgColor === 'primary')
-      ? 'white'
-      : (bgColor === 'light' || bgColor === 'white')
-        ? 'dark'
-        : 'white'
+  const actualTextColor =
+    textColor !== 'auto'
+      ? textColor
+      : bgColor === 'secondary' || bgColor === 'primary'
+        ? 'white'
+        : bgColor === 'light' || bgColor === 'white'
+          ? 'dark'
+          : 'white'
 
   // Handlers para pause on hover
   const handleMouseEnter = () => {

@@ -7,6 +7,7 @@ import Section from '@/components/ui/Section/Section'
 import Card from '@/components/ui/Card'
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { IconCircleCheck, IconNotebook } from '@tabler/icons-react'
+import Ticker from '@/components/ui/Ticker'
 export default function Home() {
   return (
     <>
@@ -36,7 +37,6 @@ export default function Home() {
           />
         </Carousel.Slide>
       </Carousel>
-
       <Section title="Our Three Pillars" subtitle="About">
         <Grid>
           <Grid.Col span={{ sm: 12, md: 4 }}>
@@ -74,7 +74,6 @@ export default function Home() {
           </Grid.Col>
         </Grid>
       </Section>
-
       <SectionCard image="/informing.jpg" orientation="image-left">
         <div>
           <Title order={3} mb={20} className="text-primaryColor">
@@ -131,7 +130,6 @@ export default function Home() {
           />
         </div>
       </SectionCard>
-
       <Section
         title="Choose Your Path"
         subtitle="Audiences"
@@ -284,7 +282,6 @@ export default function Home() {
           </div>
         </div>
       </Section>
-
       <Section title="Become a Member" subtitle="Members">
         <div className="grid grid-cols-2 gap-10">
           <div className="col-span-1">
@@ -326,6 +323,33 @@ export default function Home() {
           </div>
         </div>
       </Section>
+      <Ticker
+        messages={[
+          {
+            id: '1',
+            text: 'EARA conference will happen on 24 November 2025. Join our upcoming webinar on ethical research practices. Join our upcoming webinar on ethical research practices!!',
+            link: '/conference-2025',
+            linkLabel: 'KNOW MORE',
+          },
+          {
+            id: '2',
+            text: 'New research guidelines published for animal welfare',
+            link: '/guidelines',
+            linkLabel: 'READ MORE',
+          },
+          {
+            id: '3',
+            text: 'Join our upcoming webinar on ethical research practices',
+            link: '/webinar',
+            linkLabel: 'REGISTER',
+          },
+        ]}
+        bgColor="secondary"
+        textColor="dark"
+        position="fixed-bottom"
+        dismissible={true}
+      />
+
       {/* <CardExamples />
       <div className="pt-[120px]">
         <Container size="sm">
