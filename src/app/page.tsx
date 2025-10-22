@@ -4,6 +4,7 @@ import Ticker from '@/components/ui/Ticker/Ticker'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
 import Quote from '@/components/ui/Quote/Quote'
+import Card from '@/components/ui/Card/Card'
 import { Container, Group, Title, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import Section from '@/components/ui/Section/Section'
@@ -63,15 +64,82 @@ export default function Home() {
         <Carousel.Slide></Carousel.Slide>
         {/* ...other slides */}
       </Carousel>
+      {/* Seção de Notícias */}
+      <Section variant="news-grid" subtitle="NEWS" title="Latest research news" containerSize="lg">
+        {/* Card principal (grande à esquerda) */}
+        <Card
+          variant="vertical"
+          title="Animal research paved the way for a precision treatment for pancreatic cancer"
+          description="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
+          image="/two-scientists.png"
+          bgColor="white"
+          date="2 days ago"
+          button={{
+            label: '2 min read',
+            variant: 'anchor-text',
+          }}
+        />
 
-      <Section
-        title="Become a Member"
-        subtitle="Member"
-        description="More than 500 institutions across Europe have signed Transparency Agreements. In 2022 alone, 6,996,249 animals were used for scientific purposes, data openly reported by the EU."
-      >
-        {/* AQUI VAI O SEU COMPONENTE */}
+        {/* Card superior direito */}
+        <Card
+          variant="horizontal"
+          title="Animal research paved the way for a precision treatment for pancreatic cancer"
+          description="INÊS SERRONHO"
+          image="/girl-studying.png"
+          imagePosition="right"
+          bgColor="light"
+          date="2 days ago"
+          button={{
+            label: '2 min read',
+            variant: 'anchor-text',
+          }}
+        />
+
+        {/* Card inferior direito */}
+        <Card
+          variant="horizontal"
+          title="Animal research paved the way for a precision treatment for pancreatic cancer"
+          description="INÊS SERRONHO"
+          image="/two-scientists.png"
+          imagePosition="right"
+          bgColor="light"
+          date="2 days ago"
+          button={{
+            label: '2 min read',
+            variant: 'anchor-text',
+          }}
+        />
       </Section>
-
+      <Section
+        variant="cards-grid"
+        subtitle="RESEARCH"
+        title="Our research areas"
+        description="Explore the different areas where animal research contributes to scientific advancement"
+        containerSize="lg"
+        spacing="lg"
+      >
+        <Card
+          variant="vertical"
+          title="Medical Research"
+          description="Advancing treatments for human diseases through responsible animal research."
+          image="/two-scientists.png"
+          bgColor="light"
+        />
+        <Card
+          variant="vertical"
+          title="Drug Development"
+          description="Testing new medications to ensure safety and efficacy before human trials."
+          image="/girl-studying.png"
+          bgColor="white"
+        />
+        <Card
+          variant="vertical"
+          title="Veterinary Science"
+          description="Improving animal health and welfare through scientific research."
+          image="/two-scientists.png"
+          bgColor="dark"
+        />
+      </Section>
       <CardExamples />
       <div className="pt-[120px]">
         <Container size="sm">

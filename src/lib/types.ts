@@ -114,4 +114,7 @@ export interface SectionProps extends React.PropsWithChildren {
   title: string
   description?: string
   subtitle?: string
+  variant?: 'default' | 'news-grid' | 'cards-grid' | 'featured-grid'
+  containerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
