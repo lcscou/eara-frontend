@@ -1,10 +1,11 @@
 'use client'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
+import Card from '@/components/ui/Card/Card'
 import { Container, Group, Title, Text, Grid, List } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import Section from '@/components/ui/Section/Section'
-import Card from '@/components/ui/Card'
+
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { IconCircleCheck, IconNotebook } from '@tabler/icons-react'
 import Ticker from '@/components/ui/Ticker'
@@ -129,7 +130,53 @@ export default function Home() {
             variant="with-arrow"
           />
         </div>
-      </SectionCard>
+      </SectionCard>{' '}
+      {/* Seção de Notícias */}
+      <Section variant="news-grid" subtitle="NEWS" title="Latest research news" containerSize="lg">
+        {/* Card principal (grande à esquerda) */}
+        <Card
+          variant="vertical"
+          title="Animal research paved the way for a precision treatment for pancreatic cancer"
+          description="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
+          image="/two-scientists.png"
+          bgColor="white"
+          date="2 days ago"
+          button={{
+            label: '2 min read',
+            variant: 'anchor-text',
+          }}
+        />
+
+        {/* Card superior direito */}
+        <Card
+          variant="horizontal"
+          title="Animal research paved the way for a precision treatment for pancreatic cancer"
+          description="INÊS SERRONHO"
+          image="/girl-studying.png"
+          imagePosition="right"
+          bgColor="light"
+          date="2 days ago"
+          button={{
+            label: '2 min read',
+            variant: 'anchor-text',
+          }}
+        />
+
+        {/* Card inferior direito */}
+        <Card
+          variant="horizontal"
+          title="Animal research paved the way for a precision treatment for pancreatic cancer"
+          description="INÊS SERRONHO"
+          image="/two-scientists.png"
+          imagePosition="right"
+          bgColor="light"
+          date="2 days ago"
+          button={{
+            label: '2 min read',
+            variant: 'anchor-text',
+          }}
+        />
+      </Section>
       <Section
         title="Choose Your Path"
         subtitle="Audiences"
@@ -349,7 +396,6 @@ export default function Home() {
         position="fixed-bottom"
         dismissible={true}
       />
-
       {/* <CardExamples />
       <div className="pt-[120px]">
         <Container size="sm">
