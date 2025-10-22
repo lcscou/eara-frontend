@@ -2,14 +2,19 @@
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Hero from '@/components/ui/Hero/Hero'
 import Card from '@/components/ui/Card/Card'
-import { Container, Group, Title, Text, Grid, List } from '@mantine/core'
+import { Container, Group, Title, Text, Grid, List, ActionIcon } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import Section from '@/components/ui/Section/Section'
 
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
-import { IconCircleCheck, IconNotebook } from '@tabler/icons-react'
+import { IconArrowLeft, IconArrowRight, IconCircleCheck, IconNotebook } from '@tabler/icons-react'
 import Ticker from '@/components/ui/Ticker'
+import EventCard from '@/components/ui/EventCard/EventCard'
+import { EmblaCarouselType } from 'embla-carousel'
+import { useState } from 'react'
+
 export default function Home() {
+  const [embla, setEmbla] = useState<EmblaCarouselType | null>(null)
   return (
     <>
       <Carousel withIndicators controlSize={50}>
@@ -396,43 +401,80 @@ export default function Home() {
         position="fixed-bottom"
         dismissible={true}
       />
-      {/* <CardExamples />
-      <div className="pt-[120px]">
-        <Container size="sm">
-          <Quote
-            variant="light"
-            texto="Animals can suffer from many of the same conditions as humans, such as cancer, heart disease, epilepsy and infectious diseases."
-            author="António Exemplo"
-            avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          />
-        </Container>
-      </div>
-      <Ticker
-        messages={[
-          {
-            id: '1',
-            text: 'EARA conference will happen on 24 November 2025. Join our upcoming webinar on ethical research practices. Join our upcoming webinar on ethical research practices!!',
-            link: '/conference-2025',
-            linkLabel: 'KNOW MORE',
-          },
-          {
-            id: '2',
-            text: 'New research guidelines published for animal welfare',
-            link: '/guidelines',
-            linkLabel: 'READ MORE',
-          },
-          {
-            id: '3',
-            text: 'Join our upcoming webinar on ethical research practices',
-            link: '/webinar',
-            linkLabel: 'REGISTER',
-          },
-        ]}
-        bgColor="secondary"
-        textColor="dark"
-        position="fixed-bottom"
-        dismissible={true}
-      /> */}
+      <Section title="EARA Events" subtitle="Events" containerSize="none" className="relative">
+        <Group className="absolute top-40 right-20 sm:top-25">
+          <ActionIcon variant="light" radius={80} aria-label="Settings">
+            <IconArrowLeft onClick={() => embla?.scrollPrev()} />
+          </ActionIcon>
+          <Group gap={5}>
+            {Array.from({ length: embla?.slideNodes().length || 3 }, (_, i) => i).map((_, j) => (
+              <span key={j} className="aspect-square w-3 rounded-full bg-[#d6d6ec]"></span>
+            ))}
+          </Group>
+          <ActionIcon variant="light" radius={80} aria-label="Settings">
+            <IconArrowRight onClick={() => embla?.scrollNext()} />
+          </ActionIcon>
+        </Group>
+        <Carousel
+          slideSize="45%"
+          getEmblaApi={setEmbla}
+          slideGap={10}
+          withControls={false}
+          withIndicators={false}
+          emblaOptions={{
+            loop: true,
+            dragFree: false,
+            align: 'center',
+          }}
+          // slideGap={20}
+        >
+          <Carousel.Slide>
+            <EventCard
+              category="Conference"
+              date="24 November 2025 - 09h"
+              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
+              title="Event Title"
+              featuredImage="/two-scientists.png"
+            />
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <EventCard
+              category="Conference"
+              date="24 November 2025 - 09h"
+              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
+              title="Event Title"
+              featuredImage="/two-scientists.png"
+            />
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <EventCard
+              category="Conference"
+              date="24 November 2025 - 09h"
+              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
+              title="Event Title"
+              featuredImage="/two-scientists.png"
+            />
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <EventCard
+              category="Conference"
+              date="24 November 2025 - 09h"
+              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
+              title="Event Title"
+              featuredImage="/two-scientists.png"
+            />
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <EventCard
+              category="Conference"
+              date="24 November 2025 - 09h"
+              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
+              title="Event Title"
+              featuredImage="/two-scientists.png"
+            />
+          </Carousel.Slide>
+        </Carousel>
+      </Section>
     </>
   )
 }

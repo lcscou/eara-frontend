@@ -1,83 +1,36 @@
-import { Text, Title } from '@mantine/core'
+import { Container, Text, Title } from '@mantine/core'
 import { SectionProps } from '@/lib/types'
-import styles from './Section.module.css'
+import clsx from 'clsx'
 export default function Section({
   children,
   title,
   subtitle,
+  className,
   description,
-  variant = 'default',
+  containerSize = 'lg',
+  // variant = 'default',
 }: SectionProps) {
-  const renderHeader = () => (
-    <div className="w-full items-start gap-20 sm:flex">
-      {subtitle && (
-        <div className="w-fit border-b border-b-gray-400 py-2 pl-20 sm:pl-40">
-          <small className="uppercase">{subtitle}</small>
-        </div>
-      )}
-      <div className="sm:px-unset mt-5 max-w-2xl grow px-[16px] sm:mt-0">
-        <Title order={2} className="text-primaryColor">
-          {title}
-        </Title>
-        {description && <Text mt={15}>{description}</Text>}
-      </div>
-    </div>
-  )
-
-  const renderContent = () => {
-    switch (variant) {
-      case 'news-grid':
-        return (
-          <div className={styles.newsGridContainer}>
-            <div className={styles.newsGrid}>{children}</div>
-          </div>
-        )
-
-      case 'cards-grid':
-        return (
-          <div className={styles.cardsGridContainer}>
-            <div className={styles.cardsGrid}>{children}</div>
-          </div>
-        )
-
-      case 'featured-grid':
-        return (
-          <div className={styles.featuredGridContainer}>
-            <div className={styles.featuredGrid}>{children}</div>
-          </div>
-        )
-
-      default:
-        return <div className={styles.defaultContainer}>{children}</div>
-    }
-  }
-
   return (
-    <section className="py-30">
-      {renderHeader()}
-      {renderContent()}
-    </section>
+    <>
+      <section className={clsx('py-20', className)}>
+        <div className="w-full items-start gap-20 sm:flex">
+          <div className="w-fit border-b border-b-gray-400 py-2 pl-20 sm:pl-40">
+            <small className="uppercase">{subtitle}</small>
+          </div>
+          <div className="sm:px-unset mt-5 max-w-2xl grow px-[16px] sm:mt-0">
+            <Title order={2} className="text-primaryColor">
+              {title}
+            </Title>
+            {description && <Text mt={15}>{description}</Text>}
+          </div>
+        </div>
+        <Container
+          {...(containerSize == 'none' ? { px: 0, fluid: true } : { size: containerSize })}
+          mt={100}
+        >
+          {children}
+        </Container>
+      </section>
+    </>
   )
-}
-
-{
-  /* <>
-  <section className="py-20">
-    <div className="w-full items-start gap-20 sm:flex">
-      <div className="w-fit border-b border-b-gray-400 py-2 pl-20 sm:pl-40">
-        <small className="uppercase">{subtitle}</small>
-      </div>
-      <div className="sm:px-unset mt-5 max-w-2xl grow px-[16px] sm:mt-0">
-        <Title order={2} className="text-primaryColor">
-          {title}
-        </Title>
-        {description && <Text mt={15}>{description}</Text>}
-      </div>
-    </div>
-
-    <Container size="lg" mt={100}>
-      {children}
-    </Container>
-  </section>
-</> */
 }

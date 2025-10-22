@@ -1,15 +1,15 @@
-import type { Metadata } from 'next'
-import { Hanken_Grotesk } from 'next/font/google'
-import { MantineProvider } from './providers/MantineProvider'
-import './globals.css'
-import { ApolloWrapper } from './providers/ApolloProvider'
 import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
+import type { Metadata } from 'next'
+import { Hanken_Grotesk } from 'next/font/google'
+import './globals.css'
+import { ApolloWrapper } from './providers/ApolloProvider'
+import { MantineProvider } from './providers/MantineProvider'
 
-import { PreloadQuery } from '@/lib/apollo-client'
-import { GetMenuDocument } from '@/graphql/generated/graphql'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import InfoButton from '@/components/ui/InfoButton/InfoButton'
+import { GetMenuDocument } from '@/graphql/generated/graphql'
+import { PreloadQuery } from '@/lib/apollo-client'
 
 const hankenGrotesk = Hanken_Grotesk({
   variable: '--hanken-grotesk-sans',

@@ -115,8 +115,9 @@ export interface SectionProps extends React.PropsWithChildren {
   title: string
   description?: string
   subtitle?: string
+  className?: string
   variant?: 'default' | 'news-grid' | 'cards-grid' | 'featured-grid'
-  containerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  containerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none'
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
@@ -132,4 +133,17 @@ export interface InfoButtonProps {
 export interface SectionCardProps extends React.PropsWithChildren {
   image: string
   orientation: 'image-left' | 'image-right'
+}
+
+export interface CarouselProps {
+  id: string
+}
+
+export interface EventCardProps {
+  title: string
+  date?: string
+  excerpt?: string
+  category?: string
+  featuredImage?: string
+  link?: string
 }
