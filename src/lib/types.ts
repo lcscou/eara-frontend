@@ -147,3 +147,13 @@ export interface EventCardProps {
   featuredImage?: string
   link?: string
 }
+
+export interface NewsCardProps {
+  featuredImage?: string
+  title: string
+  author?: string
+  isFeatured?: boolean
+  timeReading?: string
+  excerpt?: string
+  link?: string
+}

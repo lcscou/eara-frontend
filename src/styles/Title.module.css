@@ -1,3 +1,7 @@
+.root[data-order='6'] {
+  line-height: 115%;
+}
+
 @media (max-width: 768px) {
   .root[data-order='1'] {
     font-size: calc(3.815rem - 1rem);
