@@ -14,7 +14,7 @@ export default function Section({
 }: SectionProps) {
   return (
     <>
-      <section className={clsx(`py-[${py}]`, className)}>
+      <section className={clsx(`py-20`, className)}>
         {!noTitle && (
           <div className="w-full items-start gap-20 sm:flex">
             <div className="w-fit border-b border-b-gray-400 py-2 pl-20 sm:pl-40">
