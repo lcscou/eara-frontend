@@ -1,11 +1,10 @@
 import { Text, Container, Title } from '@mantine/core'
-import styles from './Section.module.css'
 import { SectionProps } from '@/lib/types'
 
 export default function Section({ children, title, subtitle, description }: SectionProps) {
   return (
     <>
-      <section className="py-30">
+      <section className="py-20">
         <div className="w-full items-start gap-20 sm:flex">
           <div className="w-fit border-b border-b-gray-400 py-2 pl-20 sm:pl-40">
             <small className="uppercase">{subtitle}</small>

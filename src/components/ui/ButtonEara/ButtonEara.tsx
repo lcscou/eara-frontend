@@ -8,6 +8,7 @@ export default function ButtonEara({
   label,
   leftSection,
   link,
+  className,
   target,
   variant = 'filled',
 }: ButtonEaraProps) {
@@ -22,12 +23,13 @@ export default function ButtonEara({
           {...(link && target ? { target: target } : {})}
           rightSection={RightSection}
           // fw="medium"
+          className={className}
           tt="uppercase"
           size="lg"
           styles={{
             label: {
               fontWeight: '400',
-              fontSize: '15px',
+              fontSize: '13px',
               letterSpacing: '.8px',
             },
           }}
@@ -45,6 +47,7 @@ export default function ButtonEara({
           rightSection={RightSection}
           variant="outline"
           tt="uppercase"
+          className={className}
           size="lg"
           c="white"
           styles={{
@@ -53,7 +56,7 @@ export default function ButtonEara({
             },
             label: {
               fontWeight: '400',
-              fontSize: '15px',
+              fontSize: '13px',
               letterSpacing: '.8px',
             },
           }}
@@ -63,7 +66,7 @@ export default function ButtonEara({
       )}
       {variant == 'with-arrow' && (
         <Button
-          className={s.withArrow}
+          className={clsx(s.withArrow, className)}
           // component={link ?? 'a'}
           leftSection={leftSection}
           {...(link ? { component: 'a' } : {})}
@@ -92,7 +95,7 @@ export default function ButtonEara({
             },
             label: {
               fontWeight: '400',
-              fontSize: '15px',
+              fontSize: '13px',
               letterSpacing: '.8px',
             },
           }}

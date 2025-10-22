@@ -62,6 +62,7 @@ export interface ButtonEaraProps {
   target?: HTMLAttributeAnchorTarget
   leftSection?: ReactElement
   RightSection?: ReactElement
+  className?: string
   variant?: 'filled' | 'outline' | 'link' | 'with-arrow'
 }
 export type MenuItemProps = {
@@ -123,4 +124,9 @@ export interface BackToTopProps {
 export interface InfoButtonProps {
   content: string | React.ReactNode
   width?: number
+}
+
+export interface SectionCardProps extends React.PropsWithChildren {
+  image: string
+  orientation: 'image-left' | 'image-right'
 }
