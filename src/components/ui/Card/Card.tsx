@@ -1,19 +1,19 @@
+import { CardProps } from '@/lib/types'
 import {
-  Card as MantineCard,
-  Image,
-  Title,
-  Text,
-  Button,
   Anchor,
-  Group,
-  Stack,
   Avatar,
   Box,
+  Button,
+  Card as MantineCard,
+  Group,
+  Image,
+  Stack,
+  Text,
+  Title,
 } from '@mantine/core'
 import { IconArrowRight } from '@tabler/icons-react'
 import clsx from 'clsx'
 import styles from './Card.module.css'
-import { CardProps } from '@/lib/types'
 
 export default function Card({
   id,
@@ -173,6 +173,7 @@ export default function Card({
           [styles.bgDark]: bgColor === 'dark',
           [styles.bgWhite]: bgColor === 'white',
         },
+
         ...additionalClasses
       )}
     >
@@ -185,6 +186,7 @@ export default function Card({
       className={clsx(
         styles.horizontalHalfContent,
         styles.horizontalHalfContentRadius,
+
         {
           [styles.bgLight]: bgColor === 'light',
           [styles.bgDark]: bgColor === 'dark',
@@ -276,6 +278,7 @@ export default function Card({
       padding="lg"
       className={clsx(
         styles.card,
+
         isVerticalWithImage && styles.verticalHalf,
         isHorizontalWithImage && styles.horizontalHalf,
         !isVerticalWithImage &&

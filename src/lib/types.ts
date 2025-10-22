@@ -112,10 +112,12 @@ export interface FooterProps {
   id?: string
 }
 export interface SectionProps extends React.PropsWithChildren {
-  title: string
+  title?: string
   description?: string
   subtitle?: string
   className?: string
+  noTitle?: boolean
+  py?: string
   variant?: 'default' | 'news-grid' | 'cards-grid' | 'featured-grid'
   containerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none'
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
