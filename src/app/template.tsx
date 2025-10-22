@@ -9,6 +9,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       <Suspense>
         <Header />
       </Suspense>
+
       {children}
       <Suspense>
         <Footer />
