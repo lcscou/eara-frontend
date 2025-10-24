@@ -1,0 +1,10 @@
+.navlink {
+  padding: 0;
+  opacity: 0.7;
+  font-weight: 600;
+  color: #121536;
+}
+.navlink:hover {
+  background-color: transparent;
+  opacity: 1;
+}

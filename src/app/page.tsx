@@ -45,34 +45,37 @@ export default function Home() {
       </Carousel>
       {/* Seção de Notícias */}
       <Section variant="news-grid" subtitle="NEWS" title="Latest research news" containerSize="lg">
-        <div className="grid grid-cols-4 grid-rows-4 gap-8">
-          <div className="col-span-2 row-span-4">
-            <NewsCard
-              featuredImage="/two-scientists.png"
-              title="Animal research paved the way for a precision treatment for pancreatic cancer"
-              author="Inês Serrenho"
-              isFeatured
-              timeReading="2 days ago 2 min read"
-              excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
-            />
-          </div>
-          <div className="col-span-2 col-start-3 row-span-2">
-            <NewsCard
-              featuredImage="/two-scientists.png"
-              title="Animal research paved the way for a precision treatment for pancreatic cancer"
-              author="Inês Serrenho"
-              timeReading="2 days ago 2 min read"
-              // excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
-            />
-          </div>
-          <div className="col-span-2 col-start-3 row-span-2 row-start-3">
-            <NewsCard
-              featuredImage="/two-scientists.png"
-              title="Animal research paved the way for a precision treatment for pancreatic cancer"
-              author="Inês Serrenho"
-              timeReading="2 days ago 2 min read"
-              // excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
-            />
+        <div className="flex flex-col">
+          <div className="grid grid-cols-4 grid-rows-4 gap-8">
+            <div className="col-span-2 row-span-4">
+              <NewsCard
+                featuredImage="/two-scientists.png"
+                title="Animal research paved the way for a precision treatment for pancreatic cancer"
+                author="Inês Serrenho"
+                isFeatured
+                timeReading="2 days ago 2 min read"
+                excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
+              />
+            </div>
+            <div className="col-span-2 col-start-3 row-span-2">
+              <NewsCard
+                featuredImage="/two-scientists.png"
+                title="Animal research paved the way for a precision treatment for pancreatic cancer"
+                author="Inês Serrenho"
+                timeReading="2 days ago 2 min read"
+                // excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
+              />
+            </div>
+            <div className="col-span-2 col-start-3 row-span-2 row-start-3">
+              <NewsCard
+                featuredImage="/two-scientists.png"
+                title="Animal research paved the way for a precision treatment for pancreatic cancer"
+                author="Inês Serrenho"
+                timeReading="2 days ago 2 min read"
+                // excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
+              />
+            </div>
+            <ButtonEara variant="link" link="/news" label="All News" />
           </div>
         </div>
       </Section>
@@ -96,7 +99,7 @@ export default function Home() {
           </ActionIcon>
         </Group>
         <Carousel
-          slideSize="45%"
+          slideSize="37%"
           getEmblaApi={setEmbla}
           slideGap={10}
           withControls={false}
@@ -108,51 +111,17 @@ export default function Home() {
           }}
           // slideGap={20}
         >
-          <Carousel.Slide>
-            <EventCard
-              category="Conference"
-              date="24 November 2025 - 09h"
-              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
-              title="Event Title"
-              featuredImage="/two-scientists.png"
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <EventCard
-              category="Conference"
-              date="24 November 2025 - 09h"
-              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
-              title="Event Title"
-              featuredImage="/two-scientists.png"
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <EventCard
-              category="Conference"
-              date="24 November 2025 - 09h"
-              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
-              title="Event Title"
-              featuredImage="/two-scientists.png"
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <EventCard
-              category="Conference"
-              date="24 November 2025 - 09h"
-              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
-              title="Event Title"
-              featuredImage="/two-scientists.png"
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <EventCard
-              category="Conference"
-              date="24 November 2025 - 09h"
-              excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
-              title="Event Title"
-              featuredImage="/two-scientists.png"
-            />
-          </Carousel.Slide>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Carousel.Slide key={i}>
+              <EventCard
+                category="Conference"
+                date="24 November 2025 - 09h"
+                excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
+                title={`Event Title ${i}`}
+                featuredImage="/two-scientists.png"
+              />
+            </Carousel.Slide>
+          ))}
         </Carousel>
       </Section>
 
@@ -195,7 +164,7 @@ export default function Home() {
       </Section>
 
       <Section noTitle py="30px">
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid gap-5 sm:grid-cols-2">
           <div className="w-full rounded-2xl bg-[#1A2058] p-14 text-white">
             <Title order={4} mb={30}>
               What is Animal Research?
@@ -342,7 +311,7 @@ export default function Home() {
         description="More than 500 institutions across Europe have signed Transparency Agreements. In 2022 alone, 6,996,249 animals were used for scientific purposes, data openly reported by the EU."
       >
         <div className="flex flex-col items-center justify-center gap-10">
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid gap-5 sm:grid-cols-3">
             <div className="rounded-2xl bg-white p-10">
               <Image src="/logo-eara.svg" width={200} height={200} alt="Logo" className="mb-10" />
               <Title order={6} mb={15}>
@@ -373,7 +342,7 @@ export default function Home() {
         </div>
       </Section>
       <Section title="Become a Member" subtitle="Members">
-        <div className="grid grid-cols-2 gap-10">
+        <div className="grid gap-10 sm:grid-cols-2">
           <div className="col-span-1">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3114.0571234222157!2d-9.2214321!3d38.6935321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1ecb6efee9e7f1%3A0x93b51451a062a591!2sFunda%C3%A7%C3%A3o%20Champalimaud!5e0!3m2!1spt-BR!2sbr!4v1761139288585!5m2!1spt-BR!2sbr"
@@ -382,7 +351,7 @@ export default function Home() {
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
-              className="rounded-xl"
+              className="max-w-full rounded-xl"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
@@ -434,6 +403,7 @@ export default function Home() {
             linkLabel: 'REGISTER',
           },
         ]}
+        className=""
         bgColor="secondary"
         textColor="dark"
         position="fixed-bottom"

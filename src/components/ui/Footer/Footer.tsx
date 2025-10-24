@@ -1,18 +1,18 @@
 'use client'
-import { Button, Container, Grid, Group, Image, Stack, Title, Text } from '@mantine/core'
+import {
+  GetMenuDocument,
+  GetMenuQuery,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
+} from '@/graphql/generated/graphql'
 import { FooterProps } from '@/lib/types'
+import { useSuspenseQuery } from '@apollo/client/react'
+import { Button, Container, Grid, Group, Image, Stack, Text, Title } from '@mantine/core'
 import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandLinkedin,
   IconBrandYoutube,
 } from '@tabler/icons-react'
-import { useSuspenseQuery } from '@apollo/client/react'
-import {
-  GetMenuDocument,
-  GetMenuQuery,
-  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
-} from '@/graphql/generated/graphql'
 
 export default function Footer({}: FooterProps) {
   const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, { fetchPolicy: 'cache-first' })
@@ -82,7 +82,7 @@ export function FooterColumn({
 }) {
   return (
     <>
-      <Grid.Col key={data.id} span={{ sm: 1 }}>
+      <Grid.Col key={data.id} span={{ sm: 1 }} maw={'100%'}>
         <Title order={6} c="earaDark.5">
           {data.label}
         </Title>

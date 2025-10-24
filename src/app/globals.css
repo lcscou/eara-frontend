@@ -8,6 +8,7 @@
   --color-earaBgLight: #ededfa;
   --color-earaBgDark: #e2e2e5;
   --color-earaGrayLight: #eaeaea;
+  --color-backgroundMenu: rgba(255, 255, 255, 0.45);
 }
 
 html {

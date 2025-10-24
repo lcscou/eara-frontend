@@ -328,6 +328,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .ticker {
+    width: calc(100vw - 2.5rem);
     padding: 0.875rem 1.25rem;
     min-height: 55px;
   }

@@ -1,4 +1,10 @@
+import {
+  GetMenuQuery_RootQuery,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem_childItems_MenuItemToMenuItemConnection,
+} from '@/graphql/generated/graphql'
 import { HTMLAttributeAnchorTarget, ReactElement } from 'react'
+
 export interface PageTitleBarProps {
   title?: string | null
   author?: string | null
@@ -159,3 +165,22 @@ export interface NewsCardProps {
   excerpt?: string
   link?: string
 }
+
+export interface HeaderMegaMenuProps {
+  id?: string
+  data: GetMenuQuery_RootQuery | undefined
+}
+export interface HeaderMenuItemsProps {
+  variant?: 'megamenu' | 'dropdown' | 'link'
+  label?: string | null
+  uri?: string | null
+  menuTextColor?: string | null
+  childItems?: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem_childItems_MenuItemToMenuItemConnection | null
+}
+export interface MenuItemMobileProps {
+  menu?: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu | null
+}
+
+// export interface SearchProps {
+//   id: string
+// }

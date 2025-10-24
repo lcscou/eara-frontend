@@ -64,6 +64,39 @@ export default function ButtonEara({
           {label}
         </Button>
       )}
+      {variant == 'link' && (
+        <Button
+          leftSection={leftSection}
+          {...(link ? { component: 'a' } : {})}
+          {...(link ? { href: link } : {})}
+          {...(link && target ? { target: target } : {})}
+          rightSection={RightSection || <IconArrowRight size={16} />}
+          unstyled
+          tt="uppercase"
+          className={clsx(className, s.link, 'hover:opacity-85')}
+          size="lg"
+          c="primaryColor.9"
+          styles={{
+            inner: {
+              display: 'flex',
+              alignItems: 'center',
+              gap: 15,
+              borderBottom: '1px solid var(--color-primaryColor)',
+            },
+            root: {
+              borderColor: 'white',
+              width: 'fit-content',
+            },
+            label: {
+              fontWeight: '400',
+              fontSize: '13px',
+              letterSpacing: '.8px',
+            },
+          }}
+        >
+          {label}
+        </Button>
+      )}
       {variant == 'with-arrow' && (
         <Button
           className={clsx(s.withArrow, className)}

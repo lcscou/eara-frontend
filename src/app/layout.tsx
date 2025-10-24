@@ -1,5 +1,5 @@
-import '@mantine/core/styles.css'
 import '@mantine/carousel/styles.css'
+import '@mantine/core/styles.css'
 import type { Metadata } from 'next'
 import { Hanken_Grotesk } from 'next/font/google'
 import './globals.css'
@@ -32,7 +32,6 @@ export default async function RootLayout({
         <ApolloWrapper>
           <PreloadQuery errorPolicy="ignore" fetchPolicy="cache-first" query={GetMenuDocument}>
             <MantineProvider>
-              {/* <Header /> */}
               {children}
               <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
                 <InfoButton
@@ -51,7 +50,6 @@ export default async function RootLayout({
                 />
                 <BackToTop />
               </div>
-              {/* <Footer /> */}
             </MantineProvider>
           </PreloadQuery>
         </ApolloWrapper>

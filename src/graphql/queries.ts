@@ -103,6 +103,12 @@ export const MenuItemFieldsFragment = gql`
     uri
     menuAcf {
       content
+      fieldGroupName
+      hidden
+      ismegamenu
+    }
+    menuGeral {
+      menuTextColor
     }
   }
 `
@@ -111,6 +117,9 @@ export const GetMenu = gql`
   query GetMenu {
     menus {
       nodes {
+        menuGeral {
+          menuTextColor
+        }
         locations
         menuItems(where: { parentId: "0" }) {
           nodes {

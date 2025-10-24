@@ -7,6 +7,14 @@
   /* margin-left: 10px; */
 }
 
+.link {
+  transition: all 1.3s ease;
+}
+
+.link:hover svg {
+  margin-left: 10px;
+}
+
 @-webkit-keyframes bounce-in-right {
   0% {
     transform: translateX(0px);
