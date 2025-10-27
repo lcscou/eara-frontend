@@ -5,11 +5,11 @@ import clsx from 'clsx'
 import Image from 'next/image'
 export default function PageTitleBar({
   title,
-  author,
-  date,
+  // author,
+  // date,
   subtitle,
   featuredImage,
-  readingTime,
+  // readingTime,
 }: PageTitleBarProps) {
   return (
     <div
