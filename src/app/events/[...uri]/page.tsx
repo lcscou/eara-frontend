@@ -1,9 +1,9 @@
-import { cache } from 'react'
+import SingleEvents from '@/components/templates/Events/SingleEvents'
 import { GetEventsDocument, GetEventsQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
-import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import SingleEvents from '@/components/templates/Events/SingleEvents'
+import { notFound } from 'next/navigation'
+import { cache } from 'react'
 type EventProps = {
   params: { uri: string[] }
 }
@@ -28,12 +28,12 @@ export async function generateMetadata({ params }: EventProps): Promise<Metadata
     openGraph: {
       title,
       description,
-
     },
   }
 }
 export default async function Event({ params }: EventProps) {
   const data = await getEventData(params.uri)
+  console.log(data)
   if (!data?.events) notFound()
   return <SingleEvents data={data} />
 }

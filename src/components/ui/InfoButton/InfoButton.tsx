@@ -1,9 +1,10 @@
 'use client'
-import { Button, Popover } from '@mantine/core'
 import { InfoButtonProps } from '@/lib/types'
+import { Button, Popover } from '@mantine/core'
 import { IconInfoCircle } from '@tabler/icons-react'
+import clsx from 'clsx'
 
-export default function InfoButton({ content, width = 420 }: InfoButtonProps) {
+export default function InfoButton({ content, width = 420, className }: InfoButtonProps) {
   return (
     <>
       <Popover
@@ -18,7 +19,10 @@ export default function InfoButton({ content, width = 420 }: InfoButtonProps) {
           <div className="duration-300">
             <Button
               unstyled
-              className="bg-primaryColor flex aspect-square w-[55px] cursor-pointer items-center justify-center rounded-full transition-all duration-100 hover:brightness-125"
+              className={clsx(
+                'bg-primaryColor flex aspect-square w-[55px] cursor-pointer items-center justify-center rounded-full transition-all duration-100 hover:brightness-125',
+                className
+              )}
             >
               <IconInfoCircle color="white" />
             </Button>

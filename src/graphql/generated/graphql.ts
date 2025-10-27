@@ -398,6 +398,50 @@ export type GetEventsQueryVariables = Exact<{
 
 export type GetEventsQuery = GetEventsQuery_RootQuery
 
+export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_customFields_CustomFields =
+  {
+    __typename?: 'CustomFields'
+    startDate?: string | null
+    location?: string | null
+    order?: number | null
+    endDate?: string | null
+  }
+
+export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null }
+
+export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events = {
+  __typename?: 'Events'
+  id: string
+  title?: string | null
+  uri?: string | null
+  customFields?: GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_customFields_CustomFields | null
+  featuredImage?: GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+}
+
+export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection = {
+  __typename?: 'RootQueryToEventsConnection'
+  nodes: Array<GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events>
+}
+
+export type GetAllEventsQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  allEvents?: GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection | null
+}
+
+export type GetAllEventsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type GetAllEventsQuery = GetAllEventsQuery_RootQuery
+
 export type GetDiseasesQuery_RootQuery_diseases_Diseases_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
     __typename?: 'User'
@@ -1316,6 +1360,98 @@ export const GetEventsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetEventsQuery, GetEventsQueryVariables>
+export const GetAllEventsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllEvents' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEvents' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'customFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'order' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'featuredImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllEventsQuery, GetAllEventsQueryVariables>
 export const GetDiseasesDocument = {
   kind: 'Document',
   definitions: [

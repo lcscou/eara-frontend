@@ -216,6 +216,28 @@ export const GetEvents = gql`
     }
   }
 `
+export const GetAllEvents = gql`
+  query GetAllEvents($first: Int, $after: String) {
+    allEvents(first: $first, after: $after) {
+      nodes {
+        id
+        title
+        uri
+        customFields {
+          startDate
+          location
+          order
+          endDate
+        }
+        featuredImage {
+          node {
+            guid
+          }
+        }
+      }
+    }
+  }
+`
 export const GetDiseases = gql`
   query GetDiseases($id: ID = "") {
     diseases(id: $id, idType: URI) {

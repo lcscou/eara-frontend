@@ -197,7 +197,7 @@ export function MenuItem({
           {...(uri ? { component: 'a' } : {})}
           {...(uri ? { href: uri } : {})}
         >
-          {label} {menuTextColor && menuTextColor}
+          {label}
         </Button>
       )}
     </>

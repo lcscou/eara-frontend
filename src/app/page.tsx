@@ -2,12 +2,12 @@
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EventCard from '@/components/ui/EventCard/EventCard'
-import Hero from '@/components/ui/Hero/Hero'
+import HeroSlide from '@/components/ui/Hero/Hero'
 import NewsCard from '@/components/ui/NewsCard/NewsCard'
 import Section from '@/components/ui/Section/Section'
 import Ticker from '@/components/ui/Ticker'
 import { Carousel } from '@mantine/carousel'
-import { ActionIcon, Container, Grid, Group, List, Text, Title } from '@mantine/core'
+import { ActionIcon, Grid, Group, List, Text, Title } from '@mantine/core'
 import { IconArrowLeft, IconArrowRight, IconCircleCheck, IconNotebook } from '@tabler/icons-react'
 import { EmblaCarouselType } from 'embla-carousel'
 import Image from 'next/image'
@@ -17,32 +17,11 @@ export default function Home() {
   const [embla, setEmbla] = useState<EmblaCarouselType | null>(null)
   return (
     <>
-      <Carousel withIndicators controlSize={50}>
-        <Carousel.Slide>
-          <Hero
-            bgImageSrc="/eara-hero-bg.png"
-            content={
-              <>
-                <Container mt={110}>
-                  <div className="flex flex-col items-center justify-center gap-10">
-                    <Title order={1} className="sm:text-center">
-                      The place to learn about animal research: why science still needs animals and
-                      how they are used responsibly and humanely.
-                    </Title>
-                    <Text>
-                      Trusted, up-to-date information on animal research for different audiences.
-                    </Text>
-                    <Group>
-                      <ButtonEara label="Learn Since Still Needs Animals" variant="filled" />
-                      <ButtonEara label="Learn Since Still Needs Animals" variant="outline" />
-                    </Group>
-                  </div>
-                </Container>
-              </>
-            }
-          />
-        </Carousel.Slide>
-      </Carousel>
+      <HeroSlide>
+        <HeroSlide.Item bgImageSrc="/eara-hero-bg.png">
+          <h1>Element 1</h1>
+        </HeroSlide.Item>
+      </HeroSlide>
       {/* Seção de Notícias */}
       <Section variant="news-grid" subtitle="NEWS" title="Latest research news" containerSize="lg">
         <div className="flex flex-col">

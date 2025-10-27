@@ -3,7 +3,8 @@ import {
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem_childItems_MenuItemToMenuItemConnection,
 } from '@/graphql/generated/graphql'
-import { HTMLAttributeAnchorTarget, ReactElement } from 'react'
+import { ButtonProps } from '@mantine/core'
+import { HTMLAttributeAnchorTarget, MouseEventHandler, ReactElement } from 'react'
 
 export interface PageTitleBarProps {
   title?: string | null
@@ -62,7 +63,7 @@ export interface AccordionProps {
   items: AccordionItem[]
   variant?: 'green' | 'blue' | 'lightblue' | 'transparent'
 }
-export interface ButtonEaraProps {
+export interface ButtonEaraProps extends ButtonProps {
   label: string
   link?: string
   target?: HTMLAttributeAnchorTarget
@@ -70,6 +71,7 @@ export interface ButtonEaraProps {
   RightSection?: ReactElement
   className?: string
   variant?: 'filled' | 'outline' | 'link' | 'with-arrow'
+  onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
 }
 export type MenuItemProps = {
   __typename: 'MenuItem'
@@ -136,6 +138,7 @@ export interface BackToTopProps {
 export interface InfoButtonProps {
   content: string | React.ReactNode
   width?: number
+  className?: string
 }
 
 export interface SectionCardProps extends React.PropsWithChildren {
@@ -148,12 +151,14 @@ export interface CarouselProps {
 }
 
 export interface EventCardProps {
+  id?: string
   title: string
   date?: string
   excerpt?: string
   category?: string
   featuredImage?: string
   link?: string
+  orientation?: 'vertical' | 'horizontal'
 }
 
 export interface NewsCardProps {

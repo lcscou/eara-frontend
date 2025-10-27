@@ -11,6 +11,7 @@ export default function ButtonEara({
   className,
   target,
   variant = 'filled',
+  ...props
 }: ButtonEaraProps) {
   return (
     <>
@@ -33,6 +34,7 @@ export default function ButtonEara({
               letterSpacing: '.8px',
             },
           }}
+          {...props}
         >
           {label}
         </Button>
@@ -78,6 +80,7 @@ export default function ButtonEara({
           c="primaryColor.9"
           styles={{
             inner: {
+              width: 'fit-content',
               display: 'flex',
               alignItems: 'center',
               gap: 15,
