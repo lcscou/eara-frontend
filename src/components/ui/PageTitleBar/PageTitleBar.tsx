@@ -1,42 +1,54 @@
 'use client'
 import { PageTitleBarProps } from '@/lib/types'
-import { BackgroundImage, Box, Container, Flex, Group, Title } from '@mantine/core'
-
+import { Container, Title } from '@mantine/core'
+import clsx from 'clsx'
+import Image from 'next/image'
 export default function PageTitleBar({
   title,
   author,
   date,
+  subtitle,
   featuredImage,
   readingTime,
 }: PageTitleBarProps) {
   return (
-    <Box h={500} className="bg-primaryColor">
-      <BackgroundImage src={featuredImage || ''} className="relative h-full">
-        <Flex align={'end'} justify={'start'} className="h-full py-26">
-          <Container className="relative z-10 w-full" size="md">
-            <Title c="white" order={1}>
-              {title}
-            </Title>
-            <Group mt={15}>
-              {author && (
-                <Title c="white" order={5}>
-                  {author}
-                </Title>
-              )}
-              {date && (
-                <Title c="white" fw="lighter" order={5}>
-                  {new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
-                </Title>
-              )}
-              {readingTime && (
-                <Title c="white" order={5}>
-                  ~{readingTime} min
-                </Title>
-              )}
-            </Group>
-          </Container>
-        </Flex>
-      </BackgroundImage>
-    </Box>
+    <div
+      className={clsx(
+        'relative flex min-h-[300px] flex-col justify-center pt-[80px] text-white sm:min-h-[450px]',
+        featuredImage ? 'bg-black' : 'bg-primaryColor'
+      )}
+    >
+      <div className="z-10 w-full items-start gap-20 sm:flex">
+        {subtitle ? (
+          <>
+            <div className="w-fit border-b border-b-gray-400 py-2 pl-20 sm:pl-40">
+              <small className="uppercase">{subtitle}</small>
+            </div>
+            <div className="sm:px-unset mt-5 max-w-2xl grow px-[16px] sm:mt-0">
+              <Title order={2} className="">
+                {title}
+              </Title>
+            </div>
+          </>
+        ) : (
+          <>
+            <Container size="xl" className="w-full">
+              <Title order={2} className="">
+                {title}
+              </Title>
+            </Container>
+          </>
+        )}
+      </div>
+      {featuredImage && (
+        <Image
+          src={featuredImage}
+          alt={title || ''}
+          layout="fill"
+          objectFit="cover"
+          className="z-0 h-full object-center opacity-70"
+        />
+      )}
+    </div>
   )
 }

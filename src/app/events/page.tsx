@@ -12,7 +12,7 @@ export default async function ArchiveEvents() {
 
   return (
     <>
-      <PageTitleBar title="Events" />
+      <PageTitleBar title="EARA Events" subtitle="events" />
       <ArchiveEventsTemplate data={data} />
     </>
   )

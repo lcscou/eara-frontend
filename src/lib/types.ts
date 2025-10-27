@@ -10,6 +10,8 @@ export interface PageTitleBarProps {
   title?: string | null
   author?: string | null
   date?: string | null
+  subtitle?: string | null
+
   readingTime?: number | null
   featuredImage?: string | null
 }
@@ -189,3 +191,7 @@ export interface MenuItemMobileProps {
 // export interface SearchProps {
 //   id: string
 // }
+
+export interface GalleryProps {
+  data: { src: string; width: number; height: number; description: string }[]
+}

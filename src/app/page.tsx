@@ -3,11 +3,12 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import HeroSlide from '@/components/ui/Hero/Hero'
+import InfoButton from '@/components/ui/InfoButton/InfoButton'
 import NewsCard from '@/components/ui/NewsCard/NewsCard'
 import Section from '@/components/ui/Section/Section'
 import Ticker from '@/components/ui/Ticker'
 import { Carousel } from '@mantine/carousel'
-import { ActionIcon, Grid, Group, List, Text, Title } from '@mantine/core'
+import { ActionIcon, Container, Grid, Group, List, Text, Title } from '@mantine/core'
 import { IconArrowLeft, IconArrowRight, IconCircleCheck, IconNotebook } from '@tabler/icons-react'
 import { EmblaCarouselType } from 'embla-carousel'
 import Image from 'next/image'
@@ -19,7 +20,26 @@ export default function Home() {
     <>
       <HeroSlide>
         <HeroSlide.Item bgImageSrc="/eara-hero-bg.png">
-          <h1>Element 1</h1>
+          <Container size="lg" className="mt-[80px] flex flex-col items-center gap-5 text-white">
+            <Title order={1} className="text-white sm:text-center">
+              The place to learn about animal research: why science still needs animals and how they
+              are used responsibly and humanely.
+            </Title>
+            <Text>Trusted, up-to-date information on animal research for different audiences.</Text>
+            <Group>
+              <ButtonEara label="Learn Why Science Still Needs Animals" variant="filled" w={345} />
+              <ButtonEara label="What we do" variant="outline" w={345} />
+            </Group>
+          </Container>
+          <div className="absolute right-5 bottom-5">
+            <InfoButton
+              content={
+                <>
+                  <b>Credit</b> NOVA Medical School, Portugal
+                </>
+              }
+            />
+          </div>
         </HeroSlide.Item>
       </HeroSlide>
       {/* Seção de Notícias */}

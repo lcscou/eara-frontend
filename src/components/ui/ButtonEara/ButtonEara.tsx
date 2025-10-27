@@ -62,6 +62,7 @@ export default function ButtonEara({
               letterSpacing: '.8px',
             },
           }}
+          {...props}
         >
           {label}
         </Button>
@@ -96,6 +97,7 @@ export default function ButtonEara({
               letterSpacing: '.8px',
             },
           }}
+          {...props}
         >
           {label}
         </Button>
@@ -135,6 +137,7 @@ export default function ButtonEara({
               letterSpacing: '.8px',
             },
           }}
+          {...props}
         >
           {label}
         </Button>

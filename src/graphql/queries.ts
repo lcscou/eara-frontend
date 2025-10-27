@@ -96,6 +96,43 @@ export const GetAnimal = gql`
     }
   }
 `
+export const GetAllAnimals = gql`
+  query GetAllAnimals($first: Int, $after: String) {
+    animals(first: $first, after: $after) {
+      nodes {
+        id
+        title
+        date
+        author {
+          node {
+            name
+            firstName
+            lastName
+            nicename
+          }
+        }
+        blocks
+        slug
+        seo {
+          readingTime
+          opengraphDescription
+          breadcrumbs {
+            text
+            url
+          }
+        }
+        content
+        featuredImage {
+          node {
+            guid
+            altText
+            title
+          }
+        }
+      }
+    }
+  }
+`
 export const MenuItemFieldsFragment = gql`
   fragment MenuItemFields on MenuItem {
     id
@@ -176,6 +213,43 @@ export const GetNews = gql`
           guid
           altText
           title
+        }
+      }
+    }
+  }
+`
+export const GetAllNews = gql`
+  query GetAllNews($first: Int, $after: String) {
+    allNews(first: $first, after: $after) {
+      nodes {
+        id
+        title
+        blocks
+        date
+        author {
+          node {
+            name
+            firstName
+            lastName
+            nicename
+          }
+        }
+        slug
+        seo {
+          readingTime
+          opengraphDescription
+          breadcrumbs {
+            text
+            url
+          }
+        }
+        content
+        featuredImage {
+          node {
+            guid
+            altText
+            title
+          }
         }
       }
     }
@@ -273,6 +347,43 @@ export const GetDiseases = gql`
     }
   }
 `
+export const GetAllDiseases = gql`
+  query GetAllDiseases($first: Int, $after: String) {
+    allDiseases(first: $first, after: $after) {
+      nodes {
+        id
+        title
+        blocks
+        date
+        author {
+          node {
+            name
+            firstName
+            lastName
+            nicename
+          }
+        }
+        slug
+        seo {
+          readingTime
+          opengraphDescription
+          breadcrumbs {
+            text
+            url
+          }
+        }
+        content
+        featuredImage {
+          node {
+            guid
+            altText
+            title
+          }
+        }
+      }
+    }
+  }
+`
 export const GetMembers = gql`
   query GetMembers($id: ID = "") {
     member(id: $id, idType: URI) {
@@ -303,6 +414,75 @@ export const GetMembers = gql`
           guid
           altText
           title
+        }
+      }
+    }
+  }
+`
+export const GetAllMembers = gql`
+  query GetAllMembers($first: Int, $after: String) {
+    members(first: $first, after: $after) {
+      nodes {
+        id
+        title
+        blocks
+        date
+        author {
+          node {
+            name
+            firstName
+            lastName
+            nicename
+          }
+        }
+        slug
+        seo {
+          readingTime
+          opengraphDescription
+          breadcrumbs {
+            text
+            url
+          }
+        }
+        content
+        featuredImage {
+          node {
+            guid
+            altText
+            title
+          }
+        }
+      }
+    }
+  }
+`
+export const GetMediasBank = gql`
+  query GetMediasBank {
+    mediasBank {
+      nodes {
+        cfMediaBank {
+          banner
+          mediaType
+          credits
+          description
+          email
+          image {
+            node {
+              mediaDetails {
+                width
+                height
+              }
+              altText
+              caption
+              guid
+            }
+          }
+          institution
+          location
+          videoUrl
+          speciesFeaturedOrNewApproachMethodology
+          uploadedDate
+          researchArea
         }
       }
     }
