@@ -1,9 +1,9 @@
-import { cache } from 'react'
+import PageTemplate from '@/components/templates/Page/PageTemplate'
 import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
-import PageTemplate from '@/components/templates/Page/PageTemplate'
-import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { cache } from 'react'
 type PageProps = {
   params: { uri: string[] }
 }
@@ -11,7 +11,7 @@ const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
   const client = getClient()
   const { data } = await client.query<GetPageQuery>({
     query: GetPageDocument,
-    variables: { id: uri.join('') },
+    variables: { id: uri.join('/') },
   })
   if (!data) notFound()
   return data

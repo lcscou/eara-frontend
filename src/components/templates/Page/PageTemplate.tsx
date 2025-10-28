@@ -8,9 +8,10 @@ export default function PageTemplate({ data }: { data: GetPageQuery }) {
         featuredImage={data.page?.featuredImage?.node.guid}
         date={data.page?.date}
         readingTime={data.page?.seo?.readingTime}
-        author={`${data.page?.author?.node.firstName} ${data.page?.author?.node.lastName}`}
+        subtitle={data.page?.seo?.breadcrumbs?.slice(-2)?.[0]?.text ?? ''}
+        // author={`${data.page?.author?.node.firstName} ${data.page?.author?.node.lastName}`}
       />
-      <div dangerouslySetInnerHTML={{ __html: data.page?.content || "" }}></div>
+      <div dangerouslySetInnerHTML={{ __html: data.page?.content || '' }}></div>
     </>
   )
 }
