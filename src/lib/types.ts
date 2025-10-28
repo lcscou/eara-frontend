@@ -11,9 +11,12 @@ export interface PageTitleBarProps {
   author?: string | null
   date?: string | null
   subtitle?: string | null
-
+  eventStartDate?: string | null
+  organizer?: string | null
+  eventEndDate?: string | null
   readingTime?: number | null
   featuredImage?: string | null
+  location?: string | null
 }
 export interface HeroProps {
   content: ReactElement
@@ -169,6 +172,7 @@ export interface NewsCardProps {
   author?: string
   isFeatured?: boolean
   timeReading?: string
+  orientation?: 'vertical' | 'horizontal'
   excerpt?: string
   link?: string
 }

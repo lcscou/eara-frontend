@@ -270,6 +270,13 @@ export const GetEvents = gql`
           nicename
         }
       }
+      customFields {
+        endDate
+        location
+        order
+        organizer
+        startDate
+      }
       slug
       seo {
         readingTime

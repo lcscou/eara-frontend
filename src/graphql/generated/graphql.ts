@@ -487,6 +487,15 @@ export type GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserCo
   node: GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserConnectionEdge_node_User
 }
 
+export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields = {
+  __typename?: 'CustomFields'
+  endDate?: string | null
+  location?: string | null
+  order?: number | null
+  organizer?: string | null
+  startDate?: string | null
+}
+
 export type GetEventsQuery_RootQuery_events_Events_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
   { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
 
@@ -515,6 +524,7 @@ export type GetEventsQuery_RootQuery_events_Events = {
   slug?: string | null
   content?: string | null
   author?: GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserConnectionEdge | null
+  customFields?: GetEventsQuery_RootQuery_events_Events_customFields_CustomFields | null
   seo?: GetEventsQuery_RootQuery_events_Events_seo_PostTypeSEO | null
   featuredImage?: GetEventsQuery_RootQuery_events_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -1887,6 +1897,20 @@ export const GetEventsDocument = {
                           ],
                         },
                       },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'customFields' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'order' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'organizer' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
                     ],
                   },
                 },

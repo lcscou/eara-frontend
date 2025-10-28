@@ -9,7 +9,7 @@ export function getMenu(
 ) {
   const menus = data?.menus?.nodes ?? []
   const result = menus.find((m) => m?.locations?.includes(location))
-  const a = result
+
   return result
 }
 
@@ -47,4 +47,8 @@ export function getMediaType(
     [] as { src: string; width: number; height: number; description: string }[]
   )
   return result
+}
+
+export function cleanHTMLTAG(input: string): string {
+  return input.replace(/<\/?[^>]+(>|$)/g, '')
 }
