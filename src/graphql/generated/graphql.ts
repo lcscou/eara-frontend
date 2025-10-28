@@ -871,7 +871,10 @@ export type GetMediasBankQuery_RootQuery = {
   mediasBank?: GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection | null
 }
 
-export type GetMediasBankQueryVariables = Exact<{ [key: string]: never }>
+export type GetMediasBankQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+}>
 
 export type GetMediasBankQuery = GetMediasBankQuery_RootQuery
 
@@ -2531,12 +2534,37 @@ export const GetMediasBankDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'GetMediasBank' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          defaultValue: { kind: 'IntValue', value: '30' },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'mediasBank' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [

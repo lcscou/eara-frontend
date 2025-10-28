@@ -457,8 +457,8 @@ export const GetAllMembers = gql`
   }
 `
 export const GetMediasBank = gql`
-  query GetMediasBank {
-    mediasBank {
+  query GetMediasBank($first: Int = 30, $after: String) {
+    mediasBank(first: $first, after: $after) {
       nodes {
         cfMediaBank {
           banner

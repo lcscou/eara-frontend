@@ -5,12 +5,12 @@ import { query } from '@/lib/apollo-client'
 import { getMediaType } from '@/lib/utils'
 import { Container } from '@mantine/core'
 export default async function MediaBank() {
-  const { data } = await query({ query: GetMediasBankDocument })
+  const { data } = await query({ query: GetMediasBankDocument, variables: { first: 30 } })
   const medias = getMediaType(data?.mediasBank)
   return (
     <>
       <PageTitleBar title="Media Bank" subtitle="Media Bank" />
-      <Container size="lg" my={50}>
+      <Container size="xl" my={50}>
         <main>
           <Gallery data={medias} />
         </main>
