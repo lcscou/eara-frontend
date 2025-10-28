@@ -1,10 +1,11 @@
 'use client'
+import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import HeroSlide from '@/components/ui/Hero/Hero'
 import InfoButton from '@/components/ui/InfoButton/InfoButton'
-import NewsCard from '@/components/ui/NewsCard/NewsCard'
+
 import Section from '@/components/ui/Section/Section'
 import Ticker from '@/components/ui/Ticker'
 import { Carousel } from '@mantine/carousel'
@@ -19,7 +20,7 @@ export default function Home() {
   return (
     <>
       <HeroSlide>
-        <HeroSlide.Item bgImageSrc="/eara-hero-bg.png">
+        <HeroSlide.Item bgImageSrc="/CursodeExperimentacaoAnimal-041.webp">
           <Container size="lg" className="mt-[80px] flex flex-col items-center gap-5 text-white">
             <Title order={1} className="text-white sm:text-center">
               The place to learn about animal research: why science still needs animals and how they
@@ -43,41 +44,7 @@ export default function Home() {
         </HeroSlide.Item>
       </HeroSlide>
       {/* Seção de Notícias */}
-      <Section variant="news-grid" subtitle="NEWS" title="Latest research news" containerSize="lg">
-        <div className="flex flex-col">
-          <div className="grid grid-cols-4 grid-rows-4 gap-8">
-            <div className="col-span-2 row-span-4">
-              <NewsCard
-                featuredImage="/two-scientists.png"
-                title="Animal research paved the way for a precision treatment for pancreatic cancer"
-                author="Inês Serrenho"
-                isFeatured
-                timeReading="2 days ago 2 min read"
-                excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
-              />
-            </div>
-            <div className="col-span-2 col-start-3 row-span-2">
-              <NewsCard
-                featuredImage="/two-scientists.png"
-                title="Animal research paved the way for a precision treatment for pancreatic cancer"
-                author="Inês Serrenho"
-                timeReading="2 days ago 2 min read"
-                // excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
-              />
-            </div>
-            <div className="col-span-2 col-start-3 row-span-2 row-start-3">
-              <NewsCard
-                featuredImage="/two-scientists.png"
-                title="Animal research paved the way for a precision treatment for pancreatic cancer"
-                author="Inês Serrenho"
-                timeReading="2 days ago 2 min read"
-                // excerpt="A clinical trial in the UK will test for the first time a precision therapy for pancreatic cancer, which is one of the deadliest cancers and for which treatments have"
-              />
-            </div>
-            <ButtonEara variant="link" link="/news" label="All News" />
-          </div>
-        </div>
-      </Section>
+      <FeaturedNews />
       <Section
         title="EARA Events"
         subtitle="Events"

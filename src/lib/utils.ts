@@ -1,4 +1,5 @@
 import {
+  GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_author_NodeWithAuthorToUserConnectionEdge,
   GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection,
   GetMenuQuery_RootQuery,
 } from '@/graphql/generated/graphql'
@@ -51,4 +52,11 @@ export function getMediaType(
 
 export function cleanHTMLTAG(input: string): string {
   return input.replace(/<\/?[^>]+(>|$)/g, '')
+}
+
+export function formatAuthorName(
+  author?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_author_NodeWithAuthorToUserConnectionEdge | null
+): string {
+  if (!author || !author.node) return ''
+  return `${author.node.firstName || ''} ${author.node.lastName || ''}`.trim()
 }

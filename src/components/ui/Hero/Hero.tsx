@@ -1,7 +1,8 @@
 'use client'
 import { Carousel } from '@mantine/carousel'
+import clsx from 'clsx'
 import { createContext, ReactNode, useContext, useState } from 'react'
-
+import s from './Hero.module.css'
 type HeroSlideContextType = {
   activeIndex: number
   setActiveIndex: (index: number) => void
@@ -37,10 +38,10 @@ function HeroSlideItem({ children, bgImageSrc, ...props }: HeroSlideItemProps) {
     <Carousel.Slide>
       <div
         style={{ backgroundImage: `url(${bgImageSrc})` }}
-        className="bg-primaryColor flex min-h-svh items-center justify-center"
+        className={clsx('bg-primaryColor flex min-h-svh items-center justify-center', s.bgOverlay)}
         {...props}
       >
-        {children}
+        <div className="z-2">{children}</div>
       </div>
     </Carousel.Slide>
     // <div

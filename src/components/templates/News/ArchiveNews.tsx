@@ -18,9 +18,7 @@ export default function ArchiveNews({ data }: ArchiveNewsProps) {
               <NewsCard
                 key={newsItem.id}
                 title={newsItem.title || 'No Title'}
-                timeReading={
-                  newsItem.seo?.readingTime ? `${newsItem.seo?.readingTime} min read` : ''
-                }
+                timeReading={newsItem.seo?.readingTime}
                 author={`${newsItem.author?.node.firstName} ${newsItem.author?.node.lastName}`}
                 excerpt={cleanHTMLTAG(newsItem.content || '').substring(0, 100) + '...'}
                 featuredImage={newsItem.featuredImage?.node.guid || '/eara-fallback.jpg'}

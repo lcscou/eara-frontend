@@ -168,10 +168,10 @@ export interface EventCardProps {
 
 export interface NewsCardProps {
   featuredImage?: string
-  title: string
+  title?: string | null
   author?: string
   isFeatured?: boolean
-  timeReading?: string
+  timeReading?: string | null | number
   orientation?: 'vertical' | 'horizontal'
   excerpt?: string
   link?: string
