@@ -36,7 +36,7 @@ export default function EventCard({
                 />
               )}
 
-              <span className="bg-primaryColor absolute top-5 left-5 z-10 rounded-full px-3 py-2 text-xs tracking-wider text-white">
+              <span className="bg-primaryColor absolute top-5 left-5 z-10 rounded-full px-3 py-2 text-xs tracking-wider text-white uppercase">
                 {category}
               </span>
             </div>
@@ -45,7 +45,11 @@ export default function EventCard({
                 <Title order={6} mb={5}>
                   {title}
                 </Title>
-                <span className="text-primaryColor text-sm font-medium uppercase">{date}</span>
+                <span className="text-primaryColor text-sm font-medium uppercase">
+                  {date &&
+                    !isNaN(new Date(date).getTime()) &&
+                    new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+                </span>
               </div>
 
               <p className="mt-5">{excerpt}</p>
@@ -80,7 +84,9 @@ export default function EventCard({
                   {title}
                 </Title>
                 <span className="text-primaryColor text-sm font-medium uppercase">
-                  {date && new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+                  {date &&
+                    !isNaN(new Date(date).getTime()) &&
+                    new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
                 </span>
               </div>
 
