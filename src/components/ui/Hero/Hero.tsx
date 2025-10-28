@@ -38,7 +38,10 @@ function HeroSlideItem({ children, bgImageSrc, ...props }: HeroSlideItemProps) {
     <Carousel.Slide>
       <div
         style={{ backgroundImage: `url(${bgImageSrc})` }}
-        className={clsx('bg-primaryColor flex min-h-svh items-center justify-center', s.bgOverlay)}
+        className={clsx(
+          'bg-primaryColor flex min-h-svh items-center justify-center bg-cover',
+          s.bgOverlay
+        )}
         {...props}
       >
         <div className="z-2">{children}</div>
