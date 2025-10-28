@@ -29,37 +29,33 @@ export default function FeaturedNews() {
           <div className="grid gap-8 sm:grid-cols-4 sm:grid-rows-4">
             {featuredNews.length > 0 &&
               featuredNews.map((news, index) => {
-                return (
-                  <>
-                    {index == 0 ? (
-                      <div className="sm:col-span-2 sm:row-span-4">
-                        <NewsCard
-                          orientation="horizontal"
-                          title={news.title}
-                          featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
-                          author={formatAuthorName(news.author)}
-                          isFeatured
-                          timeReading={news.seo?.readingTime}
-                          excerpt={
-                            cleanHTMLTAG(news.content || '')
-                              .slice(0, 300)
-                              .replaceAll('&nbsp;', '') + '...'
-                          }
-                        />
-                      </div>
-                    ) : (
-                      <div className="sm:col-span-2 sm:col-start-3 sm:row-span-2">
-                        <NewsCard
-                          orientation="horizontal"
-                          title={news.title}
-                          featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
-                          author={formatAuthorName(news.author)}
-                          timeReading={news.seo?.readingTime}
-                          excerpt={cleanHTMLTAG(news.content || '').slice(0, 100) + '...'}
-                        />
-                      </div>
-                    )}
-                  </>
+                return index == 0 ? (
+                  <div key={news.id} className="sm:col-span-2 sm:row-span-4">
+                    <NewsCard
+                      orientation="horizontal"
+                      title={news.title}
+                      featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                      author={formatAuthorName(news.author)}
+                      isFeatured
+                      timeReading={news.seo?.readingTime}
+                      excerpt={
+                        cleanHTMLTAG(news.content || '')
+                          .slice(0, 300)
+                          .replaceAll('&nbsp;', '') + '...'
+                      }
+                    />
+                  </div>
+                ) : (
+                  <div key={news.id} className="sm:col-span-2 sm:col-start-3 sm:row-span-2">
+                    <NewsCard
+                      orientation="horizontal"
+                      title={news.title}
+                      featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                      author={formatAuthorName(news.author)}
+                      timeReading={news.seo?.readingTime}
+                      excerpt={cleanHTMLTAG(news.content || '').slice(0, 100) + '...'}
+                    />
+                  </div>
                 )
               })}
           </div>

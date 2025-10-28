@@ -1,22 +1,19 @@
 'use client'
+import FeaturedEvents from '@/components/sections/FeaturedEvents/FeaturedEvents'
 import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
-import EventCard from '@/components/ui/EventCard/EventCard'
 import HeroSlide from '@/components/ui/Hero/Hero'
 import InfoButton from '@/components/ui/InfoButton/InfoButton'
 
 import Section from '@/components/ui/Section/Section'
 import Ticker from '@/components/ui/Ticker'
 import { Carousel } from '@mantine/carousel'
-import { ActionIcon, Container, Grid, Group, List, Text, Title } from '@mantine/core'
-import { IconArrowLeft, IconArrowRight, IconCircleCheck, IconNotebook } from '@tabler/icons-react'
-import { EmblaCarouselType } from 'embla-carousel'
+import { Container, Grid, Group, List, Text, Title } from '@mantine/core'
+import { IconCircleCheck, IconNotebook } from '@tabler/icons-react'
 import Image from 'next/image'
-import { useState } from 'react'
 
 export default function Home() {
-  const [embla, setEmbla] = useState<EmblaCarouselType | null>(null)
   return (
     <>
       <HeroSlide>
@@ -45,51 +42,7 @@ export default function Home() {
       </HeroSlide>
       {/* Seção de Notícias */}
       <FeaturedNews />
-      <Section
-        title="EARA Events"
-        subtitle="Events"
-        containerSize="none"
-        className="bg-earaGrayLight relative"
-      >
-        <Group className="absolute top-40 right-20 sm:top-25">
-          <ActionIcon variant="light" radius={80} aria-label="Settings">
-            <IconArrowLeft onClick={() => embla?.scrollPrev()} />
-          </ActionIcon>
-          <Group gap={5}>
-            {Array.from({ length: embla?.slideNodes().length || 3 }, (_, i) => i).map((_, j) => (
-              <span key={j} className="aspect-square w-3 rounded-full bg-[#d6d6ec]"></span>
-            ))}
-          </Group>
-          <ActionIcon variant="light" radius={80} aria-label="Settings">
-            <IconArrowRight onClick={() => embla?.scrollNext()} />
-          </ActionIcon>
-        </Group>
-        <Carousel
-          slideSize="37%"
-          getEmblaApi={setEmbla}
-          slideGap={10}
-          withControls={false}
-          withIndicators={false}
-          emblaOptions={{
-            loop: true,
-            dragFree: false,
-            align: 'center',
-          }}
-          // slideGap={20}
-        >
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Carousel.Slide key={i}>
-              <EventCard
-                category="Conference"
-                date="24 November 2025 - 09h"
-                excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
-                title={`Event Title ${i}`}
-                featuredImage="/two-scientists.png"
-              />
-            </Carousel.Slide>
-          ))}
-        </Carousel>
-      </Section>
+      <FeaturedEvents />
 
       <Section title="Our Three Pillars" subtitle="About">
         <Grid>
