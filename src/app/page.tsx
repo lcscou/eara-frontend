@@ -306,19 +306,19 @@ export default function Home() {
           {
             id: '1',
             text: 'EARA conference will happen on 24 November 2025. Join our upcoming webinar on ethical research practices. Join our upcoming webinar on ethical research practices!!',
-            link: '/conference-2025',
+            link: '/events/eara-conference-20255',
             linkLabel: 'KNOW MORE',
           },
           {
             id: '2',
-            text: 'New research guidelines published for animal welfare',
-            link: '/guidelines',
+            text: 'Pill can print healing gel in rabbits’ gut',
+            link: '/news/pill-can-print-healing-gel-in-rabbits-gut',
             linkLabel: 'READ MORE',
           },
           {
             id: '3',
             text: 'Join our upcoming webinar on ethical research practices',
-            link: '/webinar',
+            link: '/events/evento-teste',
             linkLabel: 'REGISTER',
           },
         ]}

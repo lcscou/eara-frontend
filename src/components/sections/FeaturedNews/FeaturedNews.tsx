@@ -37,6 +37,7 @@ export default function FeaturedNews() {
                       featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
                       author={formatAuthorName(news.author)}
                       isFeatured
+                      link={`/news/${news.slug}`}
                       timeReading={news.seo?.readingTime}
                       excerpt={
                         cleanHTMLTAG(news.content || '')
@@ -50,6 +51,7 @@ export default function FeaturedNews() {
                     <NewsCard
                       orientation="horizontal"
                       title={news.title}
+                      link={`/news/${news.slug}`}
                       featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
                       author={formatAuthorName(news.author)}
                       timeReading={news.seo?.readingTime}
