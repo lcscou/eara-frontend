@@ -495,6 +495,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields = {
   organizer?: string | null
   startDate?: string | null
   category?: string | null
+  description?: string | null
 }
 
 export type GetEventsQuery_RootQuery_events_Events_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
@@ -549,6 +550,7 @@ export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_no
     order?: number | null
     endDate?: string | null
     category?: string | null
+    description?: string | null
   }
 
 export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
@@ -1933,6 +1935,7 @@ export const GetEventsDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'organizer' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                     ],
                   },
                 },
@@ -2049,6 +2052,7 @@ export const GetAllEventsDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'order' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                           ],
                         },
                       },

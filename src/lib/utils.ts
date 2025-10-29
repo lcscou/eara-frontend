@@ -83,3 +83,10 @@ export function formatAuthorName(
   if (!author || !author.node) return ''
   return `${author.node.firstName || ''} ${author.node.lastName || ''}`.trim()
 }
+
+export function truncateText(input: string, maxLength: number): string {
+  if (input.length <= maxLength) {
+    return input
+  }
+  return input.split(' ').slice(0, maxLength).join(' ') + '...'
+}

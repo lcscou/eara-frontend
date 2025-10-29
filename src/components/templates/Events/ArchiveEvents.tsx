@@ -2,6 +2,7 @@
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import { GetAllEventsQuery_RootQuery } from '@/graphql/generated/graphql'
+import { truncateText } from '@/lib/utils'
 import { Chip, Combobox, Container, Group, useCombobox } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
 
@@ -80,7 +81,7 @@ export default function ArchiveEventsTemplate({ data }: ArchiveEventsProps) {
                 id={event?.uri || ''}
                 orientation="vertical"
                 link={event?.uri || ''}
-                excerpt={event?.title || ''}
+                excerpt={truncateText(event?.customFields?.description || '', 15)}
                 title={event?.title || ''}
                 date={event?.customFields?.startDate || ''}
                 category={event?.customFields?.category || 'General'}

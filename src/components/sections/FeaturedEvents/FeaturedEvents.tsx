@@ -2,6 +2,7 @@
 import EventCard from '@/components/ui/EventCard/EventCard'
 import Section from '@/components/ui/Section/Section'
 import { GetAllEventsDocument } from '@/graphql/generated/graphql'
+import { truncateText } from '@/lib/utils'
 import { useQuery } from '@apollo/client/react'
 import { Carousel } from '@mantine/carousel'
 import { ActionIcon, Group } from '@mantine/core'
@@ -55,10 +56,10 @@ export default function FeaturedEvents() {
           return (
             <Carousel.Slide key={event.id}>
               <EventCard
-                category="Conference"
+                category={event?.customFields?.category || 'General'}
                 link={event.uri || '#'}
                 date="24 November 2025 - 09h"
-                excerpt="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
+                excerpt={truncateText(event?.customFields?.description || '', 15)}
                 title={event.title || 'Untitled Event'}
                 featuredImage={event.featuredImage?.node.guid || '/eara-fallback.jpg'}
               />
