@@ -177,7 +177,9 @@ export default function Gallery({ data }: GalleryProps) {
                     <List.Item icon={<IconCalendar className="text-secondaryColor" />}>
                       <small className="uppercase">Uploaded Date</small>
                       <p className="font-bold">
-                        {new Date(data[index].uploadedDate).toLocaleDateString() || 'N/A'}
+                        {new Date(data[index].uploadedDate).toLocaleDateString('en-US', {
+                          dateStyle: 'long',
+                        }) || 'N/A'}
                       </p>
                     </List.Item>
                   )}
