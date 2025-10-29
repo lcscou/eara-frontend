@@ -232,21 +232,27 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center gap-10">
           <div className="grid gap-5 sm:grid-cols-3">
             <div className="rounded-2xl bg-white p-10">
-              <Image src="/logo-eara.svg" width={200} height={200} alt="Logo" className="mb-10" />
+              <Image src="/logo-eara.svg" width={220} height={200} alt="Logo" className="mb-10" />
               <Title order={6} mb={15}>
                 Transparency Agreements
               </Title>
               <Text>Learn about our agreements promoting openness in animal research.</Text>
             </div>
             <div className="rounded-2xl bg-white p-10">
-              <Image src="/logo-eara.svg" width={200} height={200} alt="Logo" className="mb-10" />
+              <Image src="/eu-policy.png" width={50} height={200} alt="Logo" className="mb-10" />
               <Title order={6} mb={15}>
                 EU Policy
               </Title>
               <Text>Explore the legislative framework governing animal research in the EU.</Text>
             </div>
             <div className="rounded-2xl bg-white p-10">
-              <Image src="/logo-eara.svg" width={200} height={200} alt="Logo" className="mb-10" />
+              <Image
+                src="/statistic-and-report.png"
+                width={65}
+                height={200}
+                alt="Logo"
+                className="mb-10"
+              />
               <Title order={6} mb={15}>
                 Statistics & Reports
               </Title>
@@ -256,6 +262,7 @@ export default function Home() {
           <ButtonEara
             label="Explore Transparency & Policy"
             className="max-w-fit"
+            link="/policy/eara-work-on-policy"
             variant="with-arrow"
           />
         </div>

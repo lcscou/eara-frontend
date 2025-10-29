@@ -3,9 +3,10 @@ import { GalleryProps } from '@/lib/types'
 import { MouseEvent, useState } from 'react'
 
 import { Carousel } from '@mantine/carousel'
-import { List, Modal } from '@mantine/core'
+import { Chip, Combobox, Group, List, Modal, useCombobox } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
+  IconChevronDown,
   IconClipboardSearch,
   IconCreativeCommons,
   IconFileDescription,
@@ -14,6 +15,7 @@ import {
 } from '@tabler/icons-react'
 import clsx from 'clsx'
 import Image from 'next/image'
+import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './Gallery.module.css'
 export default function Gallery({ data }: GalleryProps) {
   const [index, setIndex] = useState(0)
@@ -25,8 +27,74 @@ export default function Gallery({ data }: GalleryProps) {
     open()
   }
 
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  })
+  const organizerCombobox = useCombobox({
+    onDropdownClose: () => organizerCombobox.resetSelectedOption(),
+  })
+
   return (
     <>
+      <div className="mb-10">
+        <Group gap={5}>
+          <Chip defaultChecked variant="light" size="md">
+            All Species
+          </Chip>
+          <Chip variant="light" size="md">
+            Rat
+          </Chip>
+          <Chip variant="light" size="md">
+            Mouse
+          </Chip>
+          <Chip variant="light" size="md">
+            Pig
+          </Chip>
+          <Chip variant="light" size="md">
+            Rhesus macaque
+          </Chip>
+          <Combobox store={combobox}>
+            <Combobox.Target>
+              {/* <Button  onClick={() => combobox.toggleDropdown()} variant="filled" size="md">
+                    Filter by Category
+                  </Button> */}
+              <ButtonEara
+                size="sm"
+                rightSection={<IconChevronDown size={16} />}
+                onClick={() => combobox.toggleDropdown()}
+                label="Location"
+              />
+            </Combobox.Target>
+            <Combobox.Dropdown>
+              <Combobox.Options>
+                <Combobox.Option value="all">All Locations</Combobox.Option>
+                <Combobox.Option value="openesse">Portugal</Combobox.Option>
+                <Combobox.Option value="conference">Germany</Combobox.Option>
+                <Combobox.Option value="workshop">Spain</Combobox.Option>
+                <Combobox.Option value="workshop">Brazil</Combobox.Option>
+              </Combobox.Options>
+            </Combobox.Dropdown>
+          </Combobox>
+          {/* <Combobox store={organizerCombobox}>
+            <Combobox.Target>
+              <ButtonEara
+                size="sm"
+                rightSection={<IconChevronDown size={16} />}
+                onClick={() => organizerCombobox.toggleDropdown()}
+                label="Organizer"
+              />
+            </Combobox.Target>
+            <Combobox.Dropdown>
+              <Combobox.Options>
+                <Combobox.Option value="all">All Events</Combobox.Option>
+                <Combobox.Option value="openesse">Openesse Events</Combobox.Option>
+                <Combobox.Option value="conference">Conferences</Combobox.Option>
+                <Combobox.Option value="workshop">Workshops</Combobox.Option>
+              </Combobox.Options>
+            </Combobox.Dropdown>
+          </Combobox> */}
+        </Group>
+      </div>
       {data?.length === 0 && <p>No media available.</p>}
 
       <div className={clsx(s.masonry, 'h-full cursor-pointer')}>

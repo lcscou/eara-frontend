@@ -1,7 +1,9 @@
 'use client'
 
 import { GetEventsQuery } from '@/graphql/generated/graphql'
-import { Container } from '@mantine/core'
+import { Button, Container } from '@mantine/core'
+import { IconArrowLeft } from '@tabler/icons-react'
+import Link from 'next/link'
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 
 export default function SingleEvents({ data }: { data: GetEventsQuery }) {
@@ -17,7 +19,14 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
         subtitle="Event"
         // author={`${data.events?.author?.node.firstName} ${data.events?.author?.node.lastName}`}
       />
-      <Container size="lg" className="prose prose-lg my-20 max-w-none">
+      <Container size="lg" className="prose prose-lg my-10 max-w-none">
+        <div className="mb-5 flex justify-end">
+          <Link href="/events">
+            <Button variant="subtle" leftSection={<IconArrowLeft size={16} />}>
+              Back to events list
+            </Button>
+          </Link>
+        </div>
         <div dangerouslySetInnerHTML={{ __html: data.events?.content || '' }}></div>
       </Container>
     </>
