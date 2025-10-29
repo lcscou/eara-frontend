@@ -313,7 +313,7 @@ export default function Home() {
           {
             id: '1',
             text: 'EARA conference will happen on 24 November 2025. Join our upcoming webinar on ethical research practices. Join our upcoming webinar on ethical research practices!!',
-            link: '/events/eara-conference-20255',
+            link: '/events/eara-conference-2025',
             linkLabel: 'KNOW MORE',
           },
           {
