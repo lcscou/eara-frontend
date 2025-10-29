@@ -20,7 +20,7 @@ export default function InfoButton({ content, width = 420, className }: InfoButt
             <Button
               unstyled
               className={clsx(
-                'bg-primaryColor flex aspect-square w-[55px] cursor-pointer items-center justify-center rounded-full transition-all duration-100 hover:brightness-125',
+                'flex aspect-square w-[55px] cursor-pointer items-center justify-center rounded-full bg-white/20 transition-all duration-100 hover:brightness-125',
                 className
               )}
             >
