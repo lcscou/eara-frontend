@@ -37,6 +37,7 @@ export function getMediaType(
   description: string
   credits: string
   researchArea?: string
+  uploadedDate?: string
   speciesFeaturedOrNewApproachMethodology?: string
 }[] {
   const medias = data?.nodes ?? []
@@ -53,6 +54,7 @@ export function getMediaType(
           researchArea: cfMedia.researchArea ?? '',
           speciesFeaturedOrNewApproachMethodology:
             cfMedia.speciesFeaturedOrNewApproachMethodology ?? '',
+          uploadedDate: cfMedia.uploadedDate ?? '',
         })
       }
       return acc
@@ -63,6 +65,7 @@ export function getMediaType(
       height: number
       description: string
       credits: string
+      uploadedDate?: string
       researchArea?: string
       speciesFeaturedOrNewApproachMethodology?: string
     }[]

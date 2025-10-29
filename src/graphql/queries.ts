@@ -276,6 +276,7 @@ export const GetEvents = gql`
         order
         organizer
         startDate
+        category
       }
       slug
       seo {
@@ -309,6 +310,7 @@ export const GetAllEvents = gql`
           location
           order
           endDate
+          category
         }
         featuredImage {
           node {

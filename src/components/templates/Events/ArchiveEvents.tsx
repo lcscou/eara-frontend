@@ -83,7 +83,7 @@ export default function ArchiveEventsTemplate({ data }: ArchiveEventsProps) {
                 excerpt={event?.title || ''}
                 title={event?.title || ''}
                 date={event?.customFields?.startDate || ''}
-                category={'conference'}
+                category={event?.customFields?.category || 'General'}
                 featuredImage={event?.featuredImage?.node?.guid || ''}
               />
             ))}

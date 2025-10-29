@@ -6,6 +6,7 @@ import { Carousel } from '@mantine/carousel'
 import { Chip, Combobox, Group, List, Modal, useCombobox } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
+  IconCalendar,
   IconChevronDown,
   IconClipboardSearch,
   IconCreativeCommons,
@@ -172,6 +173,14 @@ export default function Gallery({ data }: GalleryProps) {
                     <small className="uppercase">Credit</small>
                     <p className="font-bold">{data[index].credits}</p>
                   </List.Item>
+                  {data[index].uploadedDate && (
+                    <List.Item icon={<IconCalendar className="text-secondaryColor" />}>
+                      <small className="uppercase">Uploaded Date</small>
+                      <p className="font-bold">
+                        {new Date(data[index].uploadedDate).toLocaleDateString() || 'N/A'}
+                      </p>
+                    </List.Item>
+                  )}
                 </List>
               </div>
               {/* <div

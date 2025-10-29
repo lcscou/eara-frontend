@@ -205,5 +205,6 @@ export interface GalleryProps {
     credits: string
     researchArea?: string
     speciesFeaturedOrNewApproachMethodology?: string
+    uploadedDate?: string
   }[]
 }
