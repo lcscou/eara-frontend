@@ -765,6 +765,25 @@ export type GetMembersQueryVariables = Exact<{
 
 export type GetMembersQuery = GetMembersQuery_RootQuery
 
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings = {
+  __typename?: 'ThemeSettings'
+  mediabankIntro?: string | null
+}
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings = {
+  __typename?: 'EaraSettings'
+  themeSettings?: GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings | null
+}
+
+export type GetSettingsQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  earaSettings?: GetSettingsQuery_RootQuery_earaSettings_EaraSettings | null
+}
+
+export type GetSettingsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetSettingsQuery = GetSettingsQuery_RootQuery
+
 export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
     __typename?: 'User'
@@ -2420,6 +2439,40 @@ export const GetMembersDocument = {
     },
   ],
 } as unknown as DocumentNode<GetMembersQuery, GetMembersQueryVariables>
+export const GetSettingsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetSettings' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'earaSettings' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'themeSettings' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'mediabankIntro' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetSettingsQuery, GetSettingsQueryVariables>
 export const GetAllMembersDocument = {
   kind: 'Document',
   definitions: [

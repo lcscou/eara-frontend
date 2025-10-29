@@ -426,6 +426,15 @@ export const GetMembers = gql`
     }
   }
 `
+export const GetSettings = gql`
+  query GetSettings {
+    earaSettings {
+      themeSettings {
+        mediabankIntro
+      }
+    }
+  }
+`
 export const GetAllMembers = gql`
   query GetAllMembers($first: Int, $after: String) {
     members(first: $first, after: $after) {

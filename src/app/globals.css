@@ -23,3 +23,7 @@ body {
     font-size: 14px;
   }
 }
+
+.wp-block p {
+  margin-bottom: 1em;
+}
