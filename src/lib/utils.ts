@@ -30,22 +30,42 @@ export function randomColor(): string {
 
 export function getMediaType(
   data: GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection | undefined | null
-): { src: string; width: number; height: number; description: string }[] {
+): {
+  src: string
+  width: number
+  height: number
+  description: string
+  credits: string
+  researchArea?: string
+  speciesFeaturedOrNewApproachMethodology?: string
+}[] {
   const medias = data?.nodes ?? []
   const result = medias.reduce(
     (acc, media) => {
       const cfMedia = media?.cfMediaBank
-      if (cfMedia) {
+      if (cfMedia && cfMedia.image && cfMedia.image.node) {
         acc.push({
           src: cfMedia.image?.node.guid || '',
           width: cfMedia.image?.node.mediaDetails?.width ?? 0,
           height: cfMedia.image?.node.mediaDetails?.height ?? 0,
           description: cfMedia.description ?? '',
+          credits: cfMedia.credits ?? '',
+          researchArea: cfMedia.researchArea ?? '',
+          speciesFeaturedOrNewApproachMethodology:
+            cfMedia.speciesFeaturedOrNewApproachMethodology ?? '',
         })
       }
       return acc
     },
-    [] as { src: string; width: number; height: number; description: string }[]
+    [] as {
+      src: string
+      width: number
+      height: number
+      description: string
+      credits: string
+      researchArea?: string
+      speciesFeaturedOrNewApproachMethodology?: string
+    }[]
   )
   return result
 }

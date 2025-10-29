@@ -197,5 +197,13 @@ export interface MenuItemMobileProps {
 // }
 
 export interface GalleryProps {
-  data: { src: string; width: number; height: number; description: string }[]
+  data: {
+    src: string
+    width: number
+    height: number
+    description: string
+    credits: string
+    researchArea?: string
+    speciesFeaturedOrNewApproachMethodology?: string
+  }[]
 }

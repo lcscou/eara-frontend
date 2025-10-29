@@ -1,29 +1,166 @@
 'use client'
 import { GalleryProps } from '@/lib/types'
-import { useEffect, useState } from 'react'
-import { MasonryPhotoAlbum } from 'react-photo-album'
-import 'react-photo-album/masonry.css'
-import Lightbox from 'yet-another-react-lightbox'
-import Captions from 'yet-another-react-lightbox/plugins/captions'
-import 'yet-another-react-lightbox/plugins/captions.css'
-import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen'
-import Slideshow from 'yet-another-react-lightbox/plugins/slideshow'
-import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails'
-import 'yet-another-react-lightbox/plugins/thumbnails.css'
-import Zoom from 'yet-another-react-lightbox/plugins/zoom'
-import 'yet-another-react-lightbox/styles.css'
+import { MouseEvent, useState } from 'react'
 
+import { Carousel } from '@mantine/carousel'
+import { List, Modal } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import {
+  IconClipboardSearch,
+  IconCreativeCommons,
+  IconFileDescription,
+  IconPaw,
+  IconZoomIn,
+} from '@tabler/icons-react'
+import clsx from 'clsx'
+import Image from 'next/image'
+import s from './Gallery.module.css'
 export default function Gallery({ data }: GalleryProps) {
-  const [index, setIndex] = useState(-1)
-  const captionRef = null
+  const [index, setIndex] = useState(0)
 
-  useEffect(() => {
-    console.log('Gallery ID:', captionRef)
-  })
+  const [opened, { open, close }] = useDisclosure()
+  const handleClick = (ev: MouseEvent<HTMLDivElement>) => {
+    console.log('clicked', ev.currentTarget.dataset.index)
+    setIndex(Number(ev.currentTarget.dataset.index))
+    open()
+  }
 
   return (
     <>
-      <MasonryPhotoAlbum
+      {data?.length === 0 && <p>No media available.</p>}
+
+      <div className={clsx(s.masonry, 'h-full cursor-pointer')}>
+        {data.map((item, idx) => (
+          <div
+            onClick={handleClick}
+            data-index={idx}
+            key={idx}
+            className={clsx('relative mb-4 overflow-hidden rounded-lg', s.galleryItem)}
+          >
+            <Image
+              className="rounded-lg"
+              width={item.width}
+              height={item.height}
+              key={idx}
+              src={item.src}
+              alt={item.description || ''}
+            />
+            <div
+              className={clsx(
+                'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
+                s.overlay
+              )}
+            >
+              <IconZoomIn size={30} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Modal
+        opened={opened}
+        fullScreen
+        onClose={close}
+        styles={{
+          body: { height: '100%', paddingTop: 'var(--mantine-spacing-md)' },
+          header: { position: 'fixed', width: '100%', backgroundColor: 'transparent' },
+        }}
+      >
+        <div className="h-full w-full">
+          <div className="grid h-full grid-cols-6 grid-rows-5 gap-0">
+            <div className="col-span-4 row-span-4 rounded-xl p-7">
+              <div className="bg-earaBgLight relative h-full w-full overflow-hidden rounded-lg">
+                <Image
+                  // fill
+                  style={{ objectFit: 'contain', overflow: 'hidden' }}
+                  width={data[0].width}
+                  height={data[0].height}
+                  src={data[index].src}
+                  alt={data[index].description || ''}
+                  className="h-full w-full rounded-lg object-contain"
+                />
+              </div>
+            </div>
+            <div className="col-span-2 col-start-5 row-span-4 p-7">
+              <div className="bg-earaBgLight h-full overflow-y-auto rounded-lg p-8">
+                <List spacing="md" size="md">
+                  <List.Item icon={<IconPaw className="text-secondaryColor" />}>
+                    <small className="uppercase">
+                      Species featured or new approach methodology
+                    </small>
+                    <p className="font-bold">
+                      {data[index].speciesFeaturedOrNewApproachMethodology || 'N/A'}
+                    </p>
+                  </List.Item>
+                  <List.Item icon={<IconClipboardSearch className="text-secondaryColor" />}>
+                    <small className="uppercase">Area of research</small>
+                    <p className="font-bold">{data[index].researchArea || 'N/A'}</p>
+                  </List.Item>
+                  <List.Item icon={<IconFileDescription className="text-secondaryColor" />}>
+                    <small className="uppercase">Description</small>
+                    <p className="font-bold">{data[index].description}</p>
+                  </List.Item>
+                  <List.Item icon={<IconCreativeCommons className="text-secondaryColor" />}>
+                    <small className="uppercase">Credit</small>
+                    <p className="font-bold">{data[index].credits}</p>
+                  </List.Item>
+                </List>
+              </div>
+              {/* <div
+                className="fixed top-0 left-0 flex h-full w-30 items-center justify-center"
+                onClick={close}
+              >
+                <button className="bg-secondaryColor rounded-full p-5">
+                  <IconArrowLeft />
+                </button>
+              </div>
+              <div
+                className="fixed top-0 right-0 flex h-full w-30 items-center justify-center"
+                onClick={close}
+              >
+                <button
+                  className="bg-secondaryColor rounded-full p-5"
+                  onClick={() => setIndex(index + 1)}
+                >
+                  <IconArrowRight />
+                </button>
+              </div> */}
+            </div>
+            <div className="col-span-6 row-start-5 flex w-full items-center overflow-hidden px-5">
+              <Carousel
+                slideSize={100}
+                emblaOptions={{ align: 'center' }}
+                defaultValue={index}
+                slideGap={5}
+                w="100%"
+              >
+                {data.map((item, idx) => (
+                  <Carousel.Slide
+                    onClick={() => setIndex(idx)}
+                    key={idx}
+                    className={clsx(
+                      'cursor-pointer opacity-60 saturate-0 hover:saturate-100',
+                      index === idx ? 'opacity-100 saturate-100' : ''
+                    )}
+                  >
+                    <Image
+                      className={clsx(
+                        'aspect-square rounded-lg object-cover',
+                        index === idx ? '' : ''
+                      )}
+                      width={90}
+                      height={90}
+                      src={item.src}
+                      alt={item.description || ''}
+                    />
+                  </Carousel.Slide>
+                ))}
+              </Carousel>
+            </div>
+          </div>
+        </div>
+      </Modal>
+      {/* <MasonryPhotoAlbum
         photos={data}
         columns={3}
         componentsProps={{ image: { className: 'rounded-lg w-full ' } }}
@@ -38,7 +175,7 @@ export default function Gallery({ data }: GalleryProps) {
         captions={{ showToggle: true, ref: captionRef }}
         close={() => setIndex(-1)}
         plugins={[Fullscreen, Slideshow, Thumbnails, Zoom, Captions]}
-      />
+      /> */}
     </>
   )
 }
