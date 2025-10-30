@@ -4,6 +4,7 @@ import { GetMediasBankDocument, GetSettingsDocument } from '@/graphql/generated/
 import { query } from '@/lib/apollo-client'
 import { getMediaType } from '@/lib/utils'
 import { Container } from '@mantine/core'
+import { Suspense } from 'react'
 export default async function MediaBank() {
   const { data } = await query({ query: GetMediasBankDocument, variables: { first: 25 } })
   const { data: settings } = await query({ query: GetSettingsDocument })
@@ -20,7 +21,9 @@ export default async function MediaBank() {
               __html: settings?.earaSettings?.themeSettings?.mediabankIntro || '',
             }}
           ></div>
-          <Gallery data={medias} />
+          <Suspense>
+            <Gallery data={medias} />
+          </Suspense>
         </main>
       </Container>
     </>
