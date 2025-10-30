@@ -27,3 +27,9 @@ body {
 .wp-block p {
   margin-bottom: 1em;
 }
+
+::selection,
+::-webkit-selection {
+  background-color: var(--color-secondaryColor);
+  color: #fff;
+}

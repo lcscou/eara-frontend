@@ -3,8 +3,8 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import { GetAllEventsQuery_RootQuery } from '@/graphql/generated/graphql'
 import { truncateText } from '@/lib/utils'
-import { Chip, Combobox, Container, Group, useCombobox } from '@mantine/core'
-import { IconChevronDown } from '@tabler/icons-react'
+import { Button, Chip, Combobox, Container, Group, Title, useCombobox } from '@mantine/core'
+import { IconChevronDown, IconRestore, IconZoomCancel } from '@tabler/icons-react'
 
 interface ArchiveEventsProps {
   data?: GetAllEventsQuery_RootQuery
@@ -90,7 +90,20 @@ export default function ArchiveEventsTemplate({ data }: ArchiveEventsProps) {
             ))}
           </div>
         ) : (
-          <p className="mt-10">No events found.</p>
+          <>
+            <div className="flex flex-col items-center justify-center gap-10 py-10">
+              <IconZoomCancel size={150} stroke={1.1} className="mt-10 text-[#d6d6ec]" />
+              <div className="flex flex-col items-center gap-4">
+                <Title order={5} className="mt-10">
+                  No result found.
+                </Title>
+                <p>We can&apos;t find any item matching your criteria.</p>
+                <Button className="mt-4" variant="light" leftSection={<IconRestore size={18} />}>
+                  Reset Filters
+                </Button>
+              </div>
+            </div>
+          </>
         )}
       </Container>
     </>

@@ -198,6 +198,9 @@ export interface MenuItemMobileProps {
 
 export interface GalleryProps {
   data: {
+    id: string
+    uri?: string | null
+    slug?: string | null
     src: string
     width: number
     height: number

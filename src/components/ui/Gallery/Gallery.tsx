@@ -16,12 +16,17 @@ import {
 } from '@tabler/icons-react'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './Gallery.module.css'
 export default function Gallery({ data }: GalleryProps) {
-  const [index, setIndex] = useState(0)
+  const searchParams = useSearchParams()
+  const media = searchParams.get('media')
 
-  const [opened, { open, close }] = useDisclosure()
+  const getIndexFromSlug = (slug: string | null) => data.findIndex((item) => item.slug === slug)
+
+  const [index, setIndex] = useState(getIndexFromSlug(media) >= 0 ? getIndexFromSlug(media) : 0)
+  const [opened, { open, close }] = useDisclosure(getIndexFromSlug(media) >= 0 ? true : false)
   const handleClick = (ev: MouseEvent<HTMLDivElement>) => {
     console.log('clicked', ev.currentTarget.dataset.index)
     setIndex(Number(ev.currentTarget.dataset.index))

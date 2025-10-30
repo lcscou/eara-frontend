@@ -34,6 +34,13 @@ export default function Home() {
               content={
                 <>
                   <b>Credit</b> NOVA Medical School, Portugal
+                  <ButtonEara
+                    label="Find Out More"
+                    variant="link"
+                    size="sm"
+                    w="fit-content"
+                    link="/transparency/media-bank?media=cursodeexperimentacaoanimal-041"
+                  />
                 </>
               }
             />

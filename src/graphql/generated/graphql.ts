@@ -582,7 +582,11 @@ export type GetAllEventsQuery_RootQuery = {
 }
 
 export type GetAllEventsQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['Int']['input']>
+  category?: InputMaybe<Scalars['String']['input']>
+  organizer?: InputMaybe<Scalars['String']['input']>
+  search?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
   after?: InputMaybe<Scalars['String']['input']>
 }>
 
@@ -891,6 +895,9 @@ export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnecti
 export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank =
   {
     __typename?: 'MediaBank'
+    id: string
+    slug?: string | null
+    uri?: string | null
     cfMediaBank?: GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank_cfMediaBank_CfMediaBank | null
   }
 
@@ -2002,8 +2009,28 @@ export const GetAllEventsDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'category' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'organizer' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
         {
           kind: 'VariableDefinition',
@@ -2020,12 +2047,41 @@ export const GetAllEventsDocument = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'category' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'category' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'organizer' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'organizer' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'search' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
               },
             ],
@@ -2659,6 +2715,9 @@ export const GetMediasBankDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'cfMediaBank' },

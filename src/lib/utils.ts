@@ -37,7 +37,10 @@ export function getMediaType(
   description: string
   credits: string
   researchArea?: string
+  id: string
   uploadedDate?: string
+  uri?: string | null
+  slug?: string | null
   speciesFeaturedOrNewApproachMethodology?: string
 }[] {
   const medias = data?.nodes ?? []
@@ -46,6 +49,9 @@ export function getMediaType(
       const cfMedia = media?.cfMediaBank
       if (cfMedia && cfMedia.image && cfMedia.image.node) {
         acc.push({
+          id: media.id,
+          uri: media.uri,
+          slug: media.slug,
           src: cfMedia.image?.node.guid || '',
           width: cfMedia.image?.node.mediaDetails?.width ?? 0,
           height: cfMedia.image?.node.mediaDetails?.height ?? 0,
@@ -60,14 +66,17 @@ export function getMediaType(
       return acc
     },
     [] as {
+      id: string
       src: string
       width: number
       height: number
       description: string
+      slug?: string | null
       credits: string
       uploadedDate?: string
       researchArea?: string
       speciesFeaturedOrNewApproachMethodology?: string
+      uri?: string | null
     }[]
   )
   return result

@@ -300,8 +300,20 @@ export const GetEvents = gql`
   }
 `
 export const GetAllEvents = gql`
-  query GetAllEvents($first: Int, $after: String) {
-    allEvents(first: $first, after: $after) {
+  query GetAllEvents(
+    $category: String
+    $organizer: String
+    $search: String
+    $last: Int
+    $before: String
+    $after: String
+  ) {
+    allEvents(
+      where: { category: $category, organizer: $organizer, search: $search }
+      last: $last
+      after: $before
+      before: $after
+    ) {
       nodes {
         id
         title
@@ -480,6 +492,9 @@ export const GetMediasBank = gql`
   query GetMediasBank($first: Int = 30, $after: String) {
     mediasBank(first: $first, after: $after) {
       nodes {
+        id
+        slug
+        uri
         cfMediaBank {
           banner
           mediaType

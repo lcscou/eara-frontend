@@ -12,7 +12,6 @@ import { Suspense } from 'react'
 export default function FeaturedNews() {
   const { data } = useSuspenseQuery(GetAllNewsDocument, {
     variables: { first: 3 },
-    fetchPolicy: 'cache-and-network',
   })
   // if (loading) {
   //   return (
