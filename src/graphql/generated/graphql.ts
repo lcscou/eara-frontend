@@ -232,6 +232,8 @@ export type GetAllAnimalsQuery_RootQuery = {
 export type GetAllAnimalsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
 }>
 
 export type GetAllAnimalsQuery = GetAllAnimalsQuery_RootQuery
@@ -469,6 +471,8 @@ export type GetAllNewsQuery_RootQuery = {
 export type GetAllNewsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
 }>
 
 export type GetAllNewsQuery = GetAllNewsQuery_RootQuery
@@ -712,6 +716,8 @@ export type GetAllDiseasesQuery_RootQuery = {
 export type GetAllDiseasesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
 }>
 
 export type GetAllDiseasesQuery = GetAllDiseasesQuery_RootQuery
@@ -853,6 +859,8 @@ export type GetAllMembersQuery_RootQuery = {
 export type GetAllMembersQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
 }>
 
 export type GetAllMembersQuery = GetAllMembersQuery_RootQuery
@@ -1331,6 +1339,16 @@ export const GetAllAnimalsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -1348,6 +1366,16 @@ export const GetAllAnimalsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'after' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
             ],
             selectionSet: {
@@ -1771,6 +1799,16 @@ export const GetAllNewsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -1788,6 +1826,16 @@ export const GetAllNewsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'after' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
             ],
             selectionSet: {
@@ -2291,6 +2339,16 @@ export const GetAllDiseasesDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -2308,6 +2366,16 @@ export const GetAllDiseasesDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'after' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
             ],
             selectionSet: {
@@ -2571,6 +2639,16 @@ export const GetAllMembersDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -2588,6 +2666,16 @@ export const GetAllMembersDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'after' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
             ],
             selectionSet: {

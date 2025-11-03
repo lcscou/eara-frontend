@@ -97,8 +97,8 @@ export const GetAnimal = gql`
   }
 `
 export const GetAllAnimals = gql`
-  query GetAllAnimals($first: Int, $after: String) {
-    animals(first: $first, after: $after) {
+  query GetAllAnimals($first: Int, $after: String, $before: String, $last: Int) {
+    animals(first: $first, after: $after, before: $before, last: $last) {
       nodes {
         id
         title
@@ -219,8 +219,8 @@ export const GetNews = gql`
   }
 `
 export const GetAllNews = gql`
-  query GetAllNews($first: Int, $after: String) {
-    allNews(first: $first, after: $after) {
+  query GetAllNews($first: Int, $after: String, $before: String, $last: Int) {
+    allNews(first: $first, after: $after, before: $before, last: $last) {
       nodes {
         id
         title
@@ -371,8 +371,8 @@ export const GetDiseases = gql`
   }
 `
 export const GetAllDiseases = gql`
-  query GetAllDiseases($first: Int, $after: String) {
-    allDiseases(first: $first, after: $after) {
+  query GetAllDiseases($first: Int, $after: String, $before: String, $last: Int) {
+    allDiseases(first: $first, after: $after, before: $before, last: $last) {
       nodes {
         id
         title
@@ -452,8 +452,8 @@ export const GetSettings = gql`
   }
 `
 export const GetAllMembers = gql`
-  query GetAllMembers($first: Int, $after: String) {
-    members(first: $first, after: $after) {
+  query GetAllMembers($first: Int, $after: String, $before: String, $last: Int) {
+    members(first: $first, after: $after, before: $before, last: $last) {
       nodes {
         id
         title
