@@ -857,6 +857,18 @@ export type GetAllMembersQueryVariables = Exact<{
 
 export type GetAllMembersQuery = GetAllMembersQuery_RootQuery
 
+export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_pageInfo_RootQueryToMediaBankConnectionPageInfo =
+  {
+    __typename?: 'RootQueryToMediaBankConnectionPageInfo'
+    endCursor?: string | null
+    startCursor?: string | null
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
+
+export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_edges_RootQueryToMediaBankConnectionEdge =
+  { __typename?: 'RootQueryToMediaBankConnectionEdge'; cursor?: string | null }
+
 export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank_cfMediaBank_CfMediaBank_image_AcfMediaItemConnectionEdge_node_MediaItem_mediaDetails_MediaDetails =
   { __typename?: 'MediaDetails'; width?: number | null; height?: number | null }
 
@@ -903,6 +915,8 @@ export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnecti
 
 export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection = {
   __typename?: 'RootQueryToMediaBankConnection'
+  pageInfo: GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_pageInfo_RootQueryToMediaBankConnectionPageInfo
+  edges: Array<GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_edges_RootQueryToMediaBankConnectionEdge>
   nodes: Array<GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank>
 }
 
@@ -914,6 +928,8 @@ export type GetMediasBankQuery_RootQuery = {
 export type GetMediasBankQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
 }>
 
 export type GetMediasBankQuery = GetMediasBankQuery_RootQuery
@@ -2680,12 +2696,22 @@ export const GetMediasBankDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          defaultValue: { kind: 'IntValue', value: '30' },
+          defaultValue: { kind: 'IntValue', value: '23' },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
         },
       ],
       selectionSet: {
@@ -2705,10 +2731,41 @@ export const GetMediasBankDocument = {
                 name: { kind: 'Name', value: 'after' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'cursor' } }],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'nodes' },

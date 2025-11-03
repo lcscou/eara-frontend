@@ -489,8 +489,17 @@ export const GetAllMembers = gql`
   }
 `
 export const GetMediasBank = gql`
-  query GetMediasBank($first: Int = 30, $after: String) {
-    mediasBank(first: $first, after: $after) {
+  query GetMediasBank($first: Int = 23, $after: String, $before: String, $last: Int) {
+    mediasBank(first: $first, after: $after, before: $before, last: $last) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+      }
       nodes {
         id
         slug
