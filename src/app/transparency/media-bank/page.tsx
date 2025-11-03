@@ -1,12 +1,13 @@
 'use client'
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Gallery from '@/components/ui/Gallery/Gallery'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 import { GetMediasBankDocument, GetSettingsDocument } from '@/graphql/generated/graphql'
 
 import { getMediaType } from '@/lib/utils'
 import { useQuery, useSuspenseQuery } from '@apollo/client/react'
-import { Button, Container, Group, Loader, Skeleton } from '@mantine/core'
-import { Suspense, useState } from 'react'
+import { Container, Group, Loader, Skeleton } from '@mantine/core'
+import { Suspense, useCallback, useState } from 'react'
 
 export default function MediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
@@ -21,37 +22,40 @@ export default function MediaBank() {
   const hasNextPage = data?.mediasBank?.pageInfo?.hasNextPage
   const endCursor = data?.mediasBank?.pageInfo?.endCursor
 
-  const handleLoadMore = async () => {
+  const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
 
     setLoadingMore(true)
-    try {
-      await fetchMore({
-        variables: {
-          first: 10,
-          after: endCursor,
-        },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          if (!fetchMoreResult?.mediasBank?.nodes) return previousResult
 
-          return {
-            ...previousResult,
-            mediasBank: {
-              ...fetchMoreResult.mediasBank,
-              nodes: [
-                ...(previousResult?.mediasBank?.nodes || []),
-                ...(fetchMoreResult?.mediasBank?.nodes || []),
-              ],
-            },
-          }
-        },
-      })
-    } catch (err) {
-      console.error('Error loading more media:', err)
-    } finally {
-      setLoadingMore(false)
-    }
-  }
+    setTimeout(async () => {
+      try {
+        await fetchMore({
+          variables: {
+            first: 10,
+            after: endCursor,
+          },
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            if (!fetchMoreResult?.mediasBank?.nodes) return previousResult
+
+            return {
+              ...previousResult,
+              mediasBank: {
+                ...fetchMoreResult.mediasBank,
+                nodes: [
+                  ...(previousResult?.mediasBank?.nodes || []),
+                  ...(fetchMoreResult?.mediasBank?.nodes || []),
+                ],
+              },
+            }
+          },
+        })
+      } catch (err) {
+        console.error('Error loading more media:', err)
+      } finally {
+        setLoadingMore(false)
+      }
+    }, 0)
+  }, [hasNextPage, loadingMore, endCursor, fetchMore])
 
   if (error) return <p>Error: {error.message}</p>
 
@@ -71,12 +75,10 @@ export default function MediaBank() {
           </Suspense>
 
           {loadingMore && (
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {Array.from({ length: 12 }).map((_, i) => (
+            <div className="columns-3">
+              {Array.from({ length: 9 }).map((_, i) => (
                 <div key={i} className="flex flex-col gap-2">
-                  <Skeleton height={250} radius="md" />
-                  <Skeleton height={20} width="70%" radius="sm" />
-                  <Skeleton height={16} width="50%" radius="sm" />
+                  <Skeleton height={250} radius="md" className="mb-4" />
                 </div>
               ))}
             </div>
@@ -84,15 +86,14 @@ export default function MediaBank() {
 
           {hasNextPage && (
             <Group justify="center" mt={40}>
-              <Button
+              <ButtonEara
                 size="lg"
                 variant="filled"
                 onClick={handleLoadMore}
                 disabled={loadingMore}
                 leftSection={loadingMore ? <Loader size="sm" color="white" /> : null}
-              >
-                {loadingMore ? 'Loading...' : 'Load More'}
-              </Button>
+                label={loadingMore ? 'Loading...' : 'Load More'}
+              ></ButtonEara>
             </Group>
           )}
         </main>

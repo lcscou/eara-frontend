@@ -4,7 +4,6 @@ import { IconArrowRight } from '@tabler/icons-react'
 import clsx from 'clsx'
 import s from './ButtonEara.module.css'
 export default function ButtonEara({
-  RightSection,
   label,
   leftSection,
   link,
@@ -18,11 +17,10 @@ export default function ButtonEara({
       {variant == 'filled' && (
         <Button
           // component={link ?? 'a'}
-          leftSection={leftSection}
+
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}
-          rightSection={RightSection}
           // fw="medium"
           className={className}
           tt="uppercase"
@@ -42,11 +40,10 @@ export default function ButtonEara({
       {variant == 'outline' && (
         <Button
           // component={link ?? 'a'}
-          leftSection={leftSection}
+
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}
-          rightSection={RightSection}
           variant="outline"
           tt="uppercase"
           className={className}
@@ -73,7 +70,7 @@ export default function ButtonEara({
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}
-          rightSection={RightSection || <IconArrowRight size={16} />}
+          rightSection={props.rightSection || <IconArrowRight size={16} />}
           unstyled
           tt="uppercase"
           className={clsx(className, s.link, 'hover:opacity-85')}
@@ -106,7 +103,7 @@ export default function ButtonEara({
         <Button
           className={clsx(s.withArrow, className)}
           // component={link ?? 'a'}
-          leftSection={leftSection}
+
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}

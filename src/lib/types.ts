@@ -72,8 +72,7 @@ export interface ButtonEaraProps extends ButtonProps {
   label: string
   link?: string
   target?: HTMLAttributeAnchorTarget
-  leftSection?: ReactElement
-  RightSection?: ReactElement
+
   className?: string
   variant?: 'filled' | 'outline' | 'link' | 'with-arrow'
   onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
