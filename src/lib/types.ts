@@ -210,3 +210,11 @@ export interface GalleryProps {
     uploadedDate?: string
   }[]
 }
+
+export interface AnimalsCardProps {
+  id?: string
+  featuredImage?: string | null
+  description?: string | null
+  uri?: string | null
+  title?: string | null
+}

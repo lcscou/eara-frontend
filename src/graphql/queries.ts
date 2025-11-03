@@ -99,8 +99,15 @@ export const GetAnimal = gql`
 export const GetAllAnimals = gql`
   query GetAllAnimals($first: Int, $after: String, $before: String, $last: Int) {
     animals(first: $first, after: $after, before: $before, last: $last) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
       nodes {
         id
+        uri
         title
         date
         author {
@@ -221,6 +228,12 @@ export const GetNews = gql`
 export const GetAllNews = gql`
   query GetAllNews($first: Int, $after: String, $before: String, $last: Int) {
     allNews(first: $first, after: $after, before: $before, last: $last) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
       nodes {
         id
         title
@@ -314,6 +327,12 @@ export const GetAllEvents = gql`
       after: $before
       before: $after
     ) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
       nodes {
         id
         title

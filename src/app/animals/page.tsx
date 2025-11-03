@@ -1,17 +1,15 @@
-import ArchiveAnimals from '@/components/templates/Animals/ArchiveAnimals'
+import ArchiveAnimalsClient from '@/components/templates/Animals/ArchiveAnimalsClient'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
-import { GetAllAnimalsDocument } from '@/graphql/generated/graphql'
-import { query } from '@/lib/apollo-client'
-import { notFound } from 'next/navigation'
+import { Container } from '@mantine/core'
 
-export default async function Animals() {
-  const { data } = await query({ query: GetAllAnimalsDocument })
-  if (!data) notFound()
+export default function Animals() {
   return (
     <>
       <PageTitleBar title="Animals" subtitle="main" />
       <main>
-        <ArchiveAnimals data={data} />
+        <Container size="xl" my={100}>
+          <ArchiveAnimalsClient />
+        </Container>
       </main>
     </>
   )
