@@ -40,6 +40,8 @@ export function getMediaType(
   id: string
   uploadedDate?: string
   uri?: string | null
+  creditsMoreInfo?: string | null
+  creditWebsite?: string | null
   slug?: string | null
   speciesFeaturedOrNewApproachMethodology?: string
 }[] {
@@ -58,6 +60,8 @@ export function getMediaType(
           description: cfMedia.description ?? '',
           credits: cfMedia.credits ?? '',
           researchArea: cfMedia.researchArea ?? '',
+          creditWebsite: cfMedia.creditWebsite ?? '',
+          creditsMoreInfo: cfMedia.creditsMoreInfo ?? '',
           speciesFeaturedOrNewApproachMethodology:
             cfMedia.speciesFeaturedOrNewApproachMethodology ?? '',
           uploadedDate: cfMedia.uploadedDate ?? '',
@@ -75,6 +79,8 @@ export function getMediaType(
       credits: string
       uploadedDate?: string
       researchArea?: string
+      creditsMoreInfo?: string
+      creditWebsite?: string
       speciesFeaturedOrNewApproachMethodology?: string
       uri?: string | null
     }[]

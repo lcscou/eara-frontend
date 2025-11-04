@@ -974,6 +974,8 @@ export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnecti
     banner?: boolean | null
     mediaType?: Array<string | null> | null
     credits?: string | null
+    creditWebsite?: string | null
+    creditsMoreInfo?: string | null
     description?: string | null
     email?: string | null
     institution?: string | null
@@ -3075,6 +3077,8 @@ export const GetMediasBankDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'mediaType' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'credits' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'creditWebsite' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'creditsMoreInfo' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                             {

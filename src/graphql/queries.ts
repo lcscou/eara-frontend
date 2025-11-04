@@ -527,6 +527,8 @@ export const GetMediasBank = gql`
           banner
           mediaType
           credits
+          creditWebsite
+          creditsMoreInfo
           description
           email
           image {

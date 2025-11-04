@@ -177,6 +177,36 @@ export default function Gallery({ data }: GalleryProps) {
                   <List.Item icon={<IconCreativeCommons className="text-secondaryColor" />}>
                     <small className="uppercase">Credit</small>
                     <p className="font-bold">{data[index].credits}</p>
+                    <p className="font-bold">
+                      Website:{' '}
+                      {data[index].creditWebsite && (
+                        <>
+                          <a
+                            href={data[index].creditWebsite}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                          >
+                            {data[index].creditWebsite}
+                          </a>
+                        </>
+                      )}
+                    </p>
+                    <p className="font-bold">
+                      More Information:{' '}
+                      {data[index].creditsMoreInfo && (
+                        <>
+                          <a
+                            href={data[index].creditsMoreInfo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                          >
+                            {data[index].creditsMoreInfo}
+                          </a>
+                        </>
+                      )}
+                    </p>
                   </List.Item>
                   {data[index].uploadedDate && (
                     <List.Item icon={<IconCalendar className="text-secondaryColor" />}>
