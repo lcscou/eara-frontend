@@ -43,17 +43,21 @@ export function getMediaType(
   creditsMoreInfo?: string | null
   creditWebsite?: string | null
   slug?: string | null
+  videoUrl?: string | null
+  mediaType?: (string | null)[] | null
   speciesFeaturedOrNewApproachMethodology?: string
 }[] {
   const medias = data?.nodes ?? []
   const result = medias.reduce(
     (acc, media) => {
       const cfMedia = media?.cfMediaBank
-      if (cfMedia && cfMedia.image && cfMedia.image.node) {
+      if (cfMedia) {
         acc.push({
           id: media.id,
           uri: media.uri,
+          mediaType: cfMedia.mediaType,
           slug: media.slug,
+          videoUrl: cfMedia.videoUrl,
           src: cfMedia.image?.node.guid || '',
           width: cfMedia.image?.node.mediaDetails?.width ?? 0,
           height: cfMedia.image?.node.mediaDetails?.height ?? 0,
@@ -74,11 +78,13 @@ export function getMediaType(
       src: string
       width: number
       height: number
+      mediaType?: (string | null)[] | null
       description: string
       slug?: string | null
       credits: string
       uploadedDate?: string
       researchArea?: string
+      videoUrl?: string | null
       creditsMoreInfo?: string
       creditWebsite?: string
       speciesFeaturedOrNewApproachMethodology?: string
@@ -104,4 +110,12 @@ export function truncateText(input: string, maxLength: number): string {
     return input
   }
   return input.split(' ').slice(0, maxLength).join(' ') + '...'
+}
+
+export function extractYouTubeID(url: string): string | null {
+  if (!url) return null
+  const regex =
+    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+  const match = url.match(regex)
+  return match ? match[1] : null
 }

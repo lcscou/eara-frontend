@@ -2,8 +2,9 @@
 import { GalleryProps } from '@/lib/types'
 import { MouseEvent, useState } from 'react'
 
+import { extractYouTubeID } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
-import { Chip, Combobox, Group, List, Modal, useCombobox } from '@mantine/core'
+import { Chip, Combobox, Group, List, Modal, Skeleton, useCombobox } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
   IconCalendar,
@@ -12,6 +13,7 @@ import {
   IconCreativeCommons,
   IconFileDescription,
   IconPaw,
+  IconPlayerPlayFilled,
   IconZoomIn,
 } from '@tabler/icons-react'
 import clsx from 'clsx'
@@ -19,7 +21,7 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './Gallery.module.css'
-export default function Gallery({ data }: GalleryProps) {
+export default function Gallery({ data, loadingMore }: GalleryProps) {
   const searchParams = useSearchParams()
   const media = searchParams.get('media')
 
@@ -61,9 +63,6 @@ export default function Gallery({ data }: GalleryProps) {
           </Chip>
           <Combobox store={combobox}>
             <Combobox.Target>
-              {/* <Button  onClick={() => combobox.toggleDropdown()} variant="filled" size="md">
-                    Filter by Category
-                  </Button> */}
               <ButtonEara
                 size="sm"
                 rightSection={<IconChevronDown size={16} />}
@@ -81,54 +80,59 @@ export default function Gallery({ data }: GalleryProps) {
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
-          {/* <Combobox store={organizerCombobox}>
-            <Combobox.Target>
-              <ButtonEara
-                size="sm"
-                rightSection={<IconChevronDown size={16} />}
-                onClick={() => organizerCombobox.toggleDropdown()}
-                label="Organizer"
-              />
-            </Combobox.Target>
-            <Combobox.Dropdown>
-              <Combobox.Options>
-                <Combobox.Option value="all">All Events</Combobox.Option>
-                <Combobox.Option value="openesse">Openesse Events</Combobox.Option>
-                <Combobox.Option value="conference">Conferences</Combobox.Option>
-                <Combobox.Option value="workshop">Workshops</Combobox.Option>
-              </Combobox.Options>
-            </Combobox.Dropdown>
-          </Combobox> */}
         </Group>
       </div>
       {data?.length === 0 && <p>No media available.</p>}
 
-      <div className={clsx(s.masonry, 'h-full cursor-pointer')}>
+      <div className={clsx(s.masonry, 'h-full')}>
         {data.map((item, idx) => (
-          <div
-            onClick={handleClick}
-            data-index={idx}
-            key={idx}
-            className={clsx('relative mb-4 overflow-hidden rounded-lg', s.galleryItem)}
-          >
-            <Image
-              className="rounded-lg"
-              width={item.width}
-              height={item.height}
-              key={idx}
-              src={item.src}
-              alt={item.description || ''}
-            />
-            <div
-              className={clsx(
-                'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
-                s.overlay
-              )}
-            >
-              <IconZoomIn size={30} />
-            </div>
+          <div key={idx}>
+            {item.mediaType?.includes('video') && item.videoUrl && (
+              <VideoItem
+                key={idx}
+                idx={idx}
+                onClick={handleClick}
+                videoURL={extractYouTubeID(item.videoUrl) || undefined}
+              />
+            )}
+            {item.mediaType?.includes('image') && (
+              <div
+                onClick={handleClick}
+                data-index={idx}
+                className={clsx(
+                  'relative mb-4 cursor-pointer overflow-hidden rounded-lg',
+                  s.galleryItem
+                )}
+              >
+                <Image
+                  className="rounded-lg"
+                  width={item.width}
+                  height={item.height}
+                  key={idx}
+                  src={item.src}
+                  alt={item.description || ''}
+                />
+                <div
+                  className={clsx(
+                    'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
+                    s.overlay
+                  )}
+                >
+                  <IconZoomIn size={30} />
+                </div>
+              </div>
+            )}
           </div>
         ))}
+        {loadingMore && (
+          <>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="flex flex-col gap-2">
+                <Skeleton height={Math.random() * 300 + 150} radius="md" className="mb-4" />
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       <Modal
@@ -144,15 +148,29 @@ export default function Gallery({ data }: GalleryProps) {
           <div className="grid h-full grid-cols-6 grid-rows-5 gap-0">
             <div className="col-span-4 row-span-4 rounded-xl p-7">
               <div className="bg-earaBgLight relative h-full w-full overflow-hidden rounded-lg">
-                <Image
-                  // fill
-                  style={{ objectFit: 'contain', overflow: 'hidden' }}
-                  width={data[0].width}
-                  height={data[0].height}
-                  src={data[index].src}
-                  alt={data[index].description || ''}
-                  className="h-full w-full rounded-lg object-contain"
-                />
+                {data[index]?.mediaType?.includes('video') && data[index]?.videoUrl && (
+                  <iframe
+                    className="h-full w-full"
+                    src={`https://www.youtube.com/embed/${extractYouTubeID(
+                      data[index].videoUrl
+                    )}?rel=0&modestbranding=1`}
+                    title="Eara Media Bank Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                )}
+                {data[index]?.mediaType?.includes('image') && (
+                  <Image
+                    // fill
+                    style={{ objectFit: 'contain', overflow: 'hidden' }}
+                    width={data[0].width}
+                    height={data[0].height}
+                    src={data[index].src}
+                    alt={data[index].description || ''}
+                    className="h-full w-full rounded-lg object-contain"
+                  />
+                )}
               </div>
             </div>
             <div className="col-span-2 col-start-5 row-span-4 p-7">
@@ -220,25 +238,6 @@ export default function Gallery({ data }: GalleryProps) {
                   )}
                 </List>
               </div>
-              {/* <div
-                className="fixed top-0 left-0 flex h-full w-30 items-center justify-center"
-                onClick={close}
-              >
-                <button className="bg-secondaryColor rounded-full p-5">
-                  <IconArrowLeft />
-                </button>
-              </div>
-              <div
-                className="fixed top-0 right-0 flex h-full w-30 items-center justify-center"
-                onClick={close}
-              >
-                <button
-                  className="bg-secondaryColor rounded-full p-5"
-                  onClick={() => setIndex(index + 1)}
-                >
-                  <IconArrowRight />
-                </button>
-              </div> */}
             </div>
             <div className="col-span-6 row-start-5 flex w-full items-center overflow-hidden px-5">
               <Carousel
@@ -257,16 +256,27 @@ export default function Gallery({ data }: GalleryProps) {
                       index === idx ? 'opacity-100 saturate-100' : ''
                     )}
                   >
-                    <Image
-                      className={clsx(
-                        'aspect-square rounded-lg object-cover',
-                        index === idx ? '' : ''
-                      )}
-                      width={90}
-                      height={90}
-                      src={item.src}
-                      alt={item.description || ''}
-                    />
+                    {item.mediaType?.includes('video') && item.videoUrl && (
+                      <div className="relative aspect-square w-[90px] overflow-hidden rounded-lg object-cover">
+                        <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
+                          <div className="bg-secondaryColor flex aspect-square w-10 items-center justify-center rounded-full">
+                            <IconPlayerPlayFilled size={20} />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {item.mediaType?.includes('image') && (
+                      <Image
+                        className={clsx(
+                          'aspect-square rounded-lg object-cover',
+                          index === idx ? '' : ''
+                        )}
+                        width={90}
+                        height={90}
+                        src={item.src}
+                        alt={item.description || ''}
+                      />
+                    )}
                   </Carousel.Slide>
                 ))}
               </Carousel>
@@ -274,22 +284,38 @@ export default function Gallery({ data }: GalleryProps) {
           </div>
         </div>
       </Modal>
-      {/* <MasonryPhotoAlbum
-        photos={data}
-        columns={3}
-        componentsProps={{ image: { className: 'rounded-lg w-full ' } }}
-        onClick={({ index }) => setIndex(index)}
-      />
-
-      <Lightbox
-        slides={data}
-        open={index >= 0}
-        index={index}
-        thumbnails={{ border: 0, height: 100 }}
-        captions={{ showToggle: true, ref: captionRef }}
-        close={() => setIndex(-1)}
-        plugins={[Fullscreen, Slideshow, Thumbnails, Zoom, Captions]}
-      /> */}
     </>
+  )
+}
+
+export function VideoItem({
+  videoURL,
+  onClick,
+  idx,
+}: {
+  videoURL?: string
+  onClick?: (ev: MouseEvent<HTMLDivElement>) => void
+  idx?: number
+}) {
+  return (
+    <div
+      data-index={idx}
+      className="relative mb-4 aspect-video cursor-pointer overflow-hidden rounded-lg bg-gray-100"
+      onClick={onClick}
+    >
+      <iframe
+        className="h-full w-full"
+        src={`https://www.youtube.com/embed/${videoURL}?rel=0&modestbranding=1`}
+        title="Eara Media Bank Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      ></iframe>
+      <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
+        <div className="bg-secondaryColor flex aspect-square w-20 items-center justify-center rounded-full">
+          <IconPlayerPlayFilled size={30} />
+        </div>
+      </div>
+    </div>
   )
 }

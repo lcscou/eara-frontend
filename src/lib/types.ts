@@ -196,6 +196,7 @@ export interface MenuItemMobileProps {
 // }
 
 export interface GalleryProps {
+  loadingMore?: boolean
   data: {
     id: string
     uri?: string | null
@@ -207,7 +208,9 @@ export interface GalleryProps {
     creditsMoreInfo?: string | null
     creditWebsite?: string | null
     credits: string
+    videoUrl?: string | null
     researchArea?: string
+    mediaType?: (string | null)[] | null
     speciesFeaturedOrNewApproachMethodology?: string
     uploadedDate?: string
   }[]

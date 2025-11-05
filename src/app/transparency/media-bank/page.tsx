@@ -6,7 +6,7 @@ import { GetMediasBankDocument, GetSettingsDocument } from '@/graphql/generated/
 
 import { getMediaType } from '@/lib/utils'
 import { useQuery, useSuspenseQuery } from '@apollo/client/react'
-import { Container, Group, Loader, Skeleton } from '@mantine/core'
+import { Container, Group, Loader } from '@mantine/core'
 import { Suspense, useCallback, useState } from 'react'
 
 export default function MediaBank() {
@@ -71,18 +71,8 @@ export default function MediaBank() {
             }}
           ></div>
           <Suspense fallback={<div>Loading...</div>}>
-            <Gallery data={medias} />
+            <Gallery data={medias} loadingMore={loadingMore} />
           </Suspense>
-
-          {loadingMore && (
-            <div className="columns-3">
-              {Array.from({ length: 9 }).map((_, i) => (
-                <div key={i} className="flex flex-col gap-2">
-                  <Skeleton height={250} radius="md" className="mb-4" />
-                </div>
-              ))}
-            </div>
-          )}
 
           {hasNextPage && (
             <Group justify="center" mt={40}>
