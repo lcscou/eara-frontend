@@ -204,8 +204,8 @@ export interface GalleryProps {
     width: number
     height: number
     description: string
-    creditsMoreInfo?: string
-    creditWebsite?: string
+    creditsMoreInfo?: string | null
+    creditWebsite?: string | null
     credits: string
     researchArea?: string
     speciesFeaturedOrNewApproachMethodology?: string

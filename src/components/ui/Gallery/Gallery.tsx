@@ -178,9 +178,9 @@ export default function Gallery({ data }: GalleryProps) {
                     <small className="uppercase">Credit</small>
                     <p className="font-bold">{data[index].credits}</p>
                     <p className="font-bold">
-                      Website:{' '}
                       {data[index].creditWebsite && (
                         <>
+                          Website:{' '}
                           <a
                             href={data[index].creditWebsite}
                             target="_blank"
@@ -193,9 +193,9 @@ export default function Gallery({ data }: GalleryProps) {
                       )}
                     </p>
                     <p className="font-bold">
-                      More Information:{' '}
                       {data[index].creditsMoreInfo && (
                         <>
+                          More Information:{' '}
                           <a
                             href={data[index].creditsMoreInfo}
                             target="_blank"
