@@ -12,8 +12,10 @@ import { Suspense, useCallback, useState } from 'react'
 export default function MediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
 
+  const POSTS_PER_PAGE = 12
+
   const { data, error, fetchMore } = useSuspenseQuery(GetMediasBankDocument, {
-    variables: { first: 12 },
+    variables: { first: POSTS_PER_PAGE },
   })
 
   const { data: settings } = useQuery(GetSettingsDocument)
@@ -31,7 +33,7 @@ export default function MediaBank() {
       try {
         await fetchMore({
           variables: {
-            first: 10,
+            first: POSTS_PER_PAGE,
             after: endCursor,
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {

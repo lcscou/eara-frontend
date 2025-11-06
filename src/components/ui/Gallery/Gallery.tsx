@@ -4,7 +4,7 @@ import { MouseEvent, useState } from 'react'
 
 import { extractYouTubeID } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
-import { Chip, Combobox, Group, List, Modal, Skeleton, useCombobox } from '@mantine/core'
+import { Chip, Combobox, Group, List, Modal, useCombobox } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
   IconCalendar,
@@ -19,6 +19,7 @@ import {
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './Gallery.module.css'
 export default function Gallery({ data, loadingMore }: GalleryProps) {
@@ -84,56 +85,49 @@ export default function Gallery({ data, loadingMore }: GalleryProps) {
       </div>
       {data?.length === 0 && <p>No media available.</p>}
 
-      <div className={clsx(s.masonry, 'h-full')}>
-        {data.map((item, idx) => (
-          <div key={idx}>
-            {item.mediaType?.includes('video') && item.videoUrl && (
-              <VideoItem
-                key={idx}
-                idx={idx}
-                onClick={handleClick}
-                videoURL={extractYouTubeID(item.videoUrl) || undefined}
-              />
-            )}
-            {item.mediaType?.includes('image') && (
-              <div
-                onClick={handleClick}
-                data-index={idx}
-                className={clsx(
-                  'relative mb-4 cursor-pointer overflow-hidden rounded-lg',
-                  s.galleryItem
-                )}
-              >
-                <Image
-                  className="rounded-lg"
-                  width={item.width}
-                  height={item.height}
+      <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
+        <Masonry gutter="1rem">
+          {data.map((item, idx) => (
+            <div key={idx}>
+              {item.mediaType?.includes('video') && item.videoUrl && (
+                <VideoItem
                   key={idx}
-                  src={item.src}
-                  alt={item.description || ''}
+                  idx={idx}
+                  onClick={handleClick}
+                  videoURL={extractYouTubeID(item.videoUrl) || undefined}
                 />
+              )}
+              {item.mediaType?.includes('image') && (
                 <div
+                  onClick={handleClick}
+                  data-index={idx}
                   className={clsx(
-                    'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
-                    s.overlay
+                    'relative cursor-pointer overflow-hidden rounded-lg',
+                    s.galleryItem
                   )}
                 >
-                  <IconZoomIn size={30} />
+                  <Image
+                    className="rounded-lg"
+                    width={item.width}
+                    height={item.height}
+                    key={idx}
+                    src={item.src}
+                    alt={item.description || ''}
+                  />
+                  <div
+                    className={clsx(
+                      'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
+                      s.overlay
+                    )}
+                  >
+                    <IconZoomIn size={30} />
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
-        {loadingMore && (
-          <>
-            {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="flex flex-col gap-2">
-                <Skeleton height={Math.random() * 300 + 150} radius="md" className="mb-4" />
-              </div>
-            ))}
-          </>
-        )}
-      </div>
+              )}
+            </div>
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
 
       <Modal
         opened={opened}
@@ -300,7 +294,7 @@ export function VideoItem({
   return (
     <div
       data-index={idx}
-      className="relative mb-4 aspect-video cursor-pointer overflow-hidden rounded-lg bg-gray-100"
+      className="relative aspect-video cursor-pointer overflow-hidden rounded-lg bg-gray-100"
       onClick={onClick}
     >
       <iframe

@@ -3034,6 +3034,34 @@ export const GetMediasBankDocument = {
                 name: { kind: 'Name', value: 'last' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'orderby' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'field' },
+                            value: { kind: 'EnumValue', value: 'DATE' },
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'order' },
+                            value: { kind: 'EnumValue', value: 'ASC' },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',

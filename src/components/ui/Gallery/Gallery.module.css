@@ -1,6 +1,5 @@
-.masonry {
-  columns: 400px;
-}
+/* Removed .masonry columns rule - now using react-responsive-masonry */
+
 .overlay {
   opacity: 0;
 }
