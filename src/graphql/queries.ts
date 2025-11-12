@@ -518,13 +518,20 @@ export const GetAllMembers = gql`
   }
 `
 export const GetMediasBank = gql`
-  query GetMediasBank($first: Int = 23, $after: String, $before: String, $last: Int) {
+  query GetMediasBank(
+    $first: Int = 23
+    $after: String
+    $before: String
+    $last: Int
+    $speciesFeatured: String
+  ) {
     mediasBank(
       first: $first
       after: $after
       before: $before
       last: $last
-      where: { orderby: { field: DATE, order: ASC } }
+
+      where: { orderby: { field: DATE, order: ASC }, speciesFeatured: $speciesFeatured }
     ) {
       pageInfo {
         endCursor

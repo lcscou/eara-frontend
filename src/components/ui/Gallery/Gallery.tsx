@@ -22,7 +22,7 @@ import { useSearchParams } from 'next/navigation'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './Gallery.module.css'
-export default function Gallery({ data, loadingMore }: GalleryProps) {
+export default function Gallery({ data }: GalleryProps) {
   const searchParams = useSearchParams()
   const media = searchParams.get('media')
 

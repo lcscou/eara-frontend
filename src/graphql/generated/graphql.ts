@@ -1025,6 +1025,7 @@ export type GetMediasBankQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  speciesFeatured?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetMediasBankQuery = GetMediasBankQuery_RootQuery
@@ -3042,6 +3043,11 @@ export const GetMediasBankDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'speciesFeatured' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -3094,6 +3100,11 @@ export const GetMediasBankDocument = {
                           },
                         ],
                       },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'speciesFeatured' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'speciesFeatured' } },
                     },
                   ],
                 },
