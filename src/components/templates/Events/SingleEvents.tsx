@@ -17,6 +17,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
         organizer={data.events?.customFields?.organizer}
         location={data.events?.customFields?.location}
         subtitle="Event"
+        backgroundTitle
         // author={`${data.events?.author?.node.firstName} ${data.events?.author?.node.lastName}`}
       />
       <Container size="lg" className="prose prose-lg my-10 max-w-none">

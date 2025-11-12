@@ -318,12 +318,14 @@ export const GetAllEvents = gql`
     $organizer: String
     $search: String
     $last: Int
+    $first: Int
     $before: String
     $after: String
   ) {
     allEvents(
       where: { category: $category, organizer: $organizer, search: $search }
       last: $last
+      first: $first
       after: $before
       before: $after
     ) {
@@ -392,10 +394,17 @@ export const GetDiseases = gql`
 export const GetAllDiseases = gql`
   query GetAllDiseases($first: Int, $after: String, $before: String, $last: Int) {
     allDiseases(first: $first, after: $after, before: $before, last: $last) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
       nodes {
         id
         title
         blocks
+        uri
         date
         author {
           node {
@@ -414,6 +423,7 @@ export const GetAllDiseases = gql`
             url
           }
         }
+
         content
         featuredImage {
           node {

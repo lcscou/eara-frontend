@@ -1,12 +1,13 @@
 'use client'
 
 import AnimalsCard from '@/components/ui/AnimalsCard/AnimalsCard'
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { gql } from '@apollo/client'
 import { useSuspenseQuery } from '@apollo/client/react'
-import { Button, Group, Loader, Skeleton } from '@mantine/core'
+import { Group, Loader, Skeleton } from '@mantine/core'
 import { useCallback, useMemo, useState } from 'react'
 
-const PAGE_SIZE = 12
+const PAGE_SIZE = 15
 
 const GET_ALL_ANIMALS_PAGED = gql`
   query GetAllAnimalsPaged($first: Int, $after: String) {
@@ -111,15 +112,14 @@ export default function ArchiveAnimalsClient() {
 
       {hasNextPage && (
         <Group justify="center" mt={40}>
-          <Button
+          <ButtonEara
+            label={loadingMore ? 'Loading...' : 'Load More'}
             size="lg"
             variant="filled"
             onClick={handleLoadMore}
             disabled={loadingMore}
             leftSection={loadingMore ? <Loader size="sm" color="white" /> : null}
-          >
-            {loadingMore ? 'Loading...' : 'Load More'}
-          </Button>
+          />
         </Group>
       )}
     </>

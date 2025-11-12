@@ -17,6 +17,7 @@ export interface PageTitleBarProps {
   readingTime?: number | null
   featuredImage?: string | null
   location?: string | null
+  backgroundTitle?: boolean
 }
 export interface HeroProps {
   content: ReactElement

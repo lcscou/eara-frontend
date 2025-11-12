@@ -1,17 +1,16 @@
 import ArchiveDiseases from '@/components/templates/Diseases/ArchiveDiseases'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
-import { GetAllDiseasesDocument } from '@/graphql/generated/graphql'
-import { query } from '@/lib/apollo-client'
-import { notFound } from 'next/navigation'
+
+import { Container } from '@mantine/core'
 
 export default async function Diseases() {
-  const { data } = await query({ query: GetAllDiseasesDocument })
-  if (!data) notFound()
   return (
     <>
       <PageTitleBar title="Diseases" subtitle="main" />
       <main>
-        <ArchiveDiseases data={data} />
+        <Container size="xl" my={100}>
+          <ArchiveDiseases />
+        </Container>
       </main>
     </>
   )

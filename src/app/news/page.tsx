@@ -11,7 +11,7 @@ export default async function News() {
     <>
       <PageTitleBar title="Latest research news" subtitle="news" />
       <main>
-        <ArchiveNews data={data} />
+        <ArchiveNews />
       </main>
     </>
   )

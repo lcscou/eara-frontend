@@ -663,6 +663,7 @@ export type GetAllEventsQueryVariables = Exact<{
   organizer?: InputMaybe<Scalars['String']['input']>
   search?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   after?: InputMaybe<Scalars['String']['input']>
 }>
@@ -727,6 +728,15 @@ export type GetDiseasesQueryVariables = Exact<{
 
 export type GetDiseasesQuery = GetDiseasesQuery_RootQuery
 
+export type GetAllDiseasesQuery_RootQuery_allDiseases_RootQueryToDiseasesConnection_pageInfo_RootQueryToDiseasesConnectionPageInfo =
+  {
+    __typename?: 'RootQueryToDiseasesConnectionPageInfo'
+    endCursor?: string | null
+    startCursor?: string | null
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
+
 export type GetAllDiseasesQuery_RootQuery_allDiseases_RootQueryToDiseasesConnection_nodes_Diseases_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
     __typename?: 'User'
@@ -768,6 +778,7 @@ export type GetAllDiseasesQuery_RootQuery_allDiseases_RootQueryToDiseasesConnect
     id: string
     title?: string | null
     blocks?: any | null
+    uri?: string | null
     date?: string | null
     slug?: string | null
     content?: string | null
@@ -778,6 +789,7 @@ export type GetAllDiseasesQuery_RootQuery_allDiseases_RootQueryToDiseasesConnect
 
 export type GetAllDiseasesQuery_RootQuery_allDiseases_RootQueryToDiseasesConnection = {
   __typename?: 'RootQueryToDiseasesConnection'
+  pageInfo: GetAllDiseasesQuery_RootQuery_allDiseases_RootQueryToDiseasesConnection_pageInfo_RootQueryToDiseasesConnectionPageInfo
   nodes: Array<GetAllDiseasesQuery_RootQuery_allDiseases_RootQueryToDiseasesConnection_nodes_Diseases>
 }
 
@@ -2285,6 +2297,11 @@ export const GetAllEventsDocument = {
         },
         {
           kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
@@ -2329,6 +2346,11 @@ export const GetAllEventsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'last' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
               },
               {
                 kind: 'Argument',
@@ -2588,6 +2610,19 @@ export const GetAllDiseasesDocument = {
               selections: [
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'nodes' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -2595,6 +2630,7 @@ export const GetAllDiseasesDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'date' } },
                       {
                         kind: 'Field',

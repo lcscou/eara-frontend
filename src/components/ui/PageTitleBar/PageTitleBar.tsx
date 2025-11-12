@@ -30,6 +30,7 @@ function PageTitleBarComponent({
   eventEndDate,
   organizer,
   author,
+  backgroundTitle,
   location,
 }: PageTitleBarProps) {
   const dateText = useMemo(() => {
@@ -71,7 +72,12 @@ function PageTitleBarComponent({
             <div className="w-fit border-b border-b-gray-400 py-2 pl-20 sm:pl-40">
               <small className="uppercase">{subtitle}</small>
             </div>
-            <div className="sm:px-unset mt-5 max-w-2xl grow px-[16px] sm:mt-0">
+            <div
+              className={clsx(
+                'sm:px-unset mt-5 max-w-2xl grow px-[16px] sm:mt-0',
+                backgroundTitle && 'bg-black/50 p-4'
+              )}
+            >
               <Title order={2}>{title}</Title>
               {EventinfoTable}
               {newsIngoTable}
@@ -79,11 +85,13 @@ function PageTitleBarComponent({
           </>
         ) : (
           <Container size="xl" className="w-full">
-            <Title order={2} mb={10}>
-              {title}
-            </Title>
-            {EventinfoTable}
-            {newsIngoTable}
+            <div className={clsx(backgroundTitle ? 'bg-black/50' : '')}>
+              <Title order={2} mb={10}>
+                {title}
+              </Title>
+              {EventinfoTable}
+              {newsIngoTable}
+            </div>
           </Container>
         )}
       </div>

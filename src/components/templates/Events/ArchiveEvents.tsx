@@ -1,16 +1,66 @@
 'use client'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
-import { GetAllEventsQuery_RootQuery } from '@/graphql/generated/graphql'
+import { GetAllEventsDocument, GetAllEventsQuery } from '@/graphql/generated/graphql'
+
 import { truncateText } from '@/lib/utils'
-import { Button, Chip, Combobox, Container, Group, Title, useCombobox } from '@mantine/core'
+import { useSuspenseQuery } from '@apollo/client/react'
+import {
+  Button,
+  Chip,
+  Combobox,
+  Container,
+  Group,
+  Loader,
+  Skeleton,
+  Title,
+  useCombobox,
+} from '@mantine/core'
 import { IconChevronDown, IconRestore, IconZoomCancel } from '@tabler/icons-react'
+import { useCallback, useState } from 'react'
 
-interface ArchiveEventsProps {
-  data?: GetAllEventsQuery_RootQuery
-}
+const PAGE_SIZE = 1
+export default function ArchiveEventsTemplate() {
+  const [loadingMore, setLoadingMore] = useState(false)
 
-export default function ArchiveEventsTemplate({ data }: ArchiveEventsProps) {
+  const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
+    variables: { first: PAGE_SIZE },
+  })
+
+  const hasNextPage = data?.allEvents?.pageInfo?.hasNextPage
+  const endCursor = data?.allEvents?.pageInfo?.endCursor
+
+  const handleLoadMore = useCallback(() => {
+    if (!hasNextPage || loadingMore) return
+    setLoadingMore(true)
+    setTimeout(async () => {
+      try {
+        await fetchMore({
+          variables: { first: PAGE_SIZE, before: endCursor },
+          updateQuery: (
+            prev: GetAllEventsQuery,
+            { fetchMoreResult }: { fetchMoreResult?: GetAllEventsQuery }
+          ) => {
+            if (!fetchMoreResult?.allEvents?.nodes) return prev
+            return {
+              ...prev,
+              allEvents: {
+                ...fetchMoreResult.allEvents,
+                pageInfo: fetchMoreResult.allEvents.pageInfo,
+                nodes: [
+                  ...(prev?.allEvents?.nodes ?? []),
+                  ...(fetchMoreResult.allEvents.nodes ?? []),
+                ],
+              },
+            }
+          },
+        })
+      } finally {
+        setLoadingMore(false)
+      }
+    }, 0)
+  }, [hasNextPage, loadingMore, endCursor, fetchMore])
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
@@ -33,9 +83,6 @@ export default function ArchiveEventsTemplate({ data }: ArchiveEventsProps) {
             </Chip>
             <Combobox store={combobox}>
               <Combobox.Target>
-                {/* <Button  onClick={() => combobox.toggleDropdown()} variant="filled" size="md">
-                Filter by Category
-              </Button> */}
                 <ButtonEara
                   size="sm"
                   rightSection={<IconChevronDown size={16} />}
@@ -73,7 +120,7 @@ export default function ArchiveEventsTemplate({ data }: ArchiveEventsProps) {
           </Group>
         </div>
 
-        {data?.allEvents?.nodes && data.allEvents.nodes.length > 0 ? (
+        {data?.allEvents?.nodes ? (
           <div className="mt-10 grid gap-5 sm:grid-cols-3">
             {data.allEvents.nodes.map((event) => (
               <EventCard
@@ -106,6 +153,31 @@ export default function ArchiveEventsTemplate({ data }: ArchiveEventsProps) {
           </>
         )}
       </Container>
+
+      {loadingMore && (
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {Array.from({ length: PAGE_SIZE }).map((_, i) => (
+            <div key={i} className="flex flex-col gap-2">
+              <Skeleton height={200} radius="md" />
+              <Skeleton height={20} width="70%" radius="sm" />
+              <Skeleton height={16} width="50%" radius="sm" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {hasNextPage && (
+        <Group justify="center" mt={40}>
+          <ButtonEara
+            label={loadingMore ? 'Loading...' : 'Load More'}
+            size="lg"
+            variant="filled"
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+            leftSection={loadingMore ? <Loader size="sm" color="white" /> : null}
+          />
+        </Group>
+      )}
     </>
   )
 }
