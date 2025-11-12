@@ -17,11 +17,14 @@ import {
   useCombobox,
 } from '@mantine/core'
 import { IconChevronDown, IconRestore, IconZoomCancel } from '@tabler/icons-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
-const PAGE_SIZE = 1
+const PAGE_SIZE = 12
+
 export default function ArchiveEventsTemplate() {
   const [loadingMore, setLoadingMore] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null)
 
   const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
     variables: { first: PAGE_SIZE },
@@ -29,6 +32,21 @@ export default function ArchiveEventsTemplate() {
 
   const hasNextPage = data?.allEvents?.pageInfo?.hasNextPage
   const endCursor = data?.allEvents?.pageInfo?.endCursor
+
+  // Filter events based on category and location
+  const filteredEvents = useMemo(() => {
+    let filtered = data?.allEvents?.nodes ?? []
+
+    if (selectedCategory) {
+      filtered = filtered.filter((event) => event?.customFields?.category === selectedCategory)
+    }
+
+    if (selectedLocation) {
+      filtered = filtered.filter((event) => event?.customFields?.location === selectedLocation)
+    }
+
+    return filtered
+  }, [data?.allEvents?.nodes, selectedCategory, selectedLocation])
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -61,68 +79,86 @@ export default function ArchiveEventsTemplate() {
     }, 0)
   }, [hasNextPage, loadingMore, endCursor, fetchMore])
 
-  const combobox = useCombobox({
-    onDropdownClose: () => combobox.resetSelectedOption(),
+  const locationCombobox = useCombobox({
+    onDropdownClose: () => locationCombobox.resetSelectedOption(),
   })
-  const organizerCombobox = useCombobox({
-    onDropdownClose: () => organizerCombobox.resetSelectedOption(),
-  })
+
+  const handleResetFilters = () => {
+    setSelectedCategory(null)
+    setSelectedLocation(null)
+    locationCombobox.resetSelectedOption()
+  }
+
+  const hasActiveFilters = selectedCategory !== null || selectedLocation !== null
+
   return (
     <>
       <Container size="xl" className="py-20">
         <div className="flex justify-between">
           <Group gap={5}>
-            <Chip defaultChecked variant="light" size="md">
-              All Event
+            <Chip
+              checked={selectedCategory === null}
+              onChange={() => setSelectedCategory(null)}
+              variant="light"
+              size="md"
+            >
+              All Events
             </Chip>
-            <Chip variant="light" size="md">
-              Openesse Event
-            </Chip>
-            <Chip variant="light" size="md">
+            <Chip
+              checked={selectedCategory === 'Conference'}
+              onChange={() => setSelectedCategory('Conference')}
+              variant="light"
+              size="md"
+            >
               Conference
             </Chip>
-            <Combobox store={combobox}>
+            <Chip
+              checked={selectedCategory === 'Media Training'}
+              onChange={() => setSelectedCategory('Media Training')}
+              variant="light"
+              size="md"
+            >
+              Media Training
+            </Chip>
+            <Combobox
+              store={locationCombobox}
+              onOptionSubmit={(value) => {
+                setSelectedLocation(value === 'all' ? null : value)
+                locationCombobox.closeDropdown()
+              }}
+            >
               <Combobox.Target>
                 <ButtonEara
                   size="sm"
                   rightSection={<IconChevronDown size={16} />}
-                  onClick={() => combobox.toggleDropdown()}
-                  label="Location"
+                  onClick={() => locationCombobox.toggleDropdown()}
+                  label={selectedLocation || 'Location'}
                 />
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
-                  <Combobox.Option value="all">All Events</Combobox.Option>
-                  <Combobox.Option value="openesse">Openesse Events</Combobox.Option>
-                  <Combobox.Option value="conference">Conferences</Combobox.Option>
-                  <Combobox.Option value="workshop">Workshops</Combobox.Option>
+                  <Combobox.Option value="all">All Locations</Combobox.Option>
+                  <Combobox.Option value="Lisbon">Lisbon</Combobox.Option>
+                  <Combobox.Option value="Berlin, Germany">Berlin, Germany</Combobox.Option>
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
-            <Combobox store={organizerCombobox}>
-              <Combobox.Target>
-                <ButtonEara
-                  size="sm"
-                  rightSection={<IconChevronDown size={16} />}
-                  onClick={() => organizerCombobox.toggleDropdown()}
-                  label="Organizer"
-                />
-              </Combobox.Target>
-              <Combobox.Dropdown>
-                <Combobox.Options>
-                  <Combobox.Option value="all">All Events</Combobox.Option>
-                  <Combobox.Option value="openesse">Openesse Events</Combobox.Option>
-                  <Combobox.Option value="conference">Conferences</Combobox.Option>
-                  <Combobox.Option value="workshop">Workshops</Combobox.Option>
-                </Combobox.Options>
-              </Combobox.Dropdown>
-            </Combobox>
+            {hasActiveFilters && (
+              <Button
+                size="sm"
+                variant="subtle"
+                leftSection={<IconRestore size={16} />}
+                onClick={handleResetFilters}
+              >
+                Reset
+              </Button>
+            )}
           </Group>
         </div>
 
-        {data?.allEvents?.nodes ? (
+        {filteredEvents.length > 0 ? (
           <div className="mt-10 grid gap-5 sm:grid-cols-3">
-            {data.allEvents.nodes.map((event) => (
+            {filteredEvents.map((event) => (
               <EventCard
                 key={event?.id}
                 id={event?.uri || ''}
@@ -145,7 +181,12 @@ export default function ArchiveEventsTemplate() {
                   No result found.
                 </Title>
                 <p>We can&apos;t find any item matching your criteria.</p>
-                <Button className="mt-4" variant="light" leftSection={<IconRestore size={18} />}>
+                <Button
+                  className="mt-4"
+                  variant="light"
+                  leftSection={<IconRestore size={18} />}
+                  onClick={handleResetFilters}
+                >
                   Reset Filters
                 </Button>
               </div>
@@ -166,7 +207,7 @@ export default function ArchiveEventsTemplate() {
         </div>
       )}
 
-      {hasNextPage && (
+      {hasNextPage && !hasActiveFilters && (
         <Group justify="center" mt={40}>
           <ButtonEara
             label={loadingMore ? 'Loading...' : 'Load More'}
