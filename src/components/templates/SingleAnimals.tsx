@@ -1,6 +1,9 @@
 'use client'
 
 import { GetAnimalQuery } from '@/graphql/generated/graphql'
+import { Button, Container } from '@mantine/core'
+import { IconArrowLeft } from '@tabler/icons-react'
+import Link from 'next/link'
 import PageTitleBar from '../ui/PageTitleBar/PageTitleBar'
 
 export default function SingleAnimals({ data }: { data: GetAnimalQuery }) {
@@ -13,7 +16,16 @@ export default function SingleAnimals({ data }: { data: GetAnimalQuery }) {
         readingTime={data.animal?.seo?.readingTime}
         author={`${data.animal?.author?.node.firstName} ${data.animal?.author?.node.lastName}`}
       />
-      <div dangerouslySetInnerHTML={{ __html: data.animal?.content || '' }}></div>
+      <Container size="lg" className="my-20">
+        <div className="mb-5 flex justify-end">
+          <Link href="/animals">
+            <Button variant="subtle" leftSection={<IconArrowLeft size={16} />}>
+              Back to animals list
+            </Button>
+          </Link>
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: data.animal?.content || '' }}></div>
+      </Container>
     </>
   )
 }

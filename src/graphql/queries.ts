@@ -615,3 +615,75 @@ export const GetMediasBank = gql`
     }
   }
 `
+export const GetAllCaseStudies = gql`
+  query GetAllCaseStudies($first: Int, $after: String, $before: String, $last: Int) {
+    allCaseStudies(first: $first, after: $after, before: $before, last: $last) {
+      nodes {
+        id
+        title
+        blocks
+        date
+        author {
+          node {
+            name
+            firstName
+            lastName
+            nicename
+          }
+        }
+        slug
+        seo {
+          readingTime
+          opengraphDescription
+          breadcrumbs {
+            text
+            url
+          }
+        }
+        content
+        featuredImage {
+          node {
+            guid
+            altText
+            title
+          }
+        }
+      }
+    }
+  }
+`
+export const GetCaseStudies = gql`
+  query GetCaseStudies($id: ID!) {
+    caseStudies(id: $id, idType: URI) {
+      id
+      title
+      blocks
+      date
+      author {
+        node {
+          name
+          firstName
+          lastName
+          nicename
+        }
+      }
+      slug
+      seo {
+        readingTime
+        opengraphDescription
+        breadcrumbs {
+          text
+          url
+        }
+      }
+      content
+      featuredImage {
+        node {
+          guid
+          altText
+          title
+        }
+      }
+    }
+  }
+`

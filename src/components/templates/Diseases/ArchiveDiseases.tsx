@@ -7,7 +7,7 @@ import { useSuspenseQuery } from '@apollo/client/react'
 import { Group, Loader, Skeleton } from '@mantine/core'
 import { useCallback, useState } from 'react'
 
-const PAGE_SIZE = 1
+const PAGE_SIZE = 12
 
 export default function ArchiveDiseases() {
   const [loadingMore, setLoadingMore] = useState(false)

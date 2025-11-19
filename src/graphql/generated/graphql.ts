@@ -1181,6 +1181,132 @@ export type GetMediasBankQueryVariables = Exact<{
 
 export type GetMediasBankQuery = GetMediasBankQuery_RootQuery
 
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User =
+  {
+    __typename?: 'User'
+    name?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    nicename?: string | null
+  }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_author_NodeWithAuthorToUserConnectionEdge =
+  {
+    __typename?: 'NodeWithAuthorToUserConnectionEdge'
+    node: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User
+  }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
+  { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_seo_PostTypeSEO =
+  {
+    __typename?: 'PostTypeSEO'
+    readingTime?: number | null
+    opengraphDescription?: string | null
+    breadcrumbs?: Array<GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+  }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null; altText?: string | null; title?: string | null }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies =
+  {
+    __typename?: 'CaseStudies'
+    id: string
+    title?: string | null
+    blocks?: any | null
+    date?: string | null
+    slug?: string | null
+    content?: string | null
+    author?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_author_NodeWithAuthorToUserConnectionEdge | null
+    seo?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_seo_PostTypeSEO | null
+    featuredImage?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+  }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection = {
+  __typename?: 'RootQueryToCaseStudiesConnection'
+  nodes: Array<GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies>
+}
+
+export type GetAllCaseStudiesQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  allCaseStudies?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection | null
+}
+
+export type GetAllCaseStudiesQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}>
+
+export type GetAllCaseStudiesQuery = GetAllCaseStudiesQuery_RootQuery
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User =
+  {
+    __typename?: 'User'
+    name?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    nicename?: string | null
+  }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge =
+  {
+    __typename?: 'NodeWithAuthorToUserConnectionEdge'
+    node: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User
+  }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
+  { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_seo_PostTypeSEO = {
+  __typename?: 'PostTypeSEO'
+  readingTime?: number | null
+  opengraphDescription?: string | null
+  breadcrumbs?: Array<GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+}
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null; altText?: string | null; title?: string | null }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies = {
+  __typename?: 'CaseStudies'
+  id: string
+  title?: string | null
+  blocks?: any | null
+  date?: string | null
+  slug?: string | null
+  content?: string | null
+  author?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge | null
+  seo?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_seo_PostTypeSEO | null
+  featuredImage?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+}
+
+export type GetCaseStudiesQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  caseStudies?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies | null
+}
+
+export type GetCaseStudiesQueryVariables = Exact<{
+  id: Scalars['ID']['input']
+}>
+
+export type GetCaseStudiesQuery = GetCaseStudiesQuery_RootQuery
+
 export const MenuItemFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -3486,3 +3612,271 @@ export const GetMediasBankDocument = {
     },
   ],
 } as unknown as DocumentNode<GetMediasBankQuery, GetMediasBankQueryVariables>
+export const GetAllCaseStudiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllCaseStudies' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allCaseStudies' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'author' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'nicename' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'seo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'readingTime' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'opengraphDescription' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'breadcrumbs' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'featuredImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'altText' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllCaseStudiesQuery, GetAllCaseStudiesQueryVariables>
+export const GetCaseStudiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCaseStudies' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'caseStudies' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'idType' },
+                value: { kind: 'EnumValue', value: 'URI' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'author' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'nicename' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'seo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'readingTime' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'opengraphDescription' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'breadcrumbs' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'featuredImage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'altText' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetCaseStudiesQuery, GetCaseStudiesQueryVariables>

@@ -19,6 +19,7 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+import ResultNotFound from '../ResultNotFound/ResultNotFound'
 import s from './Gallery.module.css'
 export default function Gallery({ data }: GalleryProps) {
   const searchParams = useSearchParams()
@@ -36,7 +37,7 @@ export default function Gallery({ data }: GalleryProps) {
 
   return (
     <>
-      {data?.length === 0 && <p>No media available.</p>}
+      {data?.length === 0 && <ResultNotFound />}
 
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
         <Masonry gutter="1rem">
