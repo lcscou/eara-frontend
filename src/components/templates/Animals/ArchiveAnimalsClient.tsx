@@ -7,7 +7,7 @@ import { useSuspenseQuery } from '@apollo/client/react'
 import { Group, Loader, Skeleton } from '@mantine/core'
 import { useCallback, useMemo, useState } from 'react'
 
-const PAGE_SIZE = 15
+const PAGE_SIZE = 1
 
 const GET_ALL_ANIMALS_PAGED = gql`
   query GetAllAnimalsPaged($first: Int, $after: String) {

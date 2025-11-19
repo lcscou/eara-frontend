@@ -34,13 +34,11 @@ export default function ButtonEara({
           }}
           {...props}
         >
-          {label}
+          {props.children || label}
         </Button>
       )}
       {variant == 'outline' && (
         <Button
-          // component={link ?? 'a'}
-
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}
@@ -49,9 +47,10 @@ export default function ButtonEara({
           className={className}
           size="lg"
           c="white"
+          leftSection={leftSection}
           styles={{
             root: {
-              borderColor: 'white',
+              borderColor: props.bd?.toString() || 'white',
             },
             label: {
               fontWeight: '400',
@@ -61,7 +60,7 @@ export default function ButtonEara({
           }}
           {...props}
         >
-          {label}
+          {props.children || label}
         </Button>
       )}
       {variant == 'link' && (
@@ -96,14 +95,12 @@ export default function ButtonEara({
           }}
           {...props}
         >
-          {label}
+          {props.children || label}
         </Button>
       )}
       {variant == 'with-arrow' && (
         <Button
           className={clsx(s.withArrow, className)}
-          // component={link ?? 'a'}
-
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}
@@ -136,7 +133,7 @@ export default function ButtonEara({
           }}
           {...props}
         >
-          {label}
+          {props.children || label}
         </Button>
       )}
     </>

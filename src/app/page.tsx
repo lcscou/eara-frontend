@@ -25,7 +25,9 @@ export default function Home() {
             </Title>
             <Text>Trusted, up-to-date information on animal research for different audiences.</Text>
             <Group>
-              <ButtonEara label="Learn Why Science Still Needs Animals" variant="filled" w={345} />
+              <ButtonEara variant="filled" w={345}>
+                Learn Why Science Still Needs Animals
+              </ButtonEara>
               <ButtonEara label="What we do" variant="outline" w={345} />
             </Group>
           </Container>

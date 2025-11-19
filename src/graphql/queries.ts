@@ -256,6 +256,27 @@ export const GetAllNews = gql`
             url
           }
         }
+        acfNews {
+          earaMember
+          disease {
+            nodes {
+              id
+              slug
+            }
+          }
+          country
+          animal {
+            nodes {
+              id
+              slug
+            }
+          }
+        }
+        categoriesNews {
+          nodes {
+            slug
+          }
+        }
         content
         featuredImage {
           node {
@@ -342,7 +363,9 @@ export const GetAllEvents = gql`
         customFields {
           startDate
           location
+          country
           order
+          organizer
           endDate
           category
           description

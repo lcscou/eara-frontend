@@ -70,7 +70,7 @@ export interface AccordionProps {
   variant?: 'green' | 'blue' | 'lightblue' | 'transparent'
 }
 export interface ButtonEaraProps extends ButtonProps {
-  label: string
+  label?: string
   link?: string
   target?: HTMLAttributeAnchorTarget
 

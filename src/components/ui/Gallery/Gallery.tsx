@@ -4,11 +4,10 @@ import { MouseEvent, useState } from 'react'
 
 import { extractYouTubeID } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
-import { Chip, Combobox, Group, List, Modal, useCombobox } from '@mantine/core'
+import { List, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
   IconCalendar,
-  IconChevronDown,
   IconClipboardSearch,
   IconCreativeCommons,
   IconFileDescription,
@@ -20,7 +19,6 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
-import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './Gallery.module.css'
 export default function Gallery({ data }: GalleryProps) {
   const searchParams = useSearchParams()
@@ -36,53 +34,8 @@ export default function Gallery({ data }: GalleryProps) {
     open()
   }
 
-  const combobox = useCombobox({
-    onDropdownClose: () => combobox.resetSelectedOption(),
-  })
-  const organizerCombobox = useCombobox({
-    onDropdownClose: () => organizerCombobox.resetSelectedOption(),
-  })
-
   return (
     <>
-      <div className="mb-10">
-        <Group gap={5}>
-          <Chip defaultChecked variant="light" size="md">
-            All Species
-          </Chip>
-          <Chip variant="light" size="md">
-            Rat
-          </Chip>
-          <Chip variant="light" size="md">
-            Mouse
-          </Chip>
-          <Chip variant="light" size="md">
-            Pig
-          </Chip>
-          <Chip variant="light" size="md">
-            Rhesus macaque
-          </Chip>
-          <Combobox store={combobox}>
-            <Combobox.Target>
-              <ButtonEara
-                size="sm"
-                rightSection={<IconChevronDown size={16} />}
-                onClick={() => combobox.toggleDropdown()}
-                label="Location"
-              />
-            </Combobox.Target>
-            <Combobox.Dropdown>
-              <Combobox.Options>
-                <Combobox.Option value="all">All Locations</Combobox.Option>
-                <Combobox.Option value="openesse">Portugal</Combobox.Option>
-                <Combobox.Option value="conference">Germany</Combobox.Option>
-                <Combobox.Option value="workshop">Spain</Combobox.Option>
-                <Combobox.Option value="workshop">Brazil</Combobox.Option>
-              </Combobox.Options>
-            </Combobox.Dropdown>
-          </Combobox>
-        </Group>
-      </div>
       {data?.length === 0 && <p>No media available.</p>}
 
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
@@ -175,22 +128,22 @@ export default function Gallery({ data }: GalleryProps) {
                       Species featured or new approach methodology
                     </small>
                     <p className="font-bold">
-                      {data[index].speciesFeaturedOrNewApproachMethodology || 'N/A'}
+                      {data[index]?.speciesFeaturedOrNewApproachMethodology || 'N/A'}
                     </p>
                   </List.Item>
                   <List.Item icon={<IconClipboardSearch className="text-secondaryColor" />}>
                     <small className="uppercase">Area of research</small>
-                    <p className="font-bold">{data[index].researchArea || 'N/A'}</p>
+                    <p className="font-bold">{data[index]?.researchArea || 'N/A'}</p>
                   </List.Item>
                   <List.Item icon={<IconFileDescription className="text-secondaryColor" />}>
                     <small className="uppercase">Description</small>
-                    <p className="font-bold">{data[index].description}</p>
+                    <p className="font-bold">{data[index]?.description}</p>
                   </List.Item>
                   <List.Item icon={<IconCreativeCommons className="text-secondaryColor" />}>
                     <small className="uppercase">Credit</small>
-                    <p className="font-bold">{data[index].credits}</p>
+                    <p className="font-bold">{data[index]?.credits}</p>
                     <p className="font-bold">
-                      {data[index].creditWebsite && (
+                      {data[index]?.creditWebsite && (
                         <>
                           Website:{' '}
                           <a
@@ -199,28 +152,28 @@ export default function Gallery({ data }: GalleryProps) {
                             rel="noopener noreferrer"
                             className="underline"
                           >
-                            {data[index].creditWebsite}
+                            {data[index]?.creditWebsite}
                           </a>
                         </>
                       )}
                     </p>
                     <p className="font-bold">
-                      {data[index].creditsMoreInfo && (
+                      {data[index]?.creditsMoreInfo && (
                         <>
                           More Information:{' '}
                           <a
-                            href={data[index].creditsMoreInfo}
+                            href={data[index]?.creditsMoreInfo}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="underline"
                           >
-                            {data[index].creditsMoreInfo}
+                            {data[index]?.creditsMoreInfo}
                           </a>
                         </>
                       )}
                     </p>
                   </List.Item>
-                  {data[index].uploadedDate && (
+                  {data[index]?.uploadedDate && (
                     <List.Item icon={<IconCalendar className="text-secondaryColor" />}>
                       <small className="uppercase">Uploaded Date</small>
                       <p className="font-bold">

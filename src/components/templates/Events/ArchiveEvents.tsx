@@ -24,7 +24,7 @@ const PAGE_SIZE = 12
 export default function ArchiveEventsTemplate() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null)
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
 
   const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
     variables: { first: PAGE_SIZE },
@@ -41,12 +41,12 @@ export default function ArchiveEventsTemplate() {
       filtered = filtered.filter((event) => event?.customFields?.category === selectedCategory)
     }
 
-    if (selectedLocation) {
-      filtered = filtered.filter((event) => event?.customFields?.location === selectedLocation)
+    if (selectedCountry) {
+      filtered = filtered.filter((event) => event?.customFields?.country?.includes(selectedCountry))
     }
 
     return filtered
-  }, [data?.allEvents?.nodes, selectedCategory, selectedLocation])
+  }, [data?.allEvents?.nodes, selectedCategory, selectedCountry])
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -85,11 +85,11 @@ export default function ArchiveEventsTemplate() {
 
   const handleResetFilters = () => {
     setSelectedCategory(null)
-    setSelectedLocation(null)
+    setSelectedCountry(null)
     locationCombobox.resetSelectedOption()
   }
 
-  const hasActiveFilters = selectedCategory !== null || selectedLocation !== null
+  const hasActiveFilters = selectedCategory !== null || selectedCountry !== null
 
   return (
     <>
@@ -123,7 +123,7 @@ export default function ArchiveEventsTemplate() {
             <Combobox
               store={locationCombobox}
               onOptionSubmit={(value) => {
-                setSelectedLocation(value === 'all' ? null : value)
+                setSelectedCountry(value === 'all' ? null : value)
                 locationCombobox.closeDropdown()
               }}
             >
@@ -132,14 +132,14 @@ export default function ArchiveEventsTemplate() {
                   size="sm"
                   rightSection={<IconChevronDown size={16} />}
                   onClick={() => locationCombobox.toggleDropdown()}
-                  label={selectedLocation || 'Location'}
+                  label={selectedCountry || 'Location'}
                 />
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
-                  <Combobox.Option value="all">All Locations</Combobox.Option>
-                  <Combobox.Option value="Lisbon">Lisbon</Combobox.Option>
-                  <Combobox.Option value="Berlin, Germany">Berlin, Germany</Combobox.Option>
+                  <Combobox.Option value="all">All Country</Combobox.Option>
+                  <Combobox.Option value="portugal">Portugal</Combobox.Option>
+                  <Combobox.Option value="germany">Germany</Combobox.Option>
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>

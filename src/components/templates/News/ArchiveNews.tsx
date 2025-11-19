@@ -4,21 +4,75 @@ import NewsCard from '@/components/ui/NewsCard/NewsCard'
 import { GetAllNewsDocument, GetAllNewsQuery } from '@/graphql/generated/graphql'
 import { cleanHTMLTAG } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
-import { Container, Group, Loader, Skeleton, Stack } from '@mantine/core'
-import { useCallback, useState } from 'react'
+import {
+  Button,
+  Combobox,
+  Container,
+  Group,
+  Loader,
+  Skeleton,
+  Stack,
+  useCombobox,
+} from '@mantine/core'
+import { IconCheck, IconChevronDown, IconRestore } from '@tabler/icons-react'
+import { useCallback, useMemo, useState } from 'react'
 
 // interface ArchiveNewsProps {
 //   data: GetAllNewsQuery
 // }
-const PAGE_SIZE = 1
+const PAGE_SIZE = 12
 export default function ArchiveNews() {
   const [loadingMore, setLoadingMore] = useState(false)
   const { data, fetchMore } = useSuspenseQuery<GetAllNewsQuery>(GetAllNewsDocument, {
     variables: { first: PAGE_SIZE },
   })
 
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
+  const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedIsEaraMember, setSelectedIsEaraMember] = useState<boolean | null>(null)
+
+  const countryCombobox = useCombobox({
+    onDropdownClose: () => countryCombobox.resetSelectedOption(),
+  })
+
+  const categoryCombobox = useCombobox({
+    onDropdownClose: () => categoryCombobox.resetSelectedOption(),
+  })
+
+  const animalCombobox = useCombobox({
+    onDropdownClose: () => animalCombobox.resetSelectedOption(),
+  })
+
   const hasNextPage = data?.allNews?.pageInfo?.hasNextPage
   const endCursor = data?.allNews?.pageInfo?.endCursor
+
+  const filteredNews = useMemo(() => {
+    let filtered = data?.allNews?.nodes ?? []
+    if (selectedCountry) {
+      filtered = filtered.filter((newsItem) =>
+        newsItem?.acfNews?.country?.includes(selectedCountry)
+      )
+    }
+    if (selectedAnimal) {
+      filtered = filtered.filter((newsItem) =>
+        newsItem?.acfNews?.animal?.nodes?.find((animal) => animal?.slug === selectedAnimal)
+      )
+    }
+
+    if (selectedCategory) {
+      filtered = filtered.filter((newsItem) =>
+        newsItem?.categoriesNews?.nodes?.find((category) => category?.slug === selectedCategory)
+      )
+    }
+    if (selectedIsEaraMember !== null) {
+      filtered = filtered.filter(
+        (newsItem) => newsItem?.acfNews?.earaMember === selectedIsEaraMember
+      )
+    }
+
+    return filtered
+  }, [data, selectedCountry, selectedAnimal, selectedIsEaraMember, selectedCategory])
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
@@ -46,12 +100,129 @@ export default function ArchiveNews() {
       }
     }, 0)
   }, [hasNextPage, loadingMore, endCursor, fetchMore])
+
+  const handleResetFilters = () => {
+    setSelectedCategory(null)
+    setSelectedCountry(null)
+    countryCombobox.resetSelectedOption()
+    setSelectedAnimal(null)
+    animalCombobox.resetSelectedOption()
+    categoryCombobox.resetSelectedOption()
+    setSelectedIsEaraMember(null)
+  }
+
+  const hasActiveFilters =
+    selectedCategory !== null ||
+    selectedCountry !== null ||
+    selectedAnimal !== null ||
+    selectedIsEaraMember !== null
+
   return (
     <>
+      <Container size="xl" mt={50}>
+        <Group gap={5}>
+          <Combobox
+            onOptionSubmit={(value) => {
+              setSelectedCategory(value === 'all' ? null : value)
+              categoryCombobox.closeDropdown()
+            }}
+            store={categoryCombobox}
+          >
+            <Combobox.Target>
+              <ButtonEara
+                size="md"
+                onClick={() => categoryCombobox.toggleDropdown()}
+                rightSection={<IconChevronDown size={14} />}
+              >
+                {selectedCategory || 'News Category'}
+              </ButtonEara>
+            </Combobox.Target>
+            <Combobox.Dropdown>
+              <Combobox.Options>
+                <Combobox.Option value="all">All Category</Combobox.Option>
+                <Combobox.Option value="institutional">Institutional</Combobox.Option>
+              </Combobox.Options>
+            </Combobox.Dropdown>
+          </Combobox>
+          <Combobox
+            onOptionSubmit={(value) => {
+              setSelectedCountry(value === 'all' ? null : value)
+              countryCombobox.closeDropdown()
+            }}
+            store={countryCombobox}
+          >
+            <Combobox.Target>
+              <ButtonEara
+                size="md"
+                onClick={() => countryCombobox.toggleDropdown()}
+                rightSection={<IconChevronDown size={14} />}
+                label={''}
+              >
+                {selectedCountry || 'Country'}
+              </ButtonEara>
+            </Combobox.Target>
+            <Combobox.Dropdown>
+              <Combobox.Options>
+                <Combobox.Option value="all">All Country</Combobox.Option>
+                <Combobox.Option value="portugal">Portugal</Combobox.Option>
+                <Combobox.Option value="brazil">Brazil</Combobox.Option>
+                <Combobox.Option value="canada">Canada</Combobox.Option>
+              </Combobox.Options>
+            </Combobox.Dropdown>
+          </Combobox>
+          <Combobox
+            onOptionSubmit={(value) => {
+              setSelectedAnimal(value === 'all' ? null : value)
+              animalCombobox.closeDropdown()
+            }}
+            store={animalCombobox}
+          >
+            <Combobox.Target>
+              <ButtonEara
+                size="md"
+                onClick={() => animalCombobox.toggleDropdown()}
+                rightSection={<IconChevronDown size={14} />}
+              >
+                {selectedAnimal || 'Animal'}
+              </ButtonEara>
+            </Combobox.Target>
+            <Combobox.Dropdown>
+              <Combobox.Options>
+                <Combobox.Option value="all">All Animal</Combobox.Option>
+                <Combobox.Option value="mice">Mice</Combobox.Option>
+                <Combobox.Option value="pig">Pig</Combobox.Option>
+                <Combobox.Option value="dog">Dog</Combobox.Option>
+              </Combobox.Options>
+            </Combobox.Dropdown>
+          </Combobox>
+
+          <Button
+            size="md"
+            leftSection={selectedIsEaraMember ? <IconCheck size={18} /> : null}
+            fw={500}
+            tt="uppercase"
+            fz={13}
+            onClick={() => setSelectedIsEaraMember((prev) => (prev === true ? null : true))}
+            variant={selectedIsEaraMember ? 'light' : 'outline'}
+          >
+            Eara Member
+          </Button>
+          {hasActiveFilters && (
+            <Button
+              size="md"
+              variant="subtle"
+              leftSection={<IconRestore size={16} />}
+              onClick={handleResetFilters}
+            >
+              Reset
+            </Button>
+          )}
+        </Group>
+      </Container>
       <Container className="my-20">
         <Stack>
-          {data.allNews && data.allNews.nodes.length > 0 ? (
-            data.allNews.nodes.map((newsItem) => (
+          {filteredNews && filteredNews.length > 0 ? (
+            filteredNews.map((newsItem) => (
               <NewsCard
                 key={newsItem.id}
                 title={newsItem.title || 'No Title'}
