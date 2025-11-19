@@ -1,6 +1,7 @@
 'use client'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import { GetAllEventsDocument, GetAllEventsQuery } from '@/graphql/generated/graphql'
 
 import { truncateText } from '@/lib/utils'
@@ -13,10 +14,9 @@ import {
   Group,
   Loader,
   Skeleton,
-  Title,
   useCombobox,
 } from '@mantine/core'
-import { IconChevronDown, IconRestore, IconZoomCancel } from '@tabler/icons-react'
+import { IconChevronDown, IconRestore } from '@tabler/icons-react'
 import { useCallback, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
@@ -174,23 +174,7 @@ export default function ArchiveEventsTemplate() {
           </div>
         ) : (
           <>
-            <div className="flex flex-col items-center justify-center gap-10 py-10">
-              <IconZoomCancel size={150} stroke={1.1} className="mt-10 text-[#d6d6ec]" />
-              <div className="flex flex-col items-center gap-4">
-                <Title order={5} className="mt-10">
-                  No result found.
-                </Title>
-                <p>We can&apos;t find any item matching your criteria.</p>
-                <Button
-                  className="mt-4"
-                  variant="light"
-                  leftSection={<IconRestore size={18} />}
-                  onClick={handleResetFilters}
-                >
-                  Reset Filters
-                </Button>
-              </div>
-            </div>
+            <ResultNotFound resetFilters={handleResetFilters} />
           </>
         )}
       </Container>

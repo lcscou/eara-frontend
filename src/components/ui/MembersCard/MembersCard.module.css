@@ -1,0 +1,7 @@
+.root:hover img {
+  transform: scale(1.05);
+}
+
+.root img {
+  transition: transform 0.3s ease;
+}

@@ -504,11 +504,27 @@ export const GetSettings = gql`
   }
 `
 export const GetAllMembers = gql`
-  query GetAllMembers($first: Int, $after: String, $before: String, $last: Int) {
-    members(first: $first, after: $after, before: $before, last: $last) {
+  query GetAllMembers($first: Int, $after: String, $before: String, $last: Int, $country: String) {
+    members(
+      first: $first
+      after: $after
+      before: $before
+      last: $last
+      where: { country: $country }
+    ) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
       nodes {
         id
         title
+        acfMembers {
+          country
+          website
+        }
         blocks
         date
         author {

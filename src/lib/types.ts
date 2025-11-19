@@ -224,3 +224,16 @@ export interface AnimalsCardProps {
   uri?: string | null
   title?: string | null
 }
+
+export interface MembersCardProps {
+  id: string
+  featuredImage?: string | null
+  title?: string | null
+  description?: string | null
+  uri?: string | null
+  country?: string | null
+}
+
+export interface ResultNotFoundProps {
+  resetFilters?: () => void
+}

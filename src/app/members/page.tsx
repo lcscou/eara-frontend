@@ -11,7 +11,7 @@ export default async function Members() {
     <>
       <PageTitleBar title="EARA Members" subtitle="members" />
       <main>
-        <ArchiveMembers data={data} />
+        <ArchiveMembers />
       </main>
     </>
   )

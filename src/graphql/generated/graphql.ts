@@ -1019,6 +1019,18 @@ export type GetSettingsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetSettingsQuery = GetSettingsQuery_RootQuery
 
+export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_pageInfo_RootQueryToMemberConnectionPageInfo =
+  {
+    __typename?: 'RootQueryToMemberConnectionPageInfo'
+    endCursor?: string | null
+    startCursor?: string | null
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
+
+export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_acfMembers_AcfMembers =
+  { __typename?: 'AcfMembers'; country?: Array<string | null> | null; website?: string | null }
+
 export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
     __typename?: 'User'
@@ -1062,6 +1074,7 @@ export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nod
   date?: string | null
   slug?: string | null
   content?: string | null
+  acfMembers?: GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_acfMembers_AcfMembers | null
   author?: GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_author_NodeWithAuthorToUserConnectionEdge | null
   seo?: GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_seo_PostTypeSEO | null
   featuredImage?: GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
@@ -1069,6 +1082,7 @@ export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nod
 
 export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection = {
   __typename?: 'RootQueryToMemberConnection'
+  pageInfo: GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_pageInfo_RootQueryToMemberConnectionPageInfo
   nodes: Array<GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member>
 }
 
@@ -1082,6 +1096,7 @@ export type GetAllMembersQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  country?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetAllMembersQuery = GetAllMembersQuery_RootQuery
@@ -3099,6 +3114,11 @@ export const GetAllMembersDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -3127,10 +3147,37 @@ export const GetAllMembersDocument = {
                 name: { kind: 'Name', value: 'last' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'country' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
+                    },
+                  ],
+                },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'nodes' },
@@ -3139,6 +3186,17 @@ export const GetAllMembersDocument = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'acfMembers' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'date' } },
                       {
