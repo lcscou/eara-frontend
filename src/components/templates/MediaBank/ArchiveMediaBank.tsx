@@ -1,6 +1,6 @@
 'use client'
 
-import { MouseEvent, useCallback, useMemo, useState } from 'react'
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { extractYouTubeID, getMediaType } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
@@ -35,12 +35,28 @@ export default function ArchiveMediaBank() {
   const media = searchParams.get('media')
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
   const { data: d, fetchMore } = useSuspenseQuery(GetMediasBankDocument, {
-    variables: { first: PAGE_SIZE },
+    variables: {
+      first: PAGE_SIZE,
+      speciesFeatured: selectedAnimal || undefined,
+    },
   })
 
   const animalCombobox = useCombobox({
     onDropdownClose: () => animalCombobox.resetSelectedOption(),
   })
+
+  useEffect(() => {
+    fetchMore({
+      variables: {
+        first: PAGE_SIZE,
+        after: null,
+        speciesFeatured: selectedAnimal || undefined,
+      },
+      updateQuery: (_, { fetchMoreResult }) => {
+        return fetchMoreResult || _
+      },
+    })
+  }, [selectedAnimal, fetchMore])
 
   const hasNextPage = d?.mediasBank?.pageInfo.hasNextPage
   const endCursor = d?.mediasBank?.pageInfo?.endCursor
@@ -51,7 +67,11 @@ export default function ArchiveMediaBank() {
     setTimeout(async () => {
       try {
         await fetchMore({
-          variables: { first: PAGE_SIZE, after: endCursor },
+          variables: {
+            first: PAGE_SIZE,
+            after: endCursor,
+            speciesFeatured: selectedAnimal || undefined,
+          },
           updateQuery: (
             prev: GetMediasBankQuery,
             { fetchMoreResult }: { fetchMoreResult?: GetMediasBankQuery }
@@ -74,22 +94,12 @@ export default function ArchiveMediaBank() {
         setLoadingMore(false)
       }
     }, 0)
-  }, [hasNextPage, loadingMore, endCursor, fetchMore])
+  }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedAnimal])
 
   const filteredeMediaBank = useMemo(() => {
-    let filtered = d?.mediasBank?.nodes
-    if (!filtered) return []
-
-    if (selectedAnimal) {
-      filtered = d?.mediasBank?.nodes.filter(
-        (mediaItem) =>
-          mediaItem?.cfMediaBank?.speciesFeaturedOrNewApproachMethodology === selectedAnimal
-      )
-    }
-
-    const res = getMediaType(filtered)
-    return res
-  }, [d, selectedAnimal])
+    const nodes = d?.mediasBank?.nodes ?? []
+    return getMediaType(nodes)
+  }, [d])
 
   const getIndexFromSlug = (slug: string | null) =>
     filteredeMediaBank.findIndex((item) => item.slug === slug)

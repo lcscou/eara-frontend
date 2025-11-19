@@ -6,17 +6,8 @@ import { GetAllEventsDocument, GetAllEventsQuery } from '@/graphql/generated/gra
 
 import { truncateText } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
-import {
-  Button,
-  Chip,
-  Combobox,
-  Container,
-  Group,
-  Loader,
-  Skeleton,
-  useCombobox,
-} from '@mantine/core'
-import { IconChevronDown, IconRestore } from '@tabler/icons-react'
+import { Button, Combobox, Container, Group, Loader, Skeleton, useCombobox } from '@mantine/core'
+import { IconCheck, IconChevronDown, IconRestore } from '@tabler/icons-react'
 import { useCallback, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
@@ -93,33 +84,43 @@ export default function ArchiveEventsTemplate() {
 
   return (
     <>
-      <Container size="xl" className="py-20">
+      <Container size="xl" py={50}>
         <div className="flex justify-between">
           <Group gap={5}>
-            <Chip
-              checked={selectedCategory === null}
-              onChange={() => setSelectedCategory(null)}
-              variant="light"
+            <Button
               size="md"
+              leftSection={!selectedCategory ? <IconCheck size={18} /> : null}
+              fw={500}
+              tt="uppercase"
+              fz={13}
+              onClick={() => setSelectedCategory((prev) => (prev === null ? 'all' : null))}
+              variant={!selectedCategory ? 'light' : 'outline'}
             >
               All Events
-            </Chip>
-            <Chip
-              checked={selectedCategory === 'Conference'}
-              onChange={() => setSelectedCategory('Conference')}
-              variant="light"
+            </Button>
+            <Button
               size="md"
+              leftSection={selectedCategory === 'Conference' ? <IconCheck size={18} /> : null}
+              fw={500}
+              tt="uppercase"
+              fz={13}
+              onClick={() => setSelectedCategory('Conference')}
+              variant={selectedCategory === 'Conference' ? 'light' : 'outline'}
             >
               Conference
-            </Chip>
-            <Chip
-              checked={selectedCategory === 'Media Training'}
-              onChange={() => setSelectedCategory('Media Training')}
-              variant="light"
+            </Button>
+            <Button
               size="md"
+              leftSection={selectedCategory === 'Media Training' ? <IconCheck size={18} /> : null}
+              fw={500}
+              tt="uppercase"
+              fz={13}
+              onClick={() => setSelectedCategory('Media Training')}
+              variant={selectedCategory === 'Media Training' ? 'light' : 'outline'}
             >
               Media Training
-            </Chip>
+            </Button>
+
             <Combobox
               store={locationCombobox}
               onOptionSubmit={(value) => {
@@ -129,7 +130,7 @@ export default function ArchiveEventsTemplate() {
             >
               <Combobox.Target>
                 <ButtonEara
-                  size="sm"
+                  size="md"
                   rightSection={<IconChevronDown size={16} />}
                   onClick={() => locationCombobox.toggleDropdown()}
                   label={selectedCountry || 'Location'}
