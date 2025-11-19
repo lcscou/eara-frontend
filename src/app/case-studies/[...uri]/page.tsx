@@ -4,7 +4,7 @@ import { getClient } from '@/lib/apollo-client'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
-type MemberProps = {
+type CaseStudiesProps = {
   params: { uri: string[] }
 }
 const getCaseStudies = cache(async (uri: string[]): Promise<GetCaseStudiesQuery> => {
@@ -16,7 +16,7 @@ const getCaseStudies = cache(async (uri: string[]): Promise<GetCaseStudiesQuery>
   if (!data) notFound()
   return data
 })
-export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CaseStudiesProps): Promise<Metadata> {
   const data = await getCaseStudies(params.uri)
   if (!data?.caseStudies) notFound()
   const title = `Eara | Case Studies - ${data.caseStudies.title || data.caseStudies.title}`
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: MemberProps): Promise<Metadat
     },
   }
 }
-export default async function CaseStudies({ params }: MemberProps) {
+export default async function CaseStudies({ params }: CaseStudiesProps) {
   const data = await getCaseStudies(params.uri)
   if (!data?.caseStudies) notFound()
   return <SingleCaseStudies data={data} />
