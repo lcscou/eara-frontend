@@ -1,0 +1,13 @@
+.overlay {
+  opacity: 0;
+}
+
+.galleryItem * {
+  transition: all 0.3s ease;
+}
+.galleryItem:hover img {
+  transform: scale(1.05);
+}
+.galleryItem:hover .overlay {
+  opacity: 1;
+}

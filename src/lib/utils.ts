@@ -1,6 +1,6 @@
 import {
   GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_author_NodeWithAuthorToUserConnectionEdge,
-  GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection,
+  GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank,
   GetMenuQuery_RootQuery,
 } from '@/graphql/generated/graphql'
 
@@ -29,7 +29,10 @@ export function randomColor(): string {
 }
 
 export function getMediaType(
-  data: GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection | undefined | null
+  data:
+    | GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank[]
+    | undefined
+    | null
 ): {
   src: string
   width: number
@@ -47,7 +50,9 @@ export function getMediaType(
   mediaType?: (string | null)[] | null
   speciesFeaturedOrNewApproachMethodology?: string
 }[] {
-  const medias = data?.nodes ?? []
+  if (!data) return []
+  const medias = data
+  if (typeof medias !== 'object' || !Array.isArray(medias)) return []
   const result = medias.reduce(
     (acc, media) => {
       const cfMedia = media?.cfMediaBank

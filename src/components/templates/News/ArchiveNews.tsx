@@ -119,7 +119,7 @@ export default function ArchiveNews() {
 
   return (
     <>
-      <Container size="xl" mt={50}>
+      <Container size="xl" my={50}>
         <Group gap={5}>
           <Combobox
             onOptionSubmit={(value) => {
@@ -188,7 +188,7 @@ export default function ArchiveNews() {
             </Combobox.Target>
             <Combobox.Dropdown>
               <Combobox.Options>
-                <Combobox.Option value="all">All Animal</Combobox.Option>
+                <Combobox.Option value="all">All Animals</Combobox.Option>
                 <Combobox.Option value="mice">Mice</Combobox.Option>
                 <Combobox.Option value="pig">Pig</Combobox.Option>
                 <Combobox.Option value="dog">Dog</Combobox.Option>
@@ -219,7 +219,7 @@ export default function ArchiveNews() {
           )}
         </Group>
       </Container>
-      <Container className="my-20">
+      <Container mb={50}>
         <Stack>
           {filteredNews && filteredNews.length > 0 ? (
             filteredNews.map((newsItem) => (
