@@ -74,8 +74,8 @@ function PageTitleBarComponent({
             </div>
             <div
               className={clsx(
-                'sm:px-unset mt-5 max-w-2xl grow px-[16px] sm:mt-0',
-                backgroundTitle && 'bg-black/50 p-4'
+                'sm:px-unset mt-5 w-fit max-w-5xl px-[16px] sm:mt-0',
+                backgroundTitle && 'bg-black/50 p-5'
               )}
             >
               <Title order={2}>{title}</Title>
@@ -85,7 +85,11 @@ function PageTitleBarComponent({
           </>
         ) : (
           <Container size="xl" className="w-full">
-            <div className={clsx(backgroundTitle ? 'bg-black/50' : '')}>
+            <div
+              className={clsx(
+                backgroundTitle || featuredImage ? 'w-fit max-w-5xl bg-black/50 p-5' : ''
+              )}
+            >
               <Title order={2} mb={10}>
                 {title}
               </Title>
