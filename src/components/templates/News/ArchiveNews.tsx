@@ -168,8 +168,8 @@ export default function ArchiveNews() {
                 <Combobox.Option value="all">All Countries</Combobox.Option>
                 <Combobox.Option value="portugal">Portugal</Combobox.Option>
                 <Combobox.Option value="germany">Germany</Combobox.Option>
-                <Combobox.Option value="united-kingdom">United Kingdom</Combobox.Option>
-                <Combobox.Option value="belgium">Belgium</Combobox.Option>
+                {/* <Combobox.Option value="united-kingdom">United Kingdom</Combobox.Option>
+                <Combobox.Option value="belgium">Belgium</Combobox.Option> */}
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
@@ -193,8 +193,8 @@ export default function ArchiveNews() {
               <Combobox.Options>
                 <Combobox.Option value="all">All Animals</Combobox.Option>
                 <Combobox.Option value="mice">Mice</Combobox.Option>
-                <Combobox.Option value="pig">Pig</Combobox.Option>
-                <Combobox.Option value="dog">Dog</Combobox.Option>
+                <Combobox.Option value="pigs">Pigs</Combobox.Option>
+                <Combobox.Option value="rats">Rats</Combobox.Option>
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
