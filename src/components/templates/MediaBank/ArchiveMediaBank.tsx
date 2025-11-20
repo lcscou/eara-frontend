@@ -18,7 +18,7 @@ import {
 } from '@tabler/icons-react'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
+// import { useSearchParams } from 'next/navigation'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
@@ -31,8 +31,9 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { GetMediasBankDocument, GetMediasBankQuery } from '@/graphql/generated/graphql'
 export default function ArchiveMediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
-  const searchParams = useSearchParams()
-  const media = searchParams.get('media')
+  // const searchParams = useSearchParams()
+  // const media = searchParams.get('media')
+  const media = null
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
   const { data: d, fetchMore } = useSuspenseQuery(GetMediasBankDocument, {
     variables: {

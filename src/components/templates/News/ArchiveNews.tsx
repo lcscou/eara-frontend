@@ -1,6 +1,7 @@
 'use client'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import NewsCard from '@/components/ui/NewsCard/NewsCard'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import { GetAllNewsDocument, GetAllNewsQuery } from '@/graphql/generated/graphql'
 import { cleanHTMLTAG } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
@@ -139,7 +140,7 @@ export default function ArchiveNews() {
             </Combobox.Target>
             <Combobox.Dropdown>
               <Combobox.Options>
-                <Combobox.Option value="all">All Category</Combobox.Option>
+                <Combobox.Option value="all">All Categories</Combobox.Option>
                 <Combobox.Option value="institutional">Institutional</Combobox.Option>
               </Combobox.Options>
             </Combobox.Dropdown>
@@ -150,6 +151,7 @@ export default function ArchiveNews() {
               countryCombobox.closeDropdown()
             }}
             store={countryCombobox}
+            width="fit-content"
           >
             <Combobox.Target>
               <ButtonEara
@@ -163,10 +165,11 @@ export default function ArchiveNews() {
             </Combobox.Target>
             <Combobox.Dropdown>
               <Combobox.Options>
-                <Combobox.Option value="all">All Country</Combobox.Option>
+                <Combobox.Option value="all">All Countries</Combobox.Option>
                 <Combobox.Option value="portugal">Portugal</Combobox.Option>
-                <Combobox.Option value="brazil">Brazil</Combobox.Option>
-                <Combobox.Option value="canada">Canada</Combobox.Option>
+                <Combobox.Option value="germany">Germany</Combobox.Option>
+                <Combobox.Option value="united-kingdom">United Kingdom</Combobox.Option>
+                <Combobox.Option value="belgium">Belgium</Combobox.Option>
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
@@ -234,7 +237,7 @@ export default function ArchiveNews() {
               />
             ))
           ) : (
-            <p>No news available.</p>
+            <ResultNotFound resetFilters={handleResetFilters} />
           )}
         </Stack>
       </Container>
