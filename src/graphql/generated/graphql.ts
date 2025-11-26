@@ -534,6 +534,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea =
   { __typename?: 'ResearchArea'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Team =
+  { __typename?: 'Team'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes =
 
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal
@@ -548,6 +551,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Page
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Post
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Team
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection =
   {
@@ -591,6 +595,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea =
   { __typename?: 'ResearchArea'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Team =
+  { __typename?: 'Team'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes =
 
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Animal
@@ -605,6 +612,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Page
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Post
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Team
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection =
   {
@@ -1110,9 +1118,6 @@ export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnecti
     hasPreviousPage: boolean
   }
 
-export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_edges_RootQueryToMediaBankConnectionEdge =
-  { __typename?: 'RootQueryToMediaBankConnectionEdge'; cursor?: string | null }
-
 export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank_cfMediaBank_CfMediaBank_image_AcfMediaItemConnectionEdge_node_MediaItem_mediaDetails_MediaDetails =
   { __typename?: 'MediaDetails'; width?: number | null; height?: number | null }
 
@@ -1162,7 +1167,6 @@ export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnecti
 export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection = {
   __typename?: 'RootQueryToMediaBankConnection'
   pageInfo: GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_pageInfo_RootQueryToMediaBankConnectionPageInfo
-  edges: Array<GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_edges_RootQueryToMediaBankConnectionEdge>
   nodes: Array<GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank>
 }
 
@@ -1180,6 +1184,15 @@ export type GetMediasBankQueryVariables = Exact<{
 }>
 
 export type GetMediasBankQuery = GetMediasBankQuery_RootQuery
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_pageInfo_RootQueryToCaseStudiesConnectionPageInfo =
+  {
+    __typename?: 'RootQueryToCaseStudiesConnectionPageInfo'
+    endCursor?: string | null
+    startCursor?: string | null
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
 
 export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
@@ -1232,6 +1245,7 @@ export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudi
 
 export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection = {
   __typename?: 'RootQueryToCaseStudiesConnection'
+  pageInfo: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_pageInfo_RootQueryToCaseStudiesConnectionPageInfo
   nodes: Array<GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies>
 }
 
@@ -1306,6 +1320,112 @@ export type GetCaseStudiesQueryVariables = Exact<{
 }>
 
 export type GetCaseStudiesQuery = GetCaseStudiesQuery_RootQuery
+
+export type GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs = {
+  __typename?: 'SEOPostTypeBreadcrumbs'
+  text?: string | null
+  url?: string | null
+}
+
+export type GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO = {
+  __typename?: 'PostTypeSEO'
+  readingTime?: number | null
+  opengraphDescription?: string | null
+  breadcrumbs?: Array<GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+}
+
+export type GetTeamQuery_RootQuery_team_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null; altText?: string | null; title?: string | null }
+
+export type GetTeamQuery_RootQuery_team_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetTeamQuery_RootQuery_team_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetTeamQuery_RootQuery_team_Team = {
+  __typename?: 'Team'
+  id: string
+  title?: string | null
+  blocks?: any | null
+  date?: string | null
+  slug?: string | null
+  content?: string | null
+  seo?: GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO | null
+  featuredImage?: GetTeamQuery_RootQuery_team_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+}
+
+export type GetTeamQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  team?: GetTeamQuery_RootQuery_team_Team | null
+}
+
+export type GetTeamQueryVariables = Exact<{
+  id: Scalars['ID']['input']
+}>
+
+export type GetTeamQuery = GetTeamQuery_RootQuery
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_pageInfo_RootQueryToTeamConnectionPageInfo =
+  {
+    __typename?: 'RootQueryToTeamConnectionPageInfo'
+    endCursor?: string | null
+    startCursor?: string | null
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
+  { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_seo_PostTypeSEO =
+  {
+    __typename?: 'PostTypeSEO'
+    readingTime?: number | null
+    opengraphDescription?: string | null
+    breadcrumbs?: Array<GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+  }
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null; altText?: string | null; title?: string | null }
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team = {
+  __typename?: 'Team'
+  id: string
+  title?: string | null
+  blocks?: any | null
+  date?: string | null
+  slug?: string | null
+  content?: string | null
+  seo?: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_seo_PostTypeSEO | null
+  featuredImage?: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+}
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection = {
+  __typename?: 'RootQueryToTeamConnection'
+  pageInfo: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_pageInfo_RootQueryToTeamConnectionPageInfo
+  nodes: Array<GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team>
+}
+
+export type GetAllTeamQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  allTeams?: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection | null
+}
+
+export type GetAllTeamQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}>
+
+export type GetAllTeamQuery = GetAllTeamQuery_RootQuery
 
 export const MenuItemFieldsFragmentDoc = {
   kind: 'Document',
@@ -3520,14 +3640,6 @@ export const GetMediasBankDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'cursor' } }],
-                  },
-                },
-                {
-                  kind: 'Field',
                   name: { kind: 'Name', value: 'nodes' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -3672,6 +3784,19 @@ export const GetAllCaseStudiesDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'nodes' },
@@ -3880,3 +4005,240 @@ export const GetCaseStudiesDocument = {
     },
   ],
 } as unknown as DocumentNode<GetCaseStudiesQuery, GetCaseStudiesQueryVariables>
+export const GetTeamDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetTeam' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'team' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'idType' },
+                value: { kind: 'EnumValue', value: 'URI' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'seo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'readingTime' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'opengraphDescription' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'breadcrumbs' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'featuredImage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'altText' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetTeamQuery, GetTeamQueryVariables>
+export const GetAllTeamDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllTeam' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allTeams' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'seo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'readingTime' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'opengraphDescription' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'breadcrumbs' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'featuredImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'altText' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllTeamQuery, GetAllTeamQueryVariables>

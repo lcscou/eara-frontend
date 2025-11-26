@@ -237,3 +237,12 @@ export interface MembersCardProps {
 export interface ResultNotFoundProps {
   resetFilters?: () => void
 }
+
+export interface TeamCardProps {
+  id: string
+  title?: string | null
+  featuredImage?: string | null
+  description?: string | null
+  uri?: string | null
+  country?: string | null
+}

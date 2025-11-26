@@ -211,8 +211,8 @@ export default function ArchiveMediaBank() {
           }}
         >
           <div className="h-full w-full">
-            <div className="grid h-full grid-cols-6 grid-rows-5 gap-0">
-              <div className="col-span-4 row-span-4 rounded-xl p-7">
+            <div className="grid h-full grid-cols-1 grid-rows-1 gap-0 lg:grid-cols-6 lg:grid-rows-5">
+              <div className="col-span-1 row-span-1 p-4 lg:col-span-4 lg:row-span-4 lg:p-7">
                 <div className="bg-earaBgLight relative h-full w-full overflow-hidden rounded-lg">
                   {filteredeMediaBank[index]?.mediaType?.includes('video') &&
                     filteredeMediaBank[index]?.videoUrl && (
@@ -229,7 +229,6 @@ export default function ArchiveMediaBank() {
                     )}
                   {filteredeMediaBank[index]?.mediaType?.includes('image') && (
                     <Image
-                      // fill
                       style={{ objectFit: 'contain', overflow: 'hidden' }}
                       width={filteredeMediaBank[0].width}
                       height={filteredeMediaBank[0].height}
@@ -240,8 +239,8 @@ export default function ArchiveMediaBank() {
                   )}
                 </div>
               </div>
-              <div className="col-span-2 col-start-5 row-span-4 p-7">
-                <div className="bg-earaBgLight h-full overflow-y-auto rounded-lg p-8">
+              <div className="col-span-1 row-span-1 p-4 lg:col-span-2 lg:col-start-5 lg:row-span-4 lg:p-7">
+                <div className="bg-earaBgLight h-full max-h-[400px] overflow-y-auto rounded-lg p-4 lg:max-h-none lg:p-8">
                   <List spacing="md" size="md">
                     <List.Item icon={<IconPaw className="text-secondaryColor" />}>
                       <small className="uppercase">
@@ -312,7 +311,7 @@ export default function ArchiveMediaBank() {
                   </List>
                 </div>
               </div>
-              <div className="col-span-6 row-start-5 flex w-full items-center overflow-hidden px-5">
+              <div className="col-span-1 row-span-1 flex w-full items-center overflow-hidden p-2 lg:col-span-6 lg:row-start-5 lg:px-5">
                 <Carousel
                   slideSize={100}
                   emblaOptions={{ align: 'center' }}
@@ -330,28 +329,40 @@ export default function ArchiveMediaBank() {
                       )}
                     >
                       {item.mediaType?.includes('video') && item.videoUrl && (
-                        <div className="relative aspect-square w-[90px] overflow-hidden rounded-lg object-cover">
+                        <div className="relative aspect-square w-[70px] overflow-hidden rounded-lg object-cover lg:w-[70px]">
                           <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
-                            <div className="bg-secondaryColor flex aspect-square w-10 items-center justify-center rounded-full">
-                              <IconPlayerPlayFilled size={20} />
+                            <div className="bg-secondaryColor flex aspect-square w-8 items-center justify-center rounded-full lg:w-10">
+                              <IconPlayerPlayFilled size={20} className="lg:size-5" />
                             </div>
                           </div>
                         </div>
                       )}
                       {item.mediaType?.includes('image') && (
                         <Image
-                          className={clsx(
-                            'aspect-square rounded-lg object-cover',
-                            index === idx ? '' : ''
-                          )}
-                          width={90}
-                          height={90}
+                          className="aspect-square rounded-lg object-cover"
+                          width={70}
+                          height={70}
                           src={item.src}
                           alt={item.description || ''}
                         />
                       )}
                     </Carousel.Slide>
                   ))}
+
+                  {hasNextPage && (
+                    <Carousel.Slide
+                      key="load-more-sentinel"
+                      className="opacity-100"
+                      onMouseEnter={() => handleLoadMore()}
+                      onPointerEnter={() => handleLoadMore()}
+                      onFocus={() => handleLoadMore()}
+                      onClick={() => handleLoadMore()}
+                    >
+                      <div className="bg-earaBgLight flex aspect-square w-[70px] items-center justify-center rounded-lg lg:w-[70px]">
+                        <Loader size="sm" />
+                      </div>
+                    </Carousel.Slide>
+                  )}
                 </Carousel>
               </div>
             </div>

@@ -578,9 +578,6 @@ export const GetMediasBank = gql`
         hasNextPage
         hasPreviousPage
       }
-      edges {
-        cursor
-      }
       nodes {
         id
         slug
@@ -618,6 +615,12 @@ export const GetMediasBank = gql`
 export const GetAllCaseStudies = gql`
   query GetAllCaseStudies($first: Int, $after: String, $before: String, $last: Int) {
     allCaseStudies(first: $first, after: $after, before: $before, last: $last) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
       nodes {
         id
         title
@@ -682,6 +685,69 @@ export const GetCaseStudies = gql`
           guid
           altText
           title
+        }
+      }
+    }
+  }
+`
+export const GetTeam = gql`
+  query GetTeam($id: ID!) {
+    team(id: $id, idType: URI) {
+      id
+      title
+      blocks
+      date
+      slug
+      seo {
+        readingTime
+        opengraphDescription
+        breadcrumbs {
+          text
+          url
+        }
+      }
+      content
+      featuredImage {
+        node {
+          guid
+          altText
+          title
+        }
+      }
+    }
+  }
+`
+
+export const GetAllTeam = gql`
+  query GetAllTeam($first: Int, $after: String, $before: String, $last: Int) {
+    allTeams(first: $first, after: $after, before: $before, last: $last) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      nodes {
+        id
+        title
+        blocks
+        date
+        slug
+        seo {
+          readingTime
+          opengraphDescription
+          breadcrumbs {
+            text
+            url
+          }
+        }
+        content
+        featuredImage {
+          node {
+            guid
+            altText
+            title
+          }
         }
       }
     }
