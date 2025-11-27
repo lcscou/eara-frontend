@@ -4,7 +4,7 @@ import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import TeamCard from '@/components/ui/TeamCard/TeamCard'
 import { GetAllTeamDocument, GetAllTeamQuery } from '@/graphql/generated/graphql'
 import { useSuspenseQuery } from '@apollo/client/react'
-import { Container, Group, Loader, useCombobox } from '@mantine/core'
+import { Container, Group, Loader } from '@mantine/core'
 import { useCallback, useState } from 'react'
 
 const PAGE_SIZE = 12
@@ -18,10 +18,6 @@ export default function ArchiveTeam() {
 
   const hasNextPage = data?.allTeams?.pageInfo?.hasNextPage
   const endCursor = data?.allTeams?.pageInfo?.endCursor
-
-  const countryCombobox = useCombobox({
-    onDropdownClose: () => countryCombobox.resetSelectedOption(),
-  })
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -65,7 +61,7 @@ export default function ArchiveTeam() {
                 id={team.id}
                 title={team.title}
                 featuredImage={team.featuredImage?.node.guid}
-                role={team.roles?.nodes[0].name}
+                role={team.roles?.nodes[0]?.name || ''}
                 uri={team.uri}
               />
             </div>
