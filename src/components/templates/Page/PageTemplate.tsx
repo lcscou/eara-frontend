@@ -1,5 +1,7 @@
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 import { GetPageQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
+
 export default function PageTemplate({ data }: { data: GetPageQuery }) {
   return (
     <>
@@ -11,7 +13,7 @@ export default function PageTemplate({ data }: { data: GetPageQuery }) {
         subtitle={data.page?.seo?.breadcrumbs?.slice(-2)?.[0]?.text ?? ''}
         // author={`${data.page?.author?.node.firstName} ${data.page?.author?.node.lastName}`}
       />
-      <div dangerouslySetInnerHTML={{ __html: data.page?.content || '' }}></div>
+      <div>{renderPageBlocks(data.page?.blocks)}</div>
     </>
   )
 }
