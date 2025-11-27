@@ -313,6 +313,935 @@ export type MenuItemFieldsFragment = {
   menuGeral?: MenuItemFieldsFragment_MenuItem_menuGeral_MenuGeral | null
 }
 
+type PageInfo_AcfContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'AcfContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_AcfTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'AcfTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_AnimalToAnimalConnectionPageInfo_Fragment = {
+  __typename?: 'AnimalToAnimalConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CaseStudiesToCaseStudiesConnectionPageInfo_Fragment = {
+  __typename?: 'CaseStudiesToCaseStudiesConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CaseStudiesToInstitutionConnectionPageInfo_Fragment = {
+  __typename?: 'CaseStudiesToInstitutionConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CaseStudiesToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'CaseStudiesToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryNewsToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryNewsToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryNewsToNewsConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryNewsToNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryToAncestorsCategoryConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryToAncestorsCategoryConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryToCategoryConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryToCategoryConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryToPostConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryToPostConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CommentToCommentConnectionPageInfo_Fragment = {
+  __typename?: 'CommentToCommentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_ContentNodeToEnqueuedScriptConnectionPageInfo_Fragment = {
+  __typename?: 'ContentNodeToEnqueuedScriptConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_ContentNodeToEnqueuedStylesheetConnectionPageInfo_Fragment = {
+  __typename?: 'ContentNodeToEnqueuedStylesheetConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_ContentTypeToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'ContentTypeToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_ContentTypeToTaxonomyConnectionPageInfo_Fragment = {
+  __typename?: 'ContentTypeToTaxonomyConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_DiseasesToDiseasesConnectionPageInfo_Fragment = {
+  __typename?: 'DiseasesToDiseasesConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_EventsToEventsConnectionPageInfo_Fragment = {
+  __typename?: 'EventsToEventsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentGroupToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentGroupToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_HierarchicalContentNodeToContentNodeAncestorsConnectionPageInfo_Fragment = {
+  __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo_Fragment = {
+  __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_InstitutionToCaseStudiesConnectionPageInfo_Fragment = {
+  __typename?: 'InstitutionToCaseStudiesConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_InstitutionToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'InstitutionToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_MediaBankToMediaBankConnectionPageInfo_Fragment = {
+  __typename?: 'MediaBankToMediaBankConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_MediaItemToCommentConnectionPageInfo_Fragment = {
+  __typename?: 'MediaItemToCommentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_MemberToMemberConnectionPageInfo_Fragment = {
+  __typename?: 'MemberToMemberConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_MenuItemToMenuItemConnectionPageInfo_Fragment = {
+  __typename?: 'MenuItemToMenuItemConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_MenuToMenuItemConnectionPageInfo_Fragment = {
+  __typename?: 'MenuToMenuItemConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_NewsToCategoryNewsConnectionPageInfo_Fragment = {
+  __typename?: 'NewsToCategoryNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_NewsToNewsConnectionPageInfo_Fragment = {
+  __typename?: 'NewsToNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_NewsToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'NewsToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PageToCommentConnectionPageInfo_Fragment = {
+  __typename?: 'PageToCommentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PageToRevisionConnectionPageInfo_Fragment = {
+  __typename?: 'PageToRevisionConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostFormatToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'PostFormatToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostFormatToPostConnectionPageInfo_Fragment = {
+  __typename?: 'PostFormatToPostConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostToCategoryConnectionPageInfo_Fragment = {
+  __typename?: 'PostToCategoryConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostToCommentConnectionPageInfo_Fragment = {
+  __typename?: 'PostToCommentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostToPostConnectionPageInfo_Fragment = {
+  __typename?: 'PostToPostConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostToPostFormatConnectionPageInfo_Fragment = {
+  __typename?: 'PostToPostFormatConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostToRevisionConnectionPageInfo_Fragment = {
+  __typename?: 'PostToRevisionConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostToTagConnectionPageInfo_Fragment = {
+  __typename?: 'PostToTagConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PostToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'PostToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment = {
+  __typename?: 'ResearchAreaToResearchAreaConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToAnimalConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToAnimalConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToCaseStudiesConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToCaseStudiesConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToCategoryConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToCategoryConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToCategoryNewsConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToCategoryNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToCommentConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToCommentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToContentTypeConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToContentTypeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToDiseasesConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToDiseasesConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToEnqueuedScriptConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToEnqueuedScriptConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToEnqueuedStylesheetConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToEnqueuedStylesheetConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToEventsConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToEventsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToGraphqlDocumentGroupConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToGraphqlDocumentGroupConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToInstitutionConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToInstitutionConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToMediaBankConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToMediaBankConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToMediaItemConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToMediaItemConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToMemberConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToMemberConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToMenuConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToMenuConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToMenuItemConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToMenuItemConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToNewsConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToPageConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToPageConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToPluginConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToPluginConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToPostConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToPostConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToPostFormatConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToPostFormatConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToResearchAreaConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToResearchAreaConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToRevisionsConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToRevisionsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToTagConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToTagConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToTaxonomyConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToTaxonomyConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToTeamConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToTeamConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToThemeConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToThemeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToUserConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToUserConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToUserRoleConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToUserRoleConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TagToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'TagToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TagToPostConnectionPageInfo_Fragment = {
+  __typename?: 'TagToPostConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TaxonomyToContentTypeConnectionPageInfo_Fragment = {
+  __typename?: 'TaxonomyToContentTypeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TaxonomyToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'TaxonomyToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TeamToTeamConnectionPageInfo_Fragment = {
+  __typename?: 'TeamToTeamConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TermNodeToEnqueuedScriptConnectionPageInfo_Fragment = {
+  __typename?: 'TermNodeToEnqueuedScriptConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TermNodeToEnqueuedStylesheetConnectionPageInfo_Fragment = {
+  __typename?: 'TermNodeToEnqueuedStylesheetConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToAnimalConnectionPageInfo_Fragment = {
+  __typename?: 'UserToAnimalConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToCaseStudiesConnectionPageInfo_Fragment = {
+  __typename?: 'UserToCaseStudiesConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToCommentConnectionPageInfo_Fragment = {
+  __typename?: 'UserToCommentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToDiseasesConnectionPageInfo_Fragment = {
+  __typename?: 'UserToDiseasesConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToEnqueuedScriptConnectionPageInfo_Fragment = {
+  __typename?: 'UserToEnqueuedScriptConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToEnqueuedStylesheetConnectionPageInfo_Fragment = {
+  __typename?: 'UserToEnqueuedStylesheetConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToEventsConnectionPageInfo_Fragment = {
+  __typename?: 'UserToEventsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToMediaBankConnectionPageInfo_Fragment = {
+  __typename?: 'UserToMediaBankConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToMediaItemConnectionPageInfo_Fragment = {
+  __typename?: 'UserToMediaItemConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToMemberConnectionPageInfo_Fragment = {
+  __typename?: 'UserToMemberConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToNewsConnectionPageInfo_Fragment = {
+  __typename?: 'UserToNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToPageConnectionPageInfo_Fragment = {
+  __typename?: 'UserToPageConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToPostConnectionPageInfo_Fragment = {
+  __typename?: 'UserToPostConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToRevisionsConnectionPageInfo_Fragment = {
+  __typename?: 'UserToRevisionsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_UserToUserRoleConnectionPageInfo_Fragment = {
+  __typename?: 'UserToUserRoleConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+export type PageInfoFragment =
+  | PageInfo_AcfContentNodeConnectionPageInfo_Fragment
+  | PageInfo_AcfTermNodeConnectionPageInfo_Fragment
+  | PageInfo_AnimalToAnimalConnectionPageInfo_Fragment
+  | PageInfo_CaseStudiesToCaseStudiesConnectionPageInfo_Fragment
+  | PageInfo_CaseStudiesToInstitutionConnectionPageInfo_Fragment
+  | PageInfo_CaseStudiesToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_CategoryNewsToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_CategoryNewsToNewsConnectionPageInfo_Fragment
+  | PageInfo_CategoryToAncestorsCategoryConnectionPageInfo_Fragment
+  | PageInfo_CategoryToCategoryConnectionPageInfo_Fragment
+  | PageInfo_CategoryToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_CategoryToPostConnectionPageInfo_Fragment
+  | PageInfo_CommentToCommentConnectionPageInfo_Fragment
+  | PageInfo_ContentNodeToEnqueuedScriptConnectionPageInfo_Fragment
+  | PageInfo_ContentNodeToEnqueuedStylesheetConnectionPageInfo_Fragment
+  | PageInfo_ContentTypeToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_ContentTypeToTaxonomyConnectionPageInfo_Fragment
+  | PageInfo_DiseasesToDiseasesConnectionPageInfo_Fragment
+  | PageInfo_EventsToEventsConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentGroupToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentToGraphqlDocumentConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_HierarchicalContentNodeToContentNodeAncestorsConnectionPageInfo_Fragment
+  | PageInfo_HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo_Fragment
+  | PageInfo_InstitutionToCaseStudiesConnectionPageInfo_Fragment
+  | PageInfo_InstitutionToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_MediaBankToMediaBankConnectionPageInfo_Fragment
+  | PageInfo_MediaItemToCommentConnectionPageInfo_Fragment
+  | PageInfo_MemberToMemberConnectionPageInfo_Fragment
+  | PageInfo_MenuItemToMenuItemConnectionPageInfo_Fragment
+  | PageInfo_MenuToMenuItemConnectionPageInfo_Fragment
+  | PageInfo_NewsToCategoryNewsConnectionPageInfo_Fragment
+  | PageInfo_NewsToNewsConnectionPageInfo_Fragment
+  | PageInfo_NewsToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_PageToCommentConnectionPageInfo_Fragment
+  | PageInfo_PageToRevisionConnectionPageInfo_Fragment
+  | PageInfo_PostFormatToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_PostFormatToPostConnectionPageInfo_Fragment
+  | PageInfo_PostToCategoryConnectionPageInfo_Fragment
+  | PageInfo_PostToCommentConnectionPageInfo_Fragment
+  | PageInfo_PostToPostConnectionPageInfo_Fragment
+  | PageInfo_PostToPostFormatConnectionPageInfo_Fragment
+  | PageInfo_PostToRevisionConnectionPageInfo_Fragment
+  | PageInfo_PostToTagConnectionPageInfo_Fragment
+  | PageInfo_PostToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToAnimalConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToCaseStudiesConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToCategoryConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToCategoryNewsConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToCommentConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToContentTypeConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToDiseasesConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToEnqueuedScriptConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToEnqueuedStylesheetConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToEventsConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToGraphqlDocumentConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToGraphqlDocumentGroupConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToInstitutionConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToMediaBankConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToMediaItemConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToMemberConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToMenuConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToMenuItemConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToNewsConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToPageConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToPluginConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToPostConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToPostFormatConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToResearchAreaConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToRevisionsConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToTagConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToTaxonomyConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToTeamConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToThemeConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToUserConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToUserRoleConnectionPageInfo_Fragment
+  | PageInfo_TagToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_TagToPostConnectionPageInfo_Fragment
+  | PageInfo_TaxonomyToContentTypeConnectionPageInfo_Fragment
+  | PageInfo_TaxonomyToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_TeamToTeamConnectionPageInfo_Fragment
+  | PageInfo_TermNodeToEnqueuedScriptConnectionPageInfo_Fragment
+  | PageInfo_TermNodeToEnqueuedStylesheetConnectionPageInfo_Fragment
+  | PageInfo_UserToAnimalConnectionPageInfo_Fragment
+  | PageInfo_UserToCaseStudiesConnectionPageInfo_Fragment
+  | PageInfo_UserToCommentConnectionPageInfo_Fragment
+  | PageInfo_UserToDiseasesConnectionPageInfo_Fragment
+  | PageInfo_UserToEnqueuedScriptConnectionPageInfo_Fragment
+  | PageInfo_UserToEnqueuedStylesheetConnectionPageInfo_Fragment
+  | PageInfo_UserToEventsConnectionPageInfo_Fragment
+  | PageInfo_UserToMediaBankConnectionPageInfo_Fragment
+  | PageInfo_UserToMediaItemConnectionPageInfo_Fragment
+  | PageInfo_UserToMemberConnectionPageInfo_Fragment
+  | PageInfo_UserToNewsConnectionPageInfo_Fragment
+  | PageInfo_UserToPageConnectionPageInfo_Fragment
+  | PageInfo_UserToPostConnectionPageInfo_Fragment
+  | PageInfo_UserToRevisionsConnectionPageInfo_Fragment
+  | PageInfo_UserToUserRoleConnectionPageInfo_Fragment
+
 export type GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuGeral_MenuGeral =
   { __typename?: 'MenuGeral'; menuTextColor?: string | null }
 
@@ -1209,6 +2138,22 @@ export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudi
     node: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User
   }
 
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution_acfTaxonomyInstitution_AcfTaxonomyInstitution =
+  { __typename?: 'AcfTaxonomyInstitution'; website?: string | null }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution =
+  {
+    __typename?: 'Institution'
+    name?: string | null
+    acfTaxonomyInstitution?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution_acfTaxonomyInstitution_AcfTaxonomyInstitution | null
+  }
+
+export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_institution_CaseStudiesToInstitutionConnection =
+  {
+    __typename?: 'CaseStudiesToInstitutionConnection'
+    nodes: Array<GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution>
+  }
+
 export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
   { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
 
@@ -1236,9 +2181,11 @@ export type GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudi
     title?: string | null
     blocks?: any | null
     date?: string | null
+    uri?: string | null
     slug?: string | null
     content?: string | null
     author?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_author_NodeWithAuthorToUserConnectionEdge | null
+    institution?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_institution_CaseStudiesToInstitutionConnection | null
     seo?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_seo_PostTypeSEO | null
     featuredImage?: GetAllCaseStudiesQuery_RootQuery_allCaseStudies_RootQueryToCaseStudiesConnection_nodes_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
   }
@@ -1259,6 +2206,7 @@ export type GetAllCaseStudiesQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  institution?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetAllCaseStudiesQuery = GetAllCaseStudiesQuery_RootQuery
@@ -1466,6 +2414,25 @@ export const MenuItemFieldsFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<MenuItemFieldsFragment, unknown>
+export const PageInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PageInfo' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PageInfoFragment, unknown>
 export const GetAllAnimalsPagedDocument = {
   kind: 'Document',
   definitions: [
@@ -3752,6 +4719,11 @@ export const GetAllCaseStudiesDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'institution' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -3780,6 +4752,20 @@ export const GetAllCaseStudiesDocument = {
                 name: { kind: 'Name', value: 'last' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'institution' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'institution' } },
+                    },
+                  ],
+                },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
@@ -3807,6 +4793,7 @@ export const GetAllCaseStudiesDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'author' },
@@ -3823,6 +4810,35 @@ export const GetAllCaseStudiesDocument = {
                                   { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'nicename' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'institution' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'acfTaxonomyInstitution' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },

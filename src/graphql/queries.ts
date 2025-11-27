@@ -156,6 +156,14 @@ export const MenuItemFieldsFragment = gql`
     }
   }
 `
+export const PageInfoFragment = gql`
+  fragment PageInfo on PageInfo {
+    endCursor
+    startCursor
+    hasNextPage
+    hasPreviousPage
+  }
+`
 export const GetMenu = gql`
   ${MenuItemFieldsFragment}
   query GetMenu {
@@ -613,8 +621,20 @@ export const GetMediasBank = gql`
   }
 `
 export const GetAllCaseStudies = gql`
-  query GetAllCaseStudies($first: Int, $after: String, $before: String, $last: Int) {
-    allCaseStudies(first: $first, after: $after, before: $before, last: $last) {
+  query GetAllCaseStudies(
+    $first: Int
+    $after: String
+    $before: String
+    $last: Int
+    $institution: String
+  ) {
+    allCaseStudies(
+      first: $first
+      after: $after
+      before: $before
+      last: $last
+      where: { institution: $institution }
+    ) {
       pageInfo {
         endCursor
         startCursor
@@ -626,12 +646,21 @@ export const GetAllCaseStudies = gql`
         title
         blocks
         date
+        uri
         author {
           node {
             name
             firstName
             lastName
             nicename
+          }
+        }
+        institution {
+          nodes {
+            name
+            acfTaxonomyInstitution {
+              website
+            }
           }
         }
         slug

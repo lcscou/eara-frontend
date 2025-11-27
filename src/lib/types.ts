@@ -246,3 +246,14 @@ export interface TeamCardProps {
   uri?: string | null
   country?: string | null
 }
+
+export interface CaseStudiesCardProps {
+  title?: string | null
+  institution?: {
+    name: string | null
+    website?: string | null
+  }
+  uri?: string | null
+  featuredImage?: string | null
+  description?: string | null
+}

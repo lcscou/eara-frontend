@@ -23,7 +23,6 @@ export default function ArchiveEventsTemplate() {
 
   const hasNextPage = data?.allEvents?.pageInfo?.hasNextPage
   const endCursor = data?.allEvents?.pageInfo?.endCursor
-
   // Filter events based on category and location
   const filteredEvents = useMemo(() => {
     let filtered = data?.allEvents?.nodes ?? []

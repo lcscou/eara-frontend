@@ -31,6 +31,7 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { GetMediasBankDocument, GetMediasBankQuery } from '@/graphql/generated/graphql'
 export default function ArchiveMediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
+
   // const searchParams = useSearchParams()
   // const media = searchParams.get('media')
   const media = null
