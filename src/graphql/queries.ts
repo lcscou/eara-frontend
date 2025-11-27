@@ -736,7 +736,7 @@ export const GetAllTickers = gql`
         acfTicker {
           message
           order
-          recorrence
+          recurrence
           link {
             label
             uri

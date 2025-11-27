@@ -101,6 +101,7 @@ export interface TickerProps {
   messages: Array<{
     id: string
     text: string
+    displayFrequency?: 'every-day' | 'once-a-week' | 'once-a-month' | null // default: 1 (mostra todas as mensagens)
     link?: string
     linkLabel?: string // default: 'KNOW MORE'
     target?: '_self' | '_blank' // default: '_self'

@@ -2365,7 +2365,7 @@ export type GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nod
     __typename?: 'AcfTicker'
     message?: string | null
     order?: number | null
-    recorrence?: Array<string | null> | null
+    recurrence?: Array<string | null> | null
     link?: GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nodes_Ticker_acfTicker_AcfTicker_link_AcfTickerLink | null
   }
 
@@ -5225,7 +5225,7 @@ export const GetAllTickersDocument = {
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: 'message' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'order' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'recorrence' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'recurrence' } },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'link' },

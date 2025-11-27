@@ -8,12 +8,15 @@ import InfoButton from '@/components/ui/InfoButton/InfoButton'
 
 import Section from '@/components/ui/Section/Section'
 import Ticker from '@/components/ui/Ticker'
+import { useTicker } from '@/hooks/useTicker'
 import { Carousel } from '@mantine/carousel'
 import { Container, Grid, Group, List, Text, Title } from '@mantine/core'
 import { IconCircleCheck, IconNotebook } from '@tabler/icons-react'
 import Image from 'next/image'
 
 export default function Home() {
+  const { tickers } = useTicker()
+  console.log(tickers)
   return (
     <>
       <HeroSlide>
@@ -317,27 +320,9 @@ export default function Home() {
           </div>
         </div>
       </Section>
+
       <Ticker
-        messages={[
-          {
-            id: '1',
-            text: 'EARA conference will happen on 24 November 2025. Join our upcoming webinar on ethical research practices. Join our upcoming webinar on ethical research practices!!',
-            link: '/events/eara-conference-2025',
-            linkLabel: 'KNOW MORE',
-          },
-          {
-            id: '2',
-            text: 'Pill can print healing gel in rabbits’ gut',
-            link: '/news/pill-can-print-healing-gel-in-rabbits-gut',
-            linkLabel: 'READ MORE',
-          },
-          {
-            id: '3',
-            text: 'Join our upcoming webinar on ethical research practices',
-            link: '/events/evento-teste',
-            linkLabel: 'REGISTER',
-          },
-        ]}
+        messages={tickers ?? []}
         className=""
         bgColor="secondary"
         textColor="dark"
