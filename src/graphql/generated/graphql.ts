@@ -2211,6 +2211,22 @@ export type GetAllCaseStudiesQueryVariables = Exact<{
 
 export type GetAllCaseStudiesQuery = GetAllCaseStudiesQuery_RootQuery
 
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution_acfTaxonomyInstitution_AcfTaxonomyInstitution =
+  { __typename?: 'AcfTaxonomyInstitution'; website?: string | null }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution =
+  {
+    __typename?: 'Institution'
+    name?: string | null
+    acfTaxonomyInstitution?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution_acfTaxonomyInstitution_AcfTaxonomyInstitution | null
+  }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection =
+  {
+    __typename?: 'CaseStudiesToInstitutionConnection'
+    nodes: Array<GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution>
+  }
+
 export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
     __typename?: 'User'
@@ -2253,6 +2269,7 @@ export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies = {
   date?: string | null
   slug?: string | null
   content?: string | null
+  institution?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection | null
   author?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge | null
   seo?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_seo_PostTypeSEO | null
   featuredImage?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
@@ -4946,6 +4963,35 @@ export const GetCaseStudiesDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'institution' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'acfTaxonomyInstitution' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'author' },

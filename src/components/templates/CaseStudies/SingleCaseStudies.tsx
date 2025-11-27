@@ -14,7 +14,32 @@ export default function SingleCaseStudies({ data }: { data: GetCaseStudiesQuery 
         featuredImage={data.caseStudies?.featuredImage?.node.guid}
         date={data.caseStudies?.date}
         readingTime={data.caseStudies?.seo?.readingTime}
-        author={`${data.caseStudies?.author?.node.firstName} ${data.caseStudies?.author?.node.lastName}`}
+        // author={`${data.caseStudies?.author?.node.firstName} ${data.caseStudies?.author?.node.lastName}`}
+        {...(data.caseStudies?.institution?.nodes && data.caseStudies?.institution?.nodes.length > 0
+          ? {
+              aditionalInfoTable: [
+                {
+                  label: 'Institution',
+                  value: data.caseStudies?.institution?.nodes?.[0]?.name || '',
+                },
+                {
+                  label: 'Website',
+                  value: (
+                    <Link
+                      href={
+                        data.caseStudies?.institution?.nodes?.[0]?.acfTaxonomyInstitution
+                          ?.website || ''
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {data.caseStudies?.institution?.nodes?.[0]?.acfTaxonomyInstitution?.website}
+                    </Link>
+                  ),
+                },
+              ],
+            }
+          : {})}
       />
       <Container size="lg" className="my-20">
         <div className="mb-5 flex justify-end">

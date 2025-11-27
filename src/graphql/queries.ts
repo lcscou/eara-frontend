@@ -691,6 +691,14 @@ export const GetCaseStudies = gql`
       title
       blocks
       date
+      institution {
+        nodes {
+          name
+          acfTaxonomyInstitution {
+            website
+          }
+        }
+      }
       author {
         node {
           name

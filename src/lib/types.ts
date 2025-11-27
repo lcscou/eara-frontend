@@ -18,6 +18,10 @@ export interface PageTitleBarProps {
   featuredImage?: string | null
   location?: string | null
   backgroundTitle?: boolean
+  aditionalInfoTable?: {
+    label?: string | null
+    value?: string | ReactElement | null
+  }[]
 }
 export interface HeroProps {
   content: ReactElement

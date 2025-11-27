@@ -32,6 +32,7 @@ function PageTitleBarComponent({
   author,
   backgroundTitle,
   location,
+  aditionalInfoTable,
 }: PageTitleBarProps) {
   const dateText = useMemo(() => {
     if (!eventStartDate) return null
@@ -58,6 +59,18 @@ function PageTitleBarComponent({
     </table>
   )
 
+  const AditionalInforTable = aditionalInfoTable?.length ? (
+    <table className="mt-5">
+      <tbody>
+        {aditionalInfoTable.map((info) => (
+          <InfoRow key={info.label} label={info.label || ''}>
+            {info.value}
+          </InfoRow>
+        ))}
+      </tbody>
+    </table>
+  ) : null
+
   const newsIngoTable = (
     <table className="mt-5">
       <tbody>{author && <InfoRow label="Author">{author}</InfoRow>}</tbody>
@@ -81,6 +94,7 @@ function PageTitleBarComponent({
               <Title order={2}>{title}</Title>
               {EventinfoTable}
               {newsIngoTable}
+              {AditionalInforTable}
             </div>
           </>
         ) : (
@@ -95,6 +109,7 @@ function PageTitleBarComponent({
               </Title>
               {EventinfoTable}
               {newsIngoTable}
+              {AditionalInforTable}
             </div>
           </Container>
         )}
