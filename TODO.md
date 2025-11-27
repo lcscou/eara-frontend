@@ -6,3 +6,5 @@
 
 - Em case studies o card não faz sentido que o card tenha uma description e o nome da instituion?
 - Em team não deveria haver role, linkedin links?
+- Em team teremos algum filtro?
+-

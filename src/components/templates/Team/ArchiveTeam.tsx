@@ -13,7 +13,7 @@ export default function ArchiveTeam() {
   const { data, fetchMore } = useSuspenseQuery(GetAllTeamDocument, {
     variables: { first: PAGE_SIZE },
   })
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
+
   const [loadingMore, setLoadingMore] = useState(false)
 
   const hasNextPage = data?.allTeams?.pageInfo?.hasNextPage
@@ -57,17 +57,16 @@ export default function ArchiveTeam() {
   return (
     <>
       <Container size="xl" my={100}>
-        {data?.allTeams?.nodes?.length === 0 && (
-          <ResultNotFound resetFilters={() => setSelectedCountry(null)} />
-        )}
+        {data?.allTeams?.nodes?.length === 0 && <ResultNotFound />}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {data?.allTeams?.nodes?.map((member) => (
-            <div key={member?.id}>
+          {data?.allTeams?.nodes?.map((team) => (
+            <div key={team?.id}>
               <TeamCard
-                id={member.id}
-                title={member.title}
-                featuredImage={member.featuredImage?.node.guid}
-                uri={member.slug}
+                id={team.id}
+                title={team.title}
+                featuredImage={team.featuredImage?.node.guid}
+                role={team.roles?.nodes[0].name}
+                uri={team.uri}
               />
             </div>
           ))}

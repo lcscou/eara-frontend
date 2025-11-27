@@ -1,30 +1,31 @@
 'use client'
 
-import { GetMembersQuery } from '@/graphql/generated/graphql'
+import { GetTeamQuery } from '@/graphql/generated/graphql'
 import { Button, Container } from '@mantine/core'
 import { IconArrowLeft } from '@tabler/icons-react'
 import Link from 'next/link'
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 
-export default function SingleMembers({ data }: { data: GetMembersQuery }) {
+export default function SingleMembers({ data }: { data: GetTeamQuery }) {
   return (
     <>
       <PageTitleBar
-        title={data.member?.title || undefined}
-        featuredImage={data.member?.featuredImage?.node.guid}
-        date={data.member?.date}
-        readingTime={data.member?.seo?.readingTime}
-        author={`${data.member?.author?.node.firstName} ${data.member?.author?.node.lastName}`}
+        title={data.team?.title || undefined}
+        featuredImage={data.team?.featuredImage?.node.guid}
+        date={data.team?.date}
+        {...(data.team?.roles?.nodes[0].name
+          ? { aditionalInfoTable: [{ label: 'Role', value: data.team?.roles?.nodes[0].name }] }
+          : {})}
       />
       <Container size="lg" className="my-20">
         <div className="mb-5 flex justify-end">
-          <Link href="/members">
+          <Link href="/team">
             <Button variant="subtle" leftSection={<IconArrowLeft size={16} />}>
-              Back to members list
+              Back to team list
             </Button>
           </Link>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: data.member?.content || '' }}></div>
+        <div dangerouslySetInnerHTML={{ __html: data.team?.content || '' }}></div>
       </Container>
     </>
   )

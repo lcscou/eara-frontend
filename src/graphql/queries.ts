@@ -727,6 +727,25 @@ export const GetCaseStudies = gql`
     }
   }
 `
+export const GetAllTickers = gql`
+  query GetAllTickers {
+    tickers {
+      nodes {
+        id
+        title
+        acfTicker {
+          message
+          order
+          recorrence
+          link {
+            label
+            uri
+          }
+        }
+      }
+    }
+  }
+`
 export const GetTeam = gql`
   query GetTeam($id: ID!) {
     team(id: $id, idType: URI) {
@@ -741,6 +760,11 @@ export const GetTeam = gql`
         breadcrumbs {
           text
           url
+        }
+      }
+      roles {
+        nodes {
+          name
         }
       }
       content
@@ -766,6 +790,12 @@ export const GetAllTeam = gql`
       }
       nodes {
         id
+        uri
+        roles {
+          nodes {
+            name
+          }
+        }
         title
         blocks
         date

@@ -4,13 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from './TeamCard.module.css'
 
-export default function TeamCard({
-  title,
-  featuredImage,
-  description,
-  uri,
-  country,
-}: TeamCardProps) {
+export default function TeamCard({ title, featuredImage, description, uri, role }: TeamCardProps) {
   const alt = title ? `${title} photo` : 'Animal photo'
 
   const CardContent = (
@@ -29,6 +23,11 @@ export default function TeamCard({
         <Title order={5} c="primaryColor.9" mb={15}>
           {title ?? 'Untitled'}
         </Title>
+        {role && (
+          <Title order={6} fz={16} opacity={0.6} mb={10}>
+            {role}
+          </Title>
+        )}
       </div>
     </div>
   )

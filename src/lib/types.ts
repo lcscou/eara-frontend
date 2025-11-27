@@ -248,7 +248,7 @@ export interface TeamCardProps {
   featuredImage?: string | null
   description?: string | null
   uri?: string | null
-  country?: string | null
+  role?: string | null
 }
 
 export interface CaseStudiesCardProps {

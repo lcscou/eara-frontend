@@ -1,5 +1,5 @@
-import SingleMembers from '@/components/templates/Members/SingleMembers'
-import { GetMembersDocument, GetMembersQuery } from '@/graphql/generated/graphql'
+import SingleTeam from '@/components/templates/Team/SingleTeam'
+import { GetTeamDocument, GetTeamQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -7,20 +7,20 @@ import { cache } from 'react'
 type MemberProps = {
   params: { uri: string[] }
 }
-const getMemberData = cache(async (uri: string[]): Promise<GetMembersQuery> => {
+const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
   const client = getClient()
-  const { data } = await client.query<GetMembersQuery>({
-    query: GetMembersDocument,
+  const { data } = await client.query<GetTeamQuery>({
+    query: GetTeamDocument,
     variables: { id: uri.join('') },
   })
   if (!data) notFound()
   return data
 })
 export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
-  const data = await getMemberData(params.uri)
-  if (!data?.member) notFound()
-  const title = `Eara | Members - ${data.member.title || data.member.title}`
-  const description = data.member.seo?.opengraphDescription || ''
+  const data = await getTeamData(params.uri)
+  if (!data?.team) notFound()
+  const title = `Eara | Members - ${data.team.title || data.team.title}`
+  const description = data.team.seo?.opengraphDescription || ''
 
   return {
     title,
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: MemberProps): Promise<Metadat
   }
 }
 export default async function Member({ params }: MemberProps) {
-  const data = await getMemberData(params.uri)
-  if (!data?.member) notFound()
-  return <SingleMembers data={data} />
+  const data = await getTeamData(params.uri)
+  if (!data?.team) notFound()
+  return <SingleTeam data={data} />
 }

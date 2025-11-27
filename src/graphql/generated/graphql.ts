@@ -697,6 +697,22 @@ type PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_RoleToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'RoleToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RoleToTeamConnectionPageInfo_Fragment = {
+  __typename?: 'RoleToTeamConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_RootQueryToAnimalConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToAnimalConnectionPageInfo'
   endCursor?: string | null
@@ -905,6 +921,14 @@ type PageInfo_RootQueryToRevisionsConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_RootQueryToRoleConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToRoleConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_RootQueryToTagConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToTagConnectionPageInfo'
   endCursor?: string | null
@@ -939,6 +963,14 @@ type PageInfo_RootQueryToTermNodeConnectionPageInfo_Fragment = {
 
 type PageInfo_RootQueryToThemeConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToThemeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToTickerConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToTickerConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -993,8 +1025,24 @@ type PageInfo_TaxonomyToTermNodeConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_TeamToRoleConnectionPageInfo_Fragment = {
+  __typename?: 'TeamToRoleConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_TeamToTeamConnectionPageInfo_Fragment = {
   __typename?: 'TeamToTeamConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TeamToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'TeamToTermNodeConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -1011,6 +1059,14 @@ type PageInfo_TermNodeToEnqueuedScriptConnectionPageInfo_Fragment = {
 
 type PageInfo_TermNodeToEnqueuedStylesheetConnectionPageInfo_Fragment = {
   __typename?: 'TermNodeToEnqueuedStylesheetConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TickerToTickerConnectionPageInfo_Fragment = {
+  __typename?: 'TickerToTickerConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -1186,6 +1242,8 @@ export type PageInfoFragment =
   | PageInfo_PostToTagConnectionPageInfo_Fragment
   | PageInfo_PostToTermNodeConnectionPageInfo_Fragment
   | PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment
+  | PageInfo_RoleToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_RoleToTeamConnectionPageInfo_Fragment
   | PageInfo_RootQueryToAnimalConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCaseStudiesConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCategoryConnectionPageInfo_Fragment
@@ -1212,20 +1270,25 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToPostFormatConnectionPageInfo_Fragment
   | PageInfo_RootQueryToResearchAreaConnectionPageInfo_Fragment
   | PageInfo_RootQueryToRevisionsConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToRoleConnectionPageInfo_Fragment
   | PageInfo_RootQueryToTagConnectionPageInfo_Fragment
   | PageInfo_RootQueryToTaxonomyConnectionPageInfo_Fragment
   | PageInfo_RootQueryToTeamConnectionPageInfo_Fragment
   | PageInfo_RootQueryToTermNodeConnectionPageInfo_Fragment
   | PageInfo_RootQueryToThemeConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToTickerConnectionPageInfo_Fragment
   | PageInfo_RootQueryToUserConnectionPageInfo_Fragment
   | PageInfo_RootQueryToUserRoleConnectionPageInfo_Fragment
   | PageInfo_TagToContentNodeConnectionPageInfo_Fragment
   | PageInfo_TagToPostConnectionPageInfo_Fragment
   | PageInfo_TaxonomyToContentTypeConnectionPageInfo_Fragment
   | PageInfo_TaxonomyToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_TeamToRoleConnectionPageInfo_Fragment
   | PageInfo_TeamToTeamConnectionPageInfo_Fragment
+  | PageInfo_TeamToTermNodeConnectionPageInfo_Fragment
   | PageInfo_TermNodeToEnqueuedScriptConnectionPageInfo_Fragment
   | PageInfo_TermNodeToEnqueuedStylesheetConnectionPageInfo_Fragment
+  | PageInfo_TickerToTickerConnectionPageInfo_Fragment
   | PageInfo_UserToAnimalConnectionPageInfo_Fragment
   | PageInfo_UserToCaseStudiesConnectionPageInfo_Fragment
   | PageInfo_UserToCommentConnectionPageInfo_Fragment
@@ -1466,6 +1529,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Team =
   { __typename?: 'Team'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Ticker =
+  { __typename?: 'Ticker'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes =
 
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal
@@ -1481,6 +1547,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Post
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Team
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Ticker
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection =
   {
@@ -1527,6 +1594,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Team =
   { __typename?: 'Team'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Ticker =
+  { __typename?: 'Ticker'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes =
 
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Animal
@@ -1542,6 +1612,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Post
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Team
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Ticker
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection =
   {
@@ -2286,6 +2357,39 @@ export type GetCaseStudiesQueryVariables = Exact<{
 
 export type GetCaseStudiesQuery = GetCaseStudiesQuery_RootQuery
 
+export type GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nodes_Ticker_acfTicker_AcfTicker_link_AcfTickerLink =
+  { __typename?: 'AcfTickerLink'; label?: string | null; uri?: string | null }
+
+export type GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nodes_Ticker_acfTicker_AcfTicker =
+  {
+    __typename?: 'AcfTicker'
+    message?: string | null
+    order?: number | null
+    recorrence?: Array<string | null> | null
+    link?: GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nodes_Ticker_acfTicker_AcfTicker_link_AcfTickerLink | null
+  }
+
+export type GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nodes_Ticker = {
+  __typename?: 'Ticker'
+  id: string
+  title?: string | null
+  acfTicker?: GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nodes_Ticker_acfTicker_AcfTicker | null
+}
+
+export type GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection = {
+  __typename?: 'RootQueryToTickerConnection'
+  nodes: Array<GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection_nodes_Ticker>
+}
+
+export type GetAllTickersQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  tickers?: GetAllTickersQuery_RootQuery_tickers_RootQueryToTickerConnection | null
+}
+
+export type GetAllTickersQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllTickersQuery = GetAllTickersQuery_RootQuery
+
 export type GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs = {
   __typename?: 'SEOPostTypeBreadcrumbs'
   text?: string | null
@@ -2297,6 +2401,16 @@ export type GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO = {
   readingTime?: number | null
   opengraphDescription?: string | null
   breadcrumbs?: Array<GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+}
+
+export type GetTeamQuery_RootQuery_team_Team_roles_TeamToRoleConnection_nodes_Role = {
+  __typename?: 'Role'
+  name?: string | null
+}
+
+export type GetTeamQuery_RootQuery_team_Team_roles_TeamToRoleConnection = {
+  __typename?: 'TeamToRoleConnection'
+  nodes: Array<GetTeamQuery_RootQuery_team_Team_roles_TeamToRoleConnection_nodes_Role>
 }
 
 export type GetTeamQuery_RootQuery_team_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
@@ -2317,6 +2431,7 @@ export type GetTeamQuery_RootQuery_team_Team = {
   slug?: string | null
   content?: string | null
   seo?: GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO | null
+  roles?: GetTeamQuery_RootQuery_team_Team_roles_TeamToRoleConnection | null
   featuredImage?: GetTeamQuery_RootQuery_team_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
 
@@ -2338,6 +2453,15 @@ export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_pageInf
     startCursor?: string | null
     hasNextPage: boolean
     hasPreviousPage: boolean
+  }
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_roles_TeamToRoleConnection_nodes_Role =
+  { __typename?: 'Role'; name?: string | null }
+
+export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_roles_TeamToRoleConnection =
+  {
+    __typename?: 'TeamToRoleConnection'
+    nodes: Array<GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_roles_TeamToRoleConnection_nodes_Role>
   }
 
 export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
@@ -2363,11 +2487,13 @@ export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_T
 export type GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team = {
   __typename?: 'Team'
   id: string
+  uri?: string | null
   title?: string | null
   blocks?: any | null
   date?: string | null
   slug?: string | null
   content?: string | null
+  roles?: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_roles_TeamToRoleConnection | null
   seo?: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_seo_PostTypeSEO | null
   featuredImage?: GetAllTeamQuery_RootQuery_allTeams_RootQueryToTeamConnection_nodes_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -5067,6 +5193,64 @@ export const GetCaseStudiesDocument = {
     },
   ],
 } as unknown as DocumentNode<GetCaseStudiesQuery, GetCaseStudiesQueryVariables>
+export const GetAllTickersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllTickers' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tickers' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'acfTicker' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'order' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'recorrence' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'link' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllTickersQuery, GetAllTickersQueryVariables>
 export const GetTeamDocument = {
   kind: 'Document',
   definitions: [
@@ -5127,6 +5311,23 @@ export const GetTeamDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'text' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'url' } },
                           ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'roles' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
                         },
                       },
                     ],
@@ -5242,6 +5443,26 @@ export const GetAllTeamDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'roles' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'date' } },
