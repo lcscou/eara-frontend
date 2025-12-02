@@ -1,6 +1,7 @@
 import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { Container, Group, MantineSize, Text, Title } from '@mantine/core'
+import parse from 'html-react-parser'
 import Image from 'next/image'
 import { ReactNode } from 'react'
 
@@ -139,43 +140,36 @@ function renderBlock(block: Block, index: number): ReactNode {
         | { elements?: { link?: { color?: { text?: string } } } }
         | undefined
 
-      // Extrair cor do texto se existir
       const color = textColor || style?.elements?.link?.color?.text
 
       return (
-        <Title
-          key={index}
-          order={level as 1 | 2 | 3 | 4 | 5 | 6}
-          c={color}
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
+        <Title key={index} order={level as 1 | 2 | 3 | 4 | 5 | 6} c={color}>
+          {parse(content)}
+        </Title>
       )
     }
 
     // Core Paragraph
     case 'core/paragraph': {
-      const content = attributes.content || ''
-      const textColor = attributes.textColor
-      const fontSize = attributes.fontSize
+      const content = (attributes.content as string) || ''
+      const textColor = attributes.textColor as string | undefined
+      const fontSize = attributes.fontSize as string | undefined
 
       return (
-        <Text
-          key={index}
-          c={textColor as string}
-          size={fontSize as string}
-          dangerouslySetInnerHTML={{ __html: content as string }}
-        />
+        <Text key={index} c={textColor} size={fontSize}>
+          {parse(content)}
+        </Text>
       )
     }
 
     // Core List
     case 'core/list': {
       const ordered = attributes.ordered || false
-      const values = attributes.values || ''
+      const values = (attributes.values as string) || ''
 
       const ListTag = ordered ? 'ol' : 'ul'
 
-      return <ListTag key={index} dangerouslySetInnerHTML={{ __html: values as string }} />
+      return <ListTag key={index}>{parse(values)}</ListTag>
     }
 
     // Core Image
@@ -212,9 +206,9 @@ function renderBlock(block: Block, index: number): ReactNode {
         )
       }
 
-      // Se tiver conteúdo HTML, renderiza
+      // Se tiver conteúdo HTML, renderiza com parse
       if (attributes.content) {
-        return <div key={index} dangerouslySetInnerHTML={{ __html: attributes.content }} />
+        return <div key={index}>{parse(attributes.content as string)}</div>
       }
 
       return null
