@@ -1,17 +1,29 @@
-import { cache } from 'react'
+import SingleAnimals from '@/components/templates/SingleAnimals'
 import { GetAnimalDocument, GetAnimalQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
-import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import SingleAnimals from '@/components/templates/SingleAnimals'
+import { notFound } from 'next/navigation'
+import { cache } from 'react'
+
+// ISR: Revalidar a cada 1 hora
+export const revalidate = 3600
+
 type AnimalProps = {
   params: { uri: string[] }
 }
-const getAnimalData = cache(async (uri: string[]):Promise<GetAnimalQuery> => {
+const getAnimalData = cache(async (uri: string[]): Promise<GetAnimalQuery> => {
   const client = getClient()
   const { data } = await client.query<GetAnimalQuery>({
     query: GetAnimalDocument,
     variables: { id: uri.join('') },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 3600,
+          tags: ['animals', `animal-${uri.join('')}`],
+        },
+      },
+    },
   })
   if (!data) notFound()
   return data
@@ -28,7 +40,6 @@ export async function generateMetadata({ params }: AnimalProps): Promise<Metadat
     openGraph: {
       title,
       description,
-
     },
   }
 }

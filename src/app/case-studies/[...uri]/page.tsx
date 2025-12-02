@@ -4,6 +4,10 @@ import { getClient } from '@/lib/apollo-client'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
+
+// ISR: Revalidar a cada 1 hora
+export const revalidate = 3600
+
 type CaseStudiesProps = {
   params: { uri: string[] }
 }
@@ -12,6 +16,14 @@ const getCaseStudies = cache(async (uri: string[]): Promise<GetCaseStudiesQuery>
   const { data } = await client.query<GetCaseStudiesQuery>({
     query: GetCaseStudiesDocument,
     variables: { id: uri.join('') },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 3600,
+          tags: ['case-studies', `case-study-${uri.join('')}`],
+        },
+      },
+    },
   })
   if (!data) notFound()
   return data

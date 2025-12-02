@@ -1,9 +1,13 @@
-import { cache } from 'react'
+import SingleNews from '@/components/templates/News/SingleNews'
 import { GetNewsDocument, GetNewsQuery } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
-import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import SingleNews from '@/components/templates/News/SingleNews'
+import { notFound } from 'next/navigation'
+import { cache } from 'react'
+
+// ISR: Revalidar a cada 30 minutos
+export const revalidate = 1800
+
 type NewsProps = {
   params: { uri: string[] }
 }
@@ -12,6 +16,14 @@ const getNewsData = cache(async (uri: string[]): Promise<GetNewsQuery> => {
   const { data } = await client.query<GetNewsQuery>({
     query: GetNewsDocument,
     variables: { id: uri.join('') },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 1800,
+          tags: ['news', `news-${uri.join('')}`],
+        },
+      },
+    },
   })
   if (!data) notFound()
   return data
@@ -28,7 +40,6 @@ export async function generateMetadata({ params }: NewsProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-
     },
   }
 }

@@ -4,6 +4,10 @@ import { getClient } from '@/lib/apollo-client'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
+
+// ISR: Revalidar a cada 30 minutos
+export const revalidate = 1800
+
 type EventProps = {
   params: { uri: string[] }
 }
@@ -12,6 +16,14 @@ const getEventData = cache(async (uri: string[]): Promise<GetEventsQuery> => {
   const { data } = await client.query<GetEventsQuery>({
     query: GetEventsDocument,
     variables: { id: uri.join('') },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 1800,
+          tags: ['events', `event-${uri.join('')}`],
+        },
+      },
+    },
   })
   if (!data) notFound()
   return data
