@@ -29,7 +29,12 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${hankenGrotesk.variable} antialiased`}>
         <ApolloWrapper>
-          <PreloadQuery errorPolicy="ignore" fetchPolicy="cache-first" query={GetMenuDocument}>
+          <PreloadQuery
+            errorPolicy="ignore"
+            fetchPolicy="cache-first"
+            query={GetMenuDocument}
+            context={{ fetchOptions: { next: { tags: ['menus'] } } }}
+          >
             <MantineProvider>
               {children}
               <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">

@@ -5,7 +5,16 @@ import { query } from '@/lib/apollo-client'
 import { Suspense } from 'react'
 
 export default async function Template({ children }: { children: React.ReactNode }) {
-  const data = await query({ query: GetMenuDocument })
+  const data = await query({
+    query: GetMenuDocument,
+    context: {
+      fetchOptions: {
+        next: {
+          tags: ['menus'],
+        },
+      },
+    },
+  })
 
   if (data.error) return
 
