@@ -320,15 +320,16 @@ export default function Home() {
           </div>
         </div>
       </Section>
-
-      <Ticker
-        messages={tickers ?? []}
-        className=""
-        bgColor="secondary"
-        textColor="dark"
-        position="fixed-bottom"
-        dismissible={true}
-      />
+      {tickers && tickers.length > 0 && (
+        <Ticker
+          messages={tickers ?? []}
+          className=""
+          bgColor="secondary"
+          textColor="dark"
+          position="fixed-bottom"
+          dismissible={true}
+        />
+      )}
     </>
   )
 }
