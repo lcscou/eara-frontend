@@ -66,6 +66,18 @@ export async function POST(request: NextRequest) {
           revalidateTag('pages')
           console.log('Revalidated pages')
           break
+
+        case 'menu':
+        case 'menus':
+          revalidateTag('menus')
+          console.log('Revalidated menus')
+          break
+
+        case 'ticker':
+        case 'tickers':
+          revalidateTag('tickers')
+          console.log('Revalidated tickers')
+          break
       }
     }
 
