@@ -21,6 +21,7 @@ export default function Header() {
       fetchOptions: {
         next: {
           tags: ['menus'],
+
           revalidate: 0,
         },
       },

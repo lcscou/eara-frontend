@@ -37,6 +37,11 @@ const cache = new InMemoryCache({
             return incoming
           },
         },
+        menus: {
+          merge(existing) {
+            return existing
+          },
+        },
         allEvents: {
           keyArgs: ['where'],
           merge(existing, incoming, { args }) {
