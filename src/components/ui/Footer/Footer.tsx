@@ -15,7 +15,16 @@ import {
 } from '@tabler/icons-react'
 
 export default function Footer({}: FooterProps) {
-  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, { fetchPolicy: 'cache-first' })
+  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, {
+    fetchPolicy: 'cache-first',
+    context: {
+      fetchOptions: {
+        next: {
+          tags: ['menus'],
+        },
+      },
+    },
+  })
   const MAIN_FOOTER = data.menus?.nodes?.filter((menu) =>
     menu?.locations?.find((loc) => loc == 'MAIN_FOOTER')
   )[0]

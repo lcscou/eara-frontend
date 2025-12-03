@@ -15,7 +15,16 @@ import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { MouseEvent, MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from 'react'
 export default function Header() {
-  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, { fetchPolicy: 'cache-first' })
+  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, {
+    fetchPolicy: 'cache-first',
+    context: {
+      fetchOptions: {
+        next: {
+          tags: ['menus'],
+        },
+      },
+    },
+  })
   const isMobile = useMediaQuery('(min-width: 1300px)')
   gsap.registerPlugin(useGSAP, SplitText)
   const [opened, { toggle, close }] = useDisclosure()
