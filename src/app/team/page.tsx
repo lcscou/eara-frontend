@@ -4,7 +4,7 @@ import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 export default function Team() {
   return (
     <>
-      <PageTitleBar title="EARA Members" subtitle="members" />
+      <PageTitleBar title="Team & Board" subtitle="ABOUT EARA" />
       <main>
         <ArchiveTeam />
       </main>
