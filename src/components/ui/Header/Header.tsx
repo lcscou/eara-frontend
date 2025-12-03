@@ -16,7 +16,7 @@ import { SplitText } from 'gsap/SplitText'
 import { MouseEvent, MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from 'react'
 export default function Header() {
   const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, {
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'network-only',
     context: {
       fetchOptions: {
         next: {
