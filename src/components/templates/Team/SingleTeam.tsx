@@ -13,7 +13,7 @@ export default function SingleMembers({ data }: { data: GetTeamQuery }) {
         title={data.team?.title || undefined}
         featuredImage={data.team?.featuredImage?.node.guid}
         date={data.team?.date}
-        {...(data.team?.roles?.nodes[0].name
+        {...(data.team?.roles?.nodes[0]?.name
           ? { aditionalInfoTable: [{ label: 'Role', value: data.team?.roles?.nodes[0].name }] }
           : {})}
       />
