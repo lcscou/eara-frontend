@@ -12,6 +12,14 @@ const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
   const { data } = await client.query<GetPageQuery>({
     query: GetPageDocument,
     variables: { id: uri.join('/') },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 0,
+          tags: ['pages', `pages-${uri.join('')}`],
+        },
+      },
+    },
   })
   if (!data) notFound()
   return data

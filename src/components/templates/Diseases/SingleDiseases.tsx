@@ -1,6 +1,7 @@
 'use client'
 
 import { GetDiseasesQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
 import { Button, Container } from '@mantine/core'
 import { IconArrowLeft } from '@tabler/icons-react'
 import Link from 'next/link'
@@ -25,7 +26,7 @@ export default function SingleDiseases({ data }: { data: GetDiseasesQuery }) {
           </Link>
         </div>
       </Container>
-      <div dangerouslySetInnerHTML={{ __html: data.diseases?.content || '' }}></div>
+      <div>{renderPageBlocks(data.diseases?.blocks)}</div>
     </>
   )
 }

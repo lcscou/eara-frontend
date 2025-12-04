@@ -1,6 +1,9 @@
+import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import { Container, Group, MantineSize, Text, Title } from '@mantine/core'
+import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
+import Section from '@/components/ui/Section/Section'
+import { Container, Group, MantineSize, Text, TextProps, Title } from '@mantine/core'
 import parse from 'html-react-parser'
 import Image from 'next/image'
 import { ReactNode } from 'react'
@@ -16,7 +19,72 @@ export interface Block {
   innerBlocks?: Block[]
 }
 
-// Mapeamento de tamanhos do Container
+// Mapeamento de presets de spacing do WordPress para valores CSS
+const spacingPresets: Record<string, string> = {
+  '20': '0.5rem', // 8px
+  '30': '0.75rem', // 12px
+  '40': '1rem', // 16px
+  '50': '1.5rem', // 24px
+  '60': '2rem', // 32px
+  '70': '2.5rem', // 40px
+  '80': '3rem', // 48px
+  '90': '3.5rem', // 56px
+}
+
+// Mapeamento de cores do WordPress para valores CSS
+const colorPresets: Record<string, string> = {
+  primary: '#0066cc',
+  secondary: '#ff6600',
+  white: '#ffff',
+  accent: '#00cc66',
+}
+
+/**
+ * Trata valores CSS customizados do WordPress
+ * Exemplos:
+ * - 'var:preset|spacing|40' -> '1rem'
+ * - 'var:preset|color|primary' -> '#0066cc'
+ * - '1rem' -> '1rem'
+ */
+function resolveWordPressValue(value: unknown): string | undefined {
+  if (!value || typeof value !== 'string') return undefined
+
+  // Se for um preset customizado do WordPress
+  if (value.includes('var:preset')) {
+    const parts = value.split('|')
+    if (parts.length === 3) {
+      const preset = parts[1]
+      const key = parts[2]
+
+      if (preset === 'spacing') {
+        return spacingPresets[key] || undefined
+      }
+      if (preset === 'color') {
+        return colorPresets[key] || undefined
+      }
+    }
+    return undefined
+  }
+
+  // Se for um valor CSS válido direto
+  if (value.match(/^[\d.]+(?:px|rem|em|%|vh|vw)$/)) {
+    return value
+  }
+
+  return undefined
+}
+
+/**
+ * Trata valores de cor com suporte a presets do WordPress
+ */
+function parseColor(value: unknown): string | undefined {
+  if (!value || typeof value !== 'string') return undefined
+
+  const resolved = resolveWordPressValue(value)
+  return resolved || (value.startsWith('#') ? value : undefined)
+}
+
+// Mapeamento de presets de spacing do Container
 const containerSizeMap: Record<string, MantineSize> = {
   xs: 'xs',
   sm: 'sm',
@@ -24,7 +92,6 @@ const containerSizeMap: Record<string, MantineSize> = {
   lg: 'lg',
   xl: 'xl',
 }
-
 // Mapeamento de justify para Group
 const justifyMap: Record<string, string> = {
   start: 'flex-start',
@@ -34,7 +101,6 @@ const justifyMap: Record<string, string> = {
   'space-around': 'space-around',
   'space-evenly': 'space-evenly',
 }
-
 // Mapeamento de align para Group
 const alignMap: Record<string, string> = {
   start: 'flex-start',
@@ -43,7 +109,6 @@ const alignMap: Record<string, string> = {
   stretch: 'stretch',
   baseline: 'baseline',
 }
-
 // Mapeamento de gap para Group
 const gapMap: Record<string, MantineSize> = {
   xs: 'xs',
@@ -52,25 +117,21 @@ const gapMap: Record<string, MantineSize> = {
   lg: 'lg',
   xl: 'xl',
 }
-
 // Função para renderizar blocos individuais
 function renderBlock(block: Block, index: number): ReactNode {
   const { name, attributes = {}, innerBlocks = [] } = block
-
   switch (name) {
     // Container personalizado
     case 'eara/container': {
       const size = containerSizeMap[attributes.size as string] || 'md'
       const px = attributes.px ? Number(attributes.px) : undefined
       const py = attributes.py ? Number(attributes.py) : undefined
-
       return (
         <Container key={index} size={size} px={px} py={py}>
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Container>
       )
     }
-
     // Accordion Container
     case 'eara/accordion-container': {
       const items = innerBlocks
@@ -84,10 +145,8 @@ function renderBlock(block: Block, index: number): ReactNode {
             </div>
           ),
         }))
-
       return <Accordion key={index} items={items} />
     }
-
     // Group (flexbox)
     case 'eara/group': {
       const justify = justifyMap[attributes.justify as string] || 'flex-start'
@@ -96,7 +155,6 @@ function renderBlock(block: Block, index: number): ReactNode {
       const grow = attributes.grow === true
       const wrap = attributes.wrap === 'wrap' ? 'wrap' : 'nowrap'
       const className = (attributes.className as string) || ''
-
       return (
         <Group
           key={index}
@@ -111,7 +169,6 @@ function renderBlock(block: Block, index: number): ReactNode {
         </Group>
       )
     }
-
     // Button personalizado
     case 'eara/button': {
       const label = (attributes.label as string) || 'Button'
@@ -119,34 +176,67 @@ function renderBlock(block: Block, index: number): ReactNode {
         (attributes.variant as 'filled' | 'outline' | 'link' | 'with-arrow') || 'filled'
       const size = (attributes.size as string) || 'md'
       const href = attributes.href as string | undefined
-
+      const className = attributes?.className as string | undefined
+      const width = attributes?.width as string | undefined
       return (
         <ButtonEara
           key={index}
           label={label}
+          w={width}
+          className={className}
           variant={variant}
           size={size}
           onClick={href ? () => (window.location.href = href) : undefined}
         />
       )
     }
-
     // Core Heading
     case 'core/heading': {
       const level = (attributes.level as number) || 2
       const content = (attributes.content as string) || ''
       const textColor = attributes.textColor as string | undefined
+      const textAlign = attributes.textAlign as TextProps['ta'] | undefined
       const style = attributes.style as
-        | { elements?: { link?: { color?: { text?: string } } } }
+        | {
+            typography?: { fontSize?: string }
+            elements?: { link?: { color?: { text?: string } } }
+          }
         | undefined
-
-      const color = textColor || style?.elements?.link?.color?.text
-
+      const styleColor = style?.elements?.link?.color?.text
+      const color = parseColor(textColor) || parseColor(styleColor) || undefined
+      const fontSize = style?.typography?.fontSize
       return (
-        <Title key={index} order={level as 1 | 2 | 3 | 4 | 5 | 6} c={color}>
+        <Title
+          key={index}
+          order={level as 1 | 2 | 3 | 4 | 5 | 6}
+          c={color}
+          fz={fontSize}
+          ta={textAlign}
+        >
           {parse(content)}
         </Title>
       )
+    }
+    case 'eara/section': {
+      const title = (attributes.title as string) || ''
+      const subtitle = (attributes.subtitle as string) || ''
+      const containerSize = containerSizeMap[attributes.containerSize as string] || 'lg'
+      const className = (attributes.className as string) || ''
+      return (
+        <Section
+          key={index}
+          title={title}
+          subtitle={subtitle}
+          containerSize={containerSize}
+          className={className}
+        >
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </Section>
+      )
+    }
+
+    case 'eara/latest-news': {
+      return <FeaturedNews key={index} withSectionWrapper={false} />
     }
 
     // Core Paragraph
@@ -154,33 +244,67 @@ function renderBlock(block: Block, index: number): ReactNode {
       const content = (attributes.content as string) || ''
       const textColor = attributes.textColor as string | undefined
       const fontSize = attributes.fontSize as string | undefined
-
+      const style = attributes.style as
+        | {
+            spacing?: {
+              padding?: { bottom?: string; top?: string; left?: string; right?: string }
+              margin?: { bottom?: string; top?: string; left?: string; right?: string }
+            }
+            typography?: { fontSize?: string }
+            elements?: { link?: { color?: { text?: string } } }
+          }
+        | undefined
+      const color =
+        parseColor(textColor) || parseColor(style?.elements?.link?.color?.text) || undefined
+      const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+      const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+      const textAlign = attributes.textAlign as TextProps['ta'] | undefined
       return (
-        <Text key={index} c={textColor} size={fontSize}>
+        <Text
+          key={index}
+          c={color}
+          size={fontSize}
+          ta={textAlign}
+          pb={paddingBottom}
+          pt={paddingTop}
+          mb={marginBottom}
+        >
           {parse(content)}
         </Text>
       )
     }
-
     // Core List
     case 'core/list': {
       const ordered = attributes.ordered || false
       const values = (attributes.values as string) || ''
-
       const ListTag = ordered ? 'ol' : 'ul'
-
       return <ListTag key={index}>{parse(values)}</ListTag>
     }
-
+    // Hero Carousel
+    case 'eara/hero-carousel': {
+      return (
+        <HeroSlideRoot key={index}>
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </HeroSlideRoot>
+      )
+    }
+    // Hero Slide
+    case 'eara/hero-slide': {
+      const backgroundImage = attributes.backgroundImageDesktop as { url: string } | undefined
+      return (
+        <HeroSlideItem bgImageSrc={backgroundImage?.url} key={index}>
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </HeroSlideItem>
+      )
+    }
     // Core Image
     case 'core/image': {
       const url = (attributes.url || attributes.src) as string
       const alt = (attributes.alt || '') as string
       const width = attributes.width as number
       const height = attributes.height as number
-
       if (!url) return null
-
       return (
         <Image
           key={index}
@@ -192,11 +316,9 @@ function renderBlock(block: Block, index: number): ReactNode {
         />
       )
     }
-
     // Bloco desconhecido - renderiza HTML bruto ou aviso
     default: {
       console.warn(`Block type "${name}" not implemented yet`)
-
       // Se tiver innerBlocks, tenta renderizá-los
       if (innerBlocks.length > 0) {
         return (
@@ -205,30 +327,24 @@ function renderBlock(block: Block, index: number): ReactNode {
           </div>
         )
       }
-
       // Se tiver conteúdo HTML, renderiza com parse
       if (attributes.content) {
         return <div key={index}>{parse(attributes.content as string)}</div>
       }
-
       return null
     }
   }
 }
-
 // Função principal para renderizar array de blocos
 export function renderBlocks(blocks: Block[]): ReactNode {
   if (!blocks || blocks.length === 0) {
     return null
   }
-
   return blocks.map((block, index) => renderBlock(block, index))
 }
-
 // Função helper para renderizar blocos de uma página
 export function renderPageBlocks(blocks: string | Block[] | null | undefined): ReactNode {
   if (!blocks) return null
-
   // Se vier como string JSON, faz parse
   if (typeof blocks === 'string') {
     try {
@@ -239,7 +355,6 @@ export function renderPageBlocks(blocks: string | Block[] | null | undefined): R
       return null
     }
   }
-
   // Se já for array, renderiza direto
   return renderBlocks(blocks)
 }

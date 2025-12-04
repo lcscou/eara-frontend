@@ -42,6 +42,16 @@ const cache = new InMemoryCache({
             return existing
           },
         },
+        page: {
+          merge(existing) {
+            return existing
+          },
+        },
+        diseases: {
+          merge(existing) {
+            return existing
+          },
+        },
         allEvents: {
           keyArgs: ['where'],
           merge(existing, incoming, { args }) {

@@ -136,7 +136,7 @@ export interface SectionProps extends React.PropsWithChildren {
   className?: string
   noTitle?: boolean
   py?: string
-  variant?: 'default' | 'news-grid' | 'cards-grid' | 'featured-grid'
+  // variant?: 'default' | 'news-grid' | 'cards-grid' | 'featured-grid'
   containerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none'
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
