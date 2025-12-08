@@ -2,7 +2,6 @@
 import FeaturedEvents from '@/components/sections/FeaturedEvents/FeaturedEvents'
 import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import Card from '@/components/ui/Card/Card'
 import HeroSlide from '@/components/ui/Hero/Hero'
 import InfoButton from '@/components/ui/InfoButton/InfoButton'
 
@@ -10,8 +9,8 @@ import Section from '@/components/ui/Section/Section'
 import Ticker from '@/components/ui/Ticker'
 import { useTicker } from '@/hooks/useTicker'
 import { Carousel } from '@mantine/carousel'
-import { Container, Grid, Group, List, Text, Title } from '@mantine/core'
-import { IconCircleCheck, IconNotebook } from '@tabler/icons-react'
+import { Container, Group, List, Text, Title } from '@mantine/core'
+import { IconCircleCheck } from '@tabler/icons-react'
 import Image from 'next/image'
 
 export default function Home() {
@@ -55,7 +54,7 @@ export default function Home() {
       {/* Seção de Notícias */}
       <FeaturedNews />
       <FeaturedEvents />
-
+      {/* 
       <Section title="Our Three Pillars" subtitle="About">
         <Grid>
           <Grid.Col span={{ sm: 12, md: 4 }}>
@@ -92,7 +91,7 @@ export default function Home() {
             />
           </Grid.Col>
         </Grid>
-      </Section>
+      </Section> */}
 
       <Section noTitle py="30px">
         <div className="grid gap-5 sm:grid-cols-2">
@@ -208,7 +207,7 @@ export default function Home() {
         <Carousel slideSize="22%" slideGap={20} emblaOptions={{ align: 'center', loop: true }}>
           {Array.from({ length: 6 }, (_, i) => i).map((_, i) => (
             <Carousel.Slide key={i} className="py-10">
-              <Card
+              {/* <Card
                 title="For the Public"
                 variant="vertical"
                 bgColor="white"
@@ -230,7 +229,7 @@ export default function Home() {
                   },
                 ]}
                 description="Explore accessible resources that explain the role of animals in research, ethical considerations, and how animal welfare is ensured."
-              />
+              /> */}
             </Carousel.Slide>
           ))}
         </Carousel>

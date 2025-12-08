@@ -2,12 +2,15 @@ import FeaturedEvents from '@/components/sections/FeaturedEvents/FeaturedEvents'
 import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import Card from '@/components/ui/Card/Card'
+
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import Section from '@/components/ui/Section/Section'
 import { Box, Container, Group, MantineSize, Text, TextProps, Title } from '@mantine/core'
 import parse from 'html-react-parser'
 import Image from 'next/image'
 import { ReactNode } from 'react'
+import { CardProps } from './types'
 
 // Types para os blocos
 export interface BlockAttribute {
@@ -202,17 +205,26 @@ function renderBlock(block: Block, index: number): ReactNode {
         | {
             typography?: { fontSize?: string }
             elements?: { link?: { color?: { text?: string } } }
+            spacing?: {
+              padding?: { bottom?: string; top?: string; left?: string; right?: string }
+              margin?: { bottom?: string; top?: string; left?: string; right?: string }
+            }
           }
         | undefined
       const styleColor = style?.elements?.link?.color?.text
       const color = parseColor(textColor) || parseColor(styleColor) || undefined
       const fontSize = style?.typography?.fontSize
+      const margin = style?.spacing?.margin
       return (
         <Title
           key={index}
           order={level as 1 | 2 | 3 | 4 | 5 | 6}
           c={color}
           fz={fontSize}
+          mt={resolveWordPressValue(margin?.top)}
+          mb={resolveWordPressValue(margin?.bottom)}
+          ml={resolveWordPressValue(margin?.left)}
+          mr={resolveWordPressValue(margin?.right)}
           ta={textAlign}
         >
           {parse(content)}
@@ -224,6 +236,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       const subtitle = (attributes.subtitle as string) || ''
       const containerSize = containerSizeMap[attributes.containerSize as string] || 'lg'
       const className = (attributes.className as string) || ''
+      const backgroundColor = (attributes.backgroundColor as string) || undefined
       return (
         <Section
           key={index}
@@ -231,6 +244,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           subtitle={subtitle}
           containerSize={containerSize}
           className={className}
+          style={{ backgroundColor: backgroundColor }}
         >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Section>
@@ -245,10 +259,43 @@ function renderBlock(block: Block, index: number): ReactNode {
       return <FeaturedEvents key={index} withSectionWrapper={false} />
     }
 
+    case 'eara/card': {
+      const className = (attributes.className as string) || ''
+      const featuredImage = attributes.featuredImage as { url: string } | undefined
+      const title = (attributes.title as string) || ''
+      const link = (attributes.uri as string) || ''
+      const variant = (attributes.variant as CardProps['variant']) || 'layout-1'
+      return (
+        <Card
+          id={index.toString()}
+          key={index}
+          variant={variant}
+          uri={link}
+          className={className}
+          featuredImage={featuredImage?.url || ''}
+          title={title}
+        >
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </Card>
+      )
+    }
+
     case 'eara/box': {
       const className = (attributes.className as string) || ''
+      const backgroundColor = attributes.backgroundColor as string | undefined
+      const padding = attributes.padding as string | undefined
+      const margin = attributes.margin as string | undefined
+      const borderRadius = attributes.borderRadius as string | undefined
+      // const href = attributes.href as string | undefined
       return (
-        <Box key={index} className={className}>
+        <Box
+          key={index}
+          className={className}
+          bg={backgroundColor}
+          p={padding}
+          bdrs="lg"
+          m={margin}
+        >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Box>
       )

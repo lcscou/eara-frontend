@@ -28,35 +28,42 @@ export interface HeroProps {
   bgImageSrc?: string
   bgImageSrcMobile?: string
 }
-export interface CardProps {
-  id?: string
-  variant?: 'vertical' | 'horizontal'
-  textAlign?: 'left' | 'center'
+// export interface CardProps {
+//   id?: string
+//   variant?: 'vertical' | 'horizontal'
+//   textAlign?: 'left' | 'center'
+//   title: string
+//   description: string
+//   date?: string
+//   image?: string
+//   imagePosition?: 'left' | 'right'
+//   icon?: ReactElement
+//   avatar?: string
+//   avatarSize?: 'small' | 'large'
+//   links?: Array<{
+//     label: string
+//     href: string
+//     variant?: 'default' | 'arrow'
+//   }>
+//   button?: {
+//     label: string
+//     href?: string
+//     target?: HTMLAttributeAnchorTarget
+//     onClick?: () => void
+//     variant?: 'filled' | 'outline' | 'anchor-text'
+//   }
+//   bgColor?: 'light' | 'dark' | 'white'
+//   className?: string
+//   withBorder?: boolean
+//   shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+//   radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+// }
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
-  description: string
-  date?: string
-  image?: string
-  imagePosition?: 'left' | 'right'
-  icon?: ReactElement
-  avatar?: string
-  avatarSize?: 'small' | 'large'
-  links?: Array<{
-    label: string
-    href: string
-    variant?: 'default' | 'arrow'
-  }>
-  button?: {
-    label: string
-    href?: string
-    target?: HTMLAttributeAnchorTarget
-    onClick?: () => void
-    variant?: 'filled' | 'outline' | 'anchor-text'
-  }
-  bgColor?: 'light' | 'dark' | 'white'
-  className?: string
-  withBorder?: boolean
-  shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  radius?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  variant?: 'layout-1' | 'layout-2'
+  featuredImage?: string
+  description?: string
+  uri?: string
 }
 export interface QuoteProps {
   texto: string
@@ -129,13 +136,14 @@ export interface TickerProps {
 export interface FooterProps {
   id?: string
 }
-export interface SectionProps extends React.PropsWithChildren {
+export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   title?: string
   description?: string
   subtitle?: string
   className?: string
   noTitle?: boolean
   py?: string
+
   // variant?: 'default' | 'news-grid' | 'cards-grid' | 'featured-grid'
   containerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none'
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -243,12 +251,13 @@ export interface ResultNotFoundProps {
   resetFilters?: () => void
 }
 
-export interface TeamCardProps {
+export interface TeamCardProps extends React.PropsWithChildren {
   id: string
   title?: string | null
   featuredImage?: string | null
   description?: string | null
   uri?: string | null
+  className?: string
   role?: string | null
 }
 
