@@ -7,7 +7,7 @@ export default function Section({
   subtitle,
   className,
   description,
-  py = '80px',
+  // py = '80px',
   noTitle = false,
   containerSize = 'lg',
   // variant = 'default',

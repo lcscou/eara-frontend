@@ -10,7 +10,11 @@ import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
 import { EmblaCarouselType } from 'embla-carousel'
 import { useState } from 'react'
 
-export default function FeaturedEvents() {
+export default function FeaturedEvents({
+  withSectionWrapper = true,
+}: {
+  withSectionWrapper?: boolean
+}) {
   const [embla, setEmbla] = useState<EmblaCarouselType | null>(null)
   const { data } = useQuery(GetAllEventsDocument, {
     variables: { first: 6 },
@@ -19,13 +23,9 @@ export default function FeaturedEvents() {
   if (!data) {
     return null
   }
-  return (
-    <Section
-      title="EARA Events"
-      subtitle="Events"
-      containerSize="none"
-      className="bg-earaGrayLight relative"
-    >
+
+  const content = (
+    <>
       <Group className="absolute top-40 right-20 sm:top-25">
         <ActionIcon variant="light" radius={80} aria-label="Settings">
           <IconArrowLeft onClick={() => embla?.scrollPrev()} />
@@ -50,7 +50,6 @@ export default function FeaturedEvents() {
           dragFree: false,
           align: 'center',
         }}
-        // slideGap={20}
       >
         {data.allEvents?.nodes.map((event) => {
           return (
@@ -67,6 +66,21 @@ export default function FeaturedEvents() {
           )
         })}
       </Carousel>
+    </>
+  )
+
+  if (!withSectionWrapper) {
+    return content
+  }
+
+  return (
+    <Section
+      title="EARA Events"
+      subtitle="Events"
+      containerSize="none"
+      className="bg-earaGrayLight relative"
+    >
+      {content}
     </Section>
   )
 }

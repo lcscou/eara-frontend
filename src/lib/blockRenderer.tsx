@@ -1,9 +1,10 @@
+import FeaturedEvents from '@/components/sections/FeaturedEvents/FeaturedEvents'
 import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import Section from '@/components/ui/Section/Section'
-import { Container, Group, MantineSize, Text, TextProps, Title } from '@mantine/core'
+import { Box, Container, Group, MantineSize, Text, TextProps, Title } from '@mantine/core'
 import parse from 'html-react-parser'
 import Image from 'next/image'
 import { ReactNode } from 'react'
@@ -85,11 +86,12 @@ function parseColor(value: unknown): string | undefined {
 }
 
 // Mapeamento de presets de spacing do Container
-const containerSizeMap: Record<string, MantineSize> = {
+const containerSizeMap: Record<string, MantineSize | 'none'> = {
   xs: 'xs',
   sm: 'sm',
   md: 'md',
   lg: 'lg',
+  none: 'none',
   xl: 'xl',
 }
 // Mapeamento de justify para Group
@@ -237,6 +239,19 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/latest-news': {
       return <FeaturedNews key={index} withSectionWrapper={false} />
+    }
+
+    case 'eara/latest-events': {
+      return <FeaturedEvents key={index} withSectionWrapper={false} />
+    }
+
+    case 'eara/box': {
+      const className = (attributes.className as string) || ''
+      return (
+        <Box key={index} className={className}>
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </Box>
+      )
     }
 
     // Core Paragraph
