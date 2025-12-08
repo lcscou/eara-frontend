@@ -243,7 +243,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           title={title}
           subtitle={subtitle}
           containerSize={containerSize}
-          className={className}
+          className="relative"
           style={{ backgroundColor: backgroundColor }}
         >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
