@@ -69,6 +69,8 @@ function OfficeCard({
         {office.title}
       </Title>
       <Text dangerouslySetInnerHTML={{ __html: office.acfOffices?.address || '' }} />
+      <Text>{office.acfOffices?.email}</Text>
+      <Text>{office.acfOffices?.tel}</Text>
     </button>
   )
 }
