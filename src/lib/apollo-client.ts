@@ -47,6 +47,11 @@ const cache = new InMemoryCache({
             return existing
           },
         },
+        offices: {
+          merge(existing) {
+            return existing
+          },
+        },
         diseases: {
           merge(existing) {
             return existing
