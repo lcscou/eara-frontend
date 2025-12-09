@@ -601,6 +601,14 @@ type PageInfo_NewsToTermNodeConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_OfficeToOfficeConnectionPageInfo_Fragment = {
+  __typename?: 'OfficeToOfficeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_PageToCommentConnectionPageInfo_Fragment = {
   __typename?: 'PageToCommentConnectionPageInfo'
   endCursor?: string | null
@@ -867,6 +875,14 @@ type PageInfo_RootQueryToMenuItemConnectionPageInfo_Fragment = {
 
 type PageInfo_RootQueryToNewsConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToOfficeConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToOfficeConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -1230,6 +1246,7 @@ export type PageInfoFragment =
   | PageInfo_NewsToCategoryNewsConnectionPageInfo_Fragment
   | PageInfo_NewsToNewsConnectionPageInfo_Fragment
   | PageInfo_NewsToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_OfficeToOfficeConnectionPageInfo_Fragment
   | PageInfo_PageToCommentConnectionPageInfo_Fragment
   | PageInfo_PageToRevisionConnectionPageInfo_Fragment
   | PageInfo_PostFormatToContentNodeConnectionPageInfo_Fragment
@@ -1264,6 +1281,7 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToMenuConnectionPageInfo_Fragment
   | PageInfo_RootQueryToMenuItemConnectionPageInfo_Fragment
   | PageInfo_RootQueryToNewsConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToOfficeConnectionPageInfo_Fragment
   | PageInfo_RootQueryToPageConnectionPageInfo_Fragment
   | PageInfo_RootQueryToPluginConnectionPageInfo_Fragment
   | PageInfo_RootQueryToPostConnectionPageInfo_Fragment
@@ -1517,6 +1535,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_News =
   { __typename?: 'News'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Office =
+  { __typename?: 'Office'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Page =
   { __typename?: 'Page'; id: string; slug?: string | null }
 
@@ -1543,6 +1564,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaItem
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Member
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_News
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Office
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Page
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Post
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea
@@ -1582,6 +1604,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_News =
   { __typename?: 'News'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Office =
+  { __typename?: 'Office'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Page =
   { __typename?: 'Page'; id: string; slug?: string | null }
 
@@ -1608,6 +1633,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaItem
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Member
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_News
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Office
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Page
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Post
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea
@@ -1813,6 +1839,62 @@ export type GetAllEventsQueryVariables = Exact<{
 }>
 
 export type GetAllEventsQuery = GetAllEventsQuery_RootQuery
+
+export type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_pageInfo_RootQueryToOfficeConnectionPageInfo =
+  {
+    __typename?: 'RootQueryToOfficeConnectionPageInfo'
+    endCursor?: string | null
+    startCursor?: string | null
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
+
+export type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office_acfOffices_AcfOffices =
+  {
+    __typename?: 'AcfOffices'
+    address?: string | null
+    email?: string | null
+    googleMaps?: string | null
+    tel?: string | null
+  }
+
+export type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null }
+
+export type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office = {
+  __typename?: 'Office'
+  id: string
+  title?: string | null
+  uri?: string | null
+  acfOffices?: GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office_acfOffices_AcfOffices | null
+  featuredImage?: GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+}
+
+export type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection = {
+  __typename?: 'RootQueryToOfficeConnection'
+  pageInfo: GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_pageInfo_RootQueryToOfficeConnectionPageInfo
+  nodes: Array<GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office>
+}
+
+export type GetAllOfficesQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  offices?: GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection | null
+}
+
+export type GetAllOfficesQueryVariables = Exact<{
+  last?: InputMaybe<Scalars['Int']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type GetAllOfficesQuery = GetAllOfficesQuery_RootQuery
 
 export type GetDiseasesQuery_RootQuery_diseases_Diseases_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
@@ -4013,6 +4095,131 @@ export const GetAllEventsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllEventsQuery, GetAllEventsQueryVariables>
+export const GetAllOfficesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllOffices' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'offices' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'acfOffices' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'googleMaps' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'tel' } },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'featuredImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllOfficesQuery, GetAllOfficesQueryVariables>
 export const GetDiseasesDocument = {
   kind: 'Document',
   definitions: [

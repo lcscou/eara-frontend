@@ -61,41 +61,41 @@ export const GetPage = gql`
     }
   }
 `
-export const GetPageByURI = gql`
-  query GetPage($uri: ID = "") {
-    page(uri: $uri, idType: URI) {
-      id
-      title
-      blocks
-      date
-      author {
-        node {
-          name
-          firstName
-          lastName
-          nicename
-        }
-      }
-      slug
-      seo {
-        readingTime
-        opengraphDescription
-        breadcrumbs {
-          text
-          url
-        }
-      }
-      content
-      featuredImage {
-        node {
-          guid
-          altText
-          title
-        }
-      }
-    }
-  }
-`
+// export const GetPageByURI = gql`
+//   query GetPage($uri: ID = "") {
+//     page(uri: $uri, idType: URI) {
+//       id
+//       title
+//       blocks
+//       date
+//       author {
+//         node {
+//           name
+//           firstName
+//           lastName
+//           nicename
+//         }
+//       }
+//       slug
+//       seo {
+//         readingTime
+//         opengraphDescription
+//         breadcrumbs {
+//           text
+//           url
+//         }
+//       }
+//       content
+//       featuredImage {
+//         node {
+//           guid
+//           altText
+//           title
+//         }
+//       }
+//     }
+//   }
+// `
 export const GetAnimal = gql`
   query GetAnimal($id: ID = "") {
     animal(id: $id, idType: URI) {
@@ -412,6 +412,35 @@ export const GetAllEvents = gql`
           endDate
           category
           description
+        }
+        featuredImage {
+          node {
+            guid
+          }
+        }
+      }
+    }
+  }
+`
+
+export const GetAllOffices = gql`
+  query GetAllOffices($last: Int, $first: Int, $before: String, $after: String) {
+    offices(last: $last, first: $first, after: $before, before: $after) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      nodes {
+        id
+        title
+        uri
+        acfOffices {
+          address
+          email
+          googleMaps
+          tel
         }
         featuredImage {
           node {

@@ -235,7 +235,6 @@ function renderBlock(block: Block, index: number): ReactNode {
       const title = (attributes.title as string) || ''
       const subtitle = (attributes.subtitle as string) || ''
       const containerSize = containerSizeMap[attributes.containerSize as string] || 'lg'
-      const className = (attributes.className as string) || ''
       const backgroundColor = (attributes.backgroundColor as string) || undefined
       return (
         <Section
@@ -285,7 +284,6 @@ function renderBlock(block: Block, index: number): ReactNode {
       const backgroundColor = attributes.backgroundColor as string | undefined
       const padding = attributes.padding as string | undefined
       const margin = attributes.margin as string | undefined
-      const borderRadius = attributes.borderRadius as string | undefined
       // const href = attributes.href as string | undefined
       return (
         <Box
