@@ -1,14 +1,20 @@
+'use client'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
+import Ticker from '@/components/ui/Ticker'
 import { GetPageQuery } from '@/graphql/generated/graphql'
+import { useTicker } from '@/hooks/useTicker'
 import { renderPageBlocks } from '@/lib/blockRenderer'
 
 export default function PageTemplate({
   data,
   hideTitleBar,
+  withTicker,
 }: {
   data: GetPageQuery
+  withTicker?: boolean
   hideTitleBar?: boolean
 }) {
+  const { tickers } = useTicker()
   return (
     <>
       {!hideTitleBar && (
@@ -22,6 +28,16 @@ export default function PageTemplate({
         />
       )}
       <div>{renderPageBlocks(data.page?.blocks)}</div>
+      {withTicker && tickers && tickers.length > 0 && (
+        <Ticker
+          messages={tickers ?? []}
+          className=""
+          bgColor="secondary"
+          textColor="dark"
+          position="fixed-bottom"
+          dismissible={true}
+        />
+      )}
     </>
   )
 }

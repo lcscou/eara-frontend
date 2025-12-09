@@ -43,5 +43,5 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const data = await getHomePageData()
   if (!data?.page) notFound()
-  return <PageTemplate hideTitleBar data={data} />
+  return <PageTemplate withTicker hideTitleBar data={data} />
 }
