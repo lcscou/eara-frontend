@@ -47,6 +47,11 @@ const cache = new InMemoryCache({
             return existing
           },
         },
+        allTeams: {
+          merge(existing) {
+            return existing
+          },
+        },
         offices: {
           merge(existing) {
             return existing
