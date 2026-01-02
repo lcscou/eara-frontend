@@ -1790,11 +1790,12 @@ export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_no
   {
     __typename?: 'CustomFields'
     startDate?: string | null
-    location?: string | null
     country?: Array<string | null> | null
+    location?: string | null
+    locationType?: string | null
     order?: number | null
-    organizer?: string | null
     endDate?: string | null
+    organizer?: string | null
     category?: string | null
     description?: string | null
   }
@@ -1836,6 +1837,7 @@ export type GetAllEventsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   after?: InputMaybe<Scalars['String']['input']>
+  locationType?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetAllEventsQuery = GetAllEventsQuery_RootQuery
@@ -3970,6 +3972,11 @@ export const GetAllEventsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'locationType' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -3998,6 +4005,11 @@ export const GetAllEventsDocument = {
                       kind: 'ObjectField',
                       name: { kind: 'Name', value: 'search' },
                       value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'locationType' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'locationType' } },
                     },
                   ],
                 },
@@ -4055,11 +4067,12 @@ export const GetAllEventsDocument = {
                           kind: 'SelectionSet',
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'location' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'location' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'locationType' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'order' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'organizer' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'organizer' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                           ],

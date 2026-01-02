@@ -6,7 +6,7 @@ import Card from '@/components/ui/Card/Card'
 
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import Section from '@/components/ui/Section/Section'
-import { Box, Container, Group, MantineSize, Text, TextProps, Title } from '@mantine/core'
+import { Box, Container, Group, MantineSize, TextProps, Title } from '@mantine/core'
 import parse from 'html-react-parser'
 import Image from 'next/image'
 import { ReactNode } from 'react'
@@ -321,7 +321,8 @@ function renderBlock(block: Block, index: number): ReactNode {
       const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
       const textAlign = attributes.textAlign as TextProps['ta'] | undefined
       return (
-        <Text
+        <Box
+          component="span"
           key={index}
           c={color}
           size={fontSize}
@@ -329,9 +330,10 @@ function renderBlock(block: Block, index: number): ReactNode {
           pb={paddingBottom}
           pt={paddingTop}
           mb={marginBottom}
+          display="block"
         >
           {parse(content)}
-        </Text>
+        </Box>
       )
     }
     // Core List

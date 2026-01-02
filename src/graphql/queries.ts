@@ -385,9 +385,15 @@ export const GetAllEvents = gql`
     $first: Int
     $before: String
     $after: String
+    $locationType: String
   ) {
     allEvents(
-      where: { category: $category, organizer: $organizer, search: $search }
+      where: {
+        category: $category
+        organizer: $organizer
+        search: $search
+        locationType: $locationType
+      }
       last: $last
       first: $first
       after: $before
@@ -405,11 +411,12 @@ export const GetAllEvents = gql`
         uri
         customFields {
           startDate
-          location
           country
+          location
+          locationType
           order
-          organizer
           endDate
+          organizer
           category
           description
         }

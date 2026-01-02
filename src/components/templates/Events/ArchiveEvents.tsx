@@ -16,6 +16,7 @@ export default function ArchiveEventsTemplate() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
+  const [selectedLocationType, setSelectedLocationType] = useState<string | null>(null)
 
   const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
     variables: { first: PAGE_SIZE },
@@ -35,8 +36,14 @@ export default function ArchiveEventsTemplate() {
       filtered = filtered.filter((event) => event?.customFields?.country?.includes(selectedCountry))
     }
 
+    if (selectedLocationType) {
+      filtered = filtered.filter(
+        (event) => event?.customFields?.locationType === selectedLocationType
+      )
+    }
+
     return filtered
-  }, [data?.allEvents?.nodes, selectedCategory, selectedCountry])
+  }, [data?.allEvents?.nodes, selectedCategory, selectedCountry, selectedLocationType])
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -73,13 +80,20 @@ export default function ArchiveEventsTemplate() {
     onDropdownClose: () => locationCombobox.resetSelectedOption(),
   })
 
+  const locationTypeCombobox = useCombobox({
+    onDropdownClose: () => locationTypeCombobox.resetSelectedOption(),
+  })
+
   const handleResetFilters = () => {
     setSelectedCategory(null)
     setSelectedCountry(null)
+    setSelectedLocationType(null)
     locationCombobox.resetSelectedOption()
+    locationTypeCombobox.resetSelectedOption()
   }
 
-  const hasActiveFilters = selectedCategory !== null || selectedCountry !== null
+  const hasActiveFilters =
+    selectedCategory !== null || selectedCountry !== null || selectedLocationType !== null
 
   return (
     <>
@@ -143,6 +157,37 @@ export default function ArchiveEventsTemplate() {
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
+
+            <Combobox
+              store={locationTypeCombobox}
+              onOptionSubmit={(value) => {
+                setSelectedLocationType(value === 'all' ? null : value)
+                locationTypeCombobox.closeDropdown()
+              }}
+            >
+              <Combobox.Target>
+                <ButtonEara
+                  size="md"
+                  rightSection={<IconChevronDown size={16} />}
+                  onClick={() => locationTypeCombobox.toggleDropdown()}
+                  label={
+                    selectedLocationType === 'in-site'
+                      ? 'In-site'
+                      : selectedLocationType === 'online'
+                        ? 'Online'
+                        : 'All Location Type'
+                  }
+                />
+              </Combobox.Target>
+              <Combobox.Dropdown>
+                <Combobox.Options>
+                  <Combobox.Option value="all">All Location Type</Combobox.Option>
+                  <Combobox.Option value="in-site">In-site</Combobox.Option>
+                  <Combobox.Option value="online">Online</Combobox.Option>
+                </Combobox.Options>
+              </Combobox.Dropdown>
+            </Combobox>
+
             {hasActiveFilters && (
               <Button
                 size="sm"
