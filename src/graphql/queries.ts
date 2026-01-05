@@ -269,8 +269,14 @@ export const GetNews = gql`
   }
 `
 export const GetAllNews = gql`
-  query GetAllNews($first: Int, $after: String, $before: String, $last: Int) {
-    allNews(first: $first, after: $after, before: $before, last: $last) {
+  query GetAllNews($first: Int, $after: String, $before: String, $last: Int, $search: String) {
+    allNews(
+      first: $first
+      after: $after
+      before: $before
+      last: $last
+      where: { search: $search }
+    ) {
       pageInfo {
         endCursor
         startCursor

@@ -1704,6 +1704,7 @@ export type GetAllNewsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  search?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetAllNewsQuery = GetAllNewsQuery_RootQuery
@@ -3592,6 +3593,11 @@ export const GetAllNewsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -3619,6 +3625,20 @@ export const GetAllNewsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'last' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'search' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+                    },
+                  ],
+                },
               },
             ],
             selectionSet: {
