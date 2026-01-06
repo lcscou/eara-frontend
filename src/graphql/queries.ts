@@ -897,3 +897,91 @@ export const GetAllTeam = gql`
     }
   }
 `
+
+export const GetAllPressRelease = gql`
+  query GetAllPressRelease(
+    $first: Int
+    $after: String
+    $before: String
+    $last: Int
+    $search: String
+  ) {
+    allPressRelease(
+      first: $first
+      after: $after
+      before: $before
+      last: $last
+      where: { search: $search }
+    ) {
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      nodes {
+        id
+        title
+        blocks
+        date
+        slug
+        seo {
+          readingTime
+          opengraphDescription
+          breadcrumbs {
+            text
+            url
+          }
+        }
+        content
+        type {
+          nodes {
+            name
+            slug
+          }
+        }
+        featuredImage {
+          node {
+            guid
+            altText
+            title
+          }
+        }
+      }
+    }
+  }
+`
+
+export const GetPressRelease = gql`
+  query GetPressRelease($id: ID!) {
+    pressRelease(id: $id, idType: URI) {
+      id
+      title
+      blocks
+      date
+      slug
+      seo {
+        readingTime
+        opengraphDescription
+        breadcrumbs {
+          text
+          url
+        }
+      }
+      type {
+        nodes {
+          name
+          slug
+        }
+      }
+      content
+      featuredImage {
+        node {
+          guid
+          altText
+          title
+        }
+      }
+    }
+  }
+`

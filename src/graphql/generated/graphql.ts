@@ -697,6 +697,30 @@ type PageInfo_PostToTermNodeConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_PressReleaseToPressReleaseConnectionPageInfo_Fragment = {
+  __typename?: 'PressReleaseToPressReleaseConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PressReleaseToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'PressReleaseToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_PressReleaseToTypeConnectionPageInfo_Fragment = {
+  __typename?: 'PressReleaseToTypeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment = {
   __typename?: 'ResearchAreaToResearchAreaConnectionPageInfo'
   endCursor?: string | null
@@ -921,6 +945,14 @@ type PageInfo_RootQueryToPostFormatConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_RootQueryToPressReleaseConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToPressReleaseConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_RootQueryToResearchAreaConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToResearchAreaConnectionPageInfo'
   endCursor?: string | null
@@ -987,6 +1019,14 @@ type PageInfo_RootQueryToThemeConnectionPageInfo_Fragment = {
 
 type PageInfo_RootQueryToTickerConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToTickerConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToTypeConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToTypeConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -1083,6 +1123,22 @@ type PageInfo_TermNodeToEnqueuedStylesheetConnectionPageInfo_Fragment = {
 
 type PageInfo_TickerToTickerConnectionPageInfo_Fragment = {
   __typename?: 'TickerToTickerConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TypeToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'TypeToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_TypeToPressReleaseConnectionPageInfo_Fragment = {
+  __typename?: 'TypeToPressReleaseConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -1258,6 +1314,9 @@ export type PageInfoFragment =
   | PageInfo_PostToRevisionConnectionPageInfo_Fragment
   | PageInfo_PostToTagConnectionPageInfo_Fragment
   | PageInfo_PostToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_PressReleaseToPressReleaseConnectionPageInfo_Fragment
+  | PageInfo_PressReleaseToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_PressReleaseToTypeConnectionPageInfo_Fragment
   | PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment
   | PageInfo_RoleToContentNodeConnectionPageInfo_Fragment
   | PageInfo_RoleToTeamConnectionPageInfo_Fragment
@@ -1286,6 +1345,7 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToPluginConnectionPageInfo_Fragment
   | PageInfo_RootQueryToPostConnectionPageInfo_Fragment
   | PageInfo_RootQueryToPostFormatConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToPressReleaseConnectionPageInfo_Fragment
   | PageInfo_RootQueryToResearchAreaConnectionPageInfo_Fragment
   | PageInfo_RootQueryToRevisionsConnectionPageInfo_Fragment
   | PageInfo_RootQueryToRoleConnectionPageInfo_Fragment
@@ -1295,6 +1355,7 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToTermNodeConnectionPageInfo_Fragment
   | PageInfo_RootQueryToThemeConnectionPageInfo_Fragment
   | PageInfo_RootQueryToTickerConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToTypeConnectionPageInfo_Fragment
   | PageInfo_RootQueryToUserConnectionPageInfo_Fragment
   | PageInfo_RootQueryToUserRoleConnectionPageInfo_Fragment
   | PageInfo_TagToContentNodeConnectionPageInfo_Fragment
@@ -1307,6 +1368,8 @@ export type PageInfoFragment =
   | PageInfo_TermNodeToEnqueuedScriptConnectionPageInfo_Fragment
   | PageInfo_TermNodeToEnqueuedStylesheetConnectionPageInfo_Fragment
   | PageInfo_TickerToTickerConnectionPageInfo_Fragment
+  | PageInfo_TypeToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_TypeToPressReleaseConnectionPageInfo_Fragment
   | PageInfo_UserToAnimalConnectionPageInfo_Fragment
   | PageInfo_UserToCaseStudiesConnectionPageInfo_Fragment
   | PageInfo_UserToCommentConnectionPageInfo_Fragment
@@ -1544,6 +1607,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Post =
   { __typename?: 'Post'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_PressRelease =
+  { __typename?: 'PressRelease'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea =
   { __typename?: 'ResearchArea'; id: string; slug?: string | null }
 
@@ -1567,6 +1633,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Office
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Page
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Post
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_PressRelease
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Team
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Ticker
@@ -1613,6 +1680,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Post =
   { __typename?: 'Post'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_PressRelease =
+  { __typename?: 'PressRelease'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea =
   { __typename?: 'ResearchArea'; id: string; slug?: string | null }
 
@@ -1636,6 +1706,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Office
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Page
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Post
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_PressRelease
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Team
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Ticker
@@ -2602,6 +2673,131 @@ export type GetAllTeamQueryVariables = Exact<{
 }>
 
 export type GetAllTeamQuery = GetAllTeamQuery_RootQuery
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_pageInfo_RootQueryToPressReleaseConnectionPageInfo =
+  {
+    __typename?: 'RootQueryToPressReleaseConnectionPageInfo'
+    endCursor?: string | null
+    startCursor?: string | null
+    hasNextPage: boolean
+    hasPreviousPage: boolean
+  }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
+  { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_seo_PostTypeSEO =
+  {
+    __typename?: 'PostTypeSEO'
+    readingTime?: number | null
+    opengraphDescription?: string | null
+    breadcrumbs?: Array<GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+  }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_type_PressReleaseToTypeConnection_nodes_Type =
+  { __typename?: 'Type'; name?: string | null; slug?: string | null }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_type_PressReleaseToTypeConnection =
+  {
+    __typename?: 'PressReleaseToTypeConnection'
+    nodes: Array<GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_type_PressReleaseToTypeConnection_nodes_Type>
+  }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null; altText?: string | null; title?: string | null }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease =
+  {
+    __typename?: 'PressRelease'
+    id: string
+    title?: string | null
+    blocks?: any | null
+    date?: string | null
+    slug?: string | null
+    content?: string | null
+    seo?: GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_seo_PostTypeSEO | null
+    type?: GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_type_PressReleaseToTypeConnection | null
+    featuredImage?: GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+  }
+
+export type GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection = {
+  __typename?: 'RootQueryToPressReleaseConnection'
+  pageInfo: GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_pageInfo_RootQueryToPressReleaseConnectionPageInfo
+  nodes: Array<GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection_nodes_PressRelease>
+}
+
+export type GetAllPressReleaseQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  allPressRelease?: GetAllPressReleaseQuery_RootQuery_allPressRelease_RootQueryToPressReleaseConnection | null
+}
+
+export type GetAllPressReleaseQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  search?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type GetAllPressReleaseQuery = GetAllPressReleaseQuery_RootQuery
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
+  { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTypeSEO = {
+  __typename?: 'PostTypeSEO'
+  readingTime?: number | null
+  opengraphDescription?: string | null
+  breadcrumbs?: Array<GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+}
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_type_PressReleaseToTypeConnection_nodes_Type =
+  { __typename?: 'Type'; name?: string | null; slug?: string | null }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_type_PressReleaseToTypeConnection =
+  {
+    __typename?: 'PressReleaseToTypeConnection'
+    nodes: Array<GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_type_PressReleaseToTypeConnection_nodes_Type>
+  }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null; altText?: string | null; title?: string | null }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge =
+  {
+    __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge'
+    node: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease = {
+  __typename?: 'PressRelease'
+  id: string
+  title?: string | null
+  blocks?: any | null
+  date?: string | null
+  slug?: string | null
+  content?: string | null
+  seo?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTypeSEO | null
+  type?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_type_PressReleaseToTypeConnection | null
+  featuredImage?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
+}
+
+export type GetPressReleaseQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  pressRelease?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease | null
+}
+
+export type GetPressReleaseQueryVariables = Exact<{
+  id: Scalars['ID']['input']
+}>
+
+export type GetPressReleaseQuery = GetPressReleaseQuery_RootQuery
 
 export const MenuItemFieldsFragmentDoc = {
   kind: 'Document',
@@ -5765,3 +5961,299 @@ export const GetAllTeamDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllTeamQuery, GetAllTeamQueryVariables>
+export const GetAllPressReleaseDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllPressRelease' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPressRelease' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'search' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'seo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'readingTime' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'opengraphDescription' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'breadcrumbs' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'type' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'featuredImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'altText' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllPressReleaseQuery, GetAllPressReleaseQueryVariables>
+export const GetPressReleaseDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPressRelease' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'pressRelease' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'idType' },
+                value: { kind: 'EnumValue', value: 'URI' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'blocks' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'seo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'readingTime' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'opengraphDescription' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'breadcrumbs' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'type' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'featuredImage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'altText' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetPressReleaseQuery, GetPressReleaseQueryVariables>

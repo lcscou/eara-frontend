@@ -17,6 +17,7 @@ export async function GET() {
       'pages',
       'diseases',
       'media-bank',
+      'press-release',
     ]
 
     tags.forEach((tag) => {
@@ -35,6 +36,7 @@ export async function GET() {
       '/team',
       '/diseases',
       '/transparency/media-bank',
+      '/press-releases',
     ]
 
     paths.forEach((path) => {

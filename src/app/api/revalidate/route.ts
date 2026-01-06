@@ -67,6 +67,12 @@ export async function POST(request: NextRequest) {
           console.log('Revalidated pages')
           break
 
+        case 'press-release':
+          revalidatePath('/press-releases')
+          revalidateTag('press-release')
+          console.log('Revalidated press releases archive')
+          break
+
         case 'menu':
         case 'menus':
           revalidateTag('menus')
