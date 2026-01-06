@@ -1514,6 +1514,171 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_Acf
     node: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
   }
 
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO_opengraphImage_MediaItem =
+  { __typename?: 'MediaItem'; guid?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO =
+  {
+    __typename?: 'PostTypeSEO'
+    title?: string | null
+    opengraphAuthor?: string | null
+    opengraphDescription?: string | null
+    opengraphImage?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO_opengraphImage_MediaItem | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal =
+  {
+    __typename?: 'Animal'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_CaseStudies =
+  {
+    __typename?: 'CaseStudies'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Diseases =
+  {
+    __typename?: 'Diseases'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Events =
+  {
+    __typename?: 'Events'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument =
+  {
+    __typename?: 'GraphqlDocument'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_MediaBank =
+  {
+    __typename?: 'MediaBank'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_MediaItem =
+  {
+    __typename?: 'MediaItem'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Member =
+  {
+    __typename?: 'Member'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_News =
+  {
+    __typename?: 'News'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Office =
+  {
+    __typename?: 'Office'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Page =
+  {
+    __typename?: 'Page'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Post =
+  {
+    __typename?: 'Post'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_PressRelease =
+  {
+    __typename?: 'PressRelease'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_ResearchArea =
+  {
+    __typename?: 'ResearchArea'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Team =
+  {
+    __typename?: 'Team'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Ticker =
+  {
+    __typename?: 'Ticker'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes =
+
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_CaseStudies
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Diseases
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Events
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_MediaBank
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_MediaItem
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Member
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_News
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Office
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Page
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Post
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_PressRelease
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_ResearchArea
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Team
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Ticker
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection =
+  {
+    __typename?: 'AcfContentNodeConnection'
+    nodes: Array<GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes>
+  }
+
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal =
   { __typename?: 'Animal'; id: string; slug?: string | null }
 
@@ -1663,6 +1828,7 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews = {
   earaMember?: boolean | null
   country?: Array<string | null> | null
   pageHeaderImage?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge | null
+  relatedNews?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection | null
   disease?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection | null
   animal?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection | null
 }
@@ -4030,6 +4196,57 @@ export const GetNewsDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'relatedNews' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'seo' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'opengraphImage' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'guid' },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'opengraphAuthor' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'opengraphDescription' },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },

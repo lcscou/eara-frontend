@@ -35,10 +35,11 @@ export default function EventCard({
                   alt="Event"
                 />
               )}
-
-              <span className="bg-primaryColor absolute top-5 left-5 z-10 rounded-full px-3 py-2 text-xs tracking-wider text-white uppercase">
-                {category}
-              </span>
+              {category && (
+                <span className="bg-primaryColor absolute top-5 left-5 z-10 rounded-full px-3 py-2 text-xs tracking-wider text-white uppercase">
+                  {category}
+                </span>
+              )}
             </div>
             <div className="z-10 -ml-5 w-[350px] rounded-2xl bg-white p-10">
               <div>
@@ -73,10 +74,11 @@ export default function EventCard({
                 className="flex aspect-[4/2.3] w-full object-cover transition duration-300 hover:scale-105"
                 alt="Event"
               />
-
-              <span className="bg-primaryColor absolute top-5 left-5 z-10 rounded-full px-3 py-2 text-xs tracking-wider text-white uppercase">
-                {category}
-              </span>
+              {category && (
+                <span className="bg-primaryColor absolute top-5 left-5 z-10 rounded-full px-3 py-2 text-xs tracking-wider text-white uppercase">
+                  {category}
+                </span>
+              )}
             </div>
             <div className="relative z-40 -mt-10 w-full rounded-2xl bg-white p-10">
               <div>

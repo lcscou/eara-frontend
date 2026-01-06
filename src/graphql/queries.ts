@@ -260,6 +260,20 @@ export const GetNews = gql`
             link
           }
         }
+        relatedNews {
+          nodes {
+            id
+            slug
+            seo {
+              title
+              opengraphImage {
+                guid
+              }
+              opengraphAuthor
+              opengraphDescription
+            }
+          }
+        }
         earaMember
         disease {
           nodes {
