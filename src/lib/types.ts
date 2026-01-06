@@ -176,6 +176,7 @@ export interface EventCardProps {
   category?: string
   featuredImage?: string
   link?: string
+  location?: string
   orientation?: 'vertical' | 'horizontal'
 }
 

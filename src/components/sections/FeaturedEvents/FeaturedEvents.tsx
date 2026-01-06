@@ -57,7 +57,8 @@ export default function FeaturedEvents({
               <EventCard
                 category={event?.customFields?.category || 'General'}
                 link={event.uri || '#'}
-                date="24 November 2025 - 09h"
+                date={event.customFields?.startDate || undefined}
+                location={event.customFields?.location || undefined}
                 excerpt={truncateText(event?.customFields?.description || '', 15)}
                 title={event.title || 'Untitled Event'}
                 featuredImage={event.featuredImage?.node.guid || '/eara-fallback.jpg'}

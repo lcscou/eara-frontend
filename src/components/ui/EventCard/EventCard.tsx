@@ -12,6 +12,7 @@ export default function EventCard({
   link,
   excerpt,
   category,
+  location,
   featuredImage,
   orientation = 'horizontal',
 }: EventCardProps) {
@@ -51,6 +52,7 @@ export default function EventCard({
                     !isNaN(new Date(date).getTime()) &&
                     new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
                 </span>
+                {location && <p className="mt-1 text-sm text-gray-600 uppercase">{location}</p>}
               </div>
 
               <p className="mt-5">{excerpt}</p>
