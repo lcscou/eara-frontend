@@ -181,7 +181,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       const variant =
         (attributes.variant as 'filled' | 'outline' | 'link' | 'with-arrow') || 'filled'
       const size = (attributes.size as string) || 'md'
-      const href = attributes.href as string | undefined
+      const link = attributes.link as string | undefined
       const className = attributes?.className as string | undefined
       const width = attributes?.width as string | undefined
       return (
@@ -192,7 +192,8 @@ function renderBlock(block: Block, index: number): ReactNode {
           className={className}
           variant={variant}
           size={size}
-          onClick={href ? () => (window.location.href = href) : undefined}
+          link={link}
+          // onClick={href ? () => (window.location.href = href) : undefined}
         />
       )
     }
