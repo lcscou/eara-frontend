@@ -52,7 +52,43 @@ const cache = new InMemoryCache({
             return existing
           },
         },
+        team: {
+          merge(existing) {
+            return existing
+          },
+        },
+        pressRelease: {
+          merge(existing) {
+            return existing
+          },
+        },
+        allPressReleases: {
+          merge(existing) {
+            return existing
+          },
+        },
+        members: {
+          merge(existing) {
+            return existing
+          },
+        },
+        news: {
+          merge(existing) {
+            return existing
+          },
+        },
+
         offices: {
+          merge(existing) {
+            return existing
+          },
+        },
+        events: {
+          merge(existing) {
+            return existing
+          },
+        },
+        animal: {
           merge(existing) {
             return existing
           },

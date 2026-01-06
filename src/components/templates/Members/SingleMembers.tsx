@@ -11,7 +11,7 @@ export default function SingleMembers({ data }: { data: GetMembersQuery }) {
     <>
       <PageTitleBar
         title={data.member?.title || undefined}
-        featuredImage={data.member?.featuredImage?.node.guid}
+        featuredImage={data.member?.acfMembers?.pageHeaderImage?.node?.link}
         date={data.member?.date}
         readingTime={data.member?.seo?.readingTime}
         author={`${data.member?.author?.node.firstName} ${data.member?.author?.node.lastName}`}

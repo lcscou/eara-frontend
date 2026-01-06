@@ -110,6 +110,13 @@ export const GetAnimal = gql`
           nicename
         }
       }
+      acfAnimal {
+        pageHeaderImage {
+          node {
+            link
+          }
+        }
+      }
       blocks
       slug
       seo {
@@ -232,7 +239,6 @@ export const GetMenu = gql`
     }
   }
 `
-
 export const GetNews = gql`
   query GetNews($id: ID = "") {
     news(id: $id, idType: URI) {
@@ -246,6 +252,32 @@ export const GetNews = gql`
           firstName
           lastName
           nicename
+        }
+      }
+      acfNews {
+        pageHeaderImage {
+          node {
+            link
+          }
+        }
+        earaMember
+        disease {
+          nodes {
+            id
+            slug
+          }
+        }
+        country
+        animal {
+          nodes {
+            id
+            slug
+          }
+        }
+      }
+      categoriesNews {
+        nodes {
+          slug
         }
       }
       slug
@@ -354,6 +386,11 @@ export const GetEvents = gql`
         }
       }
       customFields {
+        pageHeaderImage {
+          node {
+            link
+          }
+        }
         endDate
         location
         order
@@ -435,7 +472,6 @@ export const GetAllEvents = gql`
     }
   }
 `
-
 export const GetAllOffices = gql`
   query GetAllOffices($last: Int, $first: Int, $before: String, $after: String) {
     offices(last: $last, first: $first, after: $before, before: $after) {
@@ -480,6 +516,13 @@ export const GetDiseases = gql`
         }
       }
       slug
+      acfDiseases {
+        pageHeaderImage {
+          node {
+            link
+          }
+        }
+      }
       seo {
         readingTime
         opengraphDescription
@@ -531,7 +574,6 @@ export const GetAllDiseases = gql`
             url
           }
         }
-
         content
         featuredImage {
           node {
@@ -557,6 +599,15 @@ export const GetMembers = gql`
           firstName
           lastName
           nicename
+        }
+      }
+      acfMembers {
+        country
+        website
+        pageHeaderImage {
+          node {
+            link
+          }
         }
       }
       slug
@@ -654,7 +705,6 @@ export const GetMediasBank = gql`
       after: $after
       before: $before
       last: $last
-
       where: { orderby: { field: DATE, order: ASC }, speciesFeatured: $speciesFeatured }
     ) {
       pageInfo {
@@ -776,6 +826,13 @@ export const GetCaseStudies = gql`
           }
         }
       }
+      acfCaseStudie {
+        pageHeaderImage {
+          node {
+            link
+          }
+        }
+      }
       author {
         node {
           name
@@ -839,6 +896,13 @@ export const GetTeam = gql`
           url
         }
       }
+      acfTeam {
+        pageHeaderImage {
+          node {
+            link
+          }
+        }
+      }
       roles {
         nodes {
           name
@@ -855,7 +919,6 @@ export const GetTeam = gql`
     }
   }
 `
-
 export const GetAllTeam = gql`
   query GetAllTeam($first: Int, $after: String, $before: String, $last: Int) {
     allTeams(first: $first, after: $after, before: $before, last: $last) {
@@ -897,7 +960,6 @@ export const GetAllTeam = gql`
     }
   }
 `
-
 export const GetAllPressRelease = gql`
   query GetAllPressRelease(
     $first: Int
@@ -951,7 +1013,6 @@ export const GetAllPressRelease = gql`
     }
   }
 `
-
 export const GetPressRelease = gql`
   query GetPressRelease($id: ID!) {
     pressRelease(id: $id, idType: URI) {
@@ -966,6 +1027,13 @@ export const GetPressRelease = gql`
         breadcrumbs {
           text
           url
+        }
+      }
+      acfPressRelease {
+        pageHeaderImage {
+          node {
+            link
+          }
         }
       }
       type {

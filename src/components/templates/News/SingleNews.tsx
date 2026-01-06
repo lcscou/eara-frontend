@@ -11,7 +11,7 @@ export default function SingleNews({ data }: { data: GetNewsQuery }) {
     <>
       <PageTitleBar
         title={data.news?.title || undefined}
-        featuredImage={data.news?.featuredImage?.node.guid}
+        featuredImage={data.news?.acfNews?.pageHeaderImage?.node?.link}
         date={data.news?.date}
         readingTime={data.news?.seo?.readingTime}
         author={`${data.news?.author?.node.firstName} ${data.news?.author?.node.lastName}`}

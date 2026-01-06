@@ -12,6 +12,14 @@ const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
   const { data } = await client.query<GetTeamQuery>({
     query: GetTeamDocument,
     variables: { id: uri.join('') },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 1800,
+          tags: ['team', `team-${uri.join('')}`],
+        },
+      },
+    },
   })
   if (!data) notFound()
   return data
@@ -19,7 +27,7 @@ const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
 export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
   const data = await getTeamData(params.uri)
   if (!data?.team) notFound()
-  const title = `Eara | Members - ${data.team.title || data.team.title}`
+  const title = `Eara | Team - ${data.team.title || data.team.title}`
   const description = data.team.seo?.opengraphDescription || ''
 
   return {
@@ -31,7 +39,7 @@ export async function generateMetadata({ params }: MemberProps): Promise<Metadat
     },
   }
 }
-export default async function Member({ params }: MemberProps) {
+export default async function Team({ params }: MemberProps) {
   const data = await getTeamData(params.uri)
   if (!data?.team) notFound()
   return <SingleTeam data={data} />

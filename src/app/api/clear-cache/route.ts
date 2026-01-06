@@ -16,6 +16,7 @@ export async function GET() {
       'members',
       'pages',
       'diseases',
+      'team',
       'media-bank',
       'press-release',
     ]

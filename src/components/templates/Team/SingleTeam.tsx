@@ -11,7 +11,7 @@ export default function SingleMembers({ data }: { data: GetTeamQuery }) {
     <>
       <PageTitleBar
         title={data.team?.title || undefined}
-        featuredImage={data.team?.featuredImage?.node.guid}
+        featuredImage={data.team?.acfTeam?.pageHeaderImage?.node?.link}
         date={data.team?.date}
         {...(data.team?.roles?.nodes[0]?.name
           ? { aditionalInfoTable: [{ label: 'Role', value: data.team?.roles?.nodes[0].name }] }

@@ -11,7 +11,7 @@ export default function SingleCaseStudies({ data }: { data: GetCaseStudiesQuery 
     <>
       <PageTitleBar
         title={data.caseStudies?.title || undefined}
-        featuredImage={data.caseStudies?.featuredImage?.node.guid}
+        featuredImage={data.caseStudies?.acfCaseStudie?.pageHeaderImage?.node?.link}
         date={data.caseStudies?.date}
         readingTime={data.caseStudies?.seo?.readingTime}
         // author={`${data.caseStudies?.author?.node.firstName} ${data.caseStudies?.author?.node.lastName}`}

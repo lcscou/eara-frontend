@@ -170,6 +170,20 @@ export type GetAnimalQuery_RootQuery_animal_Animal_author_NodeWithAuthorToUserCo
   node: GetAnimalQuery_RootQuery_animal_Animal_author_NodeWithAuthorToUserConnectionEdge_node_User
 }
 
+export type GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal = {
+  __typename?: 'AcfAnimal'
+  pageHeaderImage?: GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal_pageHeaderImage_AcfMediaItemConnectionEdge | null
+}
+
 export type GetAnimalQuery_RootQuery_animal_Animal_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
   { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
 
@@ -198,6 +212,7 @@ export type GetAnimalQuery_RootQuery_animal_Animal = {
   slug?: string | null
   content?: string | null
   author?: GetAnimalQuery_RootQuery_animal_Animal_author_NodeWithAuthorToUserConnectionEdge | null
+  acfAnimal?: GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal | null
   seo?: GetAnimalQuery_RootQuery_animal_Animal_seo_PostTypeSEO | null
   featuredImage?: GetAnimalQuery_RootQuery_animal_Animal_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -1490,6 +1505,176 @@ export type GetNewsQuery_RootQuery_news_News_author_NodeWithAuthorToUserConnecti
   node: GetNewsQuery_RootQuery_news_News_author_NodeWithAuthorToUserConnectionEdge_node_User
 }
 
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal =
+  { __typename?: 'Animal'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_CaseStudies =
+  { __typename?: 'CaseStudies'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases =
+  { __typename?: 'Diseases'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events =
+  { __typename?: 'Events'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaBank =
+  { __typename?: 'MediaBank'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaItem =
+  { __typename?: 'MediaItem'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Member =
+  { __typename?: 'Member'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_News =
+  { __typename?: 'News'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Office =
+  { __typename?: 'Office'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Page =
+  { __typename?: 'Page'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Post =
+  { __typename?: 'Post'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_PressRelease =
+  { __typename?: 'PressRelease'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea =
+  { __typename?: 'ResearchArea'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Team =
+  { __typename?: 'Team'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Ticker =
+  { __typename?: 'Ticker'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes =
+
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_CaseStudies
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaBank
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaItem
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Member
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_News
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Office
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Page
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Post
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_PressRelease
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_ResearchArea
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Team
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Ticker
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection = {
+  __typename?: 'AcfContentNodeConnection'
+  nodes: Array<GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes>
+}
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Animal =
+  { __typename?: 'Animal'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_CaseStudies =
+  { __typename?: 'CaseStudies'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases =
+  { __typename?: 'Diseases'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events =
+  { __typename?: 'Events'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaBank =
+  { __typename?: 'MediaBank'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaItem =
+  { __typename?: 'MediaItem'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Member =
+  { __typename?: 'Member'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_News =
+  { __typename?: 'News'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Office =
+  { __typename?: 'Office'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Page =
+  { __typename?: 'Page'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Post =
+  { __typename?: 'Post'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_PressRelease =
+  { __typename?: 'PressRelease'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea =
+  { __typename?: 'ResearchArea'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Team =
+  { __typename?: 'Team'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Ticker =
+  { __typename?: 'Ticker'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes =
+
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Animal
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_CaseStudies
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaBank
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaItem
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Member
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_News
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Office
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Page
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Post
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_PressRelease
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_ResearchArea
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Team
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Ticker
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection = {
+  __typename?: 'AcfContentNodeConnection'
+  nodes: Array<GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes>
+}
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews = {
+  __typename?: 'AcfNews'
+  earaMember?: boolean | null
+  country?: Array<string | null> | null
+  pageHeaderImage?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge | null
+  disease?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection | null
+  animal?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection | null
+}
+
+export type GetNewsQuery_RootQuery_news_News_categoriesNews_NewsToCategoryNewsConnection_nodes_CategoryNews =
+  { __typename?: 'CategoryNews'; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_categoriesNews_NewsToCategoryNewsConnection = {
+  __typename?: 'NewsToCategoryNewsConnection'
+  nodes: Array<GetNewsQuery_RootQuery_news_News_categoriesNews_NewsToCategoryNewsConnection_nodes_CategoryNews>
+}
+
 export type GetNewsQuery_RootQuery_news_News_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs = {
   __typename?: 'SEOPostTypeBreadcrumbs'
   text?: string | null
@@ -1521,6 +1706,8 @@ export type GetNewsQuery_RootQuery_news_News = {
   slug?: string | null
   content?: string | null
   author?: GetNewsQuery_RootQuery_news_News_author_NodeWithAuthorToUserConnectionEdge | null
+  acfNews?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews | null
+  categoriesNews?: GetNewsQuery_RootQuery_news_News_categoriesNews_NewsToCategoryNewsConnection | null
   seo?: GetNewsQuery_RootQuery_news_News_seo_PostTypeSEO | null
   featuredImage?: GetNewsQuery_RootQuery_news_News_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -1794,6 +1981,15 @@ export type GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserCo
   node: GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserConnectionEdge_node_User
 }
 
+export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields = {
   __typename?: 'CustomFields'
   endDate?: string | null
@@ -1803,6 +1999,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields = {
   startDate?: string | null
   category?: string | null
   description?: string | null
+  pageHeaderImage?: GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge | null
 }
 
 export type GetEventsQuery_RootQuery_events_Events_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
@@ -1985,6 +2182,20 @@ export type GetDiseasesQuery_RootQuery_diseases_Diseases_author_NodeWithAuthorTo
     node: GetDiseasesQuery_RootQuery_diseases_Diseases_author_NodeWithAuthorToUserConnectionEdge_node_User
   }
 
+export type GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases = {
+  __typename?: 'AcfDiseases'
+  pageHeaderImage?: GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases_pageHeaderImage_AcfMediaItemConnectionEdge | null
+}
+
 export type GetDiseasesQuery_RootQuery_diseases_Diseases_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
   { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
 
@@ -2013,6 +2224,7 @@ export type GetDiseasesQuery_RootQuery_diseases_Diseases = {
   slug?: string | null
   content?: string | null
   author?: GetDiseasesQuery_RootQuery_diseases_Diseases_author_NodeWithAuthorToUserConnectionEdge | null
+  acfDiseases?: GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases | null
   seo?: GetDiseasesQuery_RootQuery_diseases_Diseases_seo_PostTypeSEO | null
   featuredImage?: GetDiseasesQuery_RootQuery_diseases_Diseases_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -2121,6 +2333,22 @@ export type GetMembersQuery_RootQuery_member_Member_author_NodeWithAuthorToUserC
   node: GetMembersQuery_RootQuery_member_Member_author_NodeWithAuthorToUserConnectionEdge_node_User
 }
 
+export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers = {
+  __typename?: 'AcfMembers'
+  country?: Array<string | null> | null
+  website?: string | null
+  pageHeaderImage?: GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge | null
+}
+
 export type GetMembersQuery_RootQuery_member_Member_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
   { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
 
@@ -2149,6 +2377,7 @@ export type GetMembersQuery_RootQuery_member_Member = {
   slug?: string | null
   content?: string | null
   author?: GetMembersQuery_RootQuery_member_Member_author_NodeWithAuthorToUserConnectionEdge | null
+  acfMembers?: GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers | null
   seo?: GetMembersQuery_RootQuery_member_Member_seo_PostTypeSEO | null
   featuredImage?: GetMembersQuery_RootQuery_member_Member_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -2454,6 +2683,20 @@ export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_Ca
     nodes: Array<GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection_nodes_Institution>
   }
 
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie = {
+  __typename?: 'AcfCaseStudie'
+  pageHeaderImage?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie_pageHeaderImage_AcfMediaItemConnectionEdge | null
+}
+
 export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
     __typename?: 'User'
@@ -2497,6 +2740,7 @@ export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies = {
   slug?: string | null
   content?: string | null
   institution?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_CaseStudiesToInstitutionConnection | null
+  acfCaseStudie?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie | null
   author?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_author_NodeWithAuthorToUserConnectionEdge | null
   seo?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_seo_PostTypeSEO | null
   featuredImage?: GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
@@ -2559,6 +2803,20 @@ export type GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO = {
   breadcrumbs?: Array<GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
 }
 
+export type GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam = {
+  __typename?: 'AcfTeam'
+  pageHeaderImage?: GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam_pageHeaderImage_AcfMediaItemConnectionEdge | null
+}
+
 export type GetTeamQuery_RootQuery_team_Team_roles_TeamToRoleConnection_nodes_Role = {
   __typename?: 'Role'
   name?: string | null
@@ -2587,6 +2845,7 @@ export type GetTeamQuery_RootQuery_team_Team = {
   slug?: string | null
   content?: string | null
   seo?: GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO | null
+  acfTeam?: GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam | null
   roles?: GetTeamQuery_RootQuery_team_Team_roles_TeamToRoleConnection | null
   featuredImage?: GetTeamQuery_RootQuery_team_Team_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -2757,6 +3016,21 @@ export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTyp
   breadcrumbs?: Array<GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
 }
 
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; link?: string | null }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease =
+  {
+    __typename?: 'AcfPressRelease'
+    pageHeaderImage?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge | null
+  }
+
 export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_type_PressReleaseToTypeConnection_nodes_Type =
   { __typename?: 'Type'; name?: string | null; slug?: string | null }
 
@@ -2784,6 +3058,7 @@ export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease = {
   slug?: string | null
   content?: string | null
   seo?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTypeSEO | null
+  acfPressRelease?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease | null
   type?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_type_PressReleaseToTypeConnection | null
   featuredImage?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -3227,6 +3502,34 @@ export const GetAnimalDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'nicename' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'acfAnimal' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },
@@ -3708,6 +4011,93 @@ export const GetNewsDocument = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'acfNews' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'earaMember' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'disease' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'animal' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'categoriesNews' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'slug' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                 {
                   kind: 'Field',
@@ -4082,6 +4472,25 @@ export const GetEventsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'location' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'order' } },
@@ -4514,6 +4923,34 @@ export const GetDiseasesDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'acfDiseases' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'seo' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -4785,6 +5222,36 @@ export const GetMembersDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'nicename' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'acfMembers' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },
@@ -5556,6 +6023,34 @@ export const GetCaseStudiesDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'acfCaseStudie' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'author' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -5746,6 +6241,34 @@ export const GetTeamDocument = {
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: 'text' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'acfTeam' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },
@@ -6201,6 +6724,34 @@ export const GetPressReleaseDocument = {
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: 'text' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'acfPressRelease' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageHeaderImage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },

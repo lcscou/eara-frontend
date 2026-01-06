@@ -11,7 +11,7 @@ export default function SingleAnimals({ data }: { data: GetAnimalQuery }) {
     <>
       <PageTitleBar
         title={data.animal?.title || undefined}
-        featuredImage={data.animal?.featuredImage?.node.guid}
+        featuredImage={data.animal?.acfAnimal?.pageHeaderImage?.node?.link}
         date={data.animal?.date}
         readingTime={data.animal?.seo?.readingTime}
         author={`${data.animal?.author?.node.firstName} ${data.animal?.author?.node.lastName}`}
