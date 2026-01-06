@@ -271,3 +271,9 @@ export interface CaseStudiesCardProps {
   featuredImage?: string | null
   description?: string | null
 }
+
+export interface HomeHeroProps extends React.PropsWithChildren {
+  id?: string
+  overlayColor?: string
+  overlayOpacity?: number
+}

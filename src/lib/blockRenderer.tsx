@@ -5,6 +5,7 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
+import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import Section from '@/components/ui/Section/Section'
 import { Box, Container, Group, MantineSize, TextProps, Title } from '@mantine/core'
 import parse from 'html-react-parser'
@@ -222,7 +223,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           c={color}
           fz={fontSize}
           mt={resolveWordPressValue(margin?.top)}
-          mb={resolveWordPressValue(margin?.bottom)}
+          mb={resolveWordPressValue(margin?.bottom) || '10px'}
           ml={resolveWordPressValue(margin?.left)}
           mr={resolveWordPressValue(margin?.right)}
           ta={textAlign}
@@ -299,6 +300,18 @@ function renderBlock(block: Block, index: number): ReactNode {
       )
     }
 
+    case 'eara/hero-home': {
+      return (
+        <HomeHero
+          key={index}
+          overlayOpacity={attributes.overlayOpacity as number | undefined}
+          overlayColor={attributes.overlayColor as string | undefined}
+        >
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </HomeHero>
+      )
+    }
+
     // Core Paragraph
     case 'core/paragraph': {
       const content = (attributes.content as string) || ''
@@ -318,7 +331,7 @@ function renderBlock(block: Block, index: number): ReactNode {
         parseColor(textColor) || parseColor(style?.elements?.link?.color?.text) || undefined
       const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
       const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom || '10px')
       const textAlign = attributes.textAlign as TextProps['ta'] | undefined
       return (
         <Box

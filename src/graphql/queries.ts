@@ -1027,6 +1027,21 @@ export const GetAllPressRelease = gql`
     }
   }
 `
+
+export const GetHeroHomeOfTheDay = gql`
+  query GetHeroHomeOfTheDay {
+    heroHomeOfTheDay {
+      id
+      slug
+      title
+      credits
+      creditWebsite
+      creditsMoreInfo
+      featuredImageUrl
+    }
+  }
+`
+
 export const GetPressRelease = gql`
   query GetPressRelease($id: ID!) {
     pressRelease(id: $id, idType: URI) {

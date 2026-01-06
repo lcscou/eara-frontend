@@ -3172,6 +3172,26 @@ export type GetAllPressReleaseQueryVariables = Exact<{
 
 export type GetAllPressReleaseQuery = GetAllPressReleaseQuery_RootQuery
 
+export type GetHeroHomeOfTheDayQuery_RootQuery_heroHomeOfTheDay_HeroHomeMetadata = {
+  __typename?: 'HeroHomeMetadata'
+  id?: number | null
+  slug?: string | null
+  title?: string | null
+  credits?: string | null
+  creditWebsite?: string | null
+  creditsMoreInfo?: string | null
+  featuredImageUrl?: string | null
+}
+
+export type GetHeroHomeOfTheDayQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  heroHomeOfTheDay?: GetHeroHomeOfTheDayQuery_RootQuery_heroHomeOfTheDay_HeroHomeMetadata | null
+}
+
+export type GetHeroHomeOfTheDayQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetHeroHomeOfTheDayQuery = GetHeroHomeOfTheDayQuery_RootQuery
+
 export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs =
   { __typename?: 'SEOPostTypeBreadcrumbs'; text?: string | null; url?: string | null }
 
@@ -6882,6 +6902,37 @@ export const GetAllPressReleaseDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllPressReleaseQuery, GetAllPressReleaseQueryVariables>
+export const GetHeroHomeOfTheDayDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetHeroHomeOfTheDay' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'heroHomeOfTheDay' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'credits' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'creditWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'creditsMoreInfo' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'featuredImageUrl' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetHeroHomeOfTheDayQuery, GetHeroHomeOfTheDayQueryVariables>
 export const GetPressReleaseDocument = {
   kind: 'Document',
   definitions: [
