@@ -9,11 +9,11 @@ import { useSuspenseQuery } from '@apollo/client/react'
 import { Button, Combobox, Container, Group, Loader, Skeleton, useCombobox } from '@mantine/core'
 import { IconCheck, IconChevronDown, IconRestore } from '@tabler/icons-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
 
-export default function ArchiveEventsTemplate() {
+function ArchiveEventsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -393,5 +393,21 @@ export default function ArchiveEventsTemplate() {
         </Group>
       )}
     </>
+  )
+}
+
+export default function ArchiveEventsTemplate() {
+  return (
+    <Suspense
+      fallback={
+        <Container size="xl" py={50}>
+          <Group justify="center">
+            <Loader />
+          </Group>
+        </Container>
+      }
+    >
+      <ArchiveEventsContent />
+    </Suspense>
   )
 }
