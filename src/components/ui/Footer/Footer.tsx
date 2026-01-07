@@ -3,6 +3,7 @@ import {
   GetMenuDocument,
   GetMenuQuery,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
+  GetSettingsDocument,
 } from '@/graphql/generated/graphql'
 import { FooterProps } from '@/lib/types'
 import { useSuspenseQuery } from '@apollo/client/react'
@@ -11,8 +12,10 @@ import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandLinkedin,
+  IconBrandX,
   IconBrandYoutube,
 } from '@tabler/icons-react'
+import Link from 'next/link'
 
 export default function Footer({}: FooterProps) {
   const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, {
@@ -21,6 +24,18 @@ export default function Footer({}: FooterProps) {
       fetchOptions: {
         next: {
           tags: ['menus'],
+          revalidate: 0,
+        },
+      },
+    },
+  })
+
+  const { data: settingsData } = useSuspenseQuery(GetSettingsDocument, {
+    fetchPolicy: 'cache-first',
+    context: {
+      fetchOptions: {
+        next: {
+          tags: ['earaSettings'],
           revalidate: 0,
         },
       },
@@ -44,18 +59,64 @@ export default function Footer({}: FooterProps) {
                   Social Media
                 </Title>
                 <Group>
-                  <Button component="a" href="https://sds" unstyled className="mt-4">
-                    <IconBrandFacebook />
-                  </Button>
-                  <Button component="a" href="https://sds" unstyled className="mt-4">
-                    <IconBrandInstagram />
-                  </Button>
-                  <Button component="a" href="https://sds" unstyled className="mt-4">
-                    <IconBrandLinkedin />
-                  </Button>
-                  <Button component="a" href="https://sds" unstyled className="mt-4">
-                    <IconBrandYoutube />
-                  </Button>
+                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook && (
+                    <Button
+                      component="a"
+                      href={
+                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook || ''
+                      }
+                      unstyled
+                      className="mt-4"
+                    >
+                      <IconBrandFacebook />
+                    </Button>
+                  )}
+                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram && (
+                    <Button
+                      component="a"
+                      href={
+                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram || ''
+                      }
+                      unstyled
+                      className="mt-4"
+                    >
+                      <IconBrandInstagram />
+                    </Button>
+                  )}
+                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin && (
+                    <Button
+                      component="a"
+                      href={
+                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin || ''
+                      }
+                      unstyled
+                      className="mt-4"
+                    >
+                      <IconBrandLinkedin />
+                    </Button>
+                  )}
+                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube && (
+                    <Button
+                      component="a"
+                      href={
+                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube || ''
+                      }
+                      unstyled
+                      className="mt-4"
+                    >
+                      <IconBrandYoutube />
+                    </Button>
+                  )}
+                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x && (
+                    <Button
+                      component="a"
+                      href={settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x || ''}
+                      unstyled
+                      className="mt-4"
+                    >
+                      <IconBrandX />
+                    </Button>
+                  )}
                 </Group>
               </Grid.Col>
               <Grid.Col span={{ sm: 4 }}>
@@ -74,9 +135,16 @@ export default function Footer({}: FooterProps) {
             </Grid>
           </div>
 
-          <div className="pt-10">
+          <div className="flex justify-between pt-10">
             <Text c={'earaDark.5'}>
-              © 2025 European Animal Research Association, All rights reserved.
+              © {new Date().getFullYear()} European Animal Research Association, All rights
+              reserved.
+            </Text>
+            <Text c={'earaDark.5'}>
+              Design and developed by{' '}
+              <Link className="underline" href="https://www.yomoc.com">
+                YOMOC
+              </Link>
             </Text>
           </div>
         </footer>

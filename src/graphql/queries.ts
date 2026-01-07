@@ -649,6 +649,13 @@ export const GetSettings = gql`
     earaSettings {
       themeSettings {
         mediabankIntro
+        socialMediaLinks {
+          instagram
+          linkedin
+          facebook
+          youtube
+          x
+        }
       }
     }
   }

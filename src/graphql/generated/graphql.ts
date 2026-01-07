@@ -2559,9 +2559,20 @@ export type GetMembersQueryVariables = Exact<{
 
 export type GetMembersQuery = GetMembersQuery_RootQuery
 
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_socialMediaLinks_ThemeSettingsSocialMediaLinks =
+  {
+    __typename?: 'ThemeSettingsSocialMediaLinks'
+    instagram?: string | null
+    linkedin?: string | null
+    facebook?: string | null
+    youtube?: string | null
+    x?: string | null
+  }
+
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings = {
   __typename?: 'ThemeSettings'
   mediabankIntro?: string | null
+  socialMediaLinks?: GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_socialMediaLinks_ThemeSettingsSocialMediaLinks | null
 }
 
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings = {
@@ -5571,6 +5582,20 @@ export const GetSettingsDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'mediabankIntro' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'socialMediaLinks' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'instagram' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'linkedin' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'facebook' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'youtube' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'x' } },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
