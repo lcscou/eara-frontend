@@ -8,25 +8,101 @@ import { truncateText } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Button, Combobox, Container, Group, Loader, Skeleton, useCombobox } from '@mantine/core'
 import { IconCheck, IconChevronDown, IconRestore } from '@tabler/icons-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
 
 export default function ArchiveEventsTemplate() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
   const [loadingMore, setLoadingMore] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedLocationType, setSelectedLocationType] = useState<string | null>(null)
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'upcoming' | 'past'>('all')
 
   const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
     variables: { first: PAGE_SIZE },
   })
 
+  // Initialize filters from URL params
+  useEffect(() => {
+    const status = searchParams.get('status')
+    const category = searchParams.get('category')
+    const country = searchParams.get('country')
+    const locationType = searchParams.get('locationType')
+
+    if (status === 'upcoming' || status === 'past') {
+      setSelectedStatus(status)
+    }
+    if (category) {
+      setSelectedCategory(category)
+    }
+    if (country) {
+      setSelectedCountry(country)
+    }
+    if (locationType) {
+      setSelectedLocationType(locationType)
+    }
+  }, [searchParams])
+
+  // Update URL when filters change
+  const updateURL = useCallback(
+    (filters: {
+      status?: 'all' | 'upcoming' | 'past'
+      category?: string | null
+      country?: string | null
+      locationType?: string | null
+    }) => {
+      const params = new URLSearchParams()
+
+      const statusValue = filters.status ?? selectedStatus
+      const categoryValue = filters.category !== undefined ? filters.category : selectedCategory
+      const countryValue = filters.country !== undefined ? filters.country : selectedCountry
+      const locationTypeValue =
+        filters.locationType !== undefined ? filters.locationType : selectedLocationType
+
+      if (statusValue && statusValue !== 'all') {
+        params.set('status', statusValue)
+      }
+      if (categoryValue) {
+        params.set('category', categoryValue)
+      }
+      if (countryValue) {
+        params.set('country', countryValue)
+      }
+      if (locationTypeValue) {
+        params.set('locationType', locationTypeValue)
+      }
+
+      const queryString = params.toString()
+      router.push(queryString ? `?${queryString}` : window.location.pathname, { scroll: false })
+    },
+    [selectedStatus, selectedCategory, selectedCountry, selectedLocationType, router]
+  )
+
   const hasNextPage = data?.allEvents?.pageInfo?.hasNextPage
   const endCursor = data?.allEvents?.pageInfo?.endCursor
-  // Filter events based on category and location
+
+  // Filter events based on category, location and date
   const filteredEvents = useMemo(() => {
     let filtered = data?.allEvents?.nodes ?? []
+    const now = new Date()
+
+    // Filter by status (upcoming/past)
+    if (selectedStatus === 'upcoming') {
+      filtered = filtered.filter((event) => {
+        const startDate = event?.customFields?.startDate
+        return startDate && new Date(startDate) >= now
+      })
+    } else if (selectedStatus === 'past') {
+      filtered = filtered.filter((event) => {
+        const startDate = event?.customFields?.startDate
+        return startDate && new Date(startDate) < now
+      })
+    }
 
     if (selectedCategory) {
       filtered = filtered.filter((event) => event?.customFields?.category === selectedCategory)
@@ -43,7 +119,13 @@ export default function ArchiveEventsTemplate() {
     }
 
     return filtered
-  }, [data?.allEvents?.nodes, selectedCategory, selectedCountry, selectedLocationType])
+  }, [
+    data?.allEvents?.nodes,
+    selectedCategory,
+    selectedCountry,
+    selectedLocationType,
+    selectedStatus,
+  ])
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -76,6 +158,10 @@ export default function ArchiveEventsTemplate() {
     }, 0)
   }, [hasNextPage, loadingMore, endCursor, fetchMore])
 
+  const statusCombobox = useCombobox({
+    onDropdownClose: () => statusCombobox.resetSelectedOption(),
+  })
+
   const locationCombobox = useCombobox({
     onDropdownClose: () => locationCombobox.resetSelectedOption(),
   })
@@ -88,12 +174,18 @@ export default function ArchiveEventsTemplate() {
     setSelectedCategory(null)
     setSelectedCountry(null)
     setSelectedLocationType(null)
+    setSelectedStatus('all')
+    statusCombobox.resetSelectedOption()
     locationCombobox.resetSelectedOption()
     locationTypeCombobox.resetSelectedOption()
+    router.push(window.location.pathname, { scroll: false })
   }
 
   const hasActiveFilters =
-    selectedCategory !== null || selectedCountry !== null || selectedLocationType !== null
+    selectedCategory !== null ||
+    selectedCountry !== null ||
+    selectedLocationType !== null ||
+    selectedStatus !== 'all'
 
   return (
     <>
@@ -106,10 +198,14 @@ export default function ArchiveEventsTemplate() {
               fw={500}
               tt="uppercase"
               fz={13}
-              onClick={() => setSelectedCategory((prev) => (prev === null ? 'all' : null))}
+              onClick={() => {
+                const newCategory = selectedCategory === null ? 'all' : null
+                setSelectedCategory(newCategory)
+                updateURL({ category: newCategory })
+              }}
               variant={!selectedCategory ? 'light' : 'outline'}
             >
-              All Events
+              All Categories
             </Button>
             <Button
               size="md"
@@ -117,7 +213,10 @@ export default function ArchiveEventsTemplate() {
               fw={500}
               tt="uppercase"
               fz={13}
-              onClick={() => setSelectedCategory('Conference')}
+              onClick={() => {
+                setSelectedCategory('Conference')
+                updateURL({ category: 'Conference' })
+              }}
               variant={selectedCategory === 'Conference' ? 'light' : 'outline'}
             >
               Conference
@@ -128,7 +227,10 @@ export default function ArchiveEventsTemplate() {
               fw={500}
               tt="uppercase"
               fz={13}
-              onClick={() => setSelectedCategory('Media Training')}
+              onClick={() => {
+                setSelectedCategory('Media Training')
+                updateURL({ category: 'Media Training' })
+              }}
               variant={selectedCategory === 'Media Training' ? 'light' : 'outline'}
             >
               Media Training
@@ -137,7 +239,9 @@ export default function ArchiveEventsTemplate() {
             <Combobox
               store={locationCombobox}
               onOptionSubmit={(value) => {
-                setSelectedCountry(value === 'all' ? null : value)
+                const newCountry = value === 'all' ? null : value
+                setSelectedCountry(newCountry)
+                updateURL({ country: newCountry })
                 locationCombobox.closeDropdown()
               }}
             >
@@ -161,7 +265,9 @@ export default function ArchiveEventsTemplate() {
             <Combobox
               store={locationTypeCombobox}
               onOptionSubmit={(value) => {
-                setSelectedLocationType(value === 'all' ? null : value)
+                const newLocationType = value === 'all' ? null : value
+                setSelectedLocationType(newLocationType)
+                updateURL({ locationType: newLocationType })
                 locationTypeCombobox.closeDropdown()
               }}
             >
@@ -175,15 +281,53 @@ export default function ArchiveEventsTemplate() {
                       ? 'In-site'
                       : selectedLocationType === 'online'
                         ? 'Online'
-                        : 'All Location Type'
+                        : 'Event Type'
                   }
                 />
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
-                  <Combobox.Option value="all">All Location Type</Combobox.Option>
+                  <Combobox.Option value="all">All</Combobox.Option>
                   <Combobox.Option value="in-site">In-site</Combobox.Option>
                   <Combobox.Option value="online">Online</Combobox.Option>
+                </Combobox.Options>
+              </Combobox.Dropdown>
+            </Combobox>
+
+            <Combobox
+              styles={{
+                dropdown: {
+                  minWidth: 'fit-content',
+                },
+              }}
+              position="bottom-start"
+              store={statusCombobox}
+              onOptionSubmit={(value) => {
+                const newStatus = value as 'all' | 'upcoming' | 'past'
+                setSelectedStatus(newStatus)
+                updateURL({ status: newStatus })
+                statusCombobox.closeDropdown()
+              }}
+            >
+              <Combobox.Target>
+                <ButtonEara
+                  size="md"
+                  rightSection={<IconChevronDown size={16} />}
+                  onClick={() => statusCombobox.toggleDropdown()}
+                  label={
+                    selectedStatus === 'all'
+                      ? 'Status'
+                      : selectedStatus === 'upcoming'
+                        ? 'Upcoming Events'
+                        : 'Past Events'
+                  }
+                />
+              </Combobox.Target>
+              <Combobox.Dropdown>
+                <Combobox.Options>
+                  <Combobox.Option value="all">All Events</Combobox.Option>
+                  <Combobox.Option value="upcoming">Upcoming Events</Combobox.Option>
+                  <Combobox.Option value="past">Past Events</Combobox.Option>
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
