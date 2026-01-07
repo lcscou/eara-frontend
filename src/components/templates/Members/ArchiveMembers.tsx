@@ -6,7 +6,7 @@ import { GetAllMembersDocument, GetAllMembersQuery } from '@/graphql/generated/g
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Combobox, Container, Group, Loader, useCombobox } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
 
@@ -23,6 +23,31 @@ export default function ArchiveMembers() {
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
   })
+
+  const normalizeCountry = (value?: string | null) => value?.toLowerCase().trim() ?? ''
+  const capitalizeCountry = (value: string) => value.replace(/\b\w/g, (c) => c.toUpperCase())
+
+  const { allMembers, countryIndex, countryOptions } = useMemo(() => {
+    const all = data?.members?.nodes ?? []
+    const index: Record<string, Array<(typeof all)[number]>> = {}
+    const set = new Set<string>()
+
+    for (const m of all) {
+      const countries = m?.acfMembers?.country ?? []
+      for (const raw of countries) {
+        const value = normalizeCountry(raw)
+        if (!value) continue
+        set.add(value)
+        ;(index[value] ??= []).push(m)
+      }
+    }
+
+    const options = Array.from(set)
+      .sort()
+      .map((value) => ({ value, label: capitalizeCountry(value) }))
+
+    return { allMembers: all, countryIndex: index, countryOptions: options }
+  }, [data])
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -52,22 +77,29 @@ export default function ArchiveMembers() {
     }, 0)
   }, [hasNextPage, loadingMore, endCursor, fetchMore])
 
-  const filteredMembers = useMemo(() => {
-    let filtered = data?.members?.nodes ?? []
-    if (selectedCountry) {
-      filtered = filtered.filter((newsItem) =>
-        newsItem?.acfMembers?.country?.includes(selectedCountry)
-      )
-    }
+  const filteredMembers = selectedCountry ? (countryIndex[selectedCountry] ?? []) : allMembers
 
-    return filtered
-  }, [data, selectedCountry])
+  useEffect(() => {
+    if (selectedCountry && !countryOptions.some((o) => o.value === selectedCountry)) {
+      setSelectedCountry(null)
+    }
+  }, [selectedCountry, countryOptions])
+
+  const selectedLabel = selectedCountry
+    ? countryOptions.find((o) => o.value === selectedCountry)?.label || 'Country'
+    : 'Country'
 
   return (
     <>
       <Container size="xl" my={100}>
         <Group mb={40}>
           <Combobox
+            styles={{
+              dropdown: {
+                minWidth: 'fit-content',
+              },
+            }}
+            position="bottom-end"
             onOptionSubmit={(value) => {
               setSelectedCountry(value === 'all' ? null : value)
               countryCombobox.closeDropdown()
@@ -81,15 +113,17 @@ export default function ArchiveMembers() {
                 rightSection={<IconChevronDown size={14} />}
                 label={''}
               >
-                {selectedCountry || 'Country'}
+                {selectedLabel}
               </ButtonEara>
             </Combobox.Target>
             <Combobox.Dropdown>
               <Combobox.Options>
-                <Combobox.Option value="all">All Country</Combobox.Option>
-                <Combobox.Option value="portugal">Portugal</Combobox.Option>
-                <Combobox.Option value="brazil">Brazil</Combobox.Option>
-                <Combobox.Option value="canada">Canada</Combobox.Option>
+                <Combobox.Option value="all">All Countries ({allMembers.length})</Combobox.Option>
+                {countryOptions.map((opt) => (
+                  <Combobox.Option key={opt.value} value={opt.value}>
+                    {opt.label} ({countryIndex[opt.value]?.length ?? 0})
+                  </Combobox.Option>
+                ))}
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
