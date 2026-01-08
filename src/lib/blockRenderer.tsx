@@ -4,6 +4,7 @@ import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 
+import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import Section from '@/components/ui/Section/Section'
@@ -258,6 +259,16 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/latest-events': {
       return <FeaturedEvents key={index} withSectionWrapper={false} />
+    }
+
+    case 'eara/section-card': {
+      const image = (attributes.image as { url: string } | undefined)?.url || ''
+      const orientation = (attributes.orientation as 'image-left' | 'image-right') || 'image-left'
+      return (
+        <SectionCard key={index} image={image} orientation={orientation}>
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </SectionCard>
+      )
     }
 
     case 'eara/card': {
