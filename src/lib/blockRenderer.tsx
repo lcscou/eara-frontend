@@ -263,9 +263,15 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/section-card': {
       const image = (attributes.image as { url: string } | undefined)?.url || ''
-      const orientation = (attributes.orientation as 'image-left' | 'image-right') || 'image-left'
+      const orientation = (attributes.orientation as 'left' | 'right') || 'left'
+      const backgroundColor = (attributes.backgroundColor as string) || '#eaeaea'
       return (
-        <SectionCard key={index} image={image} orientation={orientation}>
+        <SectionCard
+          key={index}
+          image={image}
+          orientation={orientation}
+          backgroundColor={backgroundColor}
+        >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </SectionCard>
       )

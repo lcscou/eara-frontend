@@ -161,7 +161,8 @@ export interface InfoButtonProps {
 
 export interface SectionCardProps extends React.PropsWithChildren {
   image: string
-  orientation: 'image-left' | 'image-right'
+  backgroundColor?: string
+  orientation: 'left' | 'right'
 }
 
 export interface CarouselProps {

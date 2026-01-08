@@ -6,16 +6,20 @@ import Image from 'next/image'
 export default function SectionCard({
   children,
   image,
-  orientation = 'image-left',
+  backgroundColor = '#ff00ff',
+  orientation = 'left',
 }: SectionCardProps) {
   return (
     <>
       <Container size="lg">
-        <div className="my-20 grid grid-cols-12 gap-5 overflow-hidden rounded-2xl bg-[#EAEAEA] md:grid">
+        <div
+          style={{ backgroundColor: backgroundColor }}
+          className={clsx('my-20 grid grid-cols-12 gap-5 overflow-hidden rounded-2xl md:grid')}
+        >
           <div
             className={clsx(
               'col-span-12 min-h-[400px] overflow-hidden rounded-2xl sm:col-span-5',
-              orientation === 'image-right' && 'order-1'
+              orientation === 'right' && 'order-1'
             )}
           >
             <Image
