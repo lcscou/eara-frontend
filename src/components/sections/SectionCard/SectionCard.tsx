@@ -25,8 +25,8 @@ export default function SectionCard({
             <Image
               src={image}
               alt="Section Card Image"
-              width={200}
-              height={200}
+              width={800}
+              height={800}
               className="h-full w-full object-cover"
             />
           </div>
