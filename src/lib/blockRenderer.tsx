@@ -3,6 +3,7 @@ import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
+import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
 import Quote from '@/components/ui/Quote/Quote'
 
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
@@ -240,6 +241,24 @@ export interface EaraQuoteAttributes extends BlockAttribute {
     alt?: string
   }
   variant?: 'dark' | 'light'
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+}
+
+export interface EaraTabsAttributes extends BlockAttribute {
+  tabs?: Array<{
+    id: string
+    title: string
+    content: string
+    image?: {
+      url?: string
+      id?: number
+      alt?: string
+    }
+  }>
+  activeTab?: string
+  layout?: 'vertical' | 'horizontal'
   lock?: Record<string, unknown>
   metadata?: Record<string, unknown>
   className?: string
@@ -1174,6 +1193,23 @@ function renderEaraQuote(block: Block, index: number): ReactNode {
 }
 
 /**
+ * Renderiza um bloco eara/tabs usando componente dedicado EaraTabs
+ */
+function renderEaraTabs(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as EaraTabsAttributes | undefined
+  const tabs = attributes?.tabs || []
+  const activeTab = attributes?.activeTab || tabs[0]?.id || 'tab-1'
+  const layout = attributes?.layout || 'vertical'
+  const className = attributes?.className || ''
+
+  if (tabs.length === 0) return null
+
+  return (
+    <EaraTabs key={index} tabs={tabs} activeTab={activeTab} layout={layout} className={className} />
+  )
+}
+
+/**
  * Renderiza um item de lista Gutenberg core/list-item com suporte completo a atributos
  */
 function renderCoreListItem(block: Block, index: number): ReactNode {
@@ -1477,6 +1513,10 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/quote': {
       return renderEaraQuote(block, index)
+    }
+
+    case 'eara/tabs': {
+      return renderEaraTabs(block, index)
     }
 
     case 'eara/latest-news': {
