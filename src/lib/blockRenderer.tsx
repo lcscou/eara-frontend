@@ -114,7 +114,10 @@ export interface CoreImageAttributes extends BlockAttribute {
   blob?: string
   style?: {
     color?: { background?: string; text?: string }
-    spacing?: { padding?: unknown; margin?: unknown }
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
   }
 }
 
@@ -134,7 +137,10 @@ export interface CoreVideoAttributes extends BlockAttribute {
   className?: string
   style?: {
     color?: { background?: string; text?: string }
-    spacing?: { padding?: unknown; margin?: unknown }
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
   }
 }
 
@@ -155,7 +161,10 @@ export interface CoreEmbedAttributes extends BlockAttribute {
   className?: string
   style?: {
     color?: { background?: string; text?: string }
-    spacing?: { padding?: unknown; margin?: unknown }
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
   }
 }
 
@@ -637,6 +646,16 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   const bgColor = parseColor(style?.color?.background)
   const textColor = parseColor(style?.color?.text)
 
+  // Processando spacing
+  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
   if (!url) return null
 
   const img = (
@@ -647,6 +666,7 @@ function renderCoreImage(block: Block, index: number): ReactNode {
       title={title}
       width={width}
       height="auto"
+      className="rounded-lg"
       style={{ maxWidth: '100%', objectFit: 'cover' }}
     />
   )
@@ -666,6 +686,14 @@ function renderCoreImage(block: Block, index: number): ReactNode {
       className={className}
       bg={bgColor}
       c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       {content}
@@ -695,6 +723,16 @@ function renderCoreVideo(block: Block, index: number): ReactNode {
   const bgColor = parseColor(style?.color?.background)
   const textColor = parseColor(style?.color?.text)
 
+  // Processando spacing
+  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
   if (!src) return null
 
   return (
@@ -703,6 +741,14 @@ function renderCoreVideo(block: Block, index: number): ReactNode {
       className={className}
       bg={bgColor}
       c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       <video
@@ -756,6 +802,16 @@ function renderCoreEmbed(block: Block, index: number): ReactNode {
   const bgColor = parseColor(style?.color?.background)
   const textColor = parseColor(style?.color?.text)
 
+  // Processando spacing
+  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
   if (!url) return null
 
   // Diferentes tipos de embed baseado no provider
@@ -766,7 +822,10 @@ function renderCoreEmbed(block: Block, index: number): ReactNode {
     const videoId = url.split(/(?:youtube\.com\/watch\?v=|youtu\.be\/)/)[1]?.split(/[&\?]/)[0]
     if (videoId) {
       embedContent = (
-        <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%' }}>
+        <div
+          className="overflow-hidden rounded-lg"
+          style={{ position: 'relative', width: '100%', paddingBottom: '56.25%' }}
+        >
           <iframe
             style={{
               position: 'absolute',
@@ -822,6 +881,14 @@ function renderCoreEmbed(block: Block, index: number): ReactNode {
       className={className}
       bg={bgColor}
       c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       {embedContent}
