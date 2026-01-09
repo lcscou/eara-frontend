@@ -19,7 +19,6 @@ import {
   Title,
 } from '@mantine/core'
 import parse from 'html-react-parser'
-import Image from 'next/image'
 import React, { ReactNode } from 'react'
 import { CardProps } from './types'
 
@@ -91,6 +90,88 @@ export interface CoreColumnAttributes extends BlockAttribute {
       background?: string
     }
   }
+}
+
+export interface CoreImageAttributes extends BlockAttribute {
+  url?: string
+  alt?: string
+  caption?: string
+  title?: string
+  width?: number
+  height?: number
+  href?: string
+  linkTarget?: '_blank' | '_self'
+  rel?: string
+  lightbox?: boolean | { enabled?: boolean }
+  aspectRatio?: string
+  scale?: string
+  sizeSlug?: string
+  focalPoint?: { x?: number; y?: number }
+  className?: string
+  id?: number
+  blob?: string
+  style?: {
+    color?: { background?: string; text?: string }
+    spacing?: { padding?: unknown; margin?: unknown }
+  }
+}
+
+export interface CoreVideoAttributes extends BlockAttribute {
+  src?: string
+  blob?: string
+  id?: number
+  poster?: string
+  caption?: string
+  controls?: boolean
+  autoplay?: boolean
+  loop?: boolean
+  muted?: boolean
+  playsInline?: boolean
+  preload?: 'auto' | 'metadata' | 'none'
+  tracks?: Array<{ kind?: string; src?: string; srcLang?: string }>
+  className?: string
+  style?: {
+    color?: { background?: string; text?: string }
+    spacing?: { padding?: unknown; margin?: unknown }
+  }
+}
+
+export interface CoreSpacerAttributes extends BlockAttribute {
+  height?: string | number
+  width?: string | number
+  className?: string
+}
+
+export interface CoreEmbedAttributes extends BlockAttribute {
+  url?: string
+  providerNameSlug?: string
+  type?: 'video' | 'photo' | 'rich' | 'link'
+  caption?: string
+  allowResponsive?: boolean
+  responsive?: boolean
+  previewable?: boolean
+  className?: string
+  style?: {
+    color?: { background?: string; text?: string }
+    spacing?: { padding?: unknown; margin?: unknown }
+  }
+}
+
+export interface CoreHtmlAttributes extends BlockAttribute {
+  content?: string
+  className?: string
+}
+
+export interface EaraGoogleMapsAttributes extends BlockAttribute {
+  mapUrl?: string
+  height?: string
+  width?: string
+  title?: string
+  border?: boolean
+  borderRadius?: string
+  lock?: Record<string, unknown>
+  className?: string
+  metadata?: Record<string, unknown>
 }
 
 // Mapeamento de presets de spacing do WordPress para valores CSS
@@ -461,8 +542,280 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
               : 'flex-start',
       }}
     >
-      ola{backgroundColor}
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+    </Box>
+  )
+}
+
+/**
+ * Renderiza um bloco core/image com suporte completo a propriedades
+ */
+function renderCoreImage(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreImageAttributes | undefined
+  const url = attributes?.url || attributes?.src
+  const alt = attributes?.alt || ''
+  const caption = attributes?.caption
+  const title = attributes?.title
+  const width = attributes?.width || 800
+  const href = attributes?.href
+  const linkTarget = attributes?.linkTarget || '_self'
+  const rel = attributes?.rel || ''
+  const className = attributes?.className || ''
+  const style = attributes?.style
+
+  // Processando cores e spacing
+  const bgColor = parseColor(style?.color?.background)
+  const textColor = parseColor(style?.color?.text)
+
+  if (!url) return null
+
+  const img = (
+    <Box
+      component="img"
+      src={url as string}
+      alt={alt}
+      title={title}
+      width={width}
+      height="auto"
+      style={{ maxWidth: '100%', objectFit: 'cover' }}
+    />
+  )
+
+  // Se tiver href, envolve em link
+  const content = href ? (
+    <a href={href} target={linkTarget} rel={rel}>
+      {img}
+    </a>
+  ) : (
+    img
+  )
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      {content}
+      {caption && <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parse(caption)}</div>}
+    </Box>
+  )
+}
+
+/**
+ * Renderiza um bloco core/video com suporte completo a propriedades
+ */
+function renderCoreVideo(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreVideoAttributes | undefined
+  const src = (attributes?.src || attributes?.blob) as string | undefined
+  const poster = attributes?.poster
+  const caption = attributes?.caption
+  const controls = attributes?.controls !== false
+  const autoplay = attributes?.autoplay || false
+  const loop = attributes?.loop || false
+  const muted = attributes?.muted || false
+  const playsInline = attributes?.playsInline || true
+  const preload = attributes?.preload || 'metadata'
+  const className = attributes?.className || ''
+  const style = attributes?.style
+
+  // Processando cores
+  const bgColor = parseColor(style?.color?.background)
+  const textColor = parseColor(style?.color?.text)
+
+  if (!src) return null
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <video
+        src={src}
+        poster={poster}
+        controls={controls}
+        autoPlay={autoplay}
+        loop={loop}
+        muted={muted}
+        playsInline={playsInline}
+        preload={preload}
+        style={{ width: '100%', height: 'auto' }}
+      />
+      {caption && <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parse(caption)}</div>}
+    </Box>
+  )
+}
+
+/**
+ * Renderiza um bloco core/spacer
+ */
+function renderCoreSpacer(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreSpacerAttributes | undefined
+  const height = attributes?.height || '2rem'
+  const width = attributes?.width || '100%'
+  const className = attributes?.className || ''
+
+  const heightValue =
+    typeof height === 'number' ? `${height}px` : typeof height === 'string' ? height : '2rem'
+
+  const widthValue =
+    typeof width === 'number' ? `${width}px` : typeof width === 'string' ? width : '100%'
+
+  return (
+    <Box key={index} className={className} style={{ height: heightValue, width: widthValue }} />
+  )
+}
+
+/**
+ * Renderiza um bloco core/embed com suporte para diversos provedores
+ */
+function renderCoreEmbed(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreEmbedAttributes | undefined
+  const url = attributes?.url
+  const provider = attributes?.providerNameSlug
+  const caption = attributes?.caption
+  const className = attributes?.className || ''
+  const style = attributes?.style
+
+  // Processando cores
+  const bgColor = parseColor(style?.color?.background)
+  const textColor = parseColor(style?.color?.text)
+
+  if (!url) return null
+
+  // Diferentes tipos de embed baseado no provider
+  let embedContent: ReactNode = null
+
+  // Para YouTube e Vimeo, extrair ID e gerar iframe
+  if (provider === 'youtube') {
+    const videoId = url.split(/(?:youtube\.com\/watch\?v=|youtu\.be\/)/)[1]?.split(/[&\?]/)[0]
+    if (videoId) {
+      embedContent = (
+        <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%' }}>
+          <iframe
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              border: 'none',
+            }}
+            src={`https://www.youtube.com/embed/${videoId}`}
+            title="YouTube video"
+            allowFullScreen
+          />
+        </div>
+      )
+    }
+  } else if (provider === 'vimeo') {
+    const videoId = url.split('vimeo.com/')[1]?.split(/[&\?]/)[0]
+    if (videoId) {
+      embedContent = (
+        <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%' }}>
+          <iframe
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              border: 'none',
+            }}
+            src={`https://player.vimeo.com/video/${videoId}`}
+            title="Vimeo video"
+            allowFullScreen
+          />
+        </div>
+      )
+    }
+  } else {
+    // Para outros tipos, renderizar um iframe simples
+    embedContent = (
+      <iframe
+        src={url}
+        title="Embedded content"
+        style={{ width: '100%', height: '400px', border: 'none' }}
+        allowFullScreen
+      />
+    )
+  }
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      {embedContent}
+      {caption && <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parse(caption)}</div>}
+    </Box>
+  )
+}
+
+/**
+ * Renderiza um bloco core/html para conteúdo HTML customizado
+ */
+function renderCoreHtml(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreHtmlAttributes | undefined
+  const content = attributes?.content
+  const className = attributes?.className || ''
+
+  if (!content) return null
+
+  return (
+    <Box key={index} className={className}>
+      {parse(content)}
+    </Box>
+  )
+}
+
+/**
+ * Renderiza um bloco eara/google-maps para mapas incorporados
+ */
+function renderEaraGoogleMaps(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as EaraGoogleMapsAttributes | undefined
+  const mapUrl = attributes?.mapUrl || ''
+  const height = attributes?.height ?? '400'
+  const width = attributes?.width ?? '100%'
+  const title = attributes?.title || 'Location Map'
+  const border = attributes?.border !== false
+  const borderRadius = attributes?.borderRadius ?? '8'
+  const className = attributes?.className || ''
+
+  if (!mapUrl) return null
+
+  const heightValue = `${height}px`
+  const widthValue = typeof width === 'number' ? `${width}px` : width
+  const radiusValue = `${borderRadius}px`
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      style={{
+        width: widthValue,
+        height: heightValue,
+        border: border ? '1px solid #ccc' : 'none',
+        borderRadius: radiusValue,
+        overflow: 'hidden',
+      }}
+    >
+      <iframe
+        src={mapUrl}
+        title={title}
+        style={{ width: '100%', height: '100%', border: '0' }}
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="no-referrer-when-downgrade"
+      />
     </Box>
   )
 }
@@ -620,6 +973,10 @@ function renderBlock(block: Block, index: number): ReactNode {
       )
     }
 
+    case 'eara/google-maps': {
+      return renderEaraGoogleMaps(block, index)
+    }
+
     case 'eara/latest-news': {
       return <FeaturedNews key={index} withSectionWrapper={false} />
     }
@@ -760,21 +1117,23 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
     // Core Image
     case 'core/image': {
-      const url = (attributes.url || attributes.src) as string
-      const alt = (attributes.alt || '') as string
-      const width = attributes.width as number
-      const height = attributes.height as number
-      if (!url) return null
-      return (
-        <Image
-          key={index}
-          src={url}
-          alt={alt}
-          width={width || 800}
-          height={height || 600}
-          style={{ maxWidth: '100%', height: 'auto' }}
-        />
-      )
+      return renderCoreImage(block, index)
+    }
+    // Core Video
+    case 'core/video': {
+      return renderCoreVideo(block, index)
+    }
+    // Core Spacer
+    case 'core/spacer': {
+      return renderCoreSpacer(block, index)
+    }
+    // Core Embed
+    case 'core/embed': {
+      return renderCoreEmbed(block, index)
+    }
+    // Core HTML
+    case 'core/html': {
+      return renderCoreHtml(block, index)
     }
     // Bloco desconhecido - renderiza HTML bruto ou aviso
     default: {
