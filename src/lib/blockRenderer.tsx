@@ -207,7 +207,9 @@ const spacingPresets: Record<string, string> = {
 // Mapeamento de cores do WordPress para valores CSS
 const colorPresets: Record<string, string> = {
   primary: '#312f86',
+  'primary-color': '#312f86',
   secondary: '#8fbf29',
+  'secondary-color': '#8fbf29',
   white: '#ffff',
   accent: '#00cc66',
 }
@@ -1001,35 +1003,108 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
     // Core Heading
     case 'core/heading': {
-      const level = (attributes.level as number) || 2
+      const levelRaw = (attributes.level as number) ?? 2
+      const level = Math.min(6, Math.max(1, levelRaw)) as 1 | 2 | 3 | 4 | 5 | 6
       const content = (attributes.content as string) || ''
-      const textColor = attributes.textColor as string | undefined
-      const textAlign = attributes.textAlign as TextProps['ta'] | undefined
+      const className = (attributes.className as string) || ''
+      const anchor = (attributes.anchor as string) || undefined
+
+      const alignAttr = attributes.align as
+        | 'left'
+        | 'center'
+        | 'right'
+        | 'wide'
+        | 'full'
+        | ''
+        | undefined
+      const textAlignAttr = (attributes.textAlign as TextProps['ta']) || undefined
+      const ta: TextProps['ta'] =
+        textAlignAttr ||
+        (alignAttr === 'left' || alignAttr === 'center' || alignAttr === 'right'
+          ? (alignAttr as TextProps['ta'])
+          : undefined)
+
       const style = attributes.style as
         | {
-            typography?: { fontSize?: string }
-            elements?: { link?: { color?: { text?: string } } }
             spacing?: {
               padding?: { bottom?: string; top?: string; left?: string; right?: string }
               margin?: { bottom?: string; top?: string; left?: string; right?: string }
             }
+            typography?: { fontSize?: string; fontFamily?: string }
+            color?: { background?: string; text?: string }
+            elements?: { link?: { color?: { text?: string } } }
           }
         | undefined
-      const styleColor = style?.elements?.link?.color?.text
-      const color = parseColor(textColor) || parseColor(styleColor) || undefined
-      const fontSize = style?.typography?.fontSize
-      const margin = style?.spacing?.margin
+
+      // Colors
+      const textColorAttr = (attributes.textColor as string | undefined) || style?.color?.text
+      const backgroundColorAttr =
+        (attributes.backgroundColor as string | undefined) || style?.color?.background
+      const gradient = attributes.gradient as string | undefined
+      const borderColorAttr = attributes.borderColor as string | undefined
+
+      const color =
+        parseColor(textColorAttr) || parseColor(style?.elements?.link?.color?.text) || undefined
+      const backgroundColor = parseColor(backgroundColorAttr)
+      const borderColor = parseColor(borderColorAttr)
+
+      // Typography
+      const fontSize = (attributes.fontSize as string | undefined) || style?.typography?.fontSize
+      const fontFamily =
+        (attributes.fontFamily as string | undefined) || style?.typography?.fontFamily
+
+      // Spacing
+      const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+      const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+      const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+      const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom) || '20px'
+      const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+      const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+      const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
+      // FitText for headings (data attribute for optional handling)
+      const fitText = (attributes.fitText as boolean) || false
+
+      // WP align classes for wide/full/left/center/right
+      const alignClass = alignAttr
+        ? alignAttr === 'left'
+          ? 'alignleft'
+          : alignAttr === 'center'
+            ? 'aligncenter'
+            : alignAttr === 'right'
+              ? 'alignright'
+              : alignAttr === 'wide'
+                ? 'alignwide'
+                : alignAttr === 'full'
+                  ? 'alignfull'
+                  : ''
+        : ''
+      const headingClassName = [className, alignClass].filter(Boolean).join(' ')
+
       return (
         <Title
           key={index}
-          order={level as 1 | 2 | 3 | 4 | 5 | 6}
+          id={anchor}
+          order={level}
+          className={headingClassName}
           c={color}
           fz={fontSize}
-          mt={resolveWordPressValue(margin?.top)}
-          mb={resolveWordPressValue(margin?.bottom) || '10px'}
-          ml={resolveWordPressValue(margin?.left)}
-          mr={resolveWordPressValue(margin?.right)}
-          ta={textAlign}
+          ff={fontFamily}
+          ta={ta}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+          data-fit-text={fitText || undefined}
+          style={{
+            background: gradient ? gradient : backgroundColor,
+            border: borderColor ? `1px solid ${borderColor}` : undefined,
+          }}
         >
           {parse(content)}
         </Title>
@@ -1146,35 +1221,78 @@ function renderBlock(block: Block, index: number): ReactNode {
     // Core Paragraph
     case 'core/paragraph': {
       const content = (attributes.content as string) || ''
-      const textColor = attributes.textColor as string | undefined
-      const fontSize = attributes.fontSize as string | undefined
+      const align =
+        (attributes.align as TextProps['ta']) ||
+        (attributes as unknown as { textAlign?: TextProps['ta'] }).textAlign
+      const direction = attributes.direction as 'ltr' | 'rtl' | undefined
+      const dropCap = (attributes.dropCap as boolean) || false
+      const className = (attributes.className as string) || ''
+      const anchor = (attributes.anchor as string) || undefined
+
       const style = attributes.style as
         | {
             spacing?: {
               padding?: { bottom?: string; top?: string; left?: string; right?: string }
               margin?: { bottom?: string; top?: string; left?: string; right?: string }
             }
-            typography?: { fontSize?: string }
+            typography?: { fontSize?: string; fontFamily?: string }
             elements?: { link?: { color?: { text?: string } } }
+            color?: { background?: string; text?: string }
           }
         | undefined
-      const color =
-        parseColor(textColor) || parseColor(style?.elements?.link?.color?.text) || undefined
+
+      const textColorAttr =
+        style?.elements?.link?.color?.text ||
+        (attributes.textColor as string | undefined) ||
+        style?.color?.text
+      const backgroundColorAttr =
+        (attributes.backgroundColor as string | undefined) || style?.color?.background
+      const gradient = attributes.gradient as string | undefined
+      const fontSize = (attributes.fontSize as string | undefined) || style?.typography?.fontSize
+      const fontFamily =
+        (attributes.fontFamily as string | undefined) || style?.typography?.fontFamily
+      const borderColorAttr = attributes.borderColor as string | undefined
+      const fitText = (attributes.fitText as boolean) || false
+
+      const color = parseColor(textColorAttr)
+      const backgroundColor = parseColor(backgroundColorAttr)
+      const borderColor = parseColor(borderColorAttr)
+
       const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
       const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom || '10px')
-      const textAlign = attributes.textAlign as TextProps['ta'] | undefined
+      const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+      const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom) || '10px'
+      const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+      const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+      const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
+      const computedClassName = dropCap ? `${className} has-drop-cap` : className
+
       return (
         <Box
-          component="span"
+          component="p"
           key={index}
+          id={anchor}
+          className={computedClassName}
+          dir={direction}
           c={color}
-          size={fontSize}
-          ta={textAlign}
+          fz={fontSize}
+          ff={fontFamily}
+          ta={align}
           pb={paddingBottom}
           pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
           mb={marginBottom}
-          display="block"
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+          data-fit-text={fitText || undefined}
+          style={{
+            background: gradient ? gradient : backgroundColor,
+            border: borderColor ? `1px solid ${borderColor}` : undefined,
+          }}
         >
           {parse(content)}
         </Box>
