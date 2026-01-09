@@ -8,10 +8,19 @@ import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import Section from '@/components/ui/Section/Section'
-import { Box, Container, Group, MantineSize, TextProps, Title } from '@mantine/core'
+import {
+  Box,
+  Container,
+  Group,
+  MantineSize,
+  SimpleGrid,
+  Stack,
+  TextProps,
+  Title,
+} from '@mantine/core'
 import parse from 'html-react-parser'
 import Image from 'next/image'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { CardProps } from './types'
 
 // Types para os blocos
@@ -23,6 +32,65 @@ export interface Block {
   name: string
   attributes?: BlockAttribute
   innerBlocks?: Block[]
+}
+
+// Interfaces para blocos core do Gutenberg
+export interface CoreLayoutConfig {
+  type?: 'default' | 'constrained' | 'flex' | 'grid'
+  inherit?: boolean
+  contentSize?: string
+  wideSize?: string
+  justifyContent?: string
+  flexWrap?: 'wrap' | 'nowrap'
+  orientation?: 'vertical' | 'horizontal'
+  columnCount?: number
+}
+
+export interface CoreGroupAttributes extends BlockAttribute {
+  tagName?: string
+  templateLock?: string | boolean
+  layout?: CoreLayoutConfig
+  allowedBlocks?: string[]
+  cssClassName?: string
+}
+
+export interface CoreRowAttributes extends CoreGroupAttributes {
+  layout?: CoreLayoutConfig & { type: 'flex'; flexWrap: 'nowrap' }
+}
+
+export interface CoreStackAttributes extends CoreGroupAttributes {
+  layout?: CoreLayoutConfig & { type: 'flex'; orientation: 'vertical' }
+}
+
+export interface CoreGridAttributes extends CoreGroupAttributes {
+  layout?: CoreLayoutConfig & { type: 'grid'; columnCount: number }
+}
+
+export interface CoreColumnsAttributes extends BlockAttribute {
+  isStackedOnMobile?: boolean
+  verticalAlignment?: 'top' | 'center' | 'bottom' | 'stretch'
+  layout?: CoreLayoutConfig
+  cssClassName?: string
+}
+
+export interface CoreColumnAttributes extends BlockAttribute {
+  width?: string | number
+  verticalAlignment?: 'top' | 'center' | 'bottom' | 'stretch'
+  cssClassName?: string
+  backgroundColor?: string
+  textColor?: string
+
+  style?: {
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    typography?: { fontSize?: string }
+    elements?: { link?: { color?: { text?: string } } }
+    color: {
+      background?: string
+    }
+  }
 }
 
 // Mapeamento de presets de spacing do WordPress para valores CSS
@@ -39,8 +107,8 @@ const spacingPresets: Record<string, string> = {
 
 // Mapeamento de cores do WordPress para valores CSS
 const colorPresets: Record<string, string> = {
-  primary: '#0066cc',
-  secondary: '#ff6600',
+  primary: '#312f86',
+  secondary: '#8fbf29',
   white: '#ffff',
   accent: '#00cc66',
 }
@@ -75,6 +143,13 @@ function resolveWordPressValue(value: unknown): string | undefined {
   // Se for um valor CSS válido direto
   if (value.match(/^[\d.]+(?:px|rem|em|%|vh|vw)$/)) {
     return value
+  }
+
+  if (value === 'secondary-color') {
+    return colorPresets['secondary']
+  }
+  if (value === 'primary-color') {
+    return colorPresets['primary']
   }
 
   return undefined
@@ -124,6 +199,274 @@ const gapMap: Record<string, MantineSize> = {
   lg: 'lg',
   xl: 'xl',
 }
+
+// Mapeamento de justify-content do Gutenberg para Mantine/CSS
+const justifyContentMap: Record<string, string> = {
+  'flex-start': 'flex-start',
+  start: 'flex-start',
+  'flex-end': 'flex-end',
+  end: 'flex-end',
+  center: 'center',
+  'space-between': 'space-between',
+  'space-around': 'space-around',
+  'space-evenly': 'space-evenly',
+  stretch: 'stretch',
+}
+
+/**
+ * Extrai configurações de layout do bloco core/group e variações
+ * Trata layout.type: 'default', 'constrained', 'flex', 'grid'
+ */
+function extractLayoutConfig(layout?: CoreLayoutConfig) {
+  if (!layout) return {}
+
+  const { type, justifyContent, orientation, columnCount, flexWrap } = layout
+
+  return {
+    layoutType: type || 'default',
+    justifyContent: (justifyContentMap[justifyContent as string] ||
+      justifyContent) as React.CSSProperties['justifyContent'],
+    orientation: orientation || 'horizontal',
+    columnCount: columnCount || 1,
+    flexWrap: (flexWrap || 'wrap') as 'wrap' | 'nowrap',
+  }
+}
+
+/**
+ * Renderiza um bloco core/group com suporte a diferentes tipos de layout
+ */
+function renderCoreGroup(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreGroupAttributes | undefined
+  const tagName = (attributes?.tagName || 'div') as string
+  const className = attributes?.cssClassName || ''
+  const layout = attributes?.layout
+
+  const { layoutType, justifyContent, flexWrap } = extractLayoutConfig(layout)
+
+  // Se for layout flex, usa Stack ou Group
+  if (layoutType === 'flex') {
+    const isHorizontal = layout?.orientation !== 'vertical'
+
+    if (isHorizontal) {
+      return (
+        <Group
+          component={tagName as 'div'}
+          key={index}
+          className={className}
+          justify={justifyContent as React.CSSProperties['justifyContent']}
+          wrap={flexWrap}
+          style={{ width: '100%' }}
+        >
+          {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </Group>
+      )
+    } else {
+      return (
+        <Stack
+          component={tagName as 'div'}
+          key={index}
+          className={className}
+          justify={justifyContent as React.CSSProperties['justifyContent']}
+          style={{ width: '100%' }}
+        >
+          {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        </Stack>
+      )
+    }
+  }
+
+  // Se for layout grid
+  if (layoutType === 'grid') {
+    return (
+      <SimpleGrid
+        component={tagName as 'div'}
+        cols={layout?.columnCount || 1}
+        key={index}
+        className={className}
+      >
+        {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+      </SimpleGrid>
+    )
+  }
+
+  // Default/constrained: renderiza como Box
+  return (
+    <Box component={tagName as 'div'} key={index} className={className}>
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+    </Box>
+  )
+}
+
+/**
+ * Renderiza um bloco core/row (variação do core/group com layout flex horizontal)
+ */
+function renderCoreRow(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreRowAttributes | undefined
+  const tagName = (attributes?.tagName || 'div') as string
+  const className = attributes?.cssClassName || ''
+  const layout = attributes?.layout || { type: 'flex', flexWrap: 'nowrap' }
+
+  const { justifyContent } = extractLayoutConfig(layout)
+
+  return (
+    <Group
+      component={tagName as 'div'}
+      key={index}
+      className={className}
+      justify={justifyContent as React.CSSProperties['justifyContent']}
+      wrap={layout.flexWrap as 'wrap' | 'nowrap'}
+      style={{ width: '100%' }}
+    >
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+    </Group>
+  )
+}
+
+/**
+ * Renderiza um bloco core/stack (variação do core/group com layout flex vertical)
+ */
+function renderCoreStack(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreStackAttributes | undefined
+  const tagName = (attributes?.tagName || 'div') as string
+  const className = attributes?.cssClassName || ''
+  const layout = attributes?.layout || { type: 'flex', orientation: 'vertical' }
+
+  const { justifyContent } = extractLayoutConfig(layout)
+
+  return (
+    <Stack
+      component={tagName as 'div'}
+      key={index}
+      className={className}
+      justify={justifyContent as React.CSSProperties['justifyContent']}
+      style={{ width: '100%' }}
+    >
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+    </Stack>
+  )
+}
+
+/**
+ * Renderiza um bloco core/grid (variação do core/group com layout grid)
+ */
+function renderCoreGrid(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreGridAttributes | undefined
+  const tagName = (attributes?.tagName || 'div') as string
+  const className = attributes?.cssClassName || ''
+  const columnCount = attributes?.layout?.columnCount || 1
+
+  return (
+    <SimpleGrid
+      component={tagName as 'div'}
+      cols={columnCount}
+      key={index}
+      className={className}
+      style={{ width: '100%' }}
+    >
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+    </SimpleGrid>
+  )
+}
+
+/**
+ * Renderiza um bloco core/columns (container para múltiplas colunas)
+ */
+function renderCoreColumns(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreColumnsAttributes | undefined
+  const className = attributes?.cssClassName || ''
+  const verticalAlignment = attributes?.verticalAlignment || 'top'
+
+  return (
+    <Group
+      key={index}
+      className={className}
+      wrap="nowrap"
+      align={
+        verticalAlignment === 'center'
+          ? 'center'
+          : verticalAlignment === 'bottom'
+            ? 'flex-end'
+            : verticalAlignment === 'stretch'
+              ? 'stretch'
+              : 'flex-start'
+      }
+      style={{ width: '100%', gap: '0' }}
+    >
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+    </Group>
+  )
+}
+
+/**
+ * Renderiza um bloco core/column (coluna dentro de core/columns)
+ */
+function renderCoreColumn(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreColumnAttributes | undefined
+  const className = attributes?.cssClassName || ''
+  const width = attributes?.width
+  const verticalAlignment = attributes?.verticalAlignment || 'top'
+  const backgroundColor = attributes?.style?.color?.background || attributes?.backgroundColor
+  const textColor = parseColor(attributes?.textColor)
+  const style = attributes?.style
+
+  // Processando cores
+  const bgColor = parseColor(backgroundColor)
+  const color = parseColor(textColor) || parseColor(style?.elements?.link?.color?.text)
+
+  // Processando spacing
+  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
+  // Se não tiver width, cada coluna ocupa espaço igual (flex: 1)
+  const flexBasis = width
+    ? typeof width === 'number'
+      ? `${width}%`
+      : typeof width === 'string'
+        ? width.includes('%') || width.includes('px')
+          ? width
+          : `${width}%`
+        : 'auto'
+    : 'auto'
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={color}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={{
+        flex: width ? `0 0 ${flexBasis}` : '1 1 auto',
+        minWidth: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent:
+          verticalAlignment === 'center'
+            ? 'center'
+            : verticalAlignment === 'bottom'
+              ? 'flex-end'
+              : 'flex-start',
+      }}
+    >
+      ola{backgroundColor}
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+    </Box>
+  )
+}
+
 // Função para renderizar blocos individuais
 function renderBlock(block: Block, index: number): ReactNode {
   const { name, attributes = {}, innerBlocks = [] } = block
@@ -153,6 +496,30 @@ function renderBlock(block: Block, index: number): ReactNode {
           ),
         }))
       return <Accordion key={index} items={items} />
+    }
+    // Core Group - Bloco container do Gutenberg com suporte a múltiplos tipos de layout
+    case 'core/group': {
+      return renderCoreGroup(block, index)
+    }
+    // Core Row - Variação do core/group com layout flex horizontal
+    case 'core/row': {
+      return renderCoreRow(block, index)
+    }
+    // Core Stack - Variação do core/group com layout flex vertical
+    case 'core/stack': {
+      return renderCoreStack(block, index)
+    }
+    // Core Grid - Variação do core/group com layout grid responsivo
+    case 'core/grid': {
+      return renderCoreGrid(block, index)
+    }
+    // Core Columns - Container para múltiplas colunas
+    case 'core/columns': {
+      return renderCoreColumns(block, index)
+    }
+    // Core Column - Coluna dentro de core/columns
+    case 'core/column': {
+      return renderCoreColumn(block, index)
     }
     // Group (flexbox)
     case 'eara/group': {
