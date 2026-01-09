@@ -3,6 +3,7 @@ import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
 import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
+import Quote from '@/components/ui/Quote/Quote'
 
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
@@ -49,10 +50,37 @@ export interface CoreLayoutConfig {
 
 export interface CoreGroupAttributes extends BlockAttribute {
   tagName?: string
-  templateLock?: string | boolean
-  layout?: CoreLayoutConfig
-  allowedBlocks?: string[]
+  templateLock?: 'all' | 'insert' | 'contentOnly' | false
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  align?: 'left' | 'center' | 'right' | 'wide' | 'full' | ''
+  className?: string
   cssClassName?: string
+  style?: {
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    typography?: { fontSize?: string; fontFamily?: string }
+    color?: { background?: string; text?: string; gradient?: string }
+    border?: {
+      color?: string
+      width?: string
+      style?: string
+      radius?: string
+    }
+  }
+  backgroundColor?: string
+  textColor?: string
+  gradient?: string
+  fontSize?: string
+  fontFamily?: string
+  borderColor?: string
+  layout?: CoreLayoutConfig
+  ariaLabel?: string
+  allowedBlocks?: string[]
+  anchor?: string
+  settings?: Record<string, unknown>
 }
 
 export interface CoreRowAttributes extends CoreGroupAttributes {
@@ -201,6 +229,22 @@ export interface EaraListItemAttributes extends BlockAttribute {
   className?: string
 }
 
+export interface EaraQuoteAttributes extends BlockAttribute {
+  content?: string
+  author?: string
+  backgroundColor?: 'white' | 'light-blue' | 'light-green' | 'light-gray'
+  showAvatar?: boolean
+  avatarImage?: {
+    url?: string
+    id?: number
+    alt?: string
+  }
+  variant?: 'dark' | 'light'
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+}
+
 export interface CoreListAttributes extends BlockAttribute {
   ordered?: boolean
   values?: string
@@ -270,6 +314,9 @@ const colorPresets: Record<string, string> = {
   secondary: '#8fbf29',
   'secondary-color': '#8fbf29',
   white: '#ffff',
+  'eara-bg-dark': '#e2e2e5',
+  'eara-bg-light': '#ededfa',
+  'eara-gray-light': '#eaeaea',
   accent: '#00cc66',
 }
 
@@ -307,6 +354,15 @@ function resolveWordPressValue(value: unknown): string | undefined {
 
   if (value === 'secondary-color') {
     return colorPresets['secondary']
+  }
+  if (value === 'eara-bg-dark') {
+    return colorPresets['eara-bg-dark']
+  }
+  if (value === 'eara-bg-light') {
+    return colorPresets['eara-bg-light']
+  }
+  if (value === 'eara-gray-light') {
+    return colorPresets['eara-gray-light']
   }
   if (value === 'primary-color') {
     return colorPresets['primary']
@@ -398,10 +454,76 @@ function extractLayoutConfig(layout?: CoreLayoutConfig) {
 function renderCoreGroup(block: Block, index: number): ReactNode {
   const attributes = block.attributes as CoreGroupAttributes | undefined
   const tagName = (attributes?.tagName || 'div') as string
-  const className = attributes?.cssClassName || ''
+  const className = attributes?.className || attributes?.cssClassName || ''
   const layout = attributes?.layout
+  const anchor = attributes?.anchor
+  const ariaLabel = attributes?.ariaLabel
+  const align = attributes?.align
+  const style = attributes?.style
+
+  // Processando cores
+  const bgColor = parseColor(
+    style?.color?.background || attributes?.backgroundColor || attributes?.style?.color?.background
+  )
+  const textColor = parseColor(style?.color?.text || attributes?.textColor)
+  const gradient = attributes?.gradient || style?.color?.gradient
+
+  // Processando fonts
+  const fontSize = resolveWordPressValue(style?.typography?.fontSize || attributes?.fontSize)
+  const fontFamily = style?.typography?.fontFamily || attributes?.fontFamily
+
+  // Processando spacing
+  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
+  // Processando border
+  const borderColor = parseColor(style?.border?.color || attributes?.borderColor)
+  const borderWidth = style?.border?.width
+  const borderStyle = style?.border?.style
+  const borderRadius = style?.border?.radius
+
+  // Classes de alinhamento WordPress
+  const alignClasses = align ? `align${align.charAt(0).toUpperCase()}${align.slice(1)}` : ''
+
+  const combinedClassName = `${className} ${alignClasses}`.trim()
 
   const { layoutType, justifyContent, flexWrap } = extractLayoutConfig(layout)
+
+  // Estilo inline para border e gradient
+  const inlineStyle: React.CSSProperties = {}
+  if (gradient) {
+    inlineStyle.background = gradient
+  } else if (bgColor) {
+    inlineStyle.backgroundColor = bgColor
+  }
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
+
+  // Props comuns para todos os layouts (sem key)
+  const commonProps = {
+    id: anchor,
+    className: combinedClassName,
+    'aria-label': ariaLabel,
+    c: textColor,
+    fz: fontSize,
+    ff: fontFamily,
+    pb: paddingBottom,
+    pt: paddingTop,
+    pl: paddingLeft,
+    pr: paddingRight,
+    mb: marginBottom,
+    mt: marginTop,
+    ml: marginLeft,
+    mr: marginRight,
+  }
 
   // Se for layout flex, usa Stack ou Group
   if (layoutType === 'flex') {
@@ -410,12 +532,12 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
     if (isHorizontal) {
       return (
         <Group
-          component={tagName as 'div'}
           key={index}
-          className={className}
+          component={tagName as 'div'}
+          {...commonProps}
           justify={justifyContent as React.CSSProperties['justifyContent']}
           wrap={flexWrap}
-          style={{ width: '100%' }}
+          style={{ width: '100%', ...inlineStyle }}
         >
           {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Group>
@@ -423,11 +545,11 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
     } else {
       return (
         <Stack
-          component={tagName as 'div'}
           key={index}
-          className={className}
+          component={tagName as 'div'}
+          {...commonProps}
           justify={justifyContent as React.CSSProperties['justifyContent']}
-          style={{ width: '100%' }}
+          style={{ width: '100%', ...inlineStyle }}
         >
           {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Stack>
@@ -439,10 +561,11 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
   if (layoutType === 'grid') {
     return (
       <SimpleGrid
+        key={index}
         component={tagName as 'div'}
         cols={layout?.columnCount || 1}
-        key={index}
-        className={className}
+        {...commonProps}
+        style={inlineStyle}
       >
         {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
       </SimpleGrid>
@@ -451,7 +574,13 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
 
   // Default/constrained: renderiza como Box
   return (
-    <Box component={tagName as 'div'} key={index} className={className}>
+    <Box
+      key={index}
+      component={tagName as 'div'}
+      {...commonProps}
+      style={inlineStyle}
+      className="rounded-2xl"
+    >
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
     </Box>
   )
@@ -1021,6 +1150,30 @@ function renderEaraListItem(block: Block): ReactNode {
 }
 
 /**
+ * Renderiza um bloco eara/quote usando o componente Quote
+ */
+function renderEaraQuote(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as EaraQuoteAttributes | undefined
+  const content = attributes?.content || ''
+  const author = attributes?.author || 'Quote Author'
+  const showAvatar = attributes?.showAvatar || false
+  const avatarUrl = attributes?.avatarImage?.url || ''
+  const variant = attributes?.variant || 'dark'
+  const className = attributes?.className || ''
+
+  return (
+    <Box key={index} className={className}>
+      <Quote
+        texto={content}
+        author={author}
+        avatar={showAvatar && avatarUrl ? avatarUrl : undefined}
+        variant={variant}
+      />
+    </Box>
+  )
+}
+
+/**
  * Renderiza um item de lista Gutenberg core/list-item com suporte completo a atributos
  */
 function renderCoreListItem(block: Block, index: number): ReactNode {
@@ -1320,6 +1473,10 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/google-maps': {
       return renderEaraGoogleMaps(block, index)
+    }
+
+    case 'eara/quote': {
+      return renderEaraQuote(block, index)
     }
 
     case 'eara/latest-news': {
