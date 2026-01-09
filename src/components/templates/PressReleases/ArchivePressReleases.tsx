@@ -18,7 +18,7 @@ import {
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconChevronDown, IconRestore, IconSearch } from '@tabler/icons-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
 export default function ArchivePressReleases() {
@@ -41,8 +41,38 @@ export default function ArchivePressReleases() {
   const hasNextPage = data?.allPressRelease?.pageInfo?.hasNextPage
   const endCursor = data?.allPressRelease?.pageInfo?.endCursor
 
+  const normalizeType = (value?: string | null) => value?.toLowerCase().trim() ?? ''
+  const capitalizeType = (value: string) => value.replace(/\b\w/g, (c) => c.toUpperCase())
+
+  const { allPressReleases, typeIndex, typeOptions } = useMemo(() => {
+    const all = data?.allPressRelease?.nodes ?? []
+    const index: Record<string, Array<(typeof all)[number]>> = {}
+    const set = new Set<string>()
+
+    for (const item of all) {
+      const types = item?.type?.nodes ?? []
+      for (const type of types) {
+        const value = normalizeType(type?.slug)
+        if (!value) continue
+        set.add(value)
+        ;(index[value] ??= []).push(item)
+      }
+    }
+
+    const options = Array.from(set)
+      .sort()
+      .map((value) => {
+        const typeNode = all
+          .flatMap((item) => item?.type?.nodes ?? [])
+          .find((t) => normalizeType(t?.slug) === value)
+        return { value, label: typeNode?.name || capitalizeType(value) }
+      })
+
+    return { allPressReleases: all, typeIndex: index, typeOptions: options }
+  }, [data])
+
   const filteredPressReleases = useMemo(() => {
-    let filtered = data?.allPressRelease?.nodes ?? []
+    let filtered = selectedType ? (typeIndex[selectedType] ?? []) : allPressReleases
 
     // Apply search filter
     if (debouncedSearch.trim()) {
@@ -55,14 +85,8 @@ export default function ArchivePressReleases() {
       })
     }
 
-    if (selectedType) {
-      filtered = filtered.filter((item) =>
-        item?.type?.nodes?.find((type) => type?.slug === selectedType)
-      )
-    }
-
     return filtered
-  }, [data, selectedType, debouncedSearch])
+  }, [allPressReleases, typeIndex, selectedType, debouncedSearch])
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
@@ -100,6 +124,16 @@ export default function ArchivePressReleases() {
     setSearchQuery('')
   }
 
+  useEffect(() => {
+    if (selectedType && !typeOptions.some((o) => o.value === selectedType)) {
+      setSelectedType(null)
+    }
+  }, [selectedType, typeOptions])
+
+  const selectedLabel = selectedType
+    ? typeOptions.find((o) => o.value === selectedType)?.label || 'Type'
+    : 'Type'
+
   const hasActiveFilters = selectedType !== null || searchQuery.trim() !== ''
 
   return (
@@ -129,15 +163,19 @@ export default function ArchivePressReleases() {
                   onClick={() => typeCombobox.toggleDropdown()}
                   rightSection={<IconChevronDown size={14} />}
                 >
-                  {selectedType || 'Type'}
+                  {selectedLabel}
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
-                  <Combobox.Option value="all">All Types</Combobox.Option>
-                  <Combobox.Option value="transparency-agreements">
-                    Transparency Agreements
+                  <Combobox.Option value="all">
+                    All Types ({allPressReleases.length})
                   </Combobox.Option>
+                  {typeOptions.map((opt) => (
+                    <Combobox.Option key={opt.value} value={opt.value}>
+                      {opt.label} ({typeIndex[opt.value]?.length ?? 0})
+                    </Combobox.Option>
+                  ))}
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
