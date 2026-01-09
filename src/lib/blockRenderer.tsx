@@ -12,12 +12,14 @@ import {
   Box,
   Container,
   Group,
+  List,
   MantineSize,
   SimpleGrid,
   Stack,
   TextProps,
   Title,
 } from '@mantine/core'
+import { IconCircleCheck } from '@tabler/icons-react'
 import parse from 'html-react-parser'
 import React, { ReactNode } from 'react'
 import { CardProps } from './types'
@@ -172,6 +174,22 @@ export interface EaraGoogleMapsAttributes extends BlockAttribute {
   lock?: Record<string, unknown>
   className?: string
   metadata?: Record<string, unknown>
+}
+
+export interface EaraListAttributes extends BlockAttribute {
+  withIcon?: boolean
+  size?: 'sm' | 'md' | 'lg'
+  color?: string
+  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  listStyleType?: 'disc' | 'circle' | 'square' | 'decimal' | 'lower-alpha' | 'upper-alpha'
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+}
+
+export interface EaraListItemAttributes extends BlockAttribute {
+  text?: string
+  className?: string
 }
 
 // Mapeamento de presets de spacing do WordPress para valores CSS
@@ -820,6 +838,69 @@ function renderEaraGoogleMaps(block: Block, index: number): ReactNode {
   )
 }
 
+/**
+ * Renderiza um bloco eara/list usando componentes Mantine
+ */
+function renderEaraList(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as EaraListAttributes | undefined
+  const withIcon = attributes?.withIcon || false
+  const size = (attributes?.size as MantineSize) || 'md'
+  // const color = attributes?.color || 'blue'
+  const spacing = attributes?.spacing || 'sm'
+  const listStyleType = attributes?.listStyleType || 'disc'
+  const className = attributes?.className || ''
+
+  const icon = withIcon ? (
+    // <Box
+    //   component="span"
+    //   style={{
+    //     width: 8,
+    //     height: 8,
+    //     borderRadius: '50%',
+    //     display: 'inline-block',
+    //     backgroundColor: color,
+    //   }}
+    // />
+    <IconCircleCheck size={18} className="text-secondaryColor" />
+  ) : undefined
+
+  return (
+    <List
+      key={index}
+      spacing={spacing}
+      size={size}
+      icon={icon}
+      className={className}
+      style={withIcon ? undefined : { listStyleType }}
+    >
+      {block.innerBlocks?.map((innerBlock, idx) => {
+        if (innerBlock.name === 'eara/list-item') {
+          const itemAttrs = innerBlock.attributes as EaraListItemAttributes | undefined
+          const text = itemAttrs?.text || ''
+          const itemClassName = itemAttrs?.className || ''
+          return (
+            <List.Item key={idx} className={itemClassName}>
+              {parse(text)}
+            </List.Item>
+          )
+        }
+        return <List.Item key={idx}>{renderBlock(innerBlock, idx)}</List.Item>
+      })}
+    </List>
+  )
+}
+
+/**
+ * Renderiza um item de lista customizado eara/list-item
+ */
+function renderEaraListItem(block: Block): ReactNode {
+  const attributes = block.attributes as EaraListItemAttributes | undefined
+  const text = attributes?.text || ''
+  const className = attributes?.className || ''
+
+  return <span className={className}>{parse(text)}</span>
+}
+
 // Função para renderizar blocos individuais
 function renderBlock(block: Block, index: number): ReactNode {
   const { name, attributes = {}, innerBlocks = [] } = block
@@ -999,6 +1080,14 @@ function renderBlock(block: Block, index: number): ReactNode {
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </SectionCard>
       )
+    }
+
+    case 'eara/list': {
+      return renderEaraList(block, index)
+    }
+
+    case 'eara/list-item': {
+      return renderEaraListItem(block)
     }
 
     case 'eara/card': {
