@@ -1469,7 +1469,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
       const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
 
-      const ListTag = ordered ? 'ol' : 'ul'
+      // const ListTag = ordered ? 'ol' : 'ul'
 
       return (
         <List
