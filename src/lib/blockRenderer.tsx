@@ -192,6 +192,56 @@ export interface EaraListItemAttributes extends BlockAttribute {
   className?: string
 }
 
+export interface CoreListAttributes extends BlockAttribute {
+  ordered?: boolean
+  values?: string
+  type?: string
+  start?: number
+  reversed?: boolean
+  placeholder?: string
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+  style?: {
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    typography?: { fontSize?: string; fontFamily?: string }
+    color?: { background?: string; text?: string }
+  }
+  backgroundColor?: string
+  textColor?: string
+  gradient?: string
+  fontSize?: string
+  fontFamily?: string
+  borderColor?: string
+  anchor?: string
+}
+
+export interface CoreListItemAttributes extends BlockAttribute {
+  placeholder?: string
+  content?: string
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+  style?: {
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    typography?: { fontSize?: string; fontFamily?: string }
+    color?: { background?: string; text?: string }
+  }
+  backgroundColor?: string
+  textColor?: string
+  gradient?: string
+  fontSize?: string
+  fontFamily?: string
+  borderColor?: string
+  anchor?: string
+}
+
 // Mapeamento de presets de spacing do WordPress para valores CSS
 const spacingPresets: Record<string, string> = {
   '20': '0.5rem', // 8px
@@ -903,6 +953,78 @@ function renderEaraListItem(block: Block): ReactNode {
   return <span className={className}>{parse(text)}</span>
 }
 
+/**
+ * Renderiza um item de lista Gutenberg core/list-item com suporte completo a atributos
+ */
+function renderCoreListItem(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreListItemAttributes | undefined
+  const content = attributes?.content || ''
+  const className = (attributes?.className as string) || ''
+  const anchor = (attributes?.anchor as string) || undefined
+
+  const style = attributes?.style as
+    | {
+        spacing?: {
+          padding?: { bottom?: string; top?: string; left?: string; right?: string }
+          margin?: { bottom?: string; top?: string; left?: string; right?: string }
+        }
+        typography?: { fontSize?: string; fontFamily?: string }
+        color?: { background?: string; text?: string }
+      }
+    | undefined
+
+  // Colors
+  const textColorAttr = (attributes?.textColor as string | undefined) || style?.color?.text
+  const backgroundColorAttr =
+    (attributes?.backgroundColor as string | undefined) || style?.color?.background
+  const gradient = attributes?.gradient as string | undefined
+  const borderColorAttr = attributes?.borderColor as string | undefined
+
+  const color = parseColor(textColorAttr)
+  const backgroundColor = parseColor(backgroundColorAttr)
+  const borderColor = parseColor(borderColorAttr)
+
+  // Typography
+  const fontSize = (attributes?.fontSize as string | undefined) || style?.typography?.fontSize
+  const fontFamily = (attributes?.fontFamily as string | undefined) || style?.typography?.fontFamily
+
+  // Spacing
+  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
+  return (
+    <List.Item
+      // component="li"
+      key={index}
+      id={anchor}
+      className={className}
+      c={color}
+      fz={fontSize}
+      ff={fontFamily}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={{
+        background: gradient ? gradient : backgroundColor,
+        border: borderColor ? `1px solid ${borderColor}` : undefined,
+      }}
+    >
+      {parse(content)}
+    </List.Item>
+  )
+}
+
 // Função para renderizar blocos individuais
 function renderBlock(block: Block, index: number): ReactNode {
   const { name, attributes = {}, innerBlocks = [] } = block
@@ -1300,10 +1422,87 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
     // Core List
     case 'core/list': {
-      const ordered = attributes.ordered || false
-      const values = (attributes.values as string) || ''
+      const attributes_list = attributes as CoreListAttributes | undefined
+      const ordered = attributes_list?.ordered || false
+      const values = (attributes_list?.values as string) || ''
+      const type = attributes_list?.type as string | undefined
+      const start = attributes_list?.start as number | undefined
+      const reversed = attributes_list?.reversed || false
+      const className = (attributes_list?.className as string) || ''
+      const anchor = (attributes_list?.anchor as string) || undefined
+
+      const style = attributes_list?.style as
+        | {
+            spacing?: {
+              padding?: { bottom?: string; top?: string; left?: string; right?: string }
+              margin?: { bottom?: string; top?: string; left?: string; right?: string }
+            }
+            typography?: { fontSize?: string; fontFamily?: string }
+            color?: { background?: string; text?: string }
+          }
+        | undefined
+
+      // Colors
+      const textColorAttr = (attributes_list?.textColor as string | undefined) || style?.color?.text
+      const backgroundColorAttr =
+        (attributes_list?.backgroundColor as string | undefined) || style?.color?.background
+      const gradient = attributes_list?.gradient as string | undefined
+      const borderColorAttr = attributes_list?.borderColor as string | undefined
+
+      const color = parseColor(textColorAttr)
+      const backgroundColor = parseColor(backgroundColorAttr)
+      const borderColor = parseColor(borderColorAttr)
+
+      // Typography
+      const fontSize =
+        (attributes_list?.fontSize as string | undefined) || style?.typography?.fontSize
+      const fontFamily =
+        (attributes_list?.fontFamily as string | undefined) || style?.typography?.fontFamily
+
+      // Spacing
+      const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+      const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+      const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+      const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+      const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+      const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+      const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
       const ListTag = ordered ? 'ol' : 'ul'
-      return <ListTag key={index}>{parse(values)}</ListTag>
+
+      return (
+        <List
+          // component={ListTag}
+          type={ordered ? 'ordered' : 'unordered'}
+          icon={<IconCircleCheck size={20} className="text-secondaryColor" />}
+          key={index}
+          id={anchor}
+          className={className}
+          c={color}
+          fz={fontSize}
+          ff={fontFamily}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+          {...(ordered && start !== undefined && { start })}
+          {...(ordered && reversed && { reversed: true })}
+          style={{
+            background: gradient ? gradient : backgroundColor,
+            border: borderColor ? `1px solid ${borderColor}` : undefined,
+            listStyleType: type || undefined,
+          }}
+        >
+          {innerBlocks && innerBlocks.length > 0
+            ? innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))
+            : parse(values)}
+        </List>
+      )
     }
     // Hero Carousel
     case 'eara/hero-carousel': {
@@ -1341,6 +1540,10 @@ function renderBlock(block: Block, index: number): ReactNode {
     // Core HTML
     case 'core/html': {
       return renderCoreHtml(block, index)
+    }
+    // Core List Item
+    case 'core/list-item': {
+      return renderCoreListItem(block, index)
     }
     // Bloco desconhecido - renderiza HTML bruto ou aviso
     default: {
