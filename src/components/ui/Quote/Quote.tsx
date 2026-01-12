@@ -21,11 +21,13 @@ export default function Quote({
         )}
       >
         <Stack gap={25}>
-          <IconQuoteFilled size={110} className="text-primaryColor" />
+          <IconQuoteFilled size={'10%'} className="text-primaryColor" />
           <Title
             order={3}
             fz={fontSize}
             lh="xs"
+            fw={400}
+            fs="italic"
             dangerouslySetInnerHTML={{ __html: texto }}
           ></Title>
           <Group gap={20}>
