@@ -12,6 +12,7 @@ import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import Section from '@/components/ui/Section/Section'
 import {
   Box,
+  Center,
   Container,
   getFontSize,
   Group,
@@ -201,6 +202,32 @@ export interface CoreEmbedAttributes extends BlockAttribute {
 export interface CoreHtmlAttributes extends BlockAttribute {
   content?: string
   className?: string
+}
+
+export interface CoreSeparatorAttributes extends BlockAttribute {
+  opacity?: string
+  tagName?: 'hr' | 'div'
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  align?: 'left' | 'center' | 'right' | 'wide' | 'full' | ''
+  className?: string
+  style?: {
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    color?: { background?: string; text?: string; gradient?: string }
+    border?: {
+      color?: string
+      width?: string
+      style?: string
+      radius?: string
+    }
+  }
+  backgroundColor?: string
+  gradient?: string
+  anchor?: string
+  textColor?: string
 }
 
 export interface EaraGoogleMapsAttributes extends BlockAttribute {
@@ -1443,6 +1470,84 @@ function renderCoreHtml(block: Block, index: number): ReactNode {
 }
 
 /**
+ * Renderiza um bloco core/separator (divisor/separador)
+ */
+function renderCoreSeparator(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreSeparatorAttributes | undefined
+  const tagName = (attributes?.tagName || 'hr') as 'hr' | 'div'
+  const className = attributes?.className || ''
+  const anchor = attributes?.anchor
+  const opacity = attributes?.opacity || 'alpha-channel'
+  const align = attributes?.align
+
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+
+    marginRight,
+  } = extractCommonStyles(attributes)
+
+  // Classes de alinhamento WordPress
+  const alignClasses = align ? `align${align.charAt(0).toUpperCase()}${align.slice(1)}` : ''
+  const combinedClassName = `${className} ${alignClasses}`.trim()
+
+  // Estilo inline
+  const inlineStyle: React.CSSProperties = {}
+
+  if (gradient) {
+    inlineStyle.background = gradient
+  } else if (bgColor) {
+    inlineStyle.backgroundColor = bgColor
+  }
+
+  if (textColor) inlineStyle.color = textColor
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
+  inlineStyle.width = '70px'
+  inlineStyle.height = '2px'
+  if (className.includes('is-style-wide')) {
+    inlineStyle.width = '100%'
+  }
+  // Tratamento de opacidade
+  if (opacity === 'alpha-channel' && !gradient && bgColor) {
+    // Mantém opacidade do canal alpha se existir
+  } else if (opacity && opacity !== 'alpha-channel') {
+    inlineStyle.opacity = parseFloat(opacity)
+  }
+
+  return (
+    <Center
+      key={index}
+      id={anchor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom || '1.5rem'}
+      mt={marginTop || '1.5rem'}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      <Box component={tagName} className={combinedClassName} style={inlineStyle} />
+    </Center>
+  )
+}
+
+/**
  * Renderiza um bloco eara/google-maps para mapas incorporados
  */
 function renderEaraGoogleMaps(block: Block, index: number): ReactNode {
@@ -2473,6 +2578,10 @@ function renderBlock(block: Block, index: number): ReactNode {
     // Core HTML
     case 'core/html': {
       return renderCoreHtml(block, index)
+    }
+    // Core Separator
+    case 'core/separator': {
+      return renderCoreSeparator(block, index)
     }
     // Core List Item
     case 'core/list-item': {
