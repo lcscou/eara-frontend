@@ -5,10 +5,10 @@
 }
 
 .item {
-  color: black;
-  border-radius: 50px;
+  /* color: black; */
+  /* border-radius: 50px; */
   margin-bottom: 12px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .greenItem {
   background: transparent;
@@ -28,7 +28,7 @@
 }
 
 .greenItem .control {
-  padding: 12px 16px;
+  padding: 8px 16px;
   cursor: pointer;
   font-weight: 700;
   background: #8fbf29;
@@ -40,7 +40,7 @@
 }
 
 .blueItem .control {
-  padding: 12px 16px;
+  padding: 8px 16px;
   cursor: pointer;
   font-weight: 700;
   background: #312f86;
@@ -52,7 +52,7 @@
 }
 
 .lightblueItem .control {
-  padding: 12px 16px;
+  padding: 8px 16px;
   cursor: pointer;
   font-weight: 700;
   background: #b8bce8;
@@ -64,7 +64,7 @@
 }
 
 .transparentItem .control {
-  padding: 12px 16px;
+  padding: 8px 16px;
   cursor: pointer;
   font-weight: 700;
   background: transparent;
@@ -103,10 +103,14 @@
   outline-offset: 2px;
 }
 .panel {
-  padding: 12px 16px;
+  padding: 8px 16px;
   background: transparent;
   color: inherit;
   line-height: 1.5;
   border-radius: 0 0 12px 12px;
   box-shadow: none;
+}
+
+.control[data-active='true'] {
+  background-color: var(--color-secondaryColor);
 }

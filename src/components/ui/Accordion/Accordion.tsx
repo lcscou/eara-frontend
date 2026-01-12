@@ -1,9 +1,8 @@
 'use client'
-import React from 'react'
-import { Accordion as MantineAccordion } from '@mantine/core'
-import s from './Accordion.module.css'
-import clsx from 'clsx'
 import { AccordionProps } from '@/lib/types'
+import { Accordion as MantineAccordion } from '@mantine/core'
+import clsx from 'clsx'
+import s from './Accordion.module.css'
 
 export default function Accordion({ items, variant = 'blue' }: AccordionProps) {
   return (
@@ -11,6 +10,14 @@ export default function Accordion({ items, variant = 'blue' }: AccordionProps) {
       className={clsx(s.root)}
       multiple={false}
       chevronPosition="right"
+      styles={{
+        control: {
+          borderRadius: '80px',
+        },
+        item: {
+          border: 0,
+        },
+      }}
       classNames={{
         item: clsx(
           s.item,
