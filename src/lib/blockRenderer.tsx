@@ -13,6 +13,7 @@ import Section from '@/components/ui/Section/Section'
 import {
   Box,
   Container,
+  getFontSize,
   Group,
   List,
   MantineSize,
@@ -1544,7 +1545,8 @@ function renderEaraQuote(block: Block, index: number): ReactNode {
   const avatarUrl = attributes?.avatarImage?.url || ''
   const variant = attributes?.variant || 'dark'
   const className = attributes?.className || ''
-
+  const style = attributes?.style as { typography?: { fontSize?: string } } | undefined
+  const fontSize = getFontSize(style?.typography?.fontSize) || undefined
   const {
     paddingBottom,
     paddingTop,
@@ -1571,6 +1573,7 @@ function renderEaraQuote(block: Block, index: number): ReactNode {
     >
       <Quote
         texto={content}
+        fontSize={fontSize}
         author={author}
         avatar={showAvatar && avatarUrl ? avatarUrl : undefined}
         variant={variant}

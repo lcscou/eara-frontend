@@ -1,9 +1,15 @@
-import { Avatar, Group, Stack } from '@mantine/core'
-import { IconQuoteFilled } from '@tabler/icons-react'
-import s from './Quote.module.css'
-import clsx from 'clsx'
 import { QuoteProps } from '@/lib/types'
-export default function Quote({ texto, author, avatar, variant = 'dark' }: QuoteProps) {
+import { Avatar, Group, Stack, Title } from '@mantine/core'
+import { IconQuoteFilled } from '@tabler/icons-react'
+import clsx from 'clsx'
+import s from './Quote.module.css'
+export default function Quote({
+  texto,
+  author,
+  avatar,
+  fontSize = 30,
+  variant = 'dark',
+}: QuoteProps) {
   return (
     <>
       <div
@@ -16,7 +22,12 @@ export default function Quote({ texto, author, avatar, variant = 'dark' }: Quote
       >
         <Stack gap={25}>
           <IconQuoteFilled size={110} className="text-primaryColor" />
-          <h2>{texto}</h2>
+          <Title
+            order={3}
+            fz={fontSize}
+            lh="xs"
+            dangerouslySetInnerHTML={{ __html: texto }}
+          ></Title>
           <Group gap={20}>
             {avatar && <Avatar src={avatar} alt="EARA Quote Author" />}
             <h5>{author}</h5>

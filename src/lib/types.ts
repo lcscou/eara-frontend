@@ -69,6 +69,7 @@ export interface QuoteProps {
   texto: string
   author: string
   avatar?: string
+  fontSize?: number | string
   variant?: 'light' | 'dark'
 }
 export interface AccordionItem {
