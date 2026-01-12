@@ -340,6 +340,14 @@ const colorPresets: Record<string, string> = {
   accent: '#00cc66',
 }
 
+// Mapeamento de tamanhos de font do WordPress/Gutenberg
+const fontSizePresets: Record<string, string> = {
+  small: '13px',
+  medium: '20px',
+  large: '36px',
+  'x-large': '42px',
+}
+
 /**
  * Trata valores CSS customizados do WordPress
  * Exemplos:
@@ -365,6 +373,9 @@ function resolveWordPressValue(value: unknown): string | undefined {
       if (preset === 'color') {
         return colorPresets[key] || undefined
       }
+      if (preset === 'fontSize') {
+        return fontSizePresets[key] || undefined
+      }
     }
     return undefined
   }
@@ -374,9 +385,16 @@ function resolveWordPressValue(value: unknown): string | undefined {
     return value
   }
 
-  if (value === 'small') {
+  // Tratamento de tamanhos de font
+  if (fontSizePresets[value]) {
+    return fontSizePresets[value]
+  }
+
+  // Tratamento de espaçamento pequeno (usado em outros contextos)
+  if (value === 'small-spacing') {
     return '0.15rem'
   }
+
   if (value === 'secondary-color') {
     return colorPresets['secondary']
   }
@@ -1782,15 +1800,18 @@ function renderBlock(block: Block, index: number): ReactNode {
 
       const items = innerBlocks
         .filter((block) => block.name === 'eara/accordion')
-        .map((accordionBlock) => ({
-          value: (accordionBlock.attributes?.title as string) || `item-${index}`,
-          titulo: (accordionBlock.attributes?.title as string) || 'Untitled',
-          conteudo: (
-            <div>
-              {accordionBlock.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
-            </div>
-          ),
-        }))
+        .map((accordionBlock) => {
+          const titulo = accordionBlock.attributes?.title as string | undefined
+          return {
+            value: titulo || `item-${index}`,
+            titulo: titulo ? parseHtmlContent(titulo) || titulo : 'Untitled',
+            conteudo: (
+              <div>
+                {accordionBlock.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+              </div>
+            ),
+          }
+        })
       return (
         <Box
           key={index}

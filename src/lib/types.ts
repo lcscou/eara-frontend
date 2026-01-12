@@ -74,7 +74,7 @@ export interface QuoteProps {
 }
 export interface AccordionItem {
   value: string // valor único para cada item
-  titulo: string
+  titulo: string | React.ReactNode
   conteudo: React.ReactNode
 }
 export interface AccordionProps {
