@@ -19,7 +19,7 @@ const getAnimalData = cache(async (uri: string[]): Promise<GetAnimalQuery> => {
     context: {
       fetchOptions: {
         next: {
-          revalidate: 3600,
+          revalidate: 0,
           tags: ['animals', `animal-${uri.join('')}`],
         },
       },

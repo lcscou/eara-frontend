@@ -1,6 +1,7 @@
 'use client'
 
 import { GetAnimalQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
 import { Button, Container } from '@mantine/core'
 import { IconArrowLeft } from '@tabler/icons-react'
 import Link from 'next/link'
@@ -24,7 +25,7 @@ export default function SingleAnimals({ data }: { data: GetAnimalQuery }) {
             </Button>
           </Link>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: data.animal?.content || '' }}></div>
+        <div>{renderPageBlocks(data.animal?.blocks)}</div>
       </Container>
     </>
   )

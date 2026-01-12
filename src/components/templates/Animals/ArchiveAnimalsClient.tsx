@@ -49,6 +49,14 @@ export default function ArchiveAnimalsClient() {
 
   const { data, fetchMore } = useSuspenseQuery<AnimalsPagedData>(GET_ALL_ANIMALS_PAGED, {
     variables: { first: PAGE_SIZE },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 60,
+          tags: ['animals'],
+        },
+      },
+    },
   })
 
   const nodes = useMemo<AnimalNode[]>(() => data?.animals?.nodes ?? [], [data])
