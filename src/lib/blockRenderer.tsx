@@ -406,6 +406,27 @@ function parseColor(value: unknown): string | undefined {
   return resolved || (value.startsWith('#') ? value : undefined)
 }
 
+/**
+ * Parse HTML com opções para evitar problemas de hidratação
+ * Remove wrappers desnecessários quando o conteúdo já é válido
+ */
+function parseHtmlContent(content: string): ReturnType<typeof parse> | null {
+  if (!content) return null
+  return parse(content, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    replace: (domNode: any) => {
+      // Se for um nó de texto, retorna como está
+      if (domNode.type === 'text') {
+        return
+      }
+      // Remove parágrafos vazios
+      if (domNode.name === 'p' && !domNode.children?.length) {
+        return <></>
+      }
+    },
+  })
+}
+
 // Mapeamento de presets de spacing do Container
 const containerSizeMap: Record<string, MantineSize | 'none'> = {
   xs: 'xs',
@@ -914,7 +935,7 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
   } = extractCommonStyles(attributes)
 
   // Estilo inline
-  const inlineStyle: React.CSSProperties = { gap: '0' }
+  const inlineStyle: React.CSSProperties = {}
   if (gradient) {
     inlineStyle.background = gradient
   } else if (bgColor) {
@@ -929,7 +950,8 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
     <Group
       key={index}
       className={className}
-      wrap="nowrap"
+      gap={0}
+      wrap="wrap"
       align={
         verticalAlignment === 'center'
           ? 'center'
@@ -986,21 +1008,30 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
     fontFamily,
   } = extractCommonStyles(attributes)
 
-  // Se não tiver width, cada coluna ocupa espaço igual (flex: 1)
-  const flexBasis = width
-    ? typeof width === 'number'
-      ? `${width}%`
-      : typeof width === 'string'
-        ? width.includes('%') || width.includes('px')
-          ? width
-          : `${width}%`
-        : 'auto'
-    : 'auto'
+  // Calcular width/flexBasis corretamente
+  let flexBasis: string = 'auto'
+  let flexValue: string = '1 1 0%'
+
+  if (width) {
+    if (typeof width === 'number') {
+      flexBasis = `${width}%`
+      flexValue = `0 0 ${flexBasis}`
+    } else if (typeof width === 'string') {
+      // Se for uma string numérica como "33.33", adiciona %
+      if (!isNaN(parseFloat(width)) && !width.includes('%') && !width.includes('px')) {
+        flexBasis = `${width}%`
+      } else {
+        flexBasis = width
+      }
+      flexValue = `0 0 ${flexBasis}`
+    }
+  }
 
   // Estilo inline
   const inlineStyle: React.CSSProperties = {
-    flex: width ? `0 0 ${flexBasis}` : '1 1 auto',
+    flex: flexValue,
     minWidth: 0,
+    maxWidth: width ? flexBasis : undefined,
     display: 'flex',
     flexDirection: 'column',
     justifyContent:
@@ -1112,7 +1143,9 @@ function renderCoreImage(block: Block, index: number): ReactNode {
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       {content}
-      {caption && <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parse(caption)}</div>}
+      {caption && (
+        <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parseHtmlContent(caption)}</div>
+      )}
     </Box>
   )
 }
@@ -1175,7 +1208,9 @@ function renderCoreVideo(block: Block, index: number): ReactNode {
         preload={preload}
         style={{ width: '100%', height: 'auto' }}
       />
-      {caption && <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parse(caption)}</div>}
+      {caption && (
+        <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parseHtmlContent(caption)}</div>
+      )}
     </Box>
   )
 }
@@ -1339,7 +1374,9 @@ function renderCoreEmbed(block: Block, index: number): ReactNode {
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       {embedContent}
-      {caption && <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parse(caption)}</div>}
+      {caption && (
+        <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{parseHtmlContent(caption)}</div>
+      )}
     </Box>
   )
 }
@@ -1382,7 +1419,7 @@ function renderCoreHtml(block: Block, index: number): ReactNode {
       ml={marginLeft}
       mr={marginRight}
     >
-      {parse(content)}
+      {parseHtmlContent(content)}
     </Box>
   )
 }
@@ -1518,7 +1555,7 @@ function renderEaraList(block: Block, index: number): ReactNode {
           const itemClassName = itemAttrs?.className || ''
           return (
             <List.Item key={idx} className={itemClassName}>
-              {parse(text)}
+              {parseHtmlContent(text)}
             </List.Item>
           )
         }
@@ -1536,7 +1573,7 @@ function renderEaraListItem(block: Block): ReactNode {
   const text = attributes?.text || ''
   const className = attributes?.className || ''
 
-  return <span className={className}>{parse(text)}</span>
+  return <span className={className}>{parseHtmlContent(text)}</span>
 }
 
 /**
@@ -1675,7 +1712,7 @@ function renderCoreListItem(block: Block, index: number): ReactNode {
         border: borderColor ? `1px solid ${borderColor}` : undefined,
       }}
     >
-      {parse(content)}
+      {parseHtmlContent(content)}
     </List.Item>
   )
 }
@@ -1967,7 +2004,7 @@ function renderBlock(block: Block, index: number): ReactNode {
             border: borderColor ? `1px solid ${borderColor}` : undefined,
           }}
         >
-          {parse(content)}
+          {parseHtmlContent(content)}
         </Title>
       )
     }
@@ -2236,7 +2273,7 @@ function renderBlock(block: Block, index: number): ReactNode {
 
       return (
         <Box
-          component="p"
+          component="div"
           key={index}
           id={anchor}
           className={computedClassName}
@@ -2259,7 +2296,7 @@ function renderBlock(block: Block, index: number): ReactNode {
             border: borderColor ? `1px solid ${borderColor}` : undefined,
           }}
         >
-          {parse(content)}
+          {parseHtmlContent(content)}
         </Box>
       )
     }
@@ -2319,7 +2356,7 @@ function renderBlock(block: Block, index: number): ReactNode {
         >
           {innerBlocks && innerBlocks.length > 0
             ? innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))
-            : parse(values)}
+            : parseHtmlContent(values)}
         </List>
       )
     }
@@ -2433,7 +2470,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       }
       // Se tiver conteúdo HTML, renderiza com parse
       if (attributes.content) {
-        return <div key={index}>{parse(attributes.content as string)}</div>
+        return <div key={index}>{parseHtmlContent(attributes.content as string)}</div>
       }
       return null
     }
