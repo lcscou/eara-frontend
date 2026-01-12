@@ -93,6 +93,11 @@ const cache = new InMemoryCache({
             return existing
           },
         },
+        animals: {
+          merge(existing) {
+            return existing
+          },
+        },
         diseases: {
           merge(existing) {
             return existing

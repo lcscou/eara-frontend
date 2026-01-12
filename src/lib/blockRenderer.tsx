@@ -351,6 +351,8 @@ function resolveWordPressValue(value: unknown): string | undefined {
   if (!value || typeof value !== 'string') return undefined
 
   // Se for um preset customizado do WordPress
+  console.log('value', value)
+
   if (value.includes('var:preset')) {
     const parts = value.split('|')
     if (parts.length === 3) {
@@ -372,6 +374,9 @@ function resolveWordPressValue(value: unknown): string | undefined {
     return value
   }
 
+  if (value === 'small') {
+    return '0.15rem'
+  }
   if (value === 'secondary-color') {
     return colorPresets['secondary']
   }
