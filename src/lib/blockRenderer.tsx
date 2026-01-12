@@ -449,6 +449,88 @@ const justifyContentMap: Record<string, string> = {
 }
 
 /**
+ * Extrai estilos comuns de padding, margin e color.background
+ * Utilizado por todos os blocos para manter consistência
+ */
+function extractCommonStyles(attributes?: BlockAttribute) {
+  if (!attributes) return {}
+
+  const style = attributes.style as
+    | {
+        spacing?: {
+          padding?: { bottom?: string; top?: string; left?: string; right?: string }
+          margin?: { bottom?: string; top?: string; left?: string; right?: string }
+        }
+        elements?: { link?: { color?: { text?: string } } }
+        typography?: { fontSize?: string; fontFamily?: string }
+        color?: { background?: string; text?: string }
+        border?: {
+          color?: string
+          width?: string
+          style?: string
+          radius?: string
+        }
+      }
+    | undefined
+
+  // Processando cores
+  const bgColor = parseColor(
+    style?.color?.background || (attributes.backgroundColor as string | undefined)
+  )
+  const textColor = parseColor(
+    style?.elements?.link?.color?.text ||
+      style?.color?.text ||
+      (attributes.textColor as string | undefined)
+  )
+
+  const gradient = attributes.gradient as string | undefined
+
+  // Processando border
+  const borderColor = parseColor(
+    style?.border?.color || (attributes.borderColor as string | undefined)
+  )
+  const borderWidth = style?.border?.width
+  const borderStyle = style?.border?.style
+  const borderRadius = style?.border?.radius
+
+  // Processando spacing
+  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
+  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
+  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
+  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
+  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
+  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
+  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
+  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+
+  // Processando tipografia
+  const fontSize = resolveWordPressValue(
+    style?.typography?.fontSize || (attributes.fontSize as string | undefined)
+  )
+  const fontFamily = style?.typography?.fontFamily || (attributes.fontFamily as string | undefined)
+
+  return {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  }
+}
+
+/**
  * Extrai configurações de layout do bloco core/group e variações
  * Trata layout.type: 'default', 'constrained', 'flex', 'grid'
  */
@@ -478,34 +560,26 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
   const anchor = attributes?.anchor
   const ariaLabel = attributes?.ariaLabel
   const align = attributes?.align
-  const style = attributes?.style
 
-  // Processando cores
-  const bgColor = parseColor(
-    style?.color?.background || attributes?.backgroundColor || attributes?.style?.color?.background
-  )
-  const textColor = parseColor(style?.color?.text || attributes?.textColor)
-  const gradient = attributes?.gradient || style?.color?.gradient
-
-  // Processando fonts
-  const fontSize = resolveWordPressValue(style?.typography?.fontSize || attributes?.fontSize)
-  const fontFamily = style?.typography?.fontFamily || attributes?.fontFamily
-
-  // Processando spacing
-  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
-  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
-
-  // Processando border
-  const borderColor = parseColor(style?.border?.color || attributes?.borderColor)
-  const borderWidth = style?.border?.width
-  const borderStyle = style?.border?.style
-  const borderRadius = style?.border?.radius
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
 
   // Classes de alinhamento WordPress
   const alignClasses = align ? `align${align.charAt(0).toUpperCase()}${align.slice(1)}` : ''
@@ -584,7 +658,7 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
         component={tagName as 'div'}
         cols={layout?.columnCount || 1}
         {...commonProps}
-        style={inlineStyle}
+        style={{ width: '100%', ...inlineStyle }}
       >
         {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
       </SimpleGrid>
@@ -597,7 +671,7 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
       key={index}
       component={tagName as 'div'}
       {...commonProps}
-      style={inlineStyle}
+      style={{ ...inlineStyle }}
       className="rounded-2xl"
     >
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
@@ -614,7 +688,39 @@ function renderCoreRow(block: Block, index: number): ReactNode {
   const className = attributes?.cssClassName || ''
   const layout = attributes?.layout || { type: 'flex', flexWrap: 'nowrap' }
 
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
+
   const { justifyContent } = extractLayoutConfig(layout)
+
+  // Estilo inline
+  const inlineStyle: React.CSSProperties = {}
+  if (gradient) {
+    inlineStyle.background = gradient
+  } else if (bgColor) {
+    inlineStyle.backgroundColor = bgColor
+  }
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
 
   return (
     <Group
@@ -623,7 +729,18 @@ function renderCoreRow(block: Block, index: number): ReactNode {
       className={className}
       justify={justifyContent as React.CSSProperties['justifyContent']}
       wrap={layout.flexWrap as 'wrap' | 'nowrap'}
-      style={{ width: '100%' }}
+      c={textColor}
+      fz={fontSize}
+      ff={fontFamily}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={{ width: '100%', ...inlineStyle }}
     >
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
     </Group>
@@ -639,7 +756,39 @@ function renderCoreStack(block: Block, index: number): ReactNode {
   const className = attributes?.cssClassName || ''
   const layout = attributes?.layout || { type: 'flex', orientation: 'vertical' }
 
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
+
   const { justifyContent } = extractLayoutConfig(layout)
+
+  // Estilo inline
+  const inlineStyle: React.CSSProperties = {}
+  if (gradient) {
+    inlineStyle.background = gradient
+  } else if (bgColor) {
+    inlineStyle.backgroundColor = bgColor
+  }
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
 
   return (
     <Stack
@@ -647,7 +796,18 @@ function renderCoreStack(block: Block, index: number): ReactNode {
       key={index}
       className={className}
       justify={justifyContent as React.CSSProperties['justifyContent']}
-      style={{ width: '100%' }}
+      c={textColor}
+      fz={fontSize}
+      ff={fontFamily}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={{ width: '100%', ...inlineStyle }}
     >
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
     </Stack>
@@ -663,13 +823,56 @@ function renderCoreGrid(block: Block, index: number): ReactNode {
   const className = attributes?.cssClassName || ''
   const columnCount = attributes?.layout?.columnCount || 1
 
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
+
+  // Estilo inline
+  const inlineStyle: React.CSSProperties = {}
+  if (gradient) {
+    inlineStyle.background = gradient
+  } else if (bgColor) {
+    inlineStyle.backgroundColor = bgColor
+  }
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
+
   return (
     <SimpleGrid
       component={tagName as 'div'}
       cols={columnCount}
       key={index}
       className={className}
-      style={{ width: '100%' }}
+      c={textColor}
+      fz={fontSize}
+      ff={fontFamily}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={{ width: '100%', ...inlineStyle }}
     >
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
     </SimpleGrid>
@@ -683,6 +886,38 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
   const attributes = block.attributes as CoreColumnsAttributes | undefined
   const className = attributes?.cssClassName || ''
   const verticalAlignment = attributes?.verticalAlignment || 'top'
+
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
+
+  // Estilo inline
+  const inlineStyle: React.CSSProperties = { gap: '0' }
+  if (gradient) {
+    inlineStyle.background = gradient
+  } else if (bgColor) {
+    inlineStyle.backgroundColor = bgColor
+  }
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
 
   return (
     <Group
@@ -698,7 +933,18 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
               ? 'stretch'
               : 'flex-start'
       }
-      style={{ width: '100%', gap: '0' }}
+      c={textColor}
+      fz={fontSize}
+      ff={fontFamily}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={{ width: '100%', ...inlineStyle }}
     >
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
     </Group>
@@ -713,23 +959,26 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
   const className = attributes?.cssClassName || ''
   const width = attributes?.width
   const verticalAlignment = attributes?.verticalAlignment || 'top'
-  const backgroundColor = attributes?.style?.color?.background || attributes?.backgroundColor
-  const textColor = parseColor(attributes?.textColor)
-  const style = attributes?.style
 
-  // Processando cores
-  const bgColor = parseColor(backgroundColor)
-  const color = parseColor(textColor) || parseColor(style?.elements?.link?.color?.text)
-
-  // Processando spacing
-  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
-  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
 
   // Se não tiver width, cada coluna ocupa espaço igual (flex: 1)
   const flexBasis = width
@@ -742,12 +991,35 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
         : 'auto'
     : 'auto'
 
+  // Estilo inline
+  const inlineStyle: React.CSSProperties = {
+    flex: width ? `0 0 ${flexBasis}` : '1 1 auto',
+    minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent:
+      verticalAlignment === 'center'
+        ? 'center'
+        : verticalAlignment === 'bottom'
+          ? 'flex-end'
+          : 'flex-start',
+  }
+
+  if (gradient) {
+    inlineStyle.background = gradient
+  } else if (bgColor) {
+    inlineStyle.backgroundColor = bgColor
+  }
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
+
   return (
     <Box
       key={index}
       className={className}
-      bg={bgColor}
-      c={color}
+      c={textColor}
       pb={paddingBottom}
       pt={paddingTop}
       pl={paddingLeft}
@@ -756,18 +1028,9 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
       mt={marginTop}
       ml={marginLeft}
       mr={marginRight}
-      style={{
-        flex: width ? `0 0 ${flexBasis}` : '1 1 auto',
-        minWidth: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent:
-          verticalAlignment === 'center'
-            ? 'center'
-            : verticalAlignment === 'bottom'
-              ? 'flex-end'
-              : 'flex-start',
-      }}
+      fz={fontSize}
+      ff={fontFamily}
+      style={inlineStyle}
     >
       {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
     </Box>
@@ -788,21 +1051,19 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   const linkTarget = attributes?.linkTarget || '_self'
   const rel = attributes?.rel || ''
   const className = attributes?.className || ''
-  const style = attributes?.style
 
-  // Processando cores e spacing
-  const bgColor = parseColor(style?.color?.background)
-  const textColor = parseColor(style?.color?.text)
-
-  // Processando spacing
-  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
-  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
 
   if (!url) return null
 
@@ -865,21 +1126,19 @@ function renderCoreVideo(block: Block, index: number): ReactNode {
   const playsInline = attributes?.playsInline || true
   const preload = attributes?.preload || 'metadata'
   const className = attributes?.className || ''
-  const style = attributes?.style
 
-  // Processando cores
-  const bgColor = parseColor(style?.color?.background)
-  const textColor = parseColor(style?.color?.text)
-
-  // Processando spacing
-  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
-  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
 
   if (!src) return null
 
@@ -924,14 +1183,50 @@ function renderCoreSpacer(block: Block, index: number): ReactNode {
   const width = attributes?.width || '100%'
   const className = attributes?.className || ''
 
+  const {
+    bgColor,
+    borderColor,
+    borderWidth,
+    borderStyle,
+    borderRadius,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+  } = extractCommonStyles(attributes)
+
   const heightValue =
     typeof height === 'number' ? `${height}px` : typeof height === 'string' ? height : '2rem'
 
   const widthValue =
     typeof width === 'number' ? `${width}px` : typeof width === 'string' ? width : '100%'
 
+  // Estilo inline
+  const inlineStyle: React.CSSProperties = { height: heightValue, width: widthValue }
+  if (bgColor) inlineStyle.backgroundColor = bgColor
+  if (borderColor) inlineStyle.borderColor = borderColor
+  if (borderWidth) inlineStyle.borderWidth = borderWidth
+  if (borderStyle) inlineStyle.borderStyle = borderStyle
+  if (borderRadius) inlineStyle.borderRadius = borderRadius
+
   return (
-    <Box key={index} className={className} style={{ height: heightValue, width: widthValue }} />
+    <Box
+      key={index}
+      className={className}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={inlineStyle}
+    />
   )
 }
 
@@ -944,21 +1239,19 @@ function renderCoreEmbed(block: Block, index: number): ReactNode {
   const provider = attributes?.providerNameSlug
   const caption = attributes?.caption
   const className = attributes?.className || ''
-  const style = attributes?.style
 
-  // Processando cores
-  const bgColor = parseColor(style?.color?.background)
-  const textColor = parseColor(style?.color?.text)
-
-  // Processando spacing
-  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
-  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
 
   if (!url) return null
 
@@ -1053,10 +1346,36 @@ function renderCoreHtml(block: Block, index: number): ReactNode {
   const content = attributes?.content
   const className = attributes?.className || ''
 
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
   if (!content) return null
 
   return (
-    <Box key={index} className={className}>
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
       {parse(content)}
     </Box>
   )
@@ -1075,6 +1394,19 @@ function renderEaraGoogleMaps(block: Block, index: number): ReactNode {
   const borderRadius = attributes?.borderRadius ?? '8'
   const className = attributes?.className || ''
 
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
   if (!mapUrl) return null
 
   const heightValue = `${height}px`
@@ -1085,6 +1417,16 @@ function renderEaraGoogleMaps(block: Block, index: number): ReactNode {
     <Box
       key={index}
       className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
       style={{
         width: widthValue,
         height: heightValue,
@@ -1117,6 +1459,19 @@ function renderEaraList(block: Block, index: number): ReactNode {
   const listStyleType = attributes?.listStyleType || 'disc'
   const className = attributes?.className || ''
 
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
   const icon = withIcon ? (
     // <Box
     //   component="span"
@@ -1138,6 +1493,16 @@ function renderEaraList(block: Block, index: number): ReactNode {
       size={size}
       icon={icon}
       className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
       style={withIcon ? undefined : { listStyleType }}
     >
       {block.innerBlocks?.map((innerBlock, idx) => {
@@ -1180,8 +1545,30 @@ function renderEaraQuote(block: Block, index: number): ReactNode {
   const variant = attributes?.variant || 'dark'
   const className = attributes?.className || ''
 
+  const {
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
   return (
-    <Box key={index} className={className}>
+    <Box
+      key={index}
+      className={className}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
       <Quote
         texto={content}
         author={author}
@@ -1202,10 +1589,33 @@ function renderEaraTabs(block: Block, index: number): ReactNode {
   const layout = attributes?.layout || 'vertical'
   const className = attributes?.className || ''
 
+  const {
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
   if (tabs.length === 0) return null
 
   return (
-    <EaraTabs key={index} tabs={tabs} activeTab={activeTab} layout={layout} className={className} />
+    <Box
+      key={index}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      <EaraTabs tabs={tabs} activeTab={activeTab} layout={layout} className={className} />
+    </Box>
   )
 }
 
@@ -1218,41 +1628,22 @@ function renderCoreListItem(block: Block, index: number): ReactNode {
   const className = (attributes?.className as string) || ''
   const anchor = (attributes?.anchor as string) || undefined
 
-  const style = attributes?.style as
-    | {
-        spacing?: {
-          padding?: { bottom?: string; top?: string; left?: string; right?: string }
-          margin?: { bottom?: string; top?: string; left?: string; right?: string }
-        }
-        typography?: { fontSize?: string; fontFamily?: string }
-        color?: { background?: string; text?: string }
-      }
-    | undefined
-
-  // Colors
-  const textColorAttr = (attributes?.textColor as string | undefined) || style?.color?.text
-  const backgroundColorAttr =
-    (attributes?.backgroundColor as string | undefined) || style?.color?.background
-  const gradient = attributes?.gradient as string | undefined
-  const borderColorAttr = attributes?.borderColor as string | undefined
-
-  const color = parseColor(textColorAttr)
-  const backgroundColor = parseColor(backgroundColorAttr)
-  const borderColor = parseColor(borderColorAttr)
-
-  // Typography
-  const fontSize = (attributes?.fontSize as string | undefined) || style?.typography?.fontSize
-  const fontFamily = (attributes?.fontFamily as string | undefined) || style?.typography?.fontFamily
-
-  // Spacing
-  const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-  const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-  const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-  const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-  const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
-  const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-  const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-  const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
 
   return (
     <List.Item
@@ -1260,7 +1651,7 @@ function renderCoreListItem(block: Block, index: number): ReactNode {
       key={index}
       id={anchor}
       className={className}
-      c={color}
+      c={textColor}
       fz={fontSize}
       ff={fontFamily}
       pb={paddingBottom}
@@ -1272,7 +1663,7 @@ function renderCoreListItem(block: Block, index: number): ReactNode {
       ml={marginLeft}
       mr={marginRight}
       style={{
-        background: gradient ? gradient : backgroundColor,
+        background: gradient ? gradient : bgColor,
         border: borderColor ? `1px solid ${borderColor}` : undefined,
       }}
     >
@@ -1290,14 +1681,60 @@ function renderBlock(block: Block, index: number): ReactNode {
       const size = containerSizeMap[attributes.size as string] || 'md'
       const px = attributes.px ? Number(attributes.px) : undefined
       const py = attributes.py ? Number(attributes.py) : undefined
+      const className = (attributes.className as string) || ''
+
+      const {
+        bgColor,
+        textColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       return (
-        <Container key={index} size={size} px={px} py={py}>
+        <Container
+          key={index}
+          size={size}
+          px={px}
+          py={py}
+          className={className}
+          bg={bgColor}
+          c={textColor}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+        >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Container>
       )
     }
     // Accordion Container
     case 'eara/accordion-container': {
+      const className = (attributes.className as string) || ''
+
+      const {
+        bgColor,
+        textColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       const items = innerBlocks
         .filter((block) => block.name === 'eara/accordion')
         .map((accordionBlock) => ({
@@ -1309,7 +1746,24 @@ function renderBlock(block: Block, index: number): ReactNode {
             </div>
           ),
         }))
-      return <Accordion key={index} items={items} />
+      return (
+        <Box
+          key={index}
+          className={className}
+          bg={bgColor}
+          c={textColor}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+        >
+          <Accordion items={items} />
+        </Box>
+      )
     }
     // Core Group - Bloco container do Gutenberg com suporte a múltiplos tipos de layout
     case 'core/group': {
@@ -1343,6 +1797,38 @@ function renderBlock(block: Block, index: number): ReactNode {
       const grow = attributes.grow === true
       const wrap = attributes.wrap === 'wrap' ? 'wrap' : 'nowrap'
       const className = (attributes.className as string) || ''
+
+      const {
+        bgColor,
+        textColor,
+        gradient,
+        borderColor,
+        borderWidth,
+        borderStyle,
+        borderRadius,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+        fontSize,
+        fontFamily,
+      } = extractCommonStyles(attributes)
+
+      const inlineStyle: React.CSSProperties = {}
+      if (gradient) {
+        inlineStyle.background = gradient
+      } else if (bgColor) {
+        inlineStyle.backgroundColor = bgColor
+      }
+      if (borderColor) inlineStyle.borderColor = borderColor
+      if (borderWidth) inlineStyle.borderWidth = borderWidth
+      if (borderStyle) inlineStyle.borderStyle = borderStyle
+      if (borderRadius) inlineStyle.borderRadius = borderRadius
+
       return (
         <Group
           key={index}
@@ -1352,6 +1838,18 @@ function renderBlock(block: Block, index: number): ReactNode {
           grow={grow}
           wrap={wrap}
           className={className}
+          c={textColor}
+          fz={fontSize}
+          ff={fontFamily}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+          style={inlineStyle}
         >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Group>
@@ -1402,47 +1900,24 @@ function renderBlock(block: Block, index: number): ReactNode {
           ? (alignAttr as TextProps['ta'])
           : undefined)
 
-      const style = attributes.style as
-        | {
-            spacing?: {
-              padding?: { bottom?: string; top?: string; left?: string; right?: string }
-              margin?: { bottom?: string; top?: string; left?: string; right?: string }
-            }
-            typography?: { fontSize?: string; fontFamily?: string }
-            color?: { background?: string; text?: string }
-            elements?: { link?: { color?: { text?: string } } }
-          }
-        | undefined
-
-      // Colors
-      const textColorAttr = (attributes.textColor as string | undefined) || style?.color?.text
-      const backgroundColorAttr =
-        (attributes.backgroundColor as string | undefined) || style?.color?.background
-      const gradient = attributes.gradient as string | undefined
-      const borderColorAttr = attributes.borderColor as string | undefined
-
-      const color =
-        parseColor(textColorAttr) || parseColor(style?.elements?.link?.color?.text) || undefined
-      const backgroundColor = parseColor(backgroundColorAttr)
-      const borderColor = parseColor(borderColorAttr)
-
-      // Typography
-      const fontSize = (attributes.fontSize as string | undefined) || style?.typography?.fontSize
-      const fontFamily =
-        (attributes.fontFamily as string | undefined) || style?.typography?.fontFamily
-
-      // Spacing
-      const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-      const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-      const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-      const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom) || '20px'
-      const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-      const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-      const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
-
-      // FitText for headings (data attribute for optional handling)
       const fitText = (attributes.fitText as boolean) || false
+
+      const {
+        bgColor,
+        textColor,
+        gradient,
+        borderColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+        fontSize,
+        fontFamily,
+      } = extractCommonStyles(attributes)
 
       // WP align classes for wide/full/left/center/right
       const alignClass = alignAttr
@@ -1466,7 +1941,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           id={anchor}
           order={level}
           className={headingClassName}
-          c={color}
+          c={textColor}
           fz={fontSize}
           ff={fontFamily}
           ta={ta}
@@ -1474,13 +1949,13 @@ function renderBlock(block: Block, index: number): ReactNode {
           pt={paddingTop}
           pl={paddingLeft}
           pr={paddingRight}
-          mb={marginBottom}
+          mb={marginBottom || '20px'}
           mt={marginTop}
           ml={marginLeft}
           mr={marginRight}
           data-fit-text={fitText || undefined}
           style={{
-            background: gradient ? gradient : backgroundColor,
+            background: gradient ? gradient : bgColor,
             border: borderColor ? `1px solid ${borderColor}` : undefined,
           }}
         >
@@ -1492,18 +1967,45 @@ function renderBlock(block: Block, index: number): ReactNode {
       const title = (attributes.title as string) || ''
       const subtitle = (attributes.subtitle as string) || ''
       const containerSize = containerSizeMap[attributes.containerSize as string] || 'lg'
-      const backgroundColor = (attributes.backgroundColor as string) || undefined
+      const sectionClassName = (attributes.className as string) || ''
+
+      const {
+        bgColor,
+        textColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       return (
-        <Section
+        <Box
           key={index}
-          title={title}
-          subtitle={subtitle}
-          containerSize={containerSize}
-          className="relative"
-          style={{ backgroundColor: backgroundColor }}
+          className={sectionClassName}
+          bg={bgColor}
+          c={textColor}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
         >
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
-        </Section>
+          <Section
+            title={title}
+            subtitle={subtitle}
+            containerSize={containerSize}
+            className="relative"
+          >
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </Section>
+        </Box>
       )
     }
 
@@ -1531,15 +2033,36 @@ function renderBlock(block: Block, index: number): ReactNode {
       const image = (attributes.image as { url: string } | undefined)?.url || ''
       const orientation = (attributes.orientation as 'left' | 'right') || 'left'
       const backgroundColor = (attributes.backgroundColor as string) || '#eaeaea'
+      const className = (attributes.className as string) || ''
+
+      const {
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       return (
-        <SectionCard
+        <Box
           key={index}
-          image={image}
-          orientation={orientation}
-          backgroundColor={backgroundColor}
+          className={className}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
         >
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
-        </SectionCard>
+          <SectionCard image={image} orientation={orientation} backgroundColor={backgroundColor}>
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </SectionCard>
+        </Box>
       )
     }
 
@@ -1557,18 +2080,41 @@ function renderBlock(block: Block, index: number): ReactNode {
       const title = (attributes.title as string) || ''
       const link = (attributes.uri as string) || ''
       const variant = (attributes.variant as CardProps['variant']) || 'layout-1'
+
+      const {
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       return (
-        <Card
-          id={index.toString()}
+        <Box
           key={index}
-          variant={variant}
-          uri={link}
-          className={className}
-          featuredImage={featuredImage?.url || ''}
-          title={title}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
         >
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
-        </Card>
+          <Card
+            id={index.toString()}
+            variant={variant}
+            uri={link}
+            className={className}
+            featuredImage={featuredImage?.url || ''}
+            title={title}
+          >
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </Card>
+        </Box>
       )
     }
 
@@ -1577,15 +2123,38 @@ function renderBlock(block: Block, index: number): ReactNode {
       const backgroundColor = attributes.backgroundColor as string | undefined
       const padding = attributes.padding as string | undefined
       const margin = attributes.margin as string | undefined
-      // const href = attributes.href as string | undefined
+
+      const {
+        bgColor,
+        textColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
+      // Use custom padding/margin se não tiver extractCommonStyles ou combine ambos
       return (
         <Box
           key={index}
           className={className}
-          bg={backgroundColor}
+          bg={bgColor || backgroundColor}
+          c={textColor}
           p={padding}
-          bdrs="lg"
+          pb={paddingBottom || padding}
+          pt={paddingTop || padding}
+          pl={paddingLeft || padding}
+          pr={paddingRight || padding}
           m={margin}
+          mb={marginBottom || margin}
+          mt={marginTop || margin}
+          ml={marginLeft || margin}
+          mr={marginRight || margin}
+          bdrs="lg"
         >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Box>
@@ -1593,14 +2162,36 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
 
     case 'eara/hero-home': {
+      const {
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       return (
-        <HomeHero
+        <Box
           key={index}
-          overlayOpacity={attributes.overlayOpacity as number | undefined}
-          overlayColor={attributes.overlayColor as string | undefined}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
         >
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
-        </HomeHero>
+          <HomeHero
+            overlayOpacity={attributes.overlayOpacity as number | undefined}
+            overlayColor={attributes.overlayColor as string | undefined}
+          >
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </HomeHero>
+        </Box>
       )
     }
 
@@ -1614,44 +2205,24 @@ function renderBlock(block: Block, index: number): ReactNode {
       const dropCap = (attributes.dropCap as boolean) || false
       const className = (attributes.className as string) || ''
       const anchor = (attributes.anchor as string) || undefined
-
-      const style = attributes.style as
-        | {
-            spacing?: {
-              padding?: { bottom?: string; top?: string; left?: string; right?: string }
-              margin?: { bottom?: string; top?: string; left?: string; right?: string }
-            }
-            typography?: { fontSize?: string; fontFamily?: string }
-            elements?: { link?: { color?: { text?: string } } }
-            color?: { background?: string; text?: string }
-          }
-        | undefined
-
-      const textColorAttr =
-        style?.elements?.link?.color?.text ||
-        (attributes.textColor as string | undefined) ||
-        style?.color?.text
-      const backgroundColorAttr =
-        (attributes.backgroundColor as string | undefined) || style?.color?.background
-      const gradient = attributes.gradient as string | undefined
-      const fontSize = (attributes.fontSize as string | undefined) || style?.typography?.fontSize
-      const fontFamily =
-        (attributes.fontFamily as string | undefined) || style?.typography?.fontFamily
-      const borderColorAttr = attributes.borderColor as string | undefined
       const fitText = (attributes.fitText as boolean) || false
 
-      const color = parseColor(textColorAttr)
-      const backgroundColor = parseColor(backgroundColorAttr)
-      const borderColor = parseColor(borderColorAttr)
-
-      const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-      const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-      const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-      const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom) || '10px'
-      const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-      const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-      const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
+      const {
+        bgColor,
+        textColor,
+        gradient,
+        borderColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+        fontSize,
+        fontFamily,
+      } = extractCommonStyles(attributes)
 
       const computedClassName = dropCap ? `${className} has-drop-cap` : className
 
@@ -1662,7 +2233,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           id={anchor}
           className={computedClassName}
           dir={direction}
-          c={color}
+          c={textColor}
           fz={fontSize}
           ff={fontFamily}
           ta={align}
@@ -1670,13 +2241,13 @@ function renderBlock(block: Block, index: number): ReactNode {
           pt={paddingTop}
           pl={paddingLeft}
           pr={paddingRight}
-          mb={marginBottom}
+          mb={marginBottom || '10px'}
           mt={marginTop}
           ml={marginLeft}
           mr={marginRight}
           data-fit-text={fitText || undefined}
           style={{
-            background: gradient ? gradient : backgroundColor,
+            background: gradient ? gradient : bgColor,
             border: borderColor ? `1px solid ${borderColor}` : undefined,
           }}
         >
@@ -1695,55 +2266,31 @@ function renderBlock(block: Block, index: number): ReactNode {
       const className = (attributes_list?.className as string) || ''
       const anchor = (attributes_list?.anchor as string) || undefined
 
-      const style = attributes_list?.style as
-        | {
-            spacing?: {
-              padding?: { bottom?: string; top?: string; left?: string; right?: string }
-              margin?: { bottom?: string; top?: string; left?: string; right?: string }
-            }
-            typography?: { fontSize?: string; fontFamily?: string }
-            color?: { background?: string; text?: string }
-          }
-        | undefined
-
-      // Colors
-      const textColorAttr = (attributes_list?.textColor as string | undefined) || style?.color?.text
-      const backgroundColorAttr =
-        (attributes_list?.backgroundColor as string | undefined) || style?.color?.background
-      const gradient = attributes_list?.gradient as string | undefined
-      const borderColorAttr = attributes_list?.borderColor as string | undefined
-
-      const color = parseColor(textColorAttr)
-      const backgroundColor = parseColor(backgroundColorAttr)
-      const borderColor = parseColor(borderColorAttr)
-
-      // Typography
-      const fontSize =
-        (attributes_list?.fontSize as string | undefined) || style?.typography?.fontSize
-      const fontFamily =
-        (attributes_list?.fontFamily as string | undefined) || style?.typography?.fontFamily
-
-      // Spacing
-      const paddingBottom = resolveWordPressValue(style?.spacing?.padding?.bottom)
-      const paddingTop = resolveWordPressValue(style?.spacing?.padding?.top)
-      const paddingLeft = resolveWordPressValue(style?.spacing?.padding?.left)
-      const paddingRight = resolveWordPressValue(style?.spacing?.padding?.right)
-      const marginBottom = resolveWordPressValue(style?.spacing?.margin?.bottom)
-      const marginTop = resolveWordPressValue(style?.spacing?.margin?.top)
-      const marginLeft = resolveWordPressValue(style?.spacing?.margin?.left)
-      const marginRight = resolveWordPressValue(style?.spacing?.margin?.right)
-
-      // const ListTag = ordered ? 'ol' : 'ul'
+      const {
+        bgColor,
+        textColor,
+        gradient,
+        borderColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+        fontSize,
+        fontFamily,
+      } = extractCommonStyles(attributes_list)
 
       return (
         <List
-          // component={ListTag}
           type={ordered ? 'ordered' : 'unordered'}
           icon={<IconCircleCheck size={20} className="text-secondaryColor" />}
           key={index}
           id={anchor}
           className={className}
-          c={color}
+          c={textColor}
           fz={fontSize}
           ff={fontFamily}
           pb={paddingBottom}
@@ -1757,7 +2304,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           {...(ordered && start !== undefined && { start })}
           {...(ordered && reversed && { reversed: true })}
           style={{
-            background: gradient ? gradient : backgroundColor,
+            background: gradient ? gradient : bgColor,
             border: borderColor ? `1px solid ${borderColor}` : undefined,
             listStyleType: type || undefined,
           }}
@@ -1770,19 +2317,75 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
     // Hero Carousel
     case 'eara/hero-carousel': {
+      const className = (attributes.className as string) || ''
+
+      const {
+        bgColor,
+        textColor,
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       return (
-        <HeroSlideRoot key={index}>
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
-        </HeroSlideRoot>
+        <Box
+          key={index}
+          className={className}
+          bg={bgColor}
+          c={textColor}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+        >
+          <HeroSlideRoot>
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </HeroSlideRoot>
+        </Box>
       )
     }
     // Hero Slide
     case 'eara/hero-slide': {
       const backgroundImage = attributes.backgroundImageDesktop as { url: string } | undefined
+      const className = (attributes.className as string) || ''
+
+      const {
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
       return (
-        <HeroSlideItem bgImageSrc={backgroundImage?.url} key={index}>
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
-        </HeroSlideItem>
+        <Box
+          key={index}
+          className={className}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+        >
+          <HeroSlideItem bgImageSrc={backgroundImage?.url}>
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </HeroSlideItem>
+        </Box>
       )
     }
     // Core Image
