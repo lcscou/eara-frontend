@@ -203,9 +203,11 @@ export interface HeaderMenuItemsProps {
   uri?: string | null
   menuTextColor?: string | null
   childItems?: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem_childItems_MenuItemToMenuItemConnection | null
+  currentPath?: string | null
 }
 export interface MenuItemMobileProps {
   menu?: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu | null
+  currentPath?: string | null
 }
 
 // export interface SearchProps {
