@@ -3245,10 +3245,32 @@ export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRel
     node: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem
   }
 
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_documents_AcfPressReleaseDocuments_file_AcfMediaItemConnectionEdge_node_MediaItem =
+  {
+    __typename?: 'MediaItem'
+    guid?: string | null
+    title?: string | null
+    mimeType?: string | null
+  }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_documents_AcfPressReleaseDocuments_file_AcfMediaItemConnectionEdge =
+  {
+    __typename?: 'AcfMediaItemConnectionEdge'
+    node: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_documents_AcfPressReleaseDocuments_file_AcfMediaItemConnectionEdge_node_MediaItem
+  }
+
+export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_documents_AcfPressReleaseDocuments =
+  {
+    __typename?: 'AcfPressReleaseDocuments'
+    title?: string | null
+    file?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_documents_AcfPressReleaseDocuments_file_AcfMediaItemConnectionEdge | null
+  }
+
 export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease =
   {
     __typename?: 'AcfPressRelease'
     pageHeaderImage?: GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge | null
+    documents?: Array<GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_documents_AcfPressReleaseDocuments | null> | null
   }
 
 export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_type_PressReleaseToTypeConnection_nodes_Type =
@@ -7114,6 +7136,40 @@ export const GetPressReleaseDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'file' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'node' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
+                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'mimeType' },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },

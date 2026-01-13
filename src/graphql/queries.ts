@@ -1084,6 +1084,16 @@ export const GetPressRelease = gql`
             link
           }
         }
+        documents {
+          title
+          file {
+            node {
+              guid
+              title
+              mimeType
+            }
+          }
+        }
       }
       type {
         nodes {
