@@ -4,6 +4,8 @@ import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
+import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
+import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import Quote from '@/components/ui/Quote/Quote'
 
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
@@ -24,6 +26,7 @@ import {
   Title,
 } from '@mantine/core'
 import { IconCircleCheck } from '@tabler/icons-react'
+import clsx from 'clsx'
 import parse from 'html-react-parser'
 import React, { ReactNode } from 'react'
 import { CardProps } from './types'
@@ -248,9 +251,26 @@ export interface EaraListAttributes extends BlockAttribute {
   color?: string
   spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   listStyleType?: 'disc' | 'circle' | 'square' | 'decimal' | 'lower-alpha' | 'upper-alpha'
-  lock?: Record<string, unknown>
-  metadata?: Record<string, unknown>
   className?: string
+  metadata?: Record<string, unknown>
+}
+
+export interface EaraModalTriggerAttributes extends BlockAttribute {
+  triggerId?: string
+  className?: string
+  metadata?: Record<string, unknown>
+}
+
+export interface EaraModalContentAttributes extends BlockAttribute {
+  triggerId?: string
+  title?: string
+  centered?: boolean
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  withCloseButton?: boolean
+  fullScreen?: boolean
+  lock?: Record<string, unknown>
+  className?: string
+  metadata?: Record<string, unknown>
 }
 
 export interface EaraListItemAttributes extends BlockAttribute {
@@ -2243,6 +2263,64 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/list-item': {
       return renderEaraListItem(block)
+    }
+
+    case 'eara/modal-trigger': {
+      const attributes_modal_trigger = attributes as EaraModalTriggerAttributes | undefined
+      const triggerId = attributes_modal_trigger?.triggerId || ''
+      const className = attributes_modal_trigger?.className || ''
+
+      if (!triggerId) {
+        console.warn('eara/modal-trigger requires triggerId attribute')
+        return (
+          <div key={index}>
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </div>
+        )
+      }
+
+      return (
+        <ModalTrigger key={index} triggerId={triggerId}>
+          <div className={clsx('w-fit', className)}>
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          </div>
+        </ModalTrigger>
+      )
+    }
+
+    case 'eara/modal-content': {
+      const attributes_modal_content = attributes as EaraModalContentAttributes | undefined
+      const triggerId = attributes_modal_content?.triggerId || ''
+      const title = attributes_modal_content?.title || ''
+      const centered = attributes_modal_content?.centered || false
+      const size = (attributes_modal_content?.size as 'sm' | 'md' | 'lg' | 'xl') || 'md'
+      const withCloseButton = attributes_modal_content?.withCloseButton !== false
+      const fullScreen = attributes_modal_content?.fullScreen || false
+      const lock = attributes_modal_content?.lock
+      const className = attributes_modal_content?.className || ''
+      const metadata = attributes_modal_content?.metadata
+
+      if (!triggerId) {
+        console.warn('eara/modal-content requires triggerId attribute')
+        return null
+      }
+
+      return (
+        <ModalContent
+          key={index}
+          triggerId={triggerId}
+          title={title}
+          centered={centered}
+          size={size}
+          withCloseButton={withCloseButton}
+          fullScreen={fullScreen}
+          lock={lock}
+          className={className}
+          metadata={metadata}
+        >
+          <div>{innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}</div>
+        </ModalContent>
+      )
     }
 
     case 'eara/card': {
