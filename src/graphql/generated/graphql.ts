@@ -2589,6 +2589,29 @@ export type GetSettingsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetSettingsQuery = GetSettingsQuery_RootQuery
 
+export type GetMembersCountriesQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_acfMembers_AcfMembers =
+  { __typename?: 'AcfMembers'; country?: Array<string | null> | null }
+
+export type GetMembersCountriesQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member = {
+  __typename?: 'Member'
+  id: string
+  acfMembers?: GetMembersCountriesQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_acfMembers_AcfMembers | null
+}
+
+export type GetMembersCountriesQuery_RootQuery_members_RootQueryToMemberConnection = {
+  __typename?: 'RootQueryToMemberConnection'
+  nodes: Array<GetMembersCountriesQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member>
+}
+
+export type GetMembersCountriesQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  members?: GetMembersCountriesQuery_RootQuery_members_RootQueryToMemberConnection | null
+}
+
+export type GetMembersCountriesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetMembersCountriesQuery = GetMembersCountriesQuery_RootQuery
+
 export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_pageInfo_RootQueryToMemberConnectionPageInfo =
   {
     __typename?: 'RootQueryToMemberConnectionPageInfo'
@@ -5607,6 +5630,55 @@ export const GetSettingsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetSettingsQuery, GetSettingsQueryVariables>
+export const GetMembersCountriesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetMembersCountries' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'members' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1000' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'acfMembers' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'country' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetMembersCountriesQuery, GetMembersCountriesQueryVariables>
 export const GetAllMembersDocument = {
   kind: 'Document',
   definitions: [

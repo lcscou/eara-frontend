@@ -660,6 +660,19 @@ export const GetSettings = gql`
     }
   }
 `
+export const GetMembersCountries = gql`
+  query GetMembersCountries {
+    members(first: 1000) {
+      nodes {
+        id
+        acfMembers {
+          country
+        }
+      }
+    }
+  }
+`
+
 export const GetAllMembers = gql`
   query GetAllMembers($first: Int, $after: String, $before: String, $last: Int, $country: String) {
     members(

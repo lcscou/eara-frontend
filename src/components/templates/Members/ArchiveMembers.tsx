@@ -2,7 +2,11 @@
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import MembersCard from '@/components/ui/MembersCard/MembersCard'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import { GetAllMembersDocument, GetAllMembersQuery } from '@/graphql/generated/graphql'
+import {
+  GetAllMembersDocument,
+  GetAllMembersQuery,
+  GetMembersCountriesDocument,
+} from '@/graphql/generated/graphql'
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Combobox, Container, Group, Loader, useCombobox } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
@@ -11,6 +15,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 const PAGE_SIZE = 12
 
 export default function ArchiveMembers() {
+  // Query para buscar países de todos os membros (sem paginação)
+  const { data: countriesData } = useSuspenseQuery(GetMembersCountriesDocument)
+
+  // Query principal para buscar membros paginados
   const { data, fetchMore } = useSuspenseQuery(GetAllMembersDocument, {
     variables: { first: PAGE_SIZE },
   })
@@ -27,26 +35,46 @@ export default function ArchiveMembers() {
   const normalizeCountry = (value?: string | null) => value?.toLowerCase().trim() ?? ''
   const capitalizeCountry = (value: string) => value.replace(/\b\w/g, (c) => c.toUpperCase())
 
-  const { allMembers, countryIndex, countryOptions } = useMemo(() => {
+  // Gerar opções de países com base em TODOS os membros do backend
+  const { countryOptions, totalMembers } = useMemo(() => {
+    const allCountryMembers = countriesData?.members?.nodes ?? []
+    const countryCount: Record<string, number> = {}
+
+    for (const m of allCountryMembers) {
+      const countries = m?.acfMembers?.country ?? []
+      for (const raw of countries) {
+        const value = normalizeCountry(raw)
+        if (!value) continue
+        countryCount[value] = (countryCount[value] ?? 0) + 1
+      }
+    }
+
+    const options = Object.entries(countryCount)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([value, count]) => ({
+        value,
+        label: capitalizeCountry(value),
+        count,
+      }))
+
+    return { countryOptions: options, totalMembers: allCountryMembers.length }
+  }, [countriesData])
+
+  // Membros visíveis na página atual
+  const { allMembers, countryIndex } = useMemo(() => {
     const all = data?.members?.nodes ?? []
     const index: Record<string, Array<(typeof all)[number]>> = {}
-    const set = new Set<string>()
 
     for (const m of all) {
       const countries = m?.acfMembers?.country ?? []
       for (const raw of countries) {
         const value = normalizeCountry(raw)
         if (!value) continue
-        set.add(value)
         ;(index[value] ??= []).push(m)
       }
     }
 
-    const options = Array.from(set)
-      .sort()
-      .map((value) => ({ value, label: capitalizeCountry(value) }))
-
-    return { allMembers: all, countryIndex: index, countryOptions: options }
+    return { allMembers: all, countryIndex: index }
   }, [data])
 
   const handleLoadMore = useCallback(() => {
@@ -118,10 +146,10 @@ export default function ArchiveMembers() {
             </Combobox.Target>
             <Combobox.Dropdown>
               <Combobox.Options>
-                <Combobox.Option value="all">All Countries ({allMembers.length})</Combobox.Option>
+                <Combobox.Option value="all">All Countries ({totalMembers})</Combobox.Option>
                 {countryOptions.map((opt) => (
                   <Combobox.Option key={opt.value} value={opt.value}>
-                    {opt.label} ({countryIndex[opt.value]?.length ?? 0})
+                    {opt.label} ({opt.count})
                   </Combobox.Option>
                 ))}
               </Combobox.Options>
