@@ -2526,9 +2526,9 @@ function renderBlock(block: Block, index: number): ReactNode {
       if (customBorderStyle || borderStyle) {
         inlineStyle.borderStyle = customBorderStyle || borderStyle
       }
-      if (customBorderRadius) {
-        inlineStyle.borderRadius = customBorderRadius
-      }
+      // if (customBorderRadius) {
+      //   inlineStyle.borderRadius = customBorderRadius
+      // }
 
       // Dimensions
       if (aspectRatio) inlineStyle.aspectRatio = aspectRatio
@@ -2539,6 +2539,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       const boxContent = (
         <Box
           key={index}
+          data-block="eara/box"
           className={className}
           c={textColor}
           pb={paddingBottom}
@@ -2549,6 +2550,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           mt={marginTop}
           ml={marginLeft}
           mr={marginRight}
+          bdrs={customBorderRadius}
           style={inlineStyle}
         >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
