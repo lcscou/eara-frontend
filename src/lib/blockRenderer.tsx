@@ -2478,7 +2478,7 @@ function renderBlock(block: Block, index: number): ReactNode {
         borderColor,
         borderWidth,
         borderStyle,
-        borderRadius,
+        // borderRadius,
         paddingBottom,
         paddingTop,
         paddingLeft,
@@ -2526,8 +2526,8 @@ function renderBlock(block: Block, index: number): ReactNode {
       if (customBorderStyle || borderStyle) {
         inlineStyle.borderStyle = customBorderStyle || borderStyle
       }
-      if (customBorderRadius || borderRadius) {
-        inlineStyle.borderRadius = customBorderRadius || borderRadius
+      if (customBorderRadius) {
+        inlineStyle.borderRadius = customBorderRadius
       }
 
       // Dimensions
