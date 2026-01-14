@@ -1015,8 +1015,8 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
     <Group
       key={index}
       className={className}
-      gap={0}
-      wrap="wrap"
+      // gap={0}
+      // wrap="wrap"
       align={
         verticalAlignment === 'center'
           ? 'center'
@@ -1095,7 +1095,7 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
   // Estilo inline
   const inlineStyle: React.CSSProperties = {
     flex: flexValue,
-    minWidth: 0,
+    // minWidth: 0,
     maxWidth: width ? flexBasis : undefined,
     display: 'flex',
     flexDirection: 'column',
@@ -2059,7 +2059,7 @@ function renderBlock(block: Block, index: number): ReactNode {
         <ButtonEara
           key={index}
           label={label}
-          w={width}
+          miw={width}
           className={className}
           variant={variant}
           size={size}

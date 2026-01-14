@@ -29,6 +29,7 @@ export default function ButtonEara({
             label: {
               fontWeight: '400',
               fontSize: '13px',
+              overflow: 'visible',
               letterSpacing: '.8px',
             },
           }}
@@ -107,12 +108,12 @@ export default function ButtonEara({
           rightSection={
             <div
               className={clsx(
-                'flex aspect-square h-[48.4px] items-center justify-center rounded-full p-1',
+                'mx-1 flex aspect-square items-center justify-center rounded-full',
                 s.arrowIcon
               )}
             >
               <IconArrowRight
-                className={clsx('bg-secondaryColor h-full w-full rounded-full p-2 text-black')}
+                className={clsx('bg-secondaryColor h-full w-full rounded-full p-1 text-black')}
               />
             </div>
           }
