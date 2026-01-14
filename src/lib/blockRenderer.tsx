@@ -13,11 +13,13 @@ import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import Section from '@/components/ui/Section/Section'
 import {
+  Anchor,
   Box,
   Center,
   Container,
   getFontSize,
   Group,
+  Image,
   List,
   MantineSize,
   SimpleGrid,
@@ -278,6 +280,42 @@ export interface EaraListItemAttributes extends BlockAttribute {
   className?: string
 }
 
+export interface EaraBoxAttributes extends BlockAttribute {
+  href?: string
+  borderRadius?: string
+  borderColor?: string
+  borderWidth?: string
+  borderStyle?: string
+  className?: string
+  metadata?: Record<string, unknown>
+  // Core attributes
+  style?: {
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    color?: { background?: string; text?: string }
+    dimensions?: {
+      aspectRatio?: string
+      height?: string
+      minHeight?: string
+      width?: string
+    }
+    background?: {
+      backgroundImage?: {
+        url?: string
+        id?: number
+      }
+      backgroundSize?: string
+      backgroundPosition?: string
+      backgroundRepeat?: string
+    }
+  }
+  backgroundColor?: string
+  textColor?: string
+  layout?: CoreLayoutConfig
+}
+
 export interface EaraQuoteAttributes extends BlockAttribute {
   content?: string
   author?: string
@@ -380,7 +418,7 @@ const colorPresets: Record<string, string> = {
   'primary-color': '#312f86',
   secondary: '#8fbf29',
   'secondary-color': '#8fbf29',
-  white: '#ffff',
+  white: '#fff',
   'eara-bg-dark': '#e2e2e5',
   'eara-bg-light': '#ededfa',
   'eara-gray-light': '#eaeaea',
@@ -456,6 +494,9 @@ function resolveWordPressValue(value: unknown): string | undefined {
   }
   if (value === 'primary-color') {
     return colorPresets['primary']
+  }
+  if (value === 'white') {
+    return colorPresets['white']
   }
 
   return undefined
@@ -1013,7 +1054,7 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
 
   // Contar número de colunas para calcular o gap proporcional
   const numberOfColumns = block.innerBlocks?.filter((b) => b.name === 'core/column').length || 1
-  // Gap padrão do Mantine é 'md' = 1rem
+
   const gapValue = '1rem'
 
   return (
@@ -1166,7 +1207,9 @@ function renderCoreColumn(
     <Box
       key={index}
       className={className}
+      bdrs="lg"
       c={textColor}
+      bg={bgColor}
       pb={paddingBottom}
       pt={paddingTop}
       pl={paddingLeft}
@@ -1194,6 +1237,9 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   const caption = attributes?.caption
   const title = attributes?.title
   const width = attributes?.width || 800
+  const displayWidth = (attributes?.displayWidth as string) || undefined
+  const displayHeight = (attributes?.displayHeight as string) || undefined
+  const height = attributes?.height || 'auto'
   const href = attributes?.href
   const linkTarget = attributes?.linkTarget || '_self'
   const rel = attributes?.rel || ''
@@ -1215,13 +1261,13 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   if (!url) return null
 
   const img = (
-    <Box
+    <Image
       component="img"
       src={url as string}
       alt={alt}
       title={title}
       width={width}
-      height="auto"
+      height={height}
       className="rounded-lg"
       style={{ maxWidth: '100%', objectFit: 'cover' }}
     />
@@ -1239,11 +1285,13 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   return (
     <Box
       key={index}
-      className={className}
+      className={clsx('overflow-hidden rounded-lg', className)}
       bg={bgColor}
       c={textColor}
       pb={paddingBottom}
       pt={paddingTop}
+      w={displayWidth}
+      h={displayHeight}
       pl={paddingLeft}
       pr={paddingRight}
       mb={marginBottom}
@@ -2413,14 +2461,24 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
 
     case 'eara/box': {
-      const className = (attributes.className as string) || ''
-      const backgroundColor = attributes.backgroundColor as string | undefined
-      const padding = attributes.padding as string | undefined
-      const margin = attributes.margin as string | undefined
+      const boxAttributes = attributes as EaraBoxAttributes | undefined
+      const className = boxAttributes?.className || ''
+      const href = boxAttributes?.href
 
+      // Atributos customizados de border
+      const customBorderRadius = boxAttributes?.borderRadius
+      const customBorderColor = parseColor(boxAttributes?.borderColor)
+      const customBorderWidth = boxAttributes?.borderWidth
+      const customBorderStyle = boxAttributes?.borderStyle || 'solid'
+
+      // Extrair estilos comuns
       const {
         bgColor,
         textColor,
+        borderColor,
+        borderWidth,
+        borderStyle,
+        borderRadius,
         paddingBottom,
         paddingTop,
         paddingLeft,
@@ -2429,30 +2487,84 @@ function renderBlock(block: Block, index: number): ReactNode {
         marginTop,
         marginLeft,
         marginRight,
-      } = extractCommonStyles(attributes)
+      } = extractCommonStyles(boxAttributes)
 
-      // Use custom padding/margin se não tiver extractCommonStyles ou combine ambos
-      return (
+      // Atributos de dimensões
+      const dimensions = boxAttributes?.style?.dimensions
+      const aspectRatio = dimensions?.aspectRatio
+      const height = dimensions?.height
+      const minHeight = dimensions?.minHeight
+      const width = dimensions?.width
+
+      // Atributos de background
+      const background = boxAttributes?.style?.background
+      const backgroundImage = background?.backgroundImage?.url
+      const backgroundSize = background?.backgroundSize || 'cover'
+      const backgroundPosition = background?.backgroundPosition || 'center'
+      const backgroundRepeat = background?.backgroundRepeat || 'no-repeat'
+
+      // Construir estilo inline
+      const inlineStyle: React.CSSProperties = {}
+
+      // Background
+      if (backgroundImage) {
+        inlineStyle.backgroundImage = `url(${backgroundImage})`
+        inlineStyle.backgroundSize = backgroundSize
+        inlineStyle.backgroundPosition = backgroundPosition
+        inlineStyle.backgroundRepeat = backgroundRepeat
+      } else if (bgColor) {
+        inlineStyle.backgroundColor = bgColor
+      }
+
+      // Border (prioriza atributos customizados)
+      if (customBorderColor || borderColor) {
+        inlineStyle.borderColor = customBorderColor || borderColor
+      }
+      if (customBorderWidth || borderWidth) {
+        inlineStyle.borderWidth = customBorderWidth || borderWidth
+      }
+      if (customBorderStyle || borderStyle) {
+        inlineStyle.borderStyle = customBorderStyle || borderStyle
+      }
+      if (customBorderRadius || borderRadius) {
+        inlineStyle.borderRadius = customBorderRadius || borderRadius
+      }
+
+      // Dimensions
+      if (aspectRatio) inlineStyle.aspectRatio = aspectRatio
+      if (height) inlineStyle.height = height
+      if (minHeight) inlineStyle.minHeight = minHeight
+      if (width) inlineStyle.width = width
+
+      const boxContent = (
         <Box
           key={index}
           className={className}
-          bg={bgColor || backgroundColor}
           c={textColor}
-          p={padding}
-          pb={paddingBottom || padding}
-          pt={paddingTop || padding}
-          pl={paddingLeft || padding}
-          pr={paddingRight || padding}
-          m={margin}
-          mb={marginBottom || margin}
-          mt={marginTop || margin}
-          ml={marginLeft || margin}
-          mr={marginRight || margin}
-          bdrs="lg"
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+          style={inlineStyle}
         >
           {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
         </Box>
       )
+
+      // Se tiver href, envolve em um Anchor
+      if (href) {
+        return (
+          <Anchor key={index} href={href} underline="never" c="inherit">
+            {boxContent}
+          </Anchor>
+        )
+      }
+
+      return boxContent
     }
 
     case 'eara/hero-home': {
