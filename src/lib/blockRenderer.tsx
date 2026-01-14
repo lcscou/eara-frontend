@@ -439,6 +439,7 @@ const fontSizePresets: Record<string, string> = {
  * - 'var:preset|spacing|40' -> '1rem'
  * - 'var:preset|color|primary' -> '#0066cc'
  * - '1rem' -> '1rem'
+ * - '-1rem' -> '-1rem' (valores negativos)
  */
 function resolveWordPressValue(value: unknown): string | undefined {
   if (!value || typeof value !== 'string') return undefined
@@ -465,8 +466,8 @@ function resolveWordPressValue(value: unknown): string | undefined {
     return undefined
   }
 
-  // Se for um valor CSS válido direto
-  if (value.match(/^[\d.]+(?:px|rem|em|%|vh|vw)$/)) {
+  // Se for um valor CSS válido direto (com suporte a valores negativos)
+  if (value.match(/^-?[\d.]+(?:px|rem|em|%|vh|vw)$/)) {
     return value
   }
 
