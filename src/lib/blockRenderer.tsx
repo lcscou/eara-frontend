@@ -1011,12 +1011,17 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
   if (borderStyle) inlineStyle.borderStyle = borderStyle
   if (borderRadius) inlineStyle.borderRadius = borderRadius
 
+  // Contar número de colunas para calcular o gap proporcional
+  const numberOfColumns = block.innerBlocks?.filter((b) => b.name === 'core/column').length || 1
+  // Gap padrão do Mantine é 'md' = 1rem
+  const gapValue = '1rem'
+
   return (
     <Group
       key={index}
       className={className}
-      // gap={0}
-      // wrap="wrap"
+      gap={gapValue}
+      preventGrowOverflow={false}
       align={
         verticalAlignment === 'center'
           ? 'center'
@@ -1039,7 +1044,13 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
       mr={marginRight}
       style={{ width: '100%', ...inlineStyle }}
     >
-      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+      {block.innerBlocks?.map((innerBlock, idx) => {
+        // Passa informação do gap para as colunas através de um bloco modificado
+        if (innerBlock.name === 'core/column') {
+          return renderCoreColumn(innerBlock, idx, numberOfColumns, gapValue)
+        }
+        return renderBlock(innerBlock, idx)
+      })}
     </Group>
   )
 }
@@ -1047,7 +1058,12 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
 /**
  * Renderiza um bloco core/column (coluna dentro de core/columns)
  */
-function renderCoreColumn(block: Block, index: number): ReactNode {
+function renderCoreColumn(
+  block: Block,
+  index: number,
+  numberOfColumns: number = 1,
+  gapValue: string = '1rem'
+): ReactNode {
   const attributes = block.attributes as CoreColumnAttributes | undefined
   const className = attributes?.cssClassName || ''
   const width = attributes?.width
@@ -1073,21 +1089,50 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
     fontFamily,
   } = extractCommonStyles(attributes)
 
-  // Calcular width/flexBasis corretamente
+  // Calcular width/flexBasis corretamente com desconto do gap
   let flexBasis: string = 'auto'
   let flexValue: string = '1 1 0%'
 
   if (width) {
-    if (typeof width === 'number') {
-      flexBasis = `${width}%`
-      flexValue = `0 0 ${flexBasis}`
-    } else if (typeof width === 'string') {
-      // Se for uma string numérica como "33.33", adiciona %
+    let widthValue: number | string = width
+
+    // Converter para número se for string numérica
+    if (typeof width === 'string') {
       if (!isNaN(parseFloat(width)) && !width.includes('%') && !width.includes('px')) {
-        flexBasis = `${width}%`
+        widthValue = parseFloat(width)
       } else {
-        flexBasis = width
+        widthValue = width
       }
+    }
+
+    // Se for porcentagem (número ou string com %), usar calc() para descontar o gap
+    if (typeof widthValue === 'number') {
+      // Calcular o gap total e dividir proporcionalmente
+      // Gap total = (numberOfColumns - 1) * gapValue
+      // Cada coluna desconta: (gapTotal / numberOfColumns)
+      const gapPerColumn =
+        numberOfColumns > 1
+          ? `((${numberOfColumns - 1} * ${gapValue}) / ${numberOfColumns})`
+          : '0px'
+      flexBasis = `calc(${widthValue}% - ${gapPerColumn})`
+      flexValue = `0 0 ${flexBasis}`
+    } else if (typeof widthValue === 'string' && widthValue.includes('%')) {
+      // String com %, extrair o valor numérico
+      const numericValue = parseFloat(widthValue)
+      if (!isNaN(numericValue)) {
+        const gapPerColumn =
+          numberOfColumns > 1
+            ? `((${numberOfColumns - 1} * ${gapValue}) / ${numberOfColumns})`
+            : '0px'
+        flexBasis = `calc(${numericValue}% - ${gapPerColumn})`
+        flexValue = `0 0 ${flexBasis}`
+      } else {
+        flexBasis = widthValue
+        flexValue = `0 0 ${flexBasis}`
+      }
+    } else {
+      // Para valores em px ou outros, usar como está
+      flexBasis = widthValue as string
       flexValue = `0 0 ${flexBasis}`
     }
   }
@@ -1095,7 +1140,7 @@ function renderCoreColumn(block: Block, index: number): ReactNode {
   // Estilo inline
   const inlineStyle: React.CSSProperties = {
     flex: flexValue,
-    // minWidth: 0,
+    minWidth: 0,
     maxWidth: width ? flexBasis : undefined,
     display: 'flex',
     flexDirection: 'column',
