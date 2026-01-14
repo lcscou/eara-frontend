@@ -124,6 +124,7 @@ export default function ButtonEara({
           styles={{
             root: {
               paddingRight: '0px',
+              width: 'fit-content',
               // borderColor: "white"
             },
             label: {
