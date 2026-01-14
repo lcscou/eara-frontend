@@ -1061,7 +1061,7 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
   return (
     <Group
       key={index}
-      className={className}
+      className={clsx(className, 'overflow-hidden')}
       gap={gapValue}
       preventGrowOverflow={false}
       align={
@@ -1207,7 +1207,7 @@ function renderCoreColumn(
   return (
     <Box
       key={index}
-      className={className}
+      className={clsx('overflow-hidden', className)}
       bdrs="lg"
       c={textColor}
       bg={bgColor}
