@@ -3,6 +3,7 @@
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core'
 import { useClipboard } from '@mantine/hooks'
 import {
+  IconBrandBluesky,
   IconBrandFacebook,
   IconBrandLinkedin,
   IconBrandX,
@@ -34,6 +35,11 @@ export default function SharePost({ title, description }: SharePostProps) {
   const handleTwitterShare = () => {
     const text = title ? encodeURIComponent(title) : ''
     const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${text}`
+    window.open(twitterUrl, '_blank', 'width=600,height=400')
+  }
+  const handleBlueSkyShare = () => {
+    const text = title ? encodeURIComponent(title) : ''
+    const twitterUrl = `https://bsky.app/intent/compose?text=${text}-${encodeURIComponent(currentUrl)}`
     window.open(twitterUrl, '_blank', 'width=600,height=400')
   }
 
@@ -75,18 +81,6 @@ export default function SharePost({ title, description }: SharePostProps) {
           </ActionIcon>
         </Tooltip>
 
-        <Tooltip label={clipboard.copied ? 'Link copied!' : 'Copy link'} position="top">
-          <ActionIcon
-            variant="subtle"
-            size="lg"
-            color={clipboard.copied ? 'primaryColor.9' : 'primaryColor.3'}
-            onClick={handleCopyLink}
-            aria-label="Copy link"
-          >
-            {clipboard.copied ? <IconCheck size={24} /> : <IconLink size={24} />}
-          </ActionIcon>
-        </Tooltip>
-
         <Tooltip label="Share on X (Twitter)" position="top">
           <ActionIcon
             variant="subtle"
@@ -96,6 +90,29 @@ export default function SharePost({ title, description }: SharePostProps) {
             aria-label="Share on X"
           >
             <IconBrandX size={24} />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label="Share on Bluesky" position="top">
+          <ActionIcon
+            variant="subtle"
+            size="lg"
+            color="primaryColor.9"
+            onClick={handleBlueSkyShare}
+            aria-label="Share on Bluesky"
+          >
+            <IconBrandBluesky size={24} />
+          </ActionIcon>
+        </Tooltip>
+
+        <Tooltip label={clipboard.copied ? 'Link copied!' : 'Copy link'} position="top">
+          <ActionIcon
+            variant="subtle"
+            size="lg"
+            color={clipboard.copied ? 'primaryColor.9' : 'primaryColor.3'}
+            onClick={handleCopyLink}
+            aria-label="Copy link"
+          >
+            {clipboard.copied ? <IconCheck size={24} /> : <IconLink size={24} />}
           </ActionIcon>
         </Tooltip>
       </Group>
