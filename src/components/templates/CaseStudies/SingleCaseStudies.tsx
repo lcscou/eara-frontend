@@ -1,6 +1,7 @@
 'use client'
 
 import { GetCaseStudiesQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
 import { Button, Container } from '@mantine/core'
 import { IconArrowLeft } from '@tabler/icons-react'
 import Link from 'next/link'
@@ -49,7 +50,7 @@ export default function SingleCaseStudies({ data }: { data: GetCaseStudiesQuery 
             </Button>
           </Link>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: data.caseStudies?.content || '' }}></div>
+        <div>{renderPageBlocks(data.caseStudies?.blocks)}</div>
       </Container>
     </>
   )

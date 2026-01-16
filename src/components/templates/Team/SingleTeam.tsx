@@ -1,6 +1,7 @@
 'use client'
 
 import { GetTeamQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
 import { Button, Container } from '@mantine/core'
 import { IconArrowLeft } from '@tabler/icons-react'
 import Link from 'next/link'
@@ -25,7 +26,7 @@ export default function SingleMembers({ data }: { data: GetTeamQuery }) {
             </Button>
           </Link>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: data.team?.content || '' }}></div>
+        <div>{renderPageBlocks(data.team?.blocks)}</div>
       </Container>
     </>
   )

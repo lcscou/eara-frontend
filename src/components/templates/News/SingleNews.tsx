@@ -4,6 +4,7 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import Section from '@/components/ui/Section/Section'
 import { GetNewsQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
 import { truncateText } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
 import { Button, Center, Container } from '@mantine/core'
@@ -30,7 +31,7 @@ export default function SingleNews({ data }: { data: GetNewsQuery }) {
             </Button>
           </Link>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: data.news?.content || '' }}></div>
+        <div>{renderPageBlocks(data.news?.blocks)}</div>
 
         <div className="mt-10">
           <SharePost

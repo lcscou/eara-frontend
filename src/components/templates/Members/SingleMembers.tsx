@@ -1,6 +1,7 @@
 'use client'
 
 import { GetMembersQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
 import { Button, Container } from '@mantine/core'
 import { IconArrowLeft } from '@tabler/icons-react'
 import Link from 'next/link'
@@ -24,7 +25,7 @@ export default function SingleMembers({ data }: { data: GetMembersQuery }) {
             </Button>
           </Link>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: data.member?.content || '' }}></div>
+        <div>{renderPageBlocks(data.member?.blocks)}</div>
       </Container>
     </>
   )
