@@ -9,6 +9,7 @@ import { FooterProps } from '@/lib/types'
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Button, Container, Grid, Group, Image, Stack, Text, Title } from '@mantine/core'
 import {
+  IconBrandBluesky,
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandLinkedin,
@@ -62,6 +63,7 @@ export default function Footer({}: FooterProps) {
                   {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook && (
                     <Button
                       component="a"
+                      target="_blank"
                       href={
                         settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook || ''
                       }
@@ -74,6 +76,7 @@ export default function Footer({}: FooterProps) {
                   {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram && (
                     <Button
                       component="a"
+                      target="_blank"
                       href={
                         settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram || ''
                       }
@@ -86,6 +89,7 @@ export default function Footer({}: FooterProps) {
                   {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin && (
                     <Button
                       component="a"
+                      target="_blank"
                       href={
                         settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin || ''
                       }
@@ -98,6 +102,7 @@ export default function Footer({}: FooterProps) {
                   {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube && (
                     <Button
                       component="a"
+                      target="_blank"
                       href={
                         settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube || ''
                       }
@@ -110,11 +115,25 @@ export default function Footer({}: FooterProps) {
                   {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x && (
                     <Button
                       component="a"
+                      target="_blank"
                       href={settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x || ''}
                       unstyled
                       className="mt-4"
                     >
                       <IconBrandX />
+                    </Button>
+                  )}
+                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.bluesky && (
+                    <Button
+                      component="a"
+                      target="_blank"
+                      href={
+                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.bluesky || ''
+                      }
+                      unstyled
+                      className="mt-4"
+                    >
+                      <IconBrandBluesky />
                     </Button>
                   )}
                 </Group>

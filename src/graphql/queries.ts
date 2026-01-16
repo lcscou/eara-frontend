@@ -655,6 +655,7 @@ export const GetSettings = gql`
           facebook
           youtube
           x
+          bluesky
         }
       }
     }

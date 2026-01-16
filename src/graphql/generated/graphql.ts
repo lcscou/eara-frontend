@@ -2567,6 +2567,7 @@ export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_T
     facebook?: string | null
     youtube?: string | null
     x?: string | null
+    bluesky?: string | null
   }
 
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings = {
@@ -5638,6 +5639,7 @@ export const GetSettingsDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'facebook' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'youtube' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'x' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'bluesky' } },
                           ],
                         },
                       },
