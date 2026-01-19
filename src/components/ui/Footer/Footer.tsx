@@ -13,6 +13,7 @@ import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandLinkedin,
+  IconBrandTiktok,
   IconBrandX,
   IconBrandYoutube,
 } from '@tabler/icons-react'
@@ -134,6 +135,20 @@ export default function Footer({}: FooterProps) {
                       className="mt-4"
                     >
                       <IconBrandBluesky />
+                    </Button>
+                  )}
+
+                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.tiktok && (
+                    <Button
+                      component="a"
+                      target="_blank"
+                      href={
+                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.tiktok || ''
+                      }
+                      unstyled
+                      className="mt-4"
+                    >
+                      <IconBrandTiktok />
                     </Button>
                   )}
                 </Group>

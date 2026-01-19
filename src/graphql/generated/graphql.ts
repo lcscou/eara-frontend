@@ -2568,6 +2568,7 @@ export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_T
     youtube?: string | null
     x?: string | null
     bluesky?: string | null
+    tiktok?: string | null
   }
 
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings = {
@@ -2725,7 +2726,6 @@ export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnecti
 export type GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank_cfMediaBank_CfMediaBank =
   {
     __typename?: 'CfMediaBank'
-    banner?: boolean | null
     mediaType?: Array<string | null> | null
     credits?: string | null
     creditWebsite?: string | null
@@ -5640,6 +5640,7 @@ export const GetSettingsDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'youtube' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'x' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'bluesky' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'tiktok' } },
                           ],
                         },
                       },
@@ -6024,7 +6025,6 @@ export const GetMediasBankDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'mediaType' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'credits' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'creditWebsite' } },

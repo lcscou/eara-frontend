@@ -656,6 +656,7 @@ export const GetSettings = gql`
           youtube
           x
           bluesky
+          tiktok
         }
       }
     }
@@ -753,7 +754,6 @@ export const GetMediasBank = gql`
         slug
         uri
         cfMediaBank {
-          banner
           mediaType
           credits
           creditWebsite

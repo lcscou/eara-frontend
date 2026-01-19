@@ -6,6 +6,7 @@ import {
   IconBrandBluesky,
   IconBrandFacebook,
   IconBrandLinkedin,
+  IconBrandTiktok,
   IconBrandX,
   IconCheck,
   IconLink,
@@ -43,6 +44,26 @@ export default function SharePost({ title, description }: SharePostProps) {
     window.open(twitterUrl, '_blank', 'width=600,height=400')
   }
 
+  const handleTikTokShare = async () => {
+    try {
+      const nav =
+        typeof navigator !== 'undefined'
+          ? (navigator as unknown as { share?: (data: ShareData) => Promise<void> })
+          : undefined
+      if (nav?.share) {
+        await nav.share({
+          title: title || document.title,
+          text: description || title || '',
+          url: currentUrl,
+        })
+        return
+      }
+    } catch {
+      // Fallback to copying below
+    }
+    clipboard.copy(currentUrl)
+  }
+
   const handleCopyLink = () => {
     clipboard.copy(currentUrl)
   }
@@ -57,6 +78,18 @@ export default function SharePost({ title, description }: SharePostProps) {
       </Group>
 
       <Group gap="sm">
+        <Tooltip label="Share on TikTok" position="top">
+          <ActionIcon
+            variant="subtle"
+            size="lg"
+            color="primaryColor.9"
+            onClick={handleTikTokShare}
+            aria-label="Share on TikTok"
+          >
+            <IconBrandTiktok size={24} />
+          </ActionIcon>
+        </Tooltip>
+
         <Tooltip label="Share on Facebook" position="top">
           <ActionIcon
             variant="subtle"
