@@ -2499,6 +2499,9 @@ export type GetMembersQuery_RootQuery_member_Member_author_NodeWithAuthorToUserC
   node: GetMembersQuery_RootQuery_member_Member_author_NodeWithAuthorToUserConnectionEdge_node_User
 }
 
+export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_geolocation_AcfMembersGeolocation =
+  { __typename?: 'AcfMembersGeolocation'; latitude?: string | null; longitude?: string | null }
+
 export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
   { __typename?: 'MediaItem'; link?: string | null }
 
@@ -2512,6 +2515,7 @@ export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers = {
   __typename?: 'AcfMembers'
   country?: Array<string | null> | null
   website?: string | null
+  geolocation?: GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_geolocation_AcfMembersGeolocation | null
   pageHeaderImage?: GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge | null
 }
 
@@ -2623,8 +2627,16 @@ export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_pag
     hasPreviousPage: boolean
   }
 
+export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_acfMembers_AcfMembers_geolocation_AcfMembersGeolocation =
+  { __typename?: 'AcfMembersGeolocation'; latitude?: string | null; longitude?: string | null }
+
 export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_acfMembers_AcfMembers =
-  { __typename?: 'AcfMembers'; country?: Array<string | null> | null; website?: string | null }
+  {
+    __typename?: 'AcfMembers'
+    country?: Array<string | null> | null
+    website?: string | null
+    geolocation?: GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_acfMembers_AcfMembers_geolocation_AcfMembersGeolocation | null
+  }
 
 export type GetAllMembersQuery_RootQuery_members_RootQueryToMemberConnection_nodes_Member_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
@@ -5532,6 +5544,17 @@ export const GetMembersDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'website' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'geolocation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'pageHeaderImage' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -5810,6 +5833,17 @@ export const GetAllMembersDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'geolocation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                ],
+                              },
+                            },
                             { kind: 'Field', name: { kind: 'Name', value: 'country' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'website' } },
                           ],

@@ -618,6 +618,10 @@ export const GetMembers = gql`
       acfMembers {
         country
         website
+        geolocation {
+          latitude
+          longitude
+        }
         pageHeaderImage {
           node {
             link
@@ -694,6 +698,10 @@ export const GetAllMembers = gql`
         id
         title
         acfMembers {
+          geolocation {
+            latitude
+            longitude
+          }
           country
           website
         }

@@ -1,6 +1,7 @@
 'use client'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import MembersCard from '@/components/ui/MembersCard/MembersCard'
+import MembersMap from '@/components/ui/MembersMap/MembersMap'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import {
   GetAllMembersDocument,
@@ -119,6 +120,7 @@ export default function ArchiveMembers() {
 
   return (
     <>
+      <MembersMap members={allMembers} />
       <Container size="xl" my={100}>
         <Group mb={40}>
           <Combobox
