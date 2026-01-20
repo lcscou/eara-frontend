@@ -15,7 +15,7 @@ import {
   TextInput,
 } from '@mantine/core'
 import { useDebouncedValue, useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { IconSearch, IconX } from '@tabler/icons-react'
+import { IconSearch } from '@tabler/icons-react'
 import algoliasearch, { SearchIndex } from 'algoliasearch/lite'
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -164,7 +164,7 @@ export default function Search() {
 
     const plainContent = hit.post_excerpt || hit.excerpt || hit.content || hit.post_content || ''
 
-    if (!plainContent) return 'Sem prévia disponível.'
+    if (!plainContent) return 'No preview available.'
 
     return truncateText(cleanHTMLTAG(plainContent), 40)
   }
@@ -179,7 +179,7 @@ export default function Search() {
         c="#272727"
         className="flex aspect-square w-[40px] cursor-pointer items-center justify-center rounded-full"
         onClick={handleOpen}
-        aria-label="Buscar"
+        aria-label="Search"
       >
         <IconSearch size={18} />
       </Button>
@@ -187,14 +187,26 @@ export default function Search() {
       <Modal
         opened={opened}
         onClose={handleClose}
-        size={isMobile ? '100%' : 'lg'}
-        fullScreen={isMobile}
-        title="Buscar"
+        size={isMobile ? '100%' : '80%'}
+        // fullScreen
+
+        styles={{
+          header: {
+            background: '#EAEAEA',
+          },
+          content: {
+            // overflow: 'hidden',
+            borderRadius: '15px',
+            background: '#EAEAEA',
+            minHeight: 'var(--modal-content-max-height, calc(100dvh - var(--modal-y-offset) * 2))',
+          },
+        }}
+        title="Search"
         centered
       >
         <Stack gap="md">
-          <Group justify="space-between" align="center">
-            <Text fw={600}>Busca global</Text>
+          {/* <Group justify="space-between" align="center">
+            <Text fw={600}>Search</Text>
             <Button
               variant="subtle"
               color="gray"
@@ -203,14 +215,22 @@ export default function Search() {
             >
               Fechar
             </Button>
-          </Group>
+          </Group> */}
 
           <TextInput
             ref={inputRef}
             data-autofocus
-            placeholder="Buscar conteúdos"
+            placeholder="Search contents"
             leftSection={<IconSearch size={18} />}
             value={query}
+            size="xl"
+            pt={20}
+            variant="filled"
+            styles={{
+              input: {
+                borderRadius: '80px',
+              },
+            }}
             onChange={(event) => setQuery(event.currentTarget.value)}
           />
 
@@ -221,32 +241,36 @@ export default function Search() {
             </Alert>
           )}
 
-          <ScrollArea.Autosize mah={isMobile ? '60vh' : '55vh'}>
+          <ScrollArea.Autosize
+            h=" calc(100dvh - 200px - var(--modal-y-offset) * 2)"
+            scrollbarSize={10}
+            offsetScrollbars
+          >
             <Stack gap="sm">
               {isSearching && (
                 <Group gap={8} align="center">
                   <Loader size="sm" />
                   <Text size="sm" c="dimmed">
-                    Buscando “{debouncedQuery}”
+                    Searching “{debouncedQuery}”
                   </Text>
                 </Group>
               )}
 
               {error && !isSearching && (
-                <Alert color="red" title="Erro na busca">
+                <Alert color="red" title="Search error">
                   {error}
                 </Alert>
               )}
 
               {!isSearching && !error && !hasResults && debouncedQuery.trim() && (
                 <Text size="sm" c="dimmed">
-                  Nenhum resultado para “{debouncedQuery}”.
+                  No results for “{debouncedQuery}”.
                 </Text>
               )}
 
               {!debouncedQuery.trim() && !isSearching && (
                 <Text size="sm" c="dimmed">
-                  Digite para buscar nos conteúdos.
+                  Type to search contents.
                 </Text>
               )}
 

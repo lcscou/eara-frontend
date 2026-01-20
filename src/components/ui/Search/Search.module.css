@@ -2,7 +2,7 @@
   border: 1px solid rgba(18, 21, 54, 0.08);
   border-radius: 0.75rem;
   padding: 0.85rem 1rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgb(255, 255, 255);
   transition:
     border-color 0.15s ease,
     transform 0.15s ease;
@@ -25,11 +25,12 @@
 
 .resultSnippet {
   line-height: 1.5;
-  margin-top: 4px;
+  margin-top: 10px;
 }
 
 .resultUrl {
   word-break: break-all;
+  opacity: 0.4;
   font-family:
     ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace;
@@ -37,8 +38,8 @@
 
 .resultSnippet mark,
 .resultTitle mark {
-  background: #f3f6d3;
-  color: inherit;
+  background: var(--color-secondaryColor);
+  color: whitesmoke;
   padding: 0 2px;
   border-radius: 2px;
 }
