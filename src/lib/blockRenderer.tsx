@@ -1019,6 +1019,7 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
   const attributes = block.attributes as CoreColumnsAttributes | undefined
   const className = attributes?.cssClassName || ''
   const verticalAlignment = attributes?.verticalAlignment || 'top'
+  const isStackedOnMobile = attributes?.isStackedOnMobile !== false // Default true
 
   const {
     bgColor,
@@ -1057,42 +1058,73 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
 
   const gapValue = '1rem'
 
+  // ID único para este bloco de colunas
+  const columnsId = `columns-${index}`
+  const mobileStackClass = isStackedOnMobile ? `columns-stack-mobile-${columnsId}` : ''
+
   return (
-    <Group
-      key={index}
-      className={clsx(className, 'overflow-hidden')}
-      gap={gapValue}
-      preventGrowOverflow={false}
-      align={
-        verticalAlignment === 'center'
-          ? 'center'
-          : verticalAlignment === 'bottom'
-            ? 'flex-end'
-            : verticalAlignment === 'stretch'
-              ? 'stretch'
-              : 'flex-start'
-      }
-      c={textColor}
-      fz={fontSize}
-      ff={fontFamily}
-      pb={paddingBottom}
-      pt={paddingTop}
-      pl={paddingLeft}
-      pr={paddingRight}
-      mb={marginBottom}
-      mt={marginTop}
-      ml={marginLeft}
-      mr={marginRight}
-      style={{ width: '100%', ...inlineStyle }}
-    >
-      {block.innerBlocks?.map((innerBlock, idx) => {
-        // Passa informação do gap para as colunas através de um bloco modificado
-        if (innerBlock.name === 'core/column') {
-          return renderCoreColumn(innerBlock, idx, numberOfColumns, gapValue)
+    <>
+      {isStackedOnMobile && (
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              .columns-stack-mobile-${columnsId} {
+                display: flex !important;
+                flex-wrap: wrap !important;
+              }
+              
+              @media (max-width: 768px) {
+                .columns-stack-mobile-${columnsId} {
+                  flex-direction: column !important;
+                }
+                
+                .columns-stack-mobile-${columnsId} > * {
+                  width: 100% !important;
+                  max-width: 100% !important;
+                  flex: 1 1 100% !important;
+                }
+              }
+            `,
+          }}
+        />
+      )}
+      <Group
+        key={index}
+        className={clsx(className, 'overflow-hidden', mobileStackClass)}
+        gap={gapValue}
+        wrap="wrap"
+        preventGrowOverflow={false}
+        align={
+          verticalAlignment === 'center'
+            ? 'center'
+            : verticalAlignment === 'bottom'
+              ? 'flex-end'
+              : verticalAlignment === 'stretch'
+                ? 'stretch'
+                : 'flex-start'
         }
-        return renderBlock(innerBlock, idx)
-      })}
-    </Group>
+        c={textColor}
+        fz={fontSize}
+        ff={fontFamily}
+        pb={paddingBottom}
+        pt={paddingTop}
+        pl={paddingLeft}
+        pr={paddingRight}
+        mb={marginBottom}
+        mt={marginTop}
+        ml={marginLeft}
+        mr={marginRight}
+        style={{ width: '100%', ...inlineStyle }}
+      >
+        {block.innerBlocks?.map((innerBlock, idx) => {
+          // Passa informação do gap para as colunas através de um bloco modificado
+          if (innerBlock.name === 'core/column') {
+            return renderCoreColumn(innerBlock, idx, numberOfColumns, gapValue)
+          }
+          return renderBlock(innerBlock, idx)
+        })}
+      </Group>
+    </>
   )
 }
 
