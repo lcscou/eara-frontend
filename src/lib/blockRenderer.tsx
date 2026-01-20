@@ -7,6 +7,7 @@ import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import Quote from '@/components/ui/Quote/Quote'
+import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
 
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
@@ -272,6 +273,15 @@ export interface EaraModalContentAttributes extends BlockAttribute {
   fullScreen?: boolean
   lock?: Record<string, unknown>
   className?: string
+  metadata?: Record<string, unknown>
+}
+
+export interface EaraNewsletterFormAttributes extends BlockAttribute {
+  triggerId?: string
+  title?: string
+  description?: string
+  buttonLabel?: string
+  renderMode?: 'modal' | 'inline'
   metadata?: Record<string, unknown>
 }
 
@@ -2445,6 +2455,27 @@ function renderBlock(block: Block, index: number): ReactNode {
         >
           <div>{innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}</div>
         </ModalContent>
+      )
+    }
+
+    case 'eara/newsletter-form': {
+      const attributes_newsletter = attributes as EaraNewsletterFormAttributes | undefined
+      const triggerId = attributes_newsletter?.triggerId || `newsletter-${index}`
+      const title = attributes_newsletter?.title || 'Subscribe to our newsletter'
+      const description =
+        attributes_newsletter?.description || 'Subscribe to receive the latest updates from us.'
+      const buttonLabel = attributes_newsletter?.buttonLabel || 'Subscribe'
+      const renderMode = attributes_newsletter?.renderMode === 'modal' ? 'modal' : 'inline'
+
+      return (
+        <SubscribeNewsLetter
+          key={index}
+          triggerId={triggerId}
+          title={title}
+          description={description}
+          buttonLabel={buttonLabel}
+          renderMode={renderMode}
+        />
       )
     }
 

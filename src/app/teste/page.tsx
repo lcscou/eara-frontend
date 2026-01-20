@@ -3,11 +3,16 @@
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
-import { Box, Button, Group, Text } from '@mantine/core'
+import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
+import { Box, Button, Container, Group, Text } from '@mantine/core'
 
 export default function TestePage() {
   return (
     <div className="px-8 py-40">
+      <Container>
+        <SubscribeNewsLetter renderMode="inline" />
+      </Container>
+
       <Box mb="xl">
         <Text size="xl" fw={700} mb="md">
           Teste de Modal System

@@ -13,7 +13,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useMemo, useState } from 'react'
 import ButtonEara from '../ButtonEara/ButtonEara'
 
 export type SubscribeNewsLetterPayload = {
@@ -32,6 +32,7 @@ export type SubscribeNewsLetterProps = {
   description?: string
   submitUrl?: string
   onSubmit?: (payload: SubscribeNewsLetterPayload) => Promise<void> | void
+  renderMode?: 'modal' | 'inline'
 }
 
 const DEFAULT_TRIGGER_ID = 'subscribe-newsletter'
@@ -45,10 +46,12 @@ function SubscribeNewsLetterForm({
   triggerId,
   submitUrl,
   onSubmit,
+  onSuccess,
 }: {
   triggerId: string
   submitUrl?: string
   onSubmit?: (payload: SubscribeNewsLetterPayload) => Promise<void> | void
+  onSuccess?: () => void
 }) {
   const { closeModal } = useModals()
   const createInitialState = (): SubscribeNewsLetterPayload => ({
@@ -89,7 +92,7 @@ function SubscribeNewsLetterForm({
 
       setStatus('success')
       setForm(createInitialState())
-      closeModal(triggerId)
+      onSuccess?.()
     } catch (error) {
       console.error(error)
       setStatus('error')
@@ -188,7 +191,35 @@ export default function SubscribeNewsLetter({
   description = 'Subscribe to receive the latest updates from us. ',
   submitUrl = '/api/subscribe-mailchimp',
   onSubmit,
+  renderMode = 'inline',
 }: SubscribeNewsLetterProps) {
+  const { closeModal } = useModals()
+  const form = useMemo(
+    () => (
+      <SubscribeNewsLetterForm
+        triggerId={triggerId}
+        submitUrl={submitUrl}
+        onSubmit={onSubmit}
+        onSuccess={renderMode === 'modal' ? () => closeModal(triggerId) : undefined}
+      />
+    ),
+    [triggerId, submitUrl, onSubmit, renderMode, closeModal]
+  )
+
+  if (renderMode === 'inline') {
+    return (
+      <Stack gap="sm">
+        <Title order={6} size={30}>
+          {title}
+        </Title>
+        <Text size="sm" c="earaDark.5">
+          {description}
+        </Text>
+        {form}
+      </Stack>
+    )
+  }
+
   return (
     <Stack gap="sm">
       <Title order={6} size={30}>
@@ -205,7 +236,7 @@ export default function SubscribeNewsLetter({
       </ModalTrigger>
 
       <ModalContent triggerId={triggerId} title={title} centered size="lg">
-        <SubscribeNewsLetterForm triggerId={triggerId} submitUrl={submitUrl} onSubmit={onSubmit} />
+        {form}
       </ModalContent>
     </Stack>
   )
