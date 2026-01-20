@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
 type PageProps = {
-  params: { uri: string[] }
+  params: Promise<{ uri: string[] }>
 }
 const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
   const client = getClient()
@@ -25,7 +25,8 @@ const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
   return data
 })
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const data = await getPageData(params.uri)
+  const { uri } = await params
+  const data = await getPageData(uri)
   if (!data?.page) notFound()
   const title = `Eara | ${data.page.title}`
   const description = data.page.seo?.opengraphDescription || ''
@@ -40,7 +41,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 export default async function Pages({ params }: PageProps) {
-  const data = await getPageData(params.uri)
+  const { uri } = await params
+  const data = await getPageData(uri)
   if (!data?.page) notFound()
   return <PageTemplate data={data} />
 }

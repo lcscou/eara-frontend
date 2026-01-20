@@ -182,7 +182,15 @@ export const GetAllAnimals = gql`
     }
   }
 `
-export const MenuItemFieldsFragment = gql`
+export const PageInfoFragment = gql`
+  fragment PageInfo on PageInfo {
+    endCursor
+    startCursor
+    hasNextPage
+    hasPreviousPage
+  }
+`
+export const GetMenu = gql`
   fragment MenuItemFields on MenuItem {
     id
     label
@@ -197,17 +205,6 @@ export const MenuItemFieldsFragment = gql`
       menuTextColor
     }
   }
-`
-export const PageInfoFragment = gql`
-  fragment PageInfo on PageInfo {
-    endCursor
-    startCursor
-    hasNextPage
-    hasPreviousPage
-  }
-`
-export const GetMenu = gql`
-  ${MenuItemFieldsFragment}
   query GetMenu {
     menus {
       nodes {

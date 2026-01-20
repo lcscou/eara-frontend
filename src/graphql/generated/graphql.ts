@@ -306,28 +306,6 @@ export type GetAllAnimalsQueryVariables = Exact<{
 
 export type GetAllAnimalsQuery = GetAllAnimalsQuery_RootQuery
 
-export type MenuItemFieldsFragment_MenuItem_menuAcf_MenuAcf = {
-  __typename?: 'MenuAcf'
-  content?: string | null
-  fieldGroupName?: string | null
-  hidden?: boolean | null
-  ismegamenu?: boolean | null
-}
-
-export type MenuItemFieldsFragment_MenuItem_menuGeral_MenuGeral = {
-  __typename?: 'MenuGeral'
-  menuTextColor?: string | null
-}
-
-export type MenuItemFieldsFragment = {
-  __typename?: 'MenuItem'
-  id: string
-  label?: string | null
-  uri?: string | null
-  menuAcf?: MenuItemFieldsFragment_MenuItem_menuAcf_MenuAcf | null
-  menuGeral?: MenuItemFieldsFragment_MenuItem_menuGeral_MenuGeral | null
-}
-
 type PageInfo_AcfContentNodeConnectionPageInfo_Fragment = {
   __typename?: 'AcfContentNodeConnectionPageInfo'
   endCursor?: string | null
@@ -1400,6 +1378,28 @@ export type PageInfoFragment =
   | PageInfo_UserToPostConnectionPageInfo_Fragment
   | PageInfo_UserToRevisionsConnectionPageInfo_Fragment
   | PageInfo_UserToUserRoleConnectionPageInfo_Fragment
+
+export type MenuItemFieldsFragment_MenuItem_menuAcf_MenuAcf = {
+  __typename?: 'MenuAcf'
+  content?: string | null
+  fieldGroupName?: string | null
+  hidden?: boolean | null
+  ismegamenu?: boolean | null
+}
+
+export type MenuItemFieldsFragment_MenuItem_menuGeral_MenuGeral = {
+  __typename?: 'MenuGeral'
+  menuTextColor?: string | null
+}
+
+export type MenuItemFieldsFragment = {
+  __typename?: 'MenuItem'
+  id: string
+  label?: string | null
+  uri?: string | null
+  menuAcf?: MenuItemFieldsFragment_MenuItem_menuAcf_MenuAcf | null
+  menuGeral?: MenuItemFieldsFragment_MenuItem_menuGeral_MenuGeral | null
+}
 
 export type GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuGeral_MenuGeral =
   { __typename?: 'MenuGeral'; menuTextColor?: string | null }
@@ -3329,6 +3329,25 @@ export type GetPressReleaseQueryVariables = Exact<{
 
 export type GetPressReleaseQuery = GetPressReleaseQuery_RootQuery
 
+export const PageInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PageInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PageInfo' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PageInfoFragment, unknown>
 export const MenuItemFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -3368,25 +3387,6 @@ export const MenuItemFieldsFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<MenuItemFieldsFragment, unknown>
-export const PageInfoFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'PageInfo' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PageInfo' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<PageInfoFragment, unknown>
 export const GetAllAnimalsPagedDocument = {
   kind: 'Document',
   definitions: [

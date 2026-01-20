@@ -445,7 +445,6 @@ function resolveWordPressValue(value: unknown): string | undefined {
   if (!value || typeof value !== 'string') return undefined
 
   // Se for um preset customizado do WordPress
-  console.log('value', value)
 
   if (value.includes('var:preset')) {
     const parts = value.split('|')

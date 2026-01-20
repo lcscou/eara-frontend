@@ -38,3 +38,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 https://developer.wordpress.org/block-editor/reference-guides/core-blocks/
 
 <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3114.056940583907!2d-9.224007!3d38.6935363!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1ecb6efee9e7f1%3A0x93b51451a062a591!2sFunda%C3%A7%C3%A3o%20Champalimaud!5e0!3m2!1spt-BR!2sbr!4v1767964478528!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+## Algolia global search
+
+The header search uses the Algolia Search-only key directly from the browser (no proxy/routes). Configure these variables in `.env.local`:
+
+```env
+NEXT_PUBLIC_ALGOLIA_APP_ID=
+NEXT_PUBLIC_ALGOLIA_SEARCH_KEY=
+NEXT_PUBLIC_ALGOLIA_INDEX_NAME=eara_global
+# Optional: forces permalink replacement to the frontend domain
+NEXT_PUBLIC_SITE_URL=https://example.com
+```
+
+- WordPress must index content in a single global index (via the official Algolia plugin).
+- The Search-only key is the only Algolia credential used on the frontend.
+- Permalinks returned by Algolia are normalized to the frontend domain at runtime.

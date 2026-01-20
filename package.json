@@ -35,6 +35,7 @@
     "@mantine/next": "^6.0.22",
     "@react-google-maps/api": "^2.20.8",
     "@tabler/icons-react": "^3.35.0",
+    "algoliasearch": "^4.24.0",
     "clsx": "^2.1.1",
     "embla-carousel": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
