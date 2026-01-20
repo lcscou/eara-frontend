@@ -8,7 +8,7 @@ import { Carousel } from '@mantine/carousel'
 import { ActionIcon, Group } from '@mantine/core'
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
 import { EmblaCarouselType } from 'embla-carousel'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 export default function FeaturedEvents({
   withSectionWrapper = true,
@@ -20,8 +20,43 @@ export default function FeaturedEvents({
     variables: { first: 6 },
     fetchPolicy: 'cache-and-network',
   })
+
+  // Filter to show only upcoming events
+  const upcomingEvents = useMemo(() => {
+    if (!data?.allEvents?.nodes) return []
+    const now = new Date()
+    return data.allEvents.nodes.filter((event) => {
+      const startDate = event?.customFields?.startDate
+      return startDate && new Date(startDate) >= now
+    })
+  }, [data])
+
   if (!data) {
     return null
+  }
+
+  // If no upcoming events, show message
+  if (upcomingEvents.length === 0) {
+    const emptyContent = (
+      <div className="py-20 text-center">
+        <p className="text-lg text-gray-600">No events scheduled at the moment.</p>
+      </div>
+    )
+
+    if (!withSectionWrapper) {
+      return emptyContent
+    }
+
+    return (
+      <Section
+        title="EARA Events"
+        subtitle="Events"
+        containerSize="none"
+        className="bg-earaGrayLight relative"
+      >
+        {emptyContent}
+      </Section>
+    )
   }
 
   const content = (
@@ -51,7 +86,7 @@ export default function FeaturedEvents({
           align: 'center',
         }}
       >
-        {data.allEvents?.nodes.map((event) => {
+        {upcomingEvents.map((event) => {
           return (
             <Carousel.Slide key={event.id}>
               <EventCard

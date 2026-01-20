@@ -21,7 +21,7 @@ function ArchiveEventsContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedLocationType, setSelectedLocationType] = useState<string | null>(null)
-  const [selectedStatus, setSelectedStatus] = useState<'all' | 'upcoming' | 'past'>('all')
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'upcoming' | 'past'>('upcoming')
 
   const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
     variables: { first: PAGE_SIZE },
@@ -34,8 +34,11 @@ function ArchiveEventsContent() {
     const country = searchParams.get('country')
     const locationType = searchParams.get('locationType')
 
-    if (status === 'upcoming' || status === 'past') {
-      setSelectedStatus(status)
+    if (status === 'upcoming' || status === 'past' || status === 'all') {
+      setSelectedStatus(status as 'all' | 'upcoming' | 'past')
+    } else if (!status) {
+      // Se não houver parâmetro de status na URL, mantém 'upcoming' como padrão
+      setSelectedStatus('upcoming')
     }
     if (category) {
       setSelectedCategory(category)
@@ -174,7 +177,7 @@ function ArchiveEventsContent() {
     setSelectedCategory(null)
     setSelectedCountry(null)
     setSelectedLocationType(null)
-    setSelectedStatus('all')
+    setSelectedStatus('upcoming')
     statusCombobox.resetSelectedOption()
     locationCombobox.resetSelectedOption()
     locationTypeCombobox.resetSelectedOption()
@@ -185,7 +188,7 @@ function ArchiveEventsContent() {
     selectedCategory !== null ||
     selectedCountry !== null ||
     selectedLocationType !== null ||
-    selectedStatus !== 'all'
+    (selectedStatus !== 'upcoming' && selectedStatus !== 'all')
 
   return (
     <>
@@ -363,7 +366,16 @@ function ArchiveEventsContent() {
           </div>
         ) : (
           <>
-            <ResultNotFound resetFilters={handleResetFilters} />
+            {selectedStatus === 'upcoming' &&
+            !selectedCategory &&
+            !selectedCountry &&
+            !selectedLocationType ? (
+              <div className="mt-10 text-center">
+                <p className="text-lg text-gray-600">No events scheduled at the moment.</p>
+              </div>
+            ) : (
+              <ResultNotFound resetFilters={handleResetFilters} />
+            )}
           </>
         )}
       </Container>
