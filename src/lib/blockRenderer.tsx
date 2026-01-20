@@ -1073,7 +1073,7 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
   const mobileStackClass = isStackedOnMobile ? `columns-stack-mobile-${columnsId}` : ''
 
   return (
-    <>
+    <div key="index">
       {isStackedOnMobile && (
         <style
           dangerouslySetInnerHTML={{
@@ -1134,7 +1134,7 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
           return renderBlock(innerBlock, idx)
         })}
       </Group>
-    </>
+    </div>
   )
 }
 
