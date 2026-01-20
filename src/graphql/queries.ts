@@ -407,6 +407,7 @@ export const GetEvents = gql`
         order
         organizer
         startDate
+        locationType
         category
         description
       }

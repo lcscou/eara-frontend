@@ -2163,6 +2163,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields = {
   order?: number | null
   organizer?: string | null
   startDate?: string | null
+  locationType?: string | null
   category?: string | null
   description?: string | null
   pageHeaderImage?: GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge | null
@@ -4802,6 +4803,7 @@ export const GetEventsDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'order' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'organizer' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'locationType' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                     ],

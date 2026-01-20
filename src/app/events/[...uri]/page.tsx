@@ -19,7 +19,7 @@ const getEventData = cache(async (uri: string[]): Promise<GetEventsQuery> => {
     context: {
       fetchOptions: {
         next: {
-          revalidate: 1800,
+          revalidate: 0,
           tags: ['events', `event-${uri.join('')}`],
         },
       },
