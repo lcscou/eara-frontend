@@ -9,7 +9,7 @@ import s from './MembersCard.module.css'
 export default function MembersCard({
   featuredImage,
   title,
-  description,
+  // description,
   uri,
   country,
 }: MembersCardProps) {

@@ -1,4 +1,5 @@
 'use client'
+import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
 import {
   GetMenuDocument,
   GetMenuQuery,
@@ -154,9 +155,7 @@ export default function Footer({}: FooterProps) {
                 </Group>
               </Grid.Col>
               <Grid.Col span={{ sm: 4 }}>
-                <Title order={6} size={30}>
-                  Subscribe our newsletter
-                </Title>
+                <SubscribeNewsLetter title="Subscribe our newsletter" />
               </Grid.Col>
             </Grid>
           </div>
