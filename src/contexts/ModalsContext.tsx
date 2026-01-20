@@ -1,7 +1,7 @@
 'use client'
 
 import { Modal, useModalsStack } from '@mantine/core'
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { createContext, ReactNode, useCallback, useContext, useState } from 'react'
 
 // Interface para definir um modal
 export interface ModalDefinition {
@@ -39,7 +39,7 @@ export function ModalsProvider({ children }: { children: ReactNode }) {
   const stack = useModalsStack(triggerIds)
 
   // Registrar um modal
-  const registerModal = (modal: ModalDefinition) => {
+  const registerModal = useCallback((modal: ModalDefinition) => {
     setModals((prev) => {
       const newMap = new Map(prev)
       newMap.set(modal.triggerId, modal)
@@ -52,10 +52,10 @@ export function ModalsProvider({ children }: { children: ReactNode }) {
       }
       return prev
     })
-  }
+  }, [])
 
   // Desregistrar um modal
-  const unregisterModal = (triggerId: string) => {
+  const unregisterModal = useCallback((triggerId: string) => {
     setModals((prev) => {
       const newMap = new Map(prev)
       newMap.delete(triggerId)
@@ -63,24 +63,33 @@ export function ModalsProvider({ children }: { children: ReactNode }) {
     })
 
     setTriggerIds((prev) => prev.filter((id) => id !== triggerId))
-  }
+  }, [])
 
   // Abrir um modal
-  const openModal = (triggerId: string) => {
-    if (modals.has(triggerId)) {
-      stack.open(triggerId)
-    }
-  }
+  const openModal = useCallback(
+    (triggerId: string) => {
+      setModals((prev) => {
+        if (prev.has(triggerId)) {
+          stack.open(triggerId)
+        }
+        return prev
+      })
+    },
+    [stack]
+  )
 
   // Fechar um modal
-  const closeModal = (triggerId: string) => {
-    stack.close(triggerId)
-  }
+  const closeModal = useCallback(
+    (triggerId: string) => {
+      stack.close(triggerId)
+    },
+    [stack]
+  )
 
   // Fechar todos os modais
-  const closeAll = () => {
+  const closeAll = useCallback(() => {
     stack.closeAll()
-  }
+  }, [stack])
 
   return (
     <ModalsContext.Provider

@@ -1,5 +1,4 @@
 'use client'
-
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import { useModals } from '@/contexts/ModalsContext'
@@ -13,9 +12,8 @@ import {
   TextInput,
   Title,
 } from '@mantine/core'
-import { FormEvent, useMemo, useState } from 'react'
+import { FormEvent, useCallback, useMemo, useState } from 'react'
 import ButtonEara from '../ButtonEara/ButtonEara'
-
 export type SubscribeNewsLetterPayload = {
   firstName: string
   lastName: string
@@ -24,7 +22,6 @@ export type SubscribeNewsLetterPayload = {
   country: string
   interests: string[]
 }
-
 export type SubscribeNewsLetterProps = {
   triggerId?: string
   title?: string
@@ -34,14 +31,12 @@ export type SubscribeNewsLetterProps = {
   onSubmit?: (payload: SubscribeNewsLetterPayload) => Promise<void> | void
   renderMode?: 'modal' | 'inline'
 }
-
 const DEFAULT_TRIGGER_ID = 'subscribe-newsletter'
 const INTEREST_OPTIONS = [
   { value: 'news-digest', label: 'News Digest' },
   { value: 'policy-briefing', label: 'Policy Briefing' },
   { value: 'training-and-events', label: 'Training and events' },
 ]
-
 function SubscribeNewsLetterForm({
   triggerId,
   submitUrl,
@@ -62,16 +57,13 @@ function SubscribeNewsLetterForm({
     country: '',
     interests: [],
   })
-
   const [form, setForm] = useState<SubscribeNewsLetterPayload>(createInitialState)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [isSubmitting, setIsSubmitting] = useState(false)
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsSubmitting(true)
     setStatus('idle')
-
     try {
       if (onSubmit) {
         await onSubmit(form)
@@ -81,7 +73,6 @@ function SubscribeNewsLetterForm({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(form),
         })
-
         if (!response.ok) {
           throw new Error('Failed to submit newsletter form')
         }
@@ -89,7 +80,6 @@ function SubscribeNewsLetterForm({
         // Default fallback so data is not lost while integrations are set up
         console.info('SubscribeNewsLetter payload', form)
       }
-
       setStatus('success')
       setForm(createInitialState())
       onSuccess?.()
@@ -100,66 +90,169 @@ function SubscribeNewsLetterForm({
       setIsSubmitting(false)
     }
   }
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
         <TextInput
           required
-          label="First name"
-          placeholder="Jane"
+          label=""
+          placeholder="Insert your name*"
           value={form.firstName}
           onChange={(event) =>
             setForm((prev) => ({ ...prev, firstName: event.currentTarget?.value }))
           }
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
+              color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
+            },
+          }}
         />
         <TextInput
           required
-          label="Last name"
-          placeholder="Doe"
+          label=""
+          placeholder="Insert your name*"
           value={form.lastName}
           onChange={(event) =>
             setForm((prev) => ({ ...prev, lastName: event.currentTarget?.value }))
           }
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
+              color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
+            },
+          }}
         />
       </SimpleGrid>
-
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
         <TextInput
-          label="Organization"
-          placeholder="European Animal Research Association"
+          label=""
+          placeholder="Insert your institution*"
           value={form.organization}
           onChange={(event) =>
             setForm((prev) => ({ ...prev, organization: event.currentTarget?.value }))
           }
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
+              color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
+            },
+          }}
         />
         <TextInput
           required
           type="email"
-          label="Email"
-          placeholder="you@example.com"
+          label=""
+          placeholder="you@example.com*"
           value={form.email}
           onChange={(event) => setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))}
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
+              color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
+            },
+          }}
         />
       </SimpleGrid>
-
       <TextInput
         required
-        label="Country"
-        placeholder="Country where you are based"
+        label=""
+        placeholder="Country where you are based*"
         value={form.country}
         onChange={(event) => setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))}
+        radius="xl"
+        size="lg"
+        styles={{
+          input: {
+            border: '1.5px solid #312F86',
+            backgroundColor: 'transparent',
+            color: '#312F86',
+            transition: 'all 0.2s ease',
+            '&:focus': {
+              borderColor: '#312F86',
+              backgroundColor: '#FFFFFF',
+            },
+            '&::placeholder': {
+              color: '#312F86',
+            },
+          },
+        }}
       />
-
       <MultiSelect
         required
-        label="I am interested in"
-        placeholder="Choose one or more"
+        label=""
+        placeholder="I am interested in*"
         data={INTEREST_OPTIONS}
         value={form.interests}
         onChange={(value) => setForm((prev) => ({ ...prev, interests: value }))}
+        radius="xl"
+        size="lg"
+        styles={{
+          input: {
+            border: '1.5px solid #312F86',
+            backgroundColor: 'transparent',
+            color: '#312F86',
+            transition: 'all 0.2s ease',
+            '&:focus': {
+              borderColor: '#312F86',
+              backgroundColor: '#FFFFFF',
+            },
+            '&::placeholder': {
+              color: '#312F86',
+            },
+          },
+          option: {
+            '&[dataSelected]': {
+              backgroundColor: '#312F86',
+              color: '#FFFFFF',
+            },
+          },
+        }}
       />
-
       <Stack gap="xs">
         <Text size="sm" c="dimmed">
           By subscribing, you agree with EARA&apos;s{' '}
@@ -171,7 +264,6 @@ function SubscribeNewsLetterForm({
         {status === 'success' && <Text c="green">Thanks for subscribing!</Text>}
         {status === 'error' && <Text c="red">Something went wrong. Please try again.</Text>}
       </Stack>
-
       <Group justify="flex-end" gap="md">
         <Button type="reset" variant="default" onClick={() => setForm(createInitialState())}>
           Clear
@@ -183,7 +275,6 @@ function SubscribeNewsLetterForm({
     </form>
   )
 }
-
 export default function SubscribeNewsLetter({
   triggerId = DEFAULT_TRIGGER_ID,
   title = 'Subscribe to our newsletter',
@@ -194,18 +285,24 @@ export default function SubscribeNewsLetter({
   renderMode = 'inline',
 }: SubscribeNewsLetterProps) {
   const { closeModal } = useModals()
+
+  const handleSuccess = useCallback(() => {
+    if (renderMode === 'modal') {
+      closeModal(triggerId)
+    }
+  }, [renderMode, triggerId, closeModal])
+
   const form = useMemo(
     () => (
       <SubscribeNewsLetterForm
         triggerId={triggerId}
         submitUrl={submitUrl}
         onSubmit={onSubmit}
-        onSuccess={renderMode === 'modal' ? () => closeModal(triggerId) : undefined}
+        onSuccess={handleSuccess}
       />
     ),
-    [triggerId, submitUrl, onSubmit, renderMode, closeModal]
+    [triggerId, submitUrl, onSubmit, handleSuccess]
   )
-
   if (renderMode === 'inline') {
     return (
       <Stack gap="sm">
@@ -219,7 +316,6 @@ export default function SubscribeNewsLetter({
       </Stack>
     )
   }
-
   return (
     <Stack gap="sm">
       <Title order={6} size={30}>
@@ -228,13 +324,11 @@ export default function SubscribeNewsLetter({
       <Text size="sm" c="earaDark.5">
         {description}
       </Text>
-
       <ModalTrigger triggerId={triggerId}>
         <ButtonEara variant="with-arrow" size="lg">
           {buttonLabel}
         </ButtonEara>
       </ModalTrigger>
-
       <ModalContent triggerId={triggerId} title={title} centered size="lg">
         {form}
       </ModalContent>

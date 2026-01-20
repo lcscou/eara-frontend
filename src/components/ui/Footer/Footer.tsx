@@ -1,5 +1,4 @@
 'use client'
-import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
 import {
   GetMenuDocument,
   GetMenuQuery,
@@ -19,6 +18,7 @@ import {
   IconBrandYoutube,
 } from '@tabler/icons-react'
 import Link from 'next/link'
+import ButtonEara from '../ButtonEara/ButtonEara'
 
 export default function Footer({}: FooterProps) {
   const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, {
@@ -155,7 +155,15 @@ export default function Footer({}: FooterProps) {
                 </Group>
               </Grid.Col>
               <Grid.Col span={{ sm: 4 }}>
-                <SubscribeNewsLetter title="Subscribe our newsletter" />
+                <Title order={4} c="white" mb="8px">
+                  Subscribe our newsletter
+                </Title>
+                <Text c="earaDark.5" mb="20px">
+                  Subscribe to receive the latest updates from us.
+                </Text>
+                <ButtonEara link="/newsletter-sign-up" variant="with-arrow">
+                  Subscribe
+                </ButtonEara>
               </Grid.Col>
             </Grid>
           </div>

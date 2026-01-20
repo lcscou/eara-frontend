@@ -54,19 +54,7 @@ export function ModalContent({
     return () => {
       unregisterModal(triggerId)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    triggerId,
-    title,
-    centered,
-    size,
-    withCloseButton,
-    fullScreen,
-    lock,
-    className,
-    metadata,
-    children,
-  ])
+  }, [triggerId])
 
   // Não renderiza nada visualmente
   return null

@@ -2911,7 +2911,7 @@ export function renderBlocks(blocks: Block[]): ReactNode {
   if (!blocks || blocks.length === 0) {
     return null
   }
-  return blocks.map((block, index) => renderBlock(block, index))
+  return <>{blocks.map((block, index) => renderBlock(block, index))}</>
 }
 // Função helper para renderizar blocos de uma página
 export function renderPageBlocks(blocks: string | Block[] | null | undefined): ReactNode {
