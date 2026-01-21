@@ -18,6 +18,43 @@ const containerStyle = {
 
 const DEFAULT_ZOOM = 3
 
+// Cria um ícone SVG personalizado para o marcador
+const createMarkerIcon = (color: string = '#c91919', size: number = 32) => {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="${color}" stroke="none">
+      <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
+    </svg>
+  `.trim()
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
+}
+
+// Ícone SVG customizado para o cluster
+const clusterIcon = (count: number) => {
+  const svg = `
+    <svg fill="#8FBF29" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+      <circle cx="120" cy="120" opacity="1" r="70" />
+      <circle cx="120" cy="120" opacity=".3" r="90" />
+      <circle cx="120" cy="120" opacity=".2" r="110" />
+      <text x="50%" y="50%" text-anchor="middle" fill="#8FBF29" font-size="65px" font-weight="bold" dy=".3em">${count}</text>
+    </svg>
+  `
+  return `data:image/svg+xml;base64,${btoa(svg)}`
+}
+
+// Opções customizadas para o cluster
+const clusterStyles = [
+  {
+    textColor: 'black',
+    url: clusterIcon(0),
+    height: 60,
+    width: 60,
+  },
+]
+
+const clusterOptions = {
+  styles: clusterStyles,
+}
+
 export default function MapContent({ markers, selectedMarker, onSelectMarker }: MapContentProps) {
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null)
 
@@ -60,13 +97,21 @@ export default function MapContent({ markers, selectedMarker, onSelectMarker }: 
       options={{
         streetViewControl: false,
         mapTypeControl: false,
-
+        // minZoom: 80,
+        minZoom: 2.3,
+        gestureHandling: 'greedy',
         fullscreenControl: false,
         zoomControl: false,
       }}
       onLoad={(map) => setMapInstance(map)}
     >
-      <MarkerClusterer averageCenter enableRetinaIcons gridSize={100} minimumClusterSize={2}>
+      <MarkerClusterer
+        averageCenter
+        enableRetinaIcons
+        gridSize={80}
+        minimumClusterSize={2}
+        options={clusterOptions}
+      >
         {(clusterer) => (
           <>
             {markers.map((marker) => (
@@ -77,14 +122,11 @@ export default function MapContent({ markers, selectedMarker, onSelectMarker }: 
                 // onMouseOver={() => onSelectMarker(marker.id)}
                 // onMouseOut={() => onSelectMarker(null)}
                 onClick={() => onSelectMarker(marker.id)}
-                icon={
-                  selectedMarker === marker.id
-                    ? {
-                        url: '/favicon.ico',
-                        scaledSize: new google.maps.Size(32, 32),
-                      }
-                    : undefined
-                }
+                icon={{
+                  url: createMarkerIcon(selectedMarker === marker.id ? '#3E4ABB' : '#3E4ABB'),
+                  scaledSize: new google.maps.Size(32, 32),
+                  anchor: new google.maps.Point(16, 32), // ancora o ícone na base do pin
+                }}
               >
                 {selectedMarker === marker.id && (
                   <InfoWindow onCloseClick={() => onSelectMarker(null)}>
