@@ -1,4 +1,10 @@
-import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api'
+import {
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  MarkerClusterer,
+  useJsApiLoader,
+} from '@react-google-maps/api'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import styles from './MembersMap.module.css'
@@ -7,6 +13,7 @@ import { MapContentProps } from './types'
 const containerStyle = {
   width: '100%',
   height: '500px',
+  borderRadius: '15px',
 }
 
 const DEFAULT_ZOOM = 3
@@ -37,12 +44,12 @@ export default function MapContent({ markers, selectedMarker, onSelectMarker }: 
     const marker = markers.find((m) => m.id === selectedMarker)
     if (marker) {
       mapInstance.panTo({ lat: marker.latitude, lng: marker.longitude })
-      mapInstance.setZoom(Math.max(mapInstance.getZoom() ?? DEFAULT_ZOOM, 8))
+      // mapInstance.setZoom(Math.max(mapInstance.getZoom() ?? DEFAULT_ZOOM, 1))
     }
   }, [mapInstance, markers, selectedMarker])
 
   if (!isLoaded) {
-    return <div className={styles.loading}>Carregando mapa...</div>
+    return <div className={styles.loading}>Loading map...</div>
   }
 
   return (
@@ -53,55 +60,63 @@ export default function MapContent({ markers, selectedMarker, onSelectMarker }: 
       options={{
         streetViewControl: false,
         mapTypeControl: false,
+
         fullscreenControl: false,
         zoomControl: false,
       }}
       onLoad={(map) => setMapInstance(map)}
     >
-      {markers.map((marker) => (
-        <Marker
-          key={marker.id}
-          position={{ lat: marker.latitude, lng: marker.longitude }}
-          onMouseOver={() => onSelectMarker(marker.id)}
-          onMouseOut={() => onSelectMarker(null)}
-          onClick={() => onSelectMarker(marker.id)}
-          icon={
-            selectedMarker === marker.id
-              ? {
-                  url: '/favicon.ico',
-                  scaledSize: new google.maps.Size(32, 32),
+      <MarkerClusterer averageCenter enableRetinaIcons gridSize={100} minimumClusterSize={2}>
+        {(clusterer) => (
+          <>
+            {markers.map((marker) => (
+              <Marker
+                key={marker.id}
+                clusterer={clusterer}
+                position={{ lat: marker.latitude, lng: marker.longitude }}
+                // onMouseOver={() => onSelectMarker(marker.id)}
+                // onMouseOut={() => onSelectMarker(null)}
+                onClick={() => onSelectMarker(marker.id)}
+                icon={
+                  selectedMarker === marker.id
+                    ? {
+                        url: '/favicon.ico',
+                        scaledSize: new google.maps.Size(32, 32),
+                      }
+                    : undefined
                 }
-              : undefined
-          }
-        >
-          {selectedMarker === marker.id && (
-            <InfoWindow onCloseClick={() => onSelectMarker(null)}>
-              <div className={styles.infoContent}>
-                {marker.featuredImage && (
-                  <Image
-                    src={marker.featuredImage}
-                    alt={marker.title}
-                    className={styles.infoImage}
-                    width={280}
-                    height={180}
-                  />
+              >
+                {selectedMarker === marker.id && (
+                  <InfoWindow onCloseClick={() => onSelectMarker(null)}>
+                    <div className={styles.infoContent}>
+                      {marker.featuredImage && (
+                        <Image
+                          src={marker.featuredImage}
+                          alt={marker.title}
+                          className={styles.infoImage}
+                          width={280}
+                          height={180}
+                        />
+                      )}
+                      <h3 className={styles.infoTitle}>{marker.title}</h3>
+                      {marker.website && (
+                        <a
+                          href={marker.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.infoLink}
+                        >
+                          Visit website →
+                        </a>
+                      )}
+                    </div>
+                  </InfoWindow>
                 )}
-                <h3 className={styles.infoTitle}>{marker.title}</h3>
-                {marker.website && (
-                  <a
-                    href={marker.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.infoLink}
-                  >
-                    Visitar website →
-                  </a>
-                )}
-              </div>
-            </InfoWindow>
-          )}
-        </Marker>
-      ))}
+              </Marker>
+            ))}
+          </>
+        )}
+      </MarkerClusterer>
     </GoogleMap>
   )
 }
