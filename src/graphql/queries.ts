@@ -182,6 +182,47 @@ export const GetAllAnimals = gql`
     }
   }
 `
+export const RelatedNewsFragment = gql`
+  fragment relatedNews on News {
+    title
+    id
+    slug
+    uri
+    featuredImage {
+      node {
+        guid
+      }
+    }
+    seo {
+      readingTime
+      opengraphDescription
+    }
+  }
+`
+export const RelatedEventsFragment = gql`
+  fragment relatedEvents on Events {
+    title
+    id
+    uri
+    customFields {
+      location
+      locationType
+      country
+      startDate
+      endDate
+      category
+      description
+    }
+    featuredImage {
+      node {
+        guid
+      }
+    }
+    seo {
+      readingTime
+    }
+  }
+`
 export const PageInfoFragment = gql`
   fragment PageInfo on PageInfo {
     endCursor
@@ -397,6 +438,16 @@ export const GetEvents = gql`
         }
       }
       customFields {
+        relatedEvents {
+          nodes {
+            ...relatedEvents
+          }
+        }
+        relatedNews {
+          nodes {
+            ...relatedNews
+          }
+        }
         pageHeaderImage {
           node {
             link

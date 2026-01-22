@@ -41,7 +41,6 @@ const clusterIcon = (count: number) => {
   return `data:image/svg+xml;base64,${btoa(svg)}`
 }
 
-// Opções customizadas para o cluster
 const clusterStyles = [
   {
     textColor: 'black',

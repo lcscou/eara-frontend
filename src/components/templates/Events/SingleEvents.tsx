@@ -1,8 +1,17 @@
 'use client'
 
-import { GetEventsQuery } from '@/graphql/generated/graphql'
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import EventCard from '@/components/ui/EventCard/EventCard'
+import Section from '@/components/ui/Section/Section'
+import {
+  GetEventsQuery,
+  RelatedEventsFragment,
+  RelatedNewsFragment,
+} from '@/graphql/generated/graphql'
 import { renderPageBlocks } from '@/lib/blockRenderer'
-import { Button, Container, Group, Stack, Title } from '@mantine/core'
+import { truncateText } from '@/lib/utils'
+import { Carousel } from '@mantine/carousel'
+import { Button, Center, Container, Group, Stack, Title } from '@mantine/core'
 import { IconArrowLeft, IconCalendar, IconMapPin } from '@tabler/icons-react'
 import Link from 'next/link'
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
@@ -102,6 +111,69 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
 
         <div>{renderPageBlocks(data.events?.blocks)}</div>
       </Container>
+
+      {data.events?.customFields?.relatedNews?.nodes &&
+        data.events?.customFields?.relatedNews?.nodes?.length > 0 && (
+          <>
+            <Section
+              className="bg-[#EAEAEA]"
+              subtitle="Related"
+              title="Related research news"
+              containerSize="none"
+            >
+              <Carousel slideSize={{ lg: '25%', sm: '33%' }} slideGap={15} withIndicators>
+                {data.events?.customFields?.relatedNews?.nodes
+                  ?.filter((n): n is RelatedNewsFragment => n?.__typename === 'News')
+                  .map((relatedNews) => (
+                    <Carousel.Slide key={relatedNews?.id} h="fit-content">
+                      <EventCard
+                        title={relatedNews?.title || ''}
+                        featuredImage={
+                          relatedNews?.featuredImage?.node?.guid || '/eara-fallback.jpg'
+                        }
+                        link={relatedNews?.uri || ''}
+                        excerpt={truncateText(relatedNews?.seo?.opengraphDescription || '', 23)}
+                        orientation="vertical"
+                      />
+                    </Carousel.Slide>
+                  ))}
+              </Carousel>
+              <Center py={20}>
+                <ButtonEara variant="link" link="/news">
+                  VIEW ALL
+                </ButtonEara>
+              </Center>
+            </Section>
+          </>
+        )}
+
+      {data.events?.customFields?.relatedEvents?.nodes &&
+        data.events?.customFields?.relatedEvents?.nodes?.length > 0 && (
+          <Section subtitle="Related" title="Related events" containerSize="none">
+            <Carousel slideSize={{ lg: '25%', sm: '33%' }} slideGap={15} withIndicators>
+              {data.events?.customFields?.relatedEvents?.nodes
+                ?.filter((n): n is RelatedEventsFragment => n?.__typename === 'Events')
+                .map((relatedEvent) => (
+                  <Carousel.Slide key={relatedEvent?.id} h="fit-content">
+                    <EventCard
+                      title={relatedEvent?.title || ''}
+                      featuredImage={
+                        relatedEvent?.featuredImage?.node?.guid || '/eara-fallback.jpg'
+                      }
+                      link={relatedEvent?.uri || ''}
+                      excerpt={truncateText(relatedEvent.customFields?.description || '', 23)}
+                      orientation="vertical"
+                    />
+                  </Carousel.Slide>
+                ))}
+            </Carousel>
+            <Center py={20}>
+              <ButtonEara variant="link" link="/events">
+                VIEW ALL
+              </ButtonEara>
+            </Center>
+          </Section>
+        )}
     </>
   )
 }
