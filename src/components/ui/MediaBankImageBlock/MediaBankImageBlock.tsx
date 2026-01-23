@@ -16,7 +16,7 @@ export default function MediaBankImageBlock({
       >
         <Image src={src} w={width} h={height} alt="Media Bank Image" />
         <div className="absolute right-[5%] bottom-[5%] z-2">
-          <InfoButton content={credits} />
+          <InfoButton withOverlay={false} content={credits} />
         </div>
       </div>
     </>

@@ -4,14 +4,19 @@ import { Button, Popover } from '@mantine/core'
 import { IconInfoCircle } from '@tabler/icons-react'
 import clsx from 'clsx'
 
-export default function InfoButton({ content, width = 420, className }: InfoButtonProps) {
+export default function InfoButton({
+  content,
+  width = 420,
+  className,
+  withOverlay = true,
+}: InfoButtonProps) {
   return (
     <>
       <Popover
         width={width}
         shadow="md"
         withArrow
-        withOverlay
+        withOverlay={withOverlay}
         overlayProps={{ zIndex: 1000000, blur: '7px' }}
         zIndex={1000001}
       >

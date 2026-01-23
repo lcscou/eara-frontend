@@ -4,6 +4,7 @@ import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
+import MediaBankImageBlock from '@/components/ui/MediaBankImageBlock/MediaBankImageBlock'
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import Quote from '@/components/ui/Quote/Quote'
@@ -247,6 +248,25 @@ export interface EaraGoogleMapsAttributes extends BlockAttribute {
   lock?: Record<string, unknown>
   className?: string
   metadata?: Record<string, unknown>
+}
+
+export interface EaraMediaBankAttributes extends BlockAttribute {
+  mediaId?: number
+  mediaTitle?: string
+  imageUrl?: string
+  imageAlt?: string
+  width?: string
+  height?: string
+  credits?: string
+  creditWebsite?: string
+  creditsMoreInfo?: string
+  className?: string
+  style?: {
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+  }
 }
 
 export interface EaraListAttributes extends BlockAttribute {
@@ -2413,6 +2433,81 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/latest-events': {
       return <FeaturedEvents key={index} withSectionWrapper={false} />
+    }
+
+    case 'eara/media-bank': {
+      const attrs = attributes as EaraMediaBankAttributes
+      const {
+        imageUrl,
+        imageAlt,
+        width,
+        height,
+        credits,
+        creditWebsite,
+        creditsMoreInfo,
+        className,
+      } = attrs
+
+      const {
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
+      // Construir o conteúdo de créditos
+      const creditsContent = (
+        <>
+          {credits && (
+            <span>
+              <b>Credits: </b> {credits}
+            </span>
+          )}
+          {creditWebsite && (
+            <span>
+              <b> Website: </b>
+              <a href={creditWebsite} target="_blank" rel="noopener noreferrer">
+                {creditWebsite}
+              </a>
+            </span>
+          )}
+          {creditsMoreInfo && (
+            <span>
+              <b> More Info: </b>
+              <a href={creditsMoreInfo} target="_blank" rel="noopener noreferrer">
+                {creditsMoreInfo}
+              </a>
+            </span>
+          )}
+        </>
+      )
+
+      return (
+        <Box
+          key={index}
+          className={className}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          w="fit-content"
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+        >
+          <MediaBankImageBlock
+            src={imageUrl}
+            width={width || 'auto'}
+            height={height || 'auto'}
+            credits={creditsContent}
+          />
+        </Box>
+      )
     }
 
     case 'eara/section-card': {

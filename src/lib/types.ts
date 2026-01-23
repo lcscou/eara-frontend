@@ -158,6 +158,7 @@ export interface InfoButtonProps {
   content: string | React.ReactNode
   width?: number
   className?: string
+  withOverlay?: boolean
 }
 
 export interface SectionCardProps extends React.PropsWithChildren {
@@ -285,7 +286,7 @@ export interface HomeHeroProps extends React.PropsWithChildren {
 
 export interface MediaBankImageBlockProps {
   id?: string
-  credits?: string
+  credits?: string | React.ReactNode
   website?: string
   moreInfo?: string
   src?: string
