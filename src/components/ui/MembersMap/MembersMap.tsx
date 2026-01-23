@@ -1,30 +1,29 @@
 'use client'
-
-import { GetAllMembersQuery } from '@/graphql/generated/graphql'
-import { Container } from '@mantine/core'
+import { GetAllMembersDocument } from '@/graphql/generated/graphql'
+import { useSuspenseQuery } from '@apollo/client/react'
 import dynamic from 'next/dynamic'
 import { useMemo, useState } from 'react'
 import MapContent from './MapContent'
 import styles from './MembersMap.module.css'
 import { MapContentProps, MapMarker } from './types'
-
 const DynamicMap = dynamic<MapContentProps>(() => Promise.resolve(MapContent), {
-  loading: () => <div className={styles.loading}>Carregando mapa...</div>,
+  loading: () => <div className={styles.loading}>Loading map...</div>,
   ssr: false,
 })
-
 interface MembersMapProps {
-  members: Array<
-    NonNullable<NonNullable<GetAllMembersQuery['members']>['nodes']>[number] | null | undefined
-  >
+  width?: string | number
+  height?: string | number
 }
-
-export default function MembersMap({ members }: MembersMapProps) {
+export default function MembersMap({ width = '100%', height = '600px' }: MembersMapProps) {
   const [selectedMarker, setSelectedMarker] = useState<string | null>(null)
-
+  // Buscar todos os membros com todos os campos necessários
+  const { data: membersData } = useSuspenseQuery(GetAllMembersDocument, {
+    variables: { first: 1000 },
+  })
   const markers: MapMarker[] = useMemo(() => {
+    const members = membersData?.members?.nodes ?? []
     return members
-      .filter((member): member is NonNullable<MembersMapProps['members'][number]> => {
+      .filter((member): member is NonNullable<(typeof members)[number]> => {
         if (!member) return false
         const lat = parseFloat(member.acfMembers?.geolocation?.latitude ?? '')
         const lon = parseFloat(member.acfMembers?.geolocation?.longitude ?? '')
@@ -38,21 +37,17 @@ export default function MembersMap({ members }: MembersMapProps) {
         featuredImage: member.featuredImage?.node?.guid || undefined,
         website: member.acfMembers?.website || undefined,
       }))
-  }, [members])
-
+  }, [membersData])
   if (markers.length === 0) {
     return null
   }
-
   return (
-    <Container size="xl" my={100}>
-      <div className={styles.mapContainer}>
-        <DynamicMap
-          markers={markers}
-          selectedMarker={selectedMarker}
-          onSelectMarker={setSelectedMarker}
-        />
-      </div>
-    </Container>
+    <div className={styles.mapContainer} style={{ width, height }}>
+      <DynamicMap
+        markers={markers}
+        selectedMarker={selectedMarker}
+        onSelectMarker={setSelectedMarker}
+      />
+    </div>
   )
 }

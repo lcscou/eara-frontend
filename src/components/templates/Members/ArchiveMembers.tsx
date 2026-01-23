@@ -9,8 +9,8 @@ import {
   GetMembersCountriesDocument,
 } from '@/graphql/generated/graphql'
 import { useSuspenseQuery } from '@apollo/client/react'
-import { Combobox, Container, Group, Loader, useCombobox } from '@mantine/core'
-import { IconChevronDown } from '@tabler/icons-react'
+import { Combobox, Container, Group, Loader, SegmentedControl, useCombobox } from '@mantine/core'
+import { IconChevronDown, IconList, IconMap } from '@tabler/icons-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
@@ -25,6 +25,7 @@ export default function ArchiveMembers() {
   })
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [loadingMore, setLoadingMore] = useState(false)
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list')
 
   const hasNextPage = data?.members?.pageInfo?.hasNextPage
   const endCursor = data?.members?.pageInfo?.endCursor
@@ -120,71 +121,105 @@ export default function ArchiveMembers() {
 
   return (
     <>
-      <MembersMap members={allMembers} />
       <Container size="xl" my={100}>
-        <Group mb={40}>
-          <Combobox
-            styles={{
-              dropdown: {
-                minWidth: 'fit-content',
+        <Group mb={40} justify="space-between">
+          <SegmentedControl
+            radius="xl"
+            size="md"
+            value={viewMode}
+            onChange={(value) => setViewMode(value as 'list' | 'map')}
+            data={[
+              {
+                label: (
+                  <Group gap="xs" wrap="nowrap">
+                    <IconList size={16} />
+                    <span>List</span>
+                  </Group>
+                ),
+                value: 'list',
               },
-            }}
-            position="bottom-end"
-            onOptionSubmit={(value) => {
-              setSelectedCountry(value === 'all' ? null : value)
-              countryCombobox.closeDropdown()
-            }}
-            store={countryCombobox}
-          >
-            <Combobox.Target>
-              <ButtonEara
-                size="md"
-                onClick={() => countryCombobox.toggleDropdown()}
-                rightSection={<IconChevronDown size={14} />}
-                label={''}
-              >
-                {selectedLabel}
-              </ButtonEara>
-            </Combobox.Target>
-            <Combobox.Dropdown>
-              <Combobox.Options>
-                <Combobox.Option value="all">All Countries ({totalMembers})</Combobox.Option>
-                {countryOptions.map((opt) => (
-                  <Combobox.Option key={opt.value} value={opt.value}>
-                    {opt.label} ({opt.count})
-                  </Combobox.Option>
-                ))}
-              </Combobox.Options>
-            </Combobox.Dropdown>
-          </Combobox>
+              {
+                label: (
+                  <Group gap="xs" wrap="nowrap">
+                    <IconMap size={16} />
+                    <span>Map</span>
+                  </Group>
+                ),
+                value: 'map',
+              },
+            ]}
+          />
+          {viewMode === 'list' && (
+            <Combobox
+              styles={{
+                dropdown: {
+                  minWidth: 'fit-content',
+                },
+              }}
+              position="bottom-end"
+              onOptionSubmit={(value) => {
+                setSelectedCountry(value === 'all' ? null : value)
+                countryCombobox.closeDropdown()
+              }}
+              store={countryCombobox}
+            >
+              <Combobox.Target>
+                <ButtonEara
+                  size="md"
+                  onClick={() => countryCombobox.toggleDropdown()}
+                  rightSection={<IconChevronDown size={14} />}
+                  label={''}
+                >
+                  {selectedLabel}
+                </ButtonEara>
+              </Combobox.Target>
+              <Combobox.Dropdown>
+                <Combobox.Options>
+                  <Combobox.Option value="all">All Countries ({totalMembers})</Combobox.Option>
+                  {countryOptions.map((opt) => (
+                    <Combobox.Option key={opt.value} value={opt.value}>
+                      {opt.label} ({opt.count})
+                    </Combobox.Option>
+                  ))}
+                </Combobox.Options>
+              </Combobox.Dropdown>
+            </Combobox>
+          )}
         </Group>
-        {filteredMembers?.length === 0 && (
-          <ResultNotFound resetFilters={() => setSelectedCountry(null)} />
-        )}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {filteredMembers?.map((member) => (
-            <div key={member?.id}>
-              <MembersCard
-                title={member.title}
-                featuredImage={member.featuredImage?.node?.guid}
-                uri={member.acfMembers?.website}
-                country={member.acfMembers?.country?.join(', ')}
-                id={member?.id}
-              />
+
+        {viewMode === 'map' ? (
+          <MembersMap />
+        ) : (
+          <>
+            {filteredMembers?.length === 0 && (
+              <ResultNotFound resetFilters={() => setSelectedCountry(null)} />
+            )}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {filteredMembers?.map((member) => (
+                <div key={member?.id}>
+                  <MembersCard
+                    title={member.title}
+                    featuredImage={member.featuredImage?.node?.guid}
+                    uri={member.acfMembers?.website}
+                    country={member.acfMembers?.country?.join(', ')}
+                    id={member?.id}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        {hasNextPage && (
-          <Group justify="center" mt={40}>
-            <ButtonEara
-              label={loadingMore ? 'Loading...' : 'Load More'}
-              size="lg"
-              variant="filled"
-              onClick={handleLoadMore}
-              disabled={loadingMore}
-              leftSection={loadingMore ? <Loader size="sm" color="white" /> : null}
-            />
-          </Group>
+            {hasNextPage && (
+              <Group justify="center" mt={40}>
+                <ButtonEara
+                  label={loadingMore ? 'Loading...' : 'Load More'}
+                  size="lg"
+                  variant="filled"
+                  onClick={handleLoadMore}
+                  disabled={loadingMore}
+                  leftSection={loadingMore ? <Loader size="sm" color="white" /> : null}
+                />
+              </Group>
+            )}
+          </>
         )}
       </Container>
     </>

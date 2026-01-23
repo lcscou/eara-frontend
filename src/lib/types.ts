@@ -282,3 +282,13 @@ export interface HomeHeroProps extends React.PropsWithChildren {
   overlayColor?: string
   overlayOpacity?: number
 }
+
+export interface MediaBankImageBlockProps {
+  id?: string
+  credits?: string
+  website?: string
+  moreInfo?: string
+  src?: string
+  width?: string
+  height?: string
+}

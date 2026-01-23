@@ -12,6 +12,7 @@ import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNe
 import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
+import MembersMap from '@/components/ui/MembersMap/MembersMap'
 import Section from '@/components/ui/Section/Section'
 import {
   Anchor,
@@ -1767,6 +1768,62 @@ function renderEaraGoogleMaps(block: Block, index: number): ReactNode {
     </Box>
   )
 }
+/**
+ * Renderiza um bloco eara/google-maps para mapas incorporados
+ */
+function renderEaraMembersMap(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as EaraGoogleMapsAttributes | undefined
+
+  const height = attributes?.height ?? '400'
+  const width = attributes?.width ?? '100%'
+
+  const border = attributes?.border !== false
+  const borderRadius = attributes?.borderRadius ?? '8'
+  const className = attributes?.className || ''
+
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
+  const heightValue = `${height}px`
+  const widthValue = typeof width === 'number' ? `${width}px` : width
+  const radiusValue = `${borderRadius}px`
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      style={{
+        width: widthValue,
+        height: 'fit-content',
+        border: border ? '1px solid #ccc' : 'none',
+        borderRadius: radiusValue,
+        overflow: 'hidden',
+      }}
+    >
+      <MembersMap height={heightValue} width={widthValue} />
+    </Box>
+  )
+}
 
 /**
  * Renderiza um bloco eara/list usando componentes Mantine
@@ -2337,6 +2394,9 @@ function renderBlock(block: Block, index: number): ReactNode {
 
     case 'eara/google-maps': {
       return renderEaraGoogleMaps(block, index)
+    }
+    case 'eara/members-map': {
+      return renderEaraMembersMap(block, index)
     }
 
     case 'eara/quote': {
