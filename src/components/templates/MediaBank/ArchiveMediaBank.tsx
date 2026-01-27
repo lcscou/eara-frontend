@@ -71,7 +71,7 @@ export default function ArchiveMediaBank() {
         await fetchMore({
           variables: {
             first: PAGE_SIZE,
-            before: endCursor,
+            after: endCursor,
             speciesFeatured: selectedAnimal || undefined,
           },
           updateQuery: (
