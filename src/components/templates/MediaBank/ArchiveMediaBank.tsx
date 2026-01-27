@@ -71,7 +71,7 @@ export default function ArchiveMediaBank() {
         await fetchMore({
           variables: {
             first: PAGE_SIZE,
-            after: endCursor,
+            before: endCursor,
             speciesFeatured: selectedAnimal || undefined,
           },
           updateQuery: (
@@ -142,6 +142,7 @@ export default function ArchiveMediaBank() {
                 <Combobox.Option value="Rat">Rat</Combobox.Option>
                 <Combobox.Option value="Mouse">Mouse</Combobox.Option>
                 <Combobox.Option value="Rhesus macaque">Rhesus macaque</Combobox.Option>
+                <Combobox.Option value="Cat">Cat</Combobox.Option>
                 <Combobox.Option value="Non-human primate biobank">
                   Non-human primate biobank
                 </Combobox.Option>
