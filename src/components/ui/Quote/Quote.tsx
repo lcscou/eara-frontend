@@ -32,7 +32,7 @@ export default function Quote({
           ></Title>
           <Group gap={20}>
             {avatar && <Avatar src={avatar} alt="EARA Quote Author" />}
-            <h5>{author}</h5>
+            <h5 dangerouslySetInnerHTML={{ __html: author }}></h5>
           </Group>
         </Stack>
       </div>
