@@ -17,7 +17,7 @@ export default function InfoButton({
         shadow="md"
         withArrow
         withOverlay={withOverlay}
-        overlayProps={{ zIndex: 1000000, blur: '7px' }}
+        overlayProps={{ zIndex: 1000000, blur: '0px', backgroundOpacity: 0.5 }}
         zIndex={1000001}
       >
         <Popover.Target>
