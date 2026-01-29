@@ -275,6 +275,7 @@ export type GetAllAnimalsQuery_RootQuery_animals_RootQueryToAnimalConnection_nod
 export type GetAllAnimalsQuery_RootQuery_animals_RootQueryToAnimalConnection_nodes_Animal = {
   __typename?: 'Animal'
   id: string
+  databaseId: number
   uri?: string | null
   title?: string | null
   date?: string | null
@@ -2191,6 +2192,7 @@ export type GetAllNewsQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>
   category?: InputMaybe<Scalars['String']['input']>
   country?: InputMaybe<Scalars['String']['input']>
+  animal?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetAllNewsQuery = GetAllNewsQuery_RootQuery
@@ -4281,6 +4283,7 @@ export const GetAllAnimalsDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'databaseId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'date' } },
@@ -4856,6 +4859,11 @@ export const GetAllNewsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'animal' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -4904,6 +4912,11 @@ export const GetAllNewsDocument = {
                       kind: 'ObjectField',
                       name: { kind: 'Name', value: 'country' },
                       value: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'animal' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'animal' } },
                     },
                   ],
                 },

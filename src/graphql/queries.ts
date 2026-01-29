@@ -149,6 +149,7 @@ export const GetAllAnimals = gql`
       }
       nodes {
         id
+        databaseId
         uri
         title
         date
@@ -361,13 +362,14 @@ export const GetAllNews = gql`
     $search: String
     $category: String
     $country: String
+    $animal: String
   ) {
     allNews(
       first: $first
       after: $after
       before: $before
       last: $last
-      where: { search: $search, category: $category, country: $country }
+      where: { search: $search, category: $category, country: $country, animal: $animal }
     ) {
       pageInfo {
         endCursor

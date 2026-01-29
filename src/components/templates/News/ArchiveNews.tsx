@@ -3,6 +3,8 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import NewsCard from '@/components/ui/NewsCard/NewsCard'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import {
+  GetAllAnimalsDocument,
+  GetAllAnimalsQuery,
   GetAllCategoriesNewsDocument,
   GetAllCategoriesNewsQuery,
   GetAllNewsDocument,
@@ -39,7 +41,12 @@ export default function ArchiveNews() {
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300)
 
   const { data, fetchMore } = useSuspenseQuery<GetAllNewsQuery>(GetAllNewsDocument, {
-    variables: { first: PAGE_SIZE, category: selectedCategory, country: selectedCountry },
+    variables: {
+      first: PAGE_SIZE,
+      category: selectedCategory,
+      country: selectedCountry,
+      animal: selectedAnimal,
+    },
   })
 
   // Fetch categories using dedicated query
@@ -47,8 +54,16 @@ export default function ArchiveNews() {
     GetAllCategoriesNewsDocument
   )
 
+  // Fetch animals using dedicated query
+  const { data: animalsData } = useSuspenseQuery<GetAllAnimalsQuery>(GetAllAnimalsDocument, {
+    variables: { first: 100 },
+  })
+
   // Extract categories from query
   const categories = useMemo(() => categoriesData?.categoriesNews?.nodes ?? [], [categoriesData])
+
+  // Extract animals from query
+  const animals = useMemo(() => animalsData?.animals?.nodes ?? [], [animalsData])
 
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
@@ -87,12 +102,6 @@ export default function ArchiveNews() {
       })
     }
 
-    if (selectedAnimal) {
-      filtered = filtered.filter((newsItem) =>
-        newsItem?.acfNews?.animal?.nodes?.find((animal) => animal?.slug === selectedAnimal)
-      )
-    }
-
     if (selectedIsEaraMember !== null) {
       filtered = filtered.filter(
         (newsItem) => newsItem?.acfNews?.earaMember === selectedIsEaraMember
@@ -100,7 +109,7 @@ export default function ArchiveNews() {
     }
 
     return filtered
-  }, [data, selectedAnimal, selectedIsEaraMember, debouncedSearch])
+  }, [data, selectedIsEaraMember, debouncedSearch])
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
@@ -221,15 +230,21 @@ export default function ArchiveNews() {
                   onClick={() => animalCombobox.toggleDropdown()}
                   rightSection={<IconChevronDown size={14} />}
                 >
-                  {selectedAnimal || 'Animal'}
+                  {animals.find((animal) => animal?.databaseId?.toString() === selectedAnimal)
+                    ?.title || 'Animal'}
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
                   <Combobox.Option value="all">All Animals</Combobox.Option>
-                  <Combobox.Option value="mice">Mice</Combobox.Option>
-                  <Combobox.Option value="pigs">Pigs</Combobox.Option>
-                  <Combobox.Option value="rats">Rats</Combobox.Option>
+                  {animals.map((animal) => (
+                    <Combobox.Option
+                      key={animal?.databaseId}
+                      value={animal?.databaseId?.toString() || ''}
+                    >
+                      {animal?.title}
+                    </Combobox.Option>
+                  ))}
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
