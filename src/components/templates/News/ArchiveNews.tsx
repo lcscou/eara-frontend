@@ -2,7 +2,12 @@
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import NewsCard from '@/components/ui/NewsCard/NewsCard'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import { GetAllNewsDocument, GetAllNewsQuery } from '@/graphql/generated/graphql'
+import {
+  GetAllCategoriesNewsDocument,
+  GetAllCategoriesNewsQuery,
+  GetAllNewsDocument,
+  GetAllNewsQuery,
+} from '@/graphql/generated/graphql'
 import { cleanHTMLTAG } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
 import {
@@ -26,16 +31,24 @@ import { useCallback, useMemo, useState } from 'react'
 const PAGE_SIZE = 12
 export default function ArchiveNews() {
   const [loadingMore, setLoadingMore] = useState(false)
-  const { data, fetchMore } = useSuspenseQuery<GetAllNewsQuery>(GetAllNewsDocument, {
-    variables: { first: PAGE_SIZE },
-  })
-
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedIsEaraMember, setSelectedIsEaraMember] = useState<boolean | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300)
+
+  const { data, fetchMore } = useSuspenseQuery<GetAllNewsQuery>(GetAllNewsDocument, {
+    variables: { first: PAGE_SIZE, category: selectedCategory, country: selectedCountry },
+  })
+
+  // Fetch categories using dedicated query
+  const { data: categoriesData } = useSuspenseQuery<GetAllCategoriesNewsQuery>(
+    GetAllCategoriesNewsDocument
+  )
+
+  // Extract categories from query
+  const categories = useMemo(() => categoriesData?.categoriesNews?.nodes ?? [], [categoriesData])
 
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
@@ -74,22 +87,12 @@ export default function ArchiveNews() {
       })
     }
 
-    if (selectedCountry) {
-      filtered = filtered.filter((newsItem) =>
-        newsItem?.acfNews?.country?.includes(selectedCountry)
-      )
-    }
     if (selectedAnimal) {
       filtered = filtered.filter((newsItem) =>
         newsItem?.acfNews?.animal?.nodes?.find((animal) => animal?.slug === selectedAnimal)
       )
     }
 
-    if (selectedCategory) {
-      filtered = filtered.filter((newsItem) =>
-        newsItem?.categoriesNews?.nodes?.find((category) => category?.slug === selectedCategory)
-      )
-    }
     if (selectedIsEaraMember !== null) {
       filtered = filtered.filter(
         (newsItem) => newsItem?.acfNews?.earaMember === selectedIsEaraMember
@@ -97,14 +100,7 @@ export default function ArchiveNews() {
     }
 
     return filtered
-  }, [
-    data,
-    selectedCountry,
-    selectedAnimal,
-    selectedIsEaraMember,
-    selectedCategory,
-    debouncedSearch,
-  ])
+  }, [data, selectedAnimal, selectedIsEaraMember, debouncedSearch])
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
@@ -169,13 +165,18 @@ export default function ArchiveNews() {
                   onClick={() => categoryCombobox.toggleDropdown()}
                   rightSection={<IconChevronDown size={14} />}
                 >
-                  {selectedCategory || 'News Category'}
+                  {categories.find((cat) => cat?.slug === selectedCategory)?.name ||
+                    'News Category'}
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
                   <Combobox.Option value="all">All Categories</Combobox.Option>
-                  <Combobox.Option value="institutional">Institutional</Combobox.Option>
+                  {categories.map((category) => (
+                    <Combobox.Option key={category?.slug} value={category?.slug || ''}>
+                      {category?.name}
+                    </Combobox.Option>
+                  ))}
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>

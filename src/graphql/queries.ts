@@ -353,13 +353,21 @@ export const GetNews = gql`
   }
 `
 export const GetAllNews = gql`
-  query GetAllNews($first: Int, $after: String, $before: String, $last: Int, $search: String) {
+  query GetAllNews(
+    $first: Int
+    $after: String
+    $before: String
+    $last: Int
+    $search: String
+    $category: String
+    $country: String
+  ) {
     allNews(
       first: $first
       after: $after
       before: $before
       last: $last
-      where: { search: $search }
+      where: { search: $search, category: $category, country: $country }
     ) {
       pageInfo {
         endCursor
@@ -1166,6 +1174,19 @@ export const GetPressRelease = gql`
           altText
           title
         }
+      }
+    }
+  }
+`
+
+export const GetAllCategoriesNews = gql`
+  query GetAllCategoriesNews {
+    categoriesNews(first: 100, where: { hideEmpty: true, order: ASC, orderby: NAME }) {
+      nodes {
+        name
+        slug
+        id
+        count
       }
     }
   }

@@ -2189,6 +2189,8 @@ export type GetAllNewsQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   search?: InputMaybe<Scalars['String']['input']>
+  category?: InputMaybe<Scalars['String']['input']>
+  country?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetAllNewsQuery = GetAllNewsQuery_RootQuery
@@ -3554,6 +3556,29 @@ export type GetPressReleaseQueryVariables = Exact<{
 
 export type GetPressReleaseQuery = GetPressReleaseQuery_RootQuery
 
+export type GetAllCategoriesNewsQuery_RootQuery_categoriesNews_RootQueryToCategoryNewsConnection_nodes_CategoryNews =
+  {
+    __typename?: 'CategoryNews'
+    name?: string | null
+    slug?: string | null
+    id: string
+    count?: number | null
+  }
+
+export type GetAllCategoriesNewsQuery_RootQuery_categoriesNews_RootQueryToCategoryNewsConnection = {
+  __typename?: 'RootQueryToCategoryNewsConnection'
+  nodes: Array<GetAllCategoriesNewsQuery_RootQuery_categoriesNews_RootQueryToCategoryNewsConnection_nodes_CategoryNews>
+}
+
+export type GetAllCategoriesNewsQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  categoriesNews?: GetAllCategoriesNewsQuery_RootQuery_categoriesNews_RootQueryToCategoryNewsConnection | null
+}
+
+export type GetAllCategoriesNewsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllCategoriesNewsQuery = GetAllCategoriesNewsQuery_RootQuery
+
 export const RelatedNewsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -4821,6 +4846,16 @@ export const GetAllNewsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'category' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -4859,6 +4894,16 @@ export const GetAllNewsDocument = {
                       kind: 'ObjectField',
                       name: { kind: 'Name', value: 'search' },
                       value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'category' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'category' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'country' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
                     },
                   ],
                 },
@@ -7737,3 +7782,71 @@ export const GetPressReleaseDocument = {
     },
   ],
 } as unknown as DocumentNode<GetPressReleaseQuery, GetPressReleaseQueryVariables>
+export const GetAllCategoriesNewsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllCategoriesNews' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'categoriesNews' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '100' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hideEmpty' },
+                      value: { kind: 'BooleanValue', value: true },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'order' },
+                      value: { kind: 'EnumValue', value: 'ASC' },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'orderby' },
+                      value: { kind: 'EnumValue', value: 'NAME' },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllCategoriesNewsQuery, GetAllCategoriesNewsQueryVariables>

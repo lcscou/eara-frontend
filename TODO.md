@@ -1,23 +1,282 @@
-- [x] Os case studies tb deveria usar a mesma list dos animals ou deseases
-- [ ] offices vou confirmar no figma mas acho que a ideia dos offices não é ter uma list mas sim puxar a info de cada office para os contactos modulo lateral e depois o pin no mapa
-- [ ] para Team podemos usar list com cards (a ideia é ter offices dinamicos caso acrescentem mais)
+$map = [
+"cats"=>611,
+"monkeys"=>45,
+"small-mammals"=>44,
+"pigs"=>43,
+"dogs"=>42,
+"zebrafish"=>41,
+"rats"=>40,
+"mice"=>39,
+] ;
 
-# Meeting
+$map =array(
+'international' => 'International',
+'afghanistan' => 'Afghanistan',
+'albania' => 'Albania',
+'algeria' => 'Algeria',
+'american-samoa' => 'American Samoa',
+'andorra' => 'Andorra',
+'angola' => 'Angola',
+'anguilla' => 'Anguilla',
+'antarctica' => 'Antarctica',
+'argentina' => 'Argentina',
+'armenia' => 'Armenia',
+'aruba' => 'Aruba',
+'australia' => 'Australia',
+'austria' => 'Austria',
+'azerbaijan' => 'Azerbaijan',
+'bahamas' => 'Bahamas',
+'bahrain' => 'Bahrain',
+'bangladesh' => 'Bangladesh',
+'barbados' => 'Barbados',
+'belarus' => 'Belarus',
+'belgium' => 'Belgium',
+'belize' => 'Belize',
+'benin' => 'Benin',
+'bermuda' => 'Bermuda',
+'bhutan' => 'Bhutan',
+'bolivia' => 'Bolivia',
+'bosnia-and-herzegovina' => 'Bosnia and Herzegovina',
+'botswana' => 'Botswana',
+'brazil' => 'Brazil',
+'british-indian-ocean-territory' => 'British Indian Ocean Territory',
+'british-virgin-islands' => 'British Virgin Islands',
+'brunei' => 'Brunei',
+'bulgaria' => 'Bulgaria',
+'burkina-faso' => 'Burkina Faso',
+'burundi' => 'Burundi',
+'cabo-verde' => 'Cabo Verde',
+'cambodia' => 'Cambodia',
+'cameroon' => 'Cameroon',
+'canada' => 'Canada',
+'cayman-islands' => 'Cayman Islands',
+'central-african-republic' => 'Central African Republic',
+'chad' => 'Chad',
+'chile' => 'Chile',
+'china' => 'China',
+'colombia' => 'Colombia',
+'comoros' => 'Comoros',
+'congo-brazzaville' => 'Congo - Brazzaville',
+'congo-kinshasa' => 'Congo - Kinshasa',
+'costa-rica' => 'Costa Rica',
+'cote-divoire' => 'Côte d’Ivoire',
+'croatia' => 'Croatia',
+'cuba' => 'Cuba',
+'cyprus' => 'Cyprus',
+'czechia' => 'Czechia',
+'denmark' => 'Denmark',
+'djibouti' => 'Djibouti',
+'dominica' => 'Dominica',
+'dominican-republic' => 'Dominican Republic',
+'ecuador' => 'Ecuador',
+'egypt' => 'Egypt',
+'el-salvador' => 'El Salvador',
+'equatorial-guinea' => 'Equatorial Guinea',
+'eritrea' => 'Eritrea',
+'estonia' => 'Estonia',
+'eswatini' => 'Eswatini',
+'ethiopia' => 'Ethiopia',
+'falkland-islands' => 'Falkland Islands',
+'faroe-islands' => 'Faroe Islands',
+'fiji' => 'Fiji',
+'finland' => 'Finland',
+'france' => 'France',
+'french-polynesia' => 'French Polynesia',
+'gabon' => 'Gabon',
+'gambia' => 'Gambia',
+'georgia' => 'Georgia',
+'germany' => 'Germany',
+'ghana' => 'Ghana',
+'gibraltar' => 'Gibraltar',
+'greece' => 'Greece',
+'greenland' => 'Greenland',
+'grenada' => 'Grenada',
+'guam' => 'Guam',
+'guatemala' => 'Guatemala',
+'guinea' => 'Guinea',
+'guinea-bissau' => 'Guinea-Bissau',
+'guyana' => 'Guyana',
+'haiti' => 'Haiti',
+'honduras' => 'Honduras',
+'hong-kong' => 'Hong Kong SAR China',
+'hungary' => 'Hungary',
+'iceland' => 'Iceland',
+'india' => 'India',
+'indonesia' => 'Indonesia',
+'iran' => 'Iran',
+'iraq' => 'Iraq',
+'ireland' => 'Ireland',
+'isle-of-man' => 'Isle of Man',
+'israel' => 'Israel',
+'italy' => 'Italy',
+'jamaica' => 'Jamaica',
+'japan' => 'Japan',
+'jordan' => 'Jordan',
+'kazakhstan' => 'Kazakhstan',
+'kenya' => 'Kenya',
+'kiribati' => 'Kiribati',
+'kuwait' => 'Kuwait',
+'kyrgyzstan' => 'Kyrgyzstan',
+'laos' => 'Laos',
+'latvia' => 'Latvia',
+'lebanon' => 'Lebanon',
+'lesotho' => 'Lesotho',
+'liberia' => 'Liberia',
+'libya' => 'Libya',
+'liechtenstein' => 'Liechtenstein',
+'lithuania' => 'Lithuania',
+'luxembourg' => 'Luxembourg',
+'macao' => 'Macao SAR China',
+'madagascar' => 'Madagascar',
+'malawi' => 'Malawi',
+'malaysia' => 'Malaysia',
+'maldives' => 'Maldives',
+'mali' => 'Mali',
+'malta' => 'Malta',
+'marshall-islands' => 'Marshall Islands',
+'mauritania' => 'Mauritania',
+'mauritius' => 'Mauritius',
+'mexico' => 'Mexico',
+'micronesia' => 'Micronesia',
+'moldova' => 'Moldova',
+'monaco' => 'Monaco',
+'mongolia' => 'Mongolia',
+'montenegro' => 'Montenegro',
+'montserrat' => 'Montserrat',
+'morocco' => 'Morocco',
+'mozambique' => 'Mozambique',
+'myanmar' => 'Myanmar',
+'namibia' => 'Namibia',
+'nauru' => 'Nauru',
+'nepal' => 'Nepal',
+'netherlands' => 'Netherlands',
+'new-caledonia' => 'New Caledonia',
+'new-zealand' => 'New Zealand',
+'nicaragua' => 'Nicaragua',
+'niger' => 'Niger',
+'nigeria' => 'Nigeria',
+'niue' => 'Niue',
+'north-macedonia' => 'North Macedonia',
+'norway' => 'Norway',
+'oman' => 'Oman',
+'pakistan' => 'Pakistan',
+'palau' => 'Palau',
+'panama' => 'Panama',
+'papua-new-guinea' => 'Papua New Guinea',
+'paraguay' => 'Paraguay',
+'peru' => 'Peru',
+'philippines' => 'Philippines',
+'poland' => 'Poland',
+'portugal' => 'Portugal',
+'puerto-rico' => 'Puerto Rico',
+'qatar' => 'Qatar',
+'romania' => 'Romania',
+'russia' => 'Russia',
+'rwanda' => 'Rwanda',
+'saint-barthelemy' => 'Saint Barthélemy',
+'saint-kitts-and-nevis' => 'Saint Kitts and Nevis',
+'saint-lucia' => 'Saint Lucia',
+'saint-vincent-and-the-grenadines' => 'Saint Vincent and the Grenadines',
+'samoa' => 'Samoa',
+'san-marino' => 'San Marino',
+'sao-tome-and-principe' => 'São Tomé and Príncipe',
+'saudi-arabia' => 'Saudi Arabia',
+'senegal' => 'Senegal',
+'serbia' => 'Serbia',
+'seychelles' => 'Seychelles',
+'sierra-leone' => 'Sierra Leone',
+'singapore' => 'Singapore',
+'slovakia' => 'Slovakia',
+'slovenia' => 'Slovenia',
+'solomon-islands' => 'Solomon Islands',
+'somalia' => 'Somalia',
+'south-africa' => 'South Africa',
+'south-korea' => 'South Korea',
+'south-sudan' => 'South Sudan',
+'spain' => 'Spain',
+'sri-lanka' => 'Sri Lanka',
+'sudan' => 'Sudan',
+'suriname' => 'Suriname',
+'sweden' => 'Sweden',
+'switzerland' => 'Switzerland',
+'syria' => 'Syria',
+'taiwan' => 'Taiwan',
+'tajikistan' => 'Tajikistan',
+'tanzania' => 'Tanzania',
+'thailand' => 'Thailand',
+'timor-leste' => 'Timor-Leste',
+'togo' => 'Togo',
+'tokelau' => 'Tokelau',
+'tonga' => 'Tonga',
+'trinidad-and-tobago' => 'Trinidad and Tobago',
+'tunisia' => 'Tunisia',
+'turkey' => 'Turkey',
+'turkmenistan' => 'Turkmenistan',
+'turks-and-caicos-islands' => 'Turks and Caicos Islands',
+'tuvalu' => 'Tuvalu',
+'uganda' => 'Uganda',
+'ukraine' => 'Ukraine',
+'united-arab-emirates' => 'United Arab Emirates',
+'united-kingdom' => 'United Kingdom',
+'united-states' => 'United States',
+'uruguay' => 'Uruguay',
+'uzbekistan' => 'Uzbekistan',
+'vanuatu' => 'Vanuatu',
+'vatican-city' => 'Vatican City',
+'venezuela' => 'Venezuela',
+'vietnam' => 'Vietnam',
+'virgin-islands' => 'Virgin Islands',
+'yemen' => 'Yemen',
+'zambia' => 'Zambia',
+'zimbabwe' => 'Zimbabwe',
+'uk' => "UK"
+);
 
-- Em case studies o card não faz sentido que o card tenha uma description e o nome da instituion?
-- Em team não deveria haver role, linkedin links?
-- Em team teremos algum filtro?
+$posts = get_posts([
+'post_type' => 'news',
+'post_status' => 'any',
+'posts_per_page' => -1,
+'fields' => 'ids'
+]);
 
-# Mostrar
+foreach ($posts as $post_id) {
+    $terms = wp_get_post_terms($post_id, 'categories-news');
 
-- Refactor de media bank
-- /case-studies (single e archive)
-- /team (single e archive)
-- Ticker
-- Offices
-- /Members
-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d629.8707978884612!2d4.368178099197383!3d50.84073600000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c484c8303819%3A0x702c533b612a342f!2sSilversquare%20Europe!5e0!3m2!1spt-BR!2sbr!4v1765276648447!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    if (empty($terms) || is_wp_error($terms)) {
+        continue;
+    }
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3112.343198473134!2d-9.142699!3d38.732886!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19339f75d60d1f%3A0x97f16feb7f271e1c!2sAv.%20Defensores%20de%20Chaves%204%2C%201000-117%20Lisboa%2C%20Portugal!5e0!3m2!1spt-BR!2sbr!4v1765276971113!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    $values = [];
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.423432644452!2d-0.14988142352787498!3d51.54213417182124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761ae4139a93f5%3A0xfcd63b1f67b54100!2sLABS%20Atrium!5e0!3m2!1spt-BR!2sbr!4v1765277112993!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    foreach ($terms as $term) {
+        if (array_key_exists($term->slug, $map)) {
+            if($term->slug == 'uk'){
+
+            $values[] = 'united-kingdom';
+            }else{
+            $values[] = $term->slug;
+
+            }
+            }
+    }
+
+    if (empty($values)) {
+        continue;
+    }
+
+    $values = array_values(array_unique($values));
+
+
+    // $updated = update_field('country', $values, $post_id);
+
+    // if (!$updated) {
+    //     continue;
+    // }
+
+    foreach ($terms as $term) {
+        if (array_key_exists($term->slug, $map)) {
+            wp_remove_object_terms($post_id, $term->term_id, 'categories-news');
+        }
+    }
+
+}
