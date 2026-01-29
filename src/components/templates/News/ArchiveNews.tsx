@@ -7,6 +7,8 @@ import {
   GetAllAnimalsQuery,
   GetAllCategoriesNewsDocument,
   GetAllCategoriesNewsQuery,
+  GetAllCountryInNewsDocument,
+  GetAllCountryInNewsQuery,
   GetAllNewsDocument,
   GetAllNewsQuery,
 } from '@/graphql/generated/graphql'
@@ -59,11 +61,19 @@ export default function ArchiveNews() {
     variables: { first: 100 },
   })
 
+  // Fetch countries using dedicated query
+  const { data: countriesData } = useSuspenseQuery<GetAllCountryInNewsQuery>(
+    GetAllCountryInNewsDocument
+  )
+
   // Extract categories from query
   const categories = useMemo(() => categoriesData?.categoriesNews?.nodes ?? [], [categoriesData])
 
   // Extract animals from query
   const animals = useMemo(() => animalsData?.animals?.nodes ?? [], [animalsData])
+
+  // Extract countries from query
+  const countries = useMemo(() => countriesData?.newsCountries ?? [], [countriesData])
 
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
@@ -204,16 +214,18 @@ export default function ArchiveNews() {
                   rightSection={<IconChevronDown size={14} />}
                   label={''}
                 >
-                  {selectedCountry || 'Country'}
+                  {countries.find((country) => country?.value === selectedCountry)?.label ||
+                    'Country'}
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
                   <Combobox.Option value="all">All Countries</Combobox.Option>
-                  <Combobox.Option value="portugal">Portugal</Combobox.Option>
-                  <Combobox.Option value="germany">Germany</Combobox.Option>
-                  {/* <Combobox.Option value="united-kingdom">United Kingdom</Combobox.Option>
-                <Combobox.Option value="belgium">Belgium</Combobox.Option> */}
+                  {countries.map((country) => (
+                    <Combobox.Option key={country?.value} value={country?.value || ''}>
+                      {country?.label}
+                    </Combobox.Option>
+                  ))}
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>

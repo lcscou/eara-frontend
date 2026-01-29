@@ -1193,3 +1193,11 @@ export const GetAllCategoriesNews = gql`
     }
   }
 `
+export const GetAllCountryInNews = gql`
+  query GetAllCountryInNews {
+    newsCountries {
+      label
+      value
+    }
+  }
+`

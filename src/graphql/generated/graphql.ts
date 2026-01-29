@@ -3581,6 +3581,21 @@ export type GetAllCategoriesNewsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetAllCategoriesNewsQuery = GetAllCategoriesNewsQuery_RootQuery
 
+export type GetAllCountryInNewsQuery_RootQuery_newsCountries_CountryOption = {
+  __typename?: 'CountryOption'
+  label?: string | null
+  value?: string | null
+}
+
+export type GetAllCountryInNewsQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  newsCountries?: Array<GetAllCountryInNewsQuery_RootQuery_newsCountries_CountryOption | null> | null
+}
+
+export type GetAllCountryInNewsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllCountryInNewsQuery = GetAllCountryInNewsQuery_RootQuery
+
 export const RelatedNewsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7863,3 +7878,29 @@ export const GetAllCategoriesNewsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllCategoriesNewsQuery, GetAllCategoriesNewsQueryVariables>
+export const GetAllCountryInNewsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllCountryInNews' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'newsCountries' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllCountryInNewsQuery, GetAllCountryInNewsQueryVariables>
