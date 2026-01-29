@@ -10,11 +10,19 @@ export default function NewsCard({
   title,
   timeReading,
   author,
+  date,
   excerpt,
   link,
   orientation = 'vertical',
   isFeatured = false,
 }: NewsCardProps) {
+  const formatedDate = date
+    ? new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : ''
   return (
     <>
       {orientation === 'horizontal' ? (
@@ -47,6 +55,7 @@ export default function NewsCard({
               )}
             >
               <Stack gap={5}>
+                <Text className="opacity-50">{formatedDate}</Text>
                 <Title order={6}>{title}</Title>
                 <Text className="uppercase" size="sm" c={'primaryColor.9'}>
                   {author}
@@ -84,6 +93,7 @@ export default function NewsCard({
             </div>
             <div className="z-10 -ml-10 flex max-w-[300px] flex-col justify-center rounded-2xl bg-white p-7 sm:max-w-[500px]">
               <Stack gap={3}>
+                <Text className="opacity-50">{formatedDate}</Text>
                 <Title order={6}>{title}</Title>
                 <Text className="uppercase opacity-50" size="sm" c={'primaryColor.9'}>
                   {author}

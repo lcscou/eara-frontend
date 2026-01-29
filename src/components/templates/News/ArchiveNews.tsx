@@ -307,6 +307,7 @@ export default function ArchiveNews() {
             filteredNews.map((newsItem) => (
               <NewsCard
                 key={newsItem.id}
+                date={newsItem.date || ''}
                 title={newsItem.title || 'No Title'}
                 timeReading={newsItem.seo?.readingTime}
                 author={`${newsItem.author?.node.firstName} ${newsItem.author?.node.lastName}`}

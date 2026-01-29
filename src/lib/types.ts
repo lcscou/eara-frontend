@@ -192,6 +192,7 @@ export interface NewsCardProps {
   orientation?: 'vertical' | 'horizontal'
   excerpt?: string
   link?: string
+  date?: string
 }
 
 export interface HeaderMegaMenuProps {
