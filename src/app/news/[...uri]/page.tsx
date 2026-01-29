@@ -1,5 +1,10 @@
 import SingleNews from '@/components/templates/News/SingleNews'
-import { GetNewsDocument, GetNewsQuery } from '@/graphql/generated/graphql'
+import {
+  GetAllNewsDocument,
+  GetAllNewsQuery,
+  GetNewsDocument,
+  GetNewsQuery,
+} from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -28,6 +33,25 @@ const getNewsData = cache(async (uri: string[]): Promise<GetNewsQuery> => {
   if (!data) notFound()
   return data
 })
+
+const getAllNewsData = cache(async (): Promise<GetAllNewsQuery> => {
+  const client = getClient()
+  const { data } = await client.query<GetAllNewsQuery>({
+    query: GetAllNewsDocument,
+    variables: { first: 1000 },
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 1800,
+          tags: ['news'],
+        },
+      },
+    },
+  })
+
+  if (!data) notFound()
+  return data
+})
 export async function generateMetadata({ params }: NewsProps): Promise<Metadata> {
   const data = await getNewsData(params.uri)
   if (!data?.news) notFound()
@@ -46,5 +70,6 @@ export async function generateMetadata({ params }: NewsProps): Promise<Metadata>
 export default async function News({ params }: NewsProps) {
   const data = await getNewsData(params.uri)
   if (!data?.news) notFound()
-  return <SingleNews data={data} />
+  const allNews = await getAllNewsData()
+  return <SingleNews data={data} allNews={allNews} />
 }
