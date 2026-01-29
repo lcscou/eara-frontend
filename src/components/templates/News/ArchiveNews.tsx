@@ -27,7 +27,7 @@ import {
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconCheck, IconChevronDown, IconRestore, IconSearch } from '@tabler/icons-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 // interface ArchiveNewsProps {
 //   data: GetAllNewsQuery
@@ -35,6 +35,7 @@ import { useCallback, useMemo, useState } from 'react'
 const PAGE_SIZE = 12
 export default function ArchiveNews() {
   const [loadingMore, setLoadingMore] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
@@ -74,6 +75,16 @@ export default function ArchiveNews() {
 
   // Extract countries from query
   const countries = useMemo(() => countriesData?.newsCountries ?? [], [countriesData])
+
+  // Effect to handle filter changes and show loading state
+  useEffect(() => {
+    setIsFiltering(true)
+    const timeout = setTimeout(() => {
+      setIsFiltering(false)
+    }, 500) // Show loader for at least 500ms
+
+    return () => clearTimeout(timeout)
+  }, [selectedCategory, selectedCountry, selectedAnimal, selectedIsEaraMember, debouncedSearch])
 
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
@@ -176,7 +187,14 @@ export default function ArchiveNews() {
                 setSelectedCategory(value === 'all' ? null : value)
                 categoryCombobox.closeDropdown()
               }}
+              styles={{
+                dropdown: {
+                  minWidth: 'fit-content',
+                  whiteSpace: 'nowrap',
+                },
+              }}
               store={categoryCombobox}
+              disabled={isFiltering}
             >
               <Combobox.Target>
                 <ButtonEara
@@ -189,10 +207,22 @@ export default function ArchiveNews() {
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
-                <Combobox.Options>
+                <Combobox.Options
+                  styles={{
+                    options: {
+                      maxHeight: 300,
+                      overflowY: 'auto',
+                      whiteSpace: 'nowrap',
+                    },
+                  }}
+                >
                   <Combobox.Option value="all">All Categories</Combobox.Option>
                   {categories.map((category) => (
-                    <Combobox.Option key={category?.slug} value={category?.slug || ''}>
+                    <Combobox.Option
+                      key={category?.slug}
+                      value={category?.slug || ''}
+                      className="overflow-hidden text-ellipsis whitespace-nowrap"
+                    >
                       {category?.name}
                     </Combobox.Option>
                   ))}
@@ -204,8 +234,15 @@ export default function ArchiveNews() {
                 setSelectedCountry(value === 'all' ? null : value)
                 countryCombobox.closeDropdown()
               }}
+              styles={{
+                dropdown: {
+                  minWidth: 'fit-content',
+                  whiteSpace: 'nowrap',
+                },
+              }}
               store={countryCombobox}
               width="fit-content"
+              disabled={isFiltering}
             >
               <Combobox.Target>
                 <ButtonEara
@@ -219,10 +256,22 @@ export default function ArchiveNews() {
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
-                <Combobox.Options>
+                <Combobox.Options
+                  styles={{
+                    options: {
+                      maxHeight: 300,
+                      overflowY: 'auto',
+                      whiteSpace: 'nowrap',
+                    },
+                  }}
+                >
                   <Combobox.Option value="all">All Countries</Combobox.Option>
                   {countries.map((country) => (
-                    <Combobox.Option key={country?.value} value={country?.value || ''}>
+                    <Combobox.Option
+                      key={country?.value}
+                      value={country?.value || ''}
+                      className="overflow-hidden text-ellipsis whitespace-nowrap"
+                    >
                       {country?.label}
                     </Combobox.Option>
                   ))}
@@ -234,7 +283,14 @@ export default function ArchiveNews() {
                 setSelectedAnimal(value === 'all' ? null : value)
                 animalCombobox.closeDropdown()
               }}
+              styles={{
+                dropdown: {
+                  minWidth: 'fit-content',
+                  whiteSpace: 'nowrap',
+                },
+              }}
               store={animalCombobox}
+              disabled={isFiltering}
             >
               <Combobox.Target>
                 <ButtonEara
@@ -247,12 +303,20 @@ export default function ArchiveNews() {
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
-                <Combobox.Options>
+                <Combobox.Options
+                  styles={{
+                    options: {
+                      maxHeight: 300,
+                      overflowY: 'auto',
+                    },
+                  }}
+                >
                   <Combobox.Option value="all">All Animals</Combobox.Option>
                   {animals.map((animal) => (
                     <Combobox.Option
                       key={animal?.databaseId}
                       value={animal?.databaseId?.toString() || ''}
+                      className="overflow-hidden text-ellipsis whitespace-nowrap"
                     >
                       {animal?.title}
                     </Combobox.Option>
@@ -269,6 +333,7 @@ export default function ArchiveNews() {
               fz={13}
               onClick={() => setSelectedIsEaraMember((prev) => (prev === true ? null : true))}
               variant={selectedIsEaraMember ? 'light' : 'outline'}
+              disabled={isFiltering}
             >
               Eara Member
             </Button>
@@ -281,15 +346,6 @@ export default function ArchiveNews() {
                   size={40}
                 />
               }
-              // rightSection={
-              //   searchQuery ? (
-              //     <IconX
-              //       size={18}
-              //       style={{ cursor: 'pointer' }}
-              //       onClick={() => setSearchQuery('')}
-              //     />
-              //   ) : null
-              // }
               styles={{
                 input: {
                   background: '#fff',
@@ -299,6 +355,7 @@ export default function ArchiveNews() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.currentTarget.value)}
               radius="80px"
+              disabled={isFiltering}
             />
             {hasActiveFilters && (
               <Button
@@ -314,37 +371,45 @@ export default function ArchiveNews() {
         </div>
       </Container>
       <Container mb={50}>
-        <Stack>
-          {filteredNews && filteredNews.length > 0 ? (
-            filteredNews.map((newsItem) => (
-              <NewsCard
-                key={newsItem.id}
-                date={newsItem.date || ''}
-                title={newsItem.title || 'No Title'}
-                timeReading={newsItem.seo?.readingTime}
-                author={`${newsItem.author?.node.firstName} ${newsItem.author?.node.lastName}`}
-                excerpt={cleanHTMLTAG(newsItem.content || '').substring(0, 100) + '...'}
-                featuredImage={newsItem.featuredImage?.node.guid || '/eara-fallback.jpg'}
-                link={`/news/${newsItem.slug}`}
-              />
-            ))
-          ) : (
-            <ResultNotFound resetFilters={handleResetFilters} />
-          )}
-        </Stack>
-      </Container>
-
-      {loadingMore && (
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {Array.from({ length: PAGE_SIZE }).map((_, i) => (
-            <div key={i} className="flex flex-col gap-2">
-              <Skeleton height={200} radius="md" />
-              <Skeleton height={20} width="70%" radius="sm" />
-              <Skeleton height={16} width="50%" radius="sm" />
+        <div className="relative">
+          <Stack>
+            {isFiltering ? (
+              <div className="space-y-4">
+                {Array.from({ length: PAGE_SIZE }).map((_, i) => (
+                  <div key={i} className="flex gap-4">
+                    <Skeleton height={150} width={150} radius="md" />
+                    <div className="flex-1 space-y-2">
+                      <Skeleton height={20} width="80%" radius="sm" />
+                      <Skeleton height={16} width="60%" radius="sm" />
+                      <Skeleton height={16} width="40%" radius="sm" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : filteredNews && filteredNews.length > 0 ? (
+              filteredNews.map((newsItem) => (
+                <NewsCard
+                  key={newsItem.id}
+                  date={newsItem.date || ''}
+                  title={newsItem.title || 'No Title'}
+                  timeReading={newsItem.seo?.readingTime}
+                  author={`${newsItem.author?.node.firstName} ${newsItem.author?.node.lastName}`}
+                  excerpt={cleanHTMLTAG(newsItem.content || '').substring(0, 100) + '...'}
+                  featuredImage={newsItem.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                  link={`/news/${newsItem.slug}`}
+                />
+              ))
+            ) : (
+              <ResultNotFound resetFilters={handleResetFilters} />
+            )}
+          </Stack>
+          {isFiltering && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-white/50">
+              <Loader size="lg" />
             </div>
-          ))}
+          )}
         </div>
-      )}
+      </Container>
 
       {hasNextPage && !hasActiveFilters && (
         <Group justify="center" mt={40}>
