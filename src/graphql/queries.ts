@@ -802,13 +802,18 @@ export const GetMediasBank = gql`
     $before: String
     $last: Int
     $speciesFeatured: String
+    $country: String
   ) {
     mediasBank(
       first: $first
       after: $after
       before: $before
       last: $last
-      where: { orderby: { field: DATE, order: ASC }, speciesFeatured: $speciesFeatured }
+      where: {
+        orderby: { field: DATE, order: ASC }
+        speciesFeatured: $speciesFeatured
+        country: $country
+      }
     ) {
       pageInfo {
         endCursor
@@ -1205,6 +1210,15 @@ export const GetAllAnimalsInMediaBank = gql`
   query GetAllAnimalsInMediaBank {
     mediabanksSpeciesFeatured {
       value
+      count
+    }
+  }
+`
+export const GetMediabanksCountries = gql`
+  query GetMediabanksCountries {
+    mediabanksCountries {
+      value
+      label
       count
     }
   }

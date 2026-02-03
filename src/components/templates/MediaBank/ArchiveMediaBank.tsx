@@ -30,6 +30,7 @@ const PAGE_SIZE = 12
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import {
   GetAllAnimalsInMediaBankDocument,
+  GetMediabanksCountriesDocument,
   GetMediasBankDocument,
   GetMediasBankQuery,
 } from '@/graphql/generated/graphql'
@@ -40,16 +41,23 @@ export default function ArchiveMediaBank() {
   // const media = searchParams.get('media')
   const media = null
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const { data: d, fetchMore } = useSuspenseQuery(GetMediasBankDocument, {
     variables: {
       first: PAGE_SIZE,
       speciesFeatured: selectedAnimal || undefined,
+      country: selectedCountry || undefined,
     },
   })
   const { data: animalsOptData } = useSuspenseQuery(GetAllAnimalsInMediaBankDocument)
+  const { data: countriesOptData } = useSuspenseQuery(GetMediabanksCountriesDocument)
 
   const animalCombobox = useCombobox({
     onDropdownClose: () => animalCombobox.resetSelectedOption(),
+  })
+
+  const countryCombobox = useCombobox({
+    onDropdownClose: () => countryCombobox.resetSelectedOption(),
   })
 
   useEffect(() => {
@@ -58,12 +66,13 @@ export default function ArchiveMediaBank() {
         first: PAGE_SIZE,
         after: null,
         speciesFeatured: selectedAnimal || undefined,
+        country: selectedCountry || undefined,
       },
       updateQuery: (_, { fetchMoreResult }) => {
         return fetchMoreResult || _
       },
     })
-  }, [selectedAnimal, fetchMore])
+  }, [selectedAnimal, selectedCountry, fetchMore])
 
   const hasNextPage = d?.mediasBank?.pageInfo.hasNextPage
   const endCursor = d?.mediasBank?.pageInfo?.endCursor
@@ -78,6 +87,7 @@ export default function ArchiveMediaBank() {
             first: PAGE_SIZE,
             after: endCursor,
             speciesFeatured: selectedAnimal || undefined,
+            country: selectedCountry || undefined,
           },
           updateQuery: (
             prev: GetMediasBankQuery,
@@ -101,7 +111,7 @@ export default function ArchiveMediaBank() {
         setLoadingMore(false)
       }
     }, 0)
-  }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedAnimal])
+  }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedAnimal, selectedCountry])
 
   const filteredeMediaBank = useMemo(() => {
     const nodes = d?.mediasBank?.nodes ?? []
@@ -148,6 +158,37 @@ export default function ArchiveMediaBank() {
                   animalsOptData.mediabanksSpeciesFeatured.map((option) => (
                     <Combobox.Option key={option?.value} value={option?.value as string}>
                       {option?.value} <small>({option?.count})</small>
+                    </Combobox.Option>
+                  ))}
+              </Combobox.Options>
+            </Combobox.Dropdown>
+          </Combobox>
+
+          <Combobox
+            onOptionSubmit={(value) => {
+              setSelectedCountry(value === 'all' ? null : value)
+              countryCombobox.closeDropdown()
+            }}
+            store={countryCombobox}
+            width="fit-content"
+            position="bottom-start"
+          >
+            <Combobox.Target>
+              <ButtonEara
+                size="md"
+                onClick={() => countryCombobox.toggleDropdown()}
+                rightSection={<IconChevronDown size={14} />}
+              >
+                {selectedCountry || 'Country'}
+              </ButtonEara>
+            </Combobox.Target>
+            <Combobox.Dropdown>
+              <Combobox.Options>
+                <Combobox.Option value="all">All Countries</Combobox.Option>
+                {countriesOptData.mediabanksCountries &&
+                  countriesOptData.mediabanksCountries.map((option) => (
+                    <Combobox.Option key={option?.value} value={option?.value as string}>
+                      {option?.label} <small>({option?.count})</small>
                     </Combobox.Option>
                   ))}
               </Combobox.Options>

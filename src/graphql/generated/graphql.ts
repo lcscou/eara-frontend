@@ -3008,6 +3008,7 @@ export type GetMediasBankQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   speciesFeatured?: InputMaybe<Scalars['String']['input']>
+  country?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetMediasBankQuery = GetMediasBankQuery_RootQuery
@@ -3607,6 +3608,22 @@ export type GetAllAnimalsInMediaBankQuery_RootQuery = {
 export type GetAllAnimalsInMediaBankQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetAllAnimalsInMediaBankQuery = GetAllAnimalsInMediaBankQuery_RootQuery
+
+export type GetMediabanksCountriesQuery_RootQuery_mediabanksCountries_CountryOption = {
+  __typename?: 'CountryOption'
+  value?: string | null
+  label?: string | null
+  count?: number | null
+}
+
+export type GetMediabanksCountriesQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  mediabanksCountries?: Array<GetMediabanksCountriesQuery_RootQuery_mediabanksCountries_CountryOption | null> | null
+}
+
+export type GetMediabanksCountriesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetMediabanksCountriesQuery = GetMediabanksCountriesQuery_RootQuery
 
 export const RelatedNewsFragmentDoc = {
   kind: 'Document',
@@ -6523,6 +6540,11 @@ export const GetMediasBankDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'speciesFeatured' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -6580,6 +6602,11 @@ export const GetMediasBankDocument = {
                       kind: 'ObjectField',
                       name: { kind: 'Name', value: 'speciesFeatured' },
                       value: { kind: 'Variable', name: { kind: 'Name', value: 'speciesFeatured' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'country' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
                     },
                   ],
                 },
@@ -7942,3 +7969,30 @@ export const GetAllAnimalsInMediaBankDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllAnimalsInMediaBankQuery, GetAllAnimalsInMediaBankQueryVariables>
+export const GetMediabanksCountriesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetMediabanksCountries' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'mediabanksCountries' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetMediabanksCountriesQuery, GetMediabanksCountriesQueryVariables>
