@@ -185,7 +185,12 @@ export function MenuItem({
                   const submenuActive = isMenuItemNodeActive(submenus, currentPath ?? null)
                   return (
                     <div key={submenus.id} className="mega-col flex flex-col items-start">
-                      <Button variant="menu" c={submenuActive ? ACTIVE_COLOR : undefined}>
+                      <Button
+                        variant="menu"
+                        {...(submenus.uri ? { component: 'a' } : {})}
+                        {...(submenus.uri ? { href: submenus.uri } : {})}
+                        c={submenuActive ? ACTIVE_COLOR : undefined}
+                      >
                         {submenus.label}
                       </Button>
                       {submenus.childItems?.nodes.map((third) => {
