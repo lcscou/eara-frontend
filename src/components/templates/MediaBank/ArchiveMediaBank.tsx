@@ -4,9 +4,20 @@ import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { extractYouTubeID, getMediaType } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
-import { Combobox, Container, Group, List, Loader, Modal, useCombobox } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import {
+  ActionIcon,
+  Combobox,
+  Container,
+  Group,
+  List,
+  Loader,
+  Modal,
+  useCombobox,
+} from '@mantine/core'
+import { useDisclosure, useHotkeys } from '@mantine/hooks'
+import {
+  IconArrowLeft,
+  IconArrowRight,
   IconCalendar,
   IconChevronDown,
   IconClipboardSearch,
@@ -124,10 +135,28 @@ export default function ArchiveMediaBank() {
   const [index, setIndex] = useState(getIndexFromSlug(media) >= 0 ? getIndexFromSlug(media) : 0)
   const [opened, { open, close }] = useDisclosure(getIndexFromSlug(media) >= 0 ? true : false)
   const handleClick = (ev: MouseEvent<HTMLDivElement>) => {
-    console.log('clicked', ev.currentTarget.dataset.index)
     setIndex(Number(ev.currentTarget.dataset.index))
     open()
   }
+
+  function handleNext() {
+    if (index < filteredeMediaBank.length - 1) {
+      setIndex(index + 1)
+    }
+  }
+  function handlePrevious() {
+    if (index > 0) {
+      setIndex(index - 1)
+    }
+  }
+
+  useHotkeys(
+    [
+      ['ArrowLeft', () => opened && handlePrevious()],
+      ['ArrowRight', () => opened && handleNext()],
+    ],
+    [String(opened), String(index), String(filteredeMediaBank.length)]
+  )
 
   return (
     <>
@@ -244,6 +273,7 @@ export default function ArchiveMediaBank() {
 
         <Modal
           opened={opened}
+          // opened
           fullScreen
           onClose={close}
           styles={{
@@ -252,9 +282,35 @@ export default function ArchiveMediaBank() {
           }}
         >
           <div className="h-full w-full">
-            <div className="grid h-full grid-cols-1 grid-rows-1 gap-0 lg:grid-cols-6 lg:grid-rows-5">
-              <div className="col-span-1 row-span-1 p-4 lg:col-span-4 lg:row-span-4 lg:p-7">
+            <div className="relative grid h-full grid-cols-1 grid-rows-1 gap-0 lg:grid-cols-6 lg:grid-rows-5">
+              <div className="relative col-span-1 row-span-1 p-4 lg:col-span-4 lg:row-span-4 lg:p-7">
                 <div className="bg-earaBgLight relative h-full w-full overflow-hidden rounded-lg">
+                  <div className="absolute top-0 z-10 flex h-[calc(100%)] w-full justify-between">
+                    <div className="flex h-full items-center justify-center bg-red-50/0 p-4">
+                      <ActionIcon
+                        onClick={() => setIndex(index - 1)}
+                        variant="light"
+                        size="xl"
+                        disabled={index <= 0}
+                        radius="xl"
+                        aria-label="Previous Image"
+                      >
+                        <IconArrowLeft />
+                      </ActionIcon>
+                    </div>
+                    <div className="flex h-full items-center justify-center bg-red-50/0 p-4">
+                      <ActionIcon
+                        onClick={() => setIndex(index + 1)}
+                        variant="light"
+                        disabled={index == filteredeMediaBank.length - 1}
+                        size="xl"
+                        radius="xl"
+                        aria-label="Next Image"
+                      >
+                        <IconArrowRight />
+                      </ActionIcon>
+                    </div>
+                  </div>
                   {filteredeMediaBank[index]?.mediaType?.includes('video') &&
                     filteredeMediaBank[index]?.videoUrl && (
                       <iframe
