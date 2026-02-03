@@ -7,6 +7,7 @@ import { ApolloWrapper } from './providers/ApolloProvider'
 import { MantineProvider } from './providers/MantineProvider'
 
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
+import { AuthProvider } from '@/contexts/AuthContext'
 import { ModalsProvider } from '@/contexts/ModalsContext'
 import { GetMenuDocument } from '@/graphql/generated/graphql'
 import { PreloadQuery } from '@/lib/apollo-client'
@@ -37,12 +38,14 @@ export default async function RootLayout({
             context={{ fetchOptions: { next: { tags: ['menus'] } } }}
           >
             <MantineProvider>
-              <ModalsProvider>
-                {children}
-                <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
-                  <BackToTop />
-                </div>
-              </ModalsProvider>
+              <AuthProvider>
+                <ModalsProvider>
+                  {children}
+                  <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
+                    <BackToTop />
+                  </div>
+                </ModalsProvider>
+              </AuthProvider>
             </MantineProvider>
           </PreloadQuery>
         </ApolloWrapper>
