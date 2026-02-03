@@ -28,7 +28,11 @@ import s from './ArchiveMediaBank.module.css'
 const PAGE_SIZE = 12
 
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import { GetMediasBankDocument, GetMediasBankQuery } from '@/graphql/generated/graphql'
+import {
+  GetAllAnimalsInMediaBankDocument,
+  GetMediasBankDocument,
+  GetMediasBankQuery,
+} from '@/graphql/generated/graphql'
 export default function ArchiveMediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
 
@@ -42,6 +46,7 @@ export default function ArchiveMediaBank() {
       speciesFeatured: selectedAnimal || undefined,
     },
   })
+  const { data: animalsOptData } = useSuspenseQuery(GetAllAnimalsInMediaBankDocument)
 
   const animalCombobox = useCombobox({
     onDropdownClose: () => animalCombobox.resetSelectedOption(),
@@ -139,19 +144,12 @@ export default function ArchiveMediaBank() {
             <Combobox.Dropdown>
               <Combobox.Options>
                 <Combobox.Option value="all">All Animals</Combobox.Option>
-                <Combobox.Option value="Rat">Rat</Combobox.Option>
-                <Combobox.Option value="Mouse">Mouse</Combobox.Option>
-                <Combobox.Option value="Rhesus macaque">Rhesus macaque</Combobox.Option>
-                <Combobox.Option value="Cat">Cat</Combobox.Option>
-                <Combobox.Option value="Non-human primate biobank">
-                  Non-human primate biobank
-                </Combobox.Option>
-                <Combobox.Option value="Pig">Pig</Combobox.Option>
-                <Combobox.Option value="Zebrafish">Zebrafish</Combobox.Option>
-                <Combobox.Option value="Mice">Mice</Combobox.Option>
-                <Combobox.Option value="Sheep">Sheep</Combobox.Option>
-                <Combobox.Option value="Dog">Dog</Combobox.Option>
-                <Combobox.Option value="Dog; Biobank">Dog; Biobank</Combobox.Option>
+                {animalsOptData.mediabanksSpeciesFeatured &&
+                  animalsOptData.mediabanksSpeciesFeatured.map((option) => (
+                    <Combobox.Option key={option?.value} value={option?.value as string}>
+                      {option?.value} <small>({option?.count})</small>
+                    </Combobox.Option>
+                  ))}
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>

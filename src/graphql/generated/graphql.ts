@@ -3596,6 +3596,18 @@ export type GetAllCountryInNewsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetAllCountryInNewsQuery = GetAllCountryInNewsQuery_RootQuery
 
+export type GetAllAnimalsInMediaBankQuery_RootQuery_mediabanksSpeciesFeatured_SpeciesFeaturedOption =
+  { __typename?: 'SpeciesFeaturedOption'; value?: string | null; count?: number | null }
+
+export type GetAllAnimalsInMediaBankQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  mediabanksSpeciesFeatured?: Array<GetAllAnimalsInMediaBankQuery_RootQuery_mediabanksSpeciesFeatured_SpeciesFeaturedOption | null> | null
+}
+
+export type GetAllAnimalsInMediaBankQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllAnimalsInMediaBankQuery = GetAllAnimalsInMediaBankQuery_RootQuery
+
 export const RelatedNewsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7904,3 +7916,29 @@ export const GetAllCountryInNewsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllCountryInNewsQuery, GetAllCountryInNewsQueryVariables>
+export const GetAllAnimalsInMediaBankDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllAnimalsInMediaBank' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'mediabanksSpeciesFeatured' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllAnimalsInMediaBankQuery, GetAllAnimalsInMediaBankQueryVariables>

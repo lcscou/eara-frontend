@@ -1201,3 +1201,11 @@ export const GetAllCountryInNews = gql`
     }
   }
 `
+export const GetAllAnimalsInMediaBank = gql`
+  query GetAllAnimalsInMediaBank {
+    mediabanksSpeciesFeatured {
+      value
+      count
+    }
+  }
+`
