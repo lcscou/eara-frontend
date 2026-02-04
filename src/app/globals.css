@@ -18,9 +18,12 @@ body {
   background-color: var(--color-earaBgLight) !important;
 }
 
+u {
+  text-decoration: none;
+}
 article a {
   text-decoration: underline;
-  text-decoration-thickness: 2.5;
+  text-decoration-thickness: 2.4;
   text-decoration-color: var(--color-secondaryColor);
 }
 

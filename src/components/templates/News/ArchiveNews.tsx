@@ -46,6 +46,7 @@ export default function ArchiveNews() {
   const { data, fetchMore } = useSuspenseQuery<GetAllNewsQuery>(GetAllNewsDocument, {
     variables: {
       first: PAGE_SIZE,
+      search: debouncedSearch.trim() || undefined,
       category: selectedCategory,
       country: selectedCountry,
       animal: selectedAnimal,
@@ -104,25 +105,6 @@ export default function ArchiveNews() {
   const filteredNews = useMemo(() => {
     let filtered = data?.allNews?.nodes ?? []
 
-    // Apply search filter
-    if (debouncedSearch.trim()) {
-      const searchLower = debouncedSearch.toLowerCase().trim()
-      filtered = filtered.filter((newsItem) => {
-        const title = newsItem?.title?.toLowerCase() || ''
-        const content = cleanHTMLTAG(newsItem?.content || '').toLowerCase()
-        // const excerpt = newsItem?.excerpt?.toLowerCase() || ''
-        const author =
-          `${newsItem?.author?.node.firstName} ${newsItem?.author?.node.lastName}`.toLowerCase()
-
-        return (
-          title.includes(searchLower) ||
-          content.includes(searchLower) ||
-          // excerpt.includes(searchLower) ||
-          author.includes(searchLower)
-        )
-      })
-    }
-
     if (selectedIsEaraMember !== null) {
       filtered = filtered.filter(
         (newsItem) => newsItem?.acfNews?.earaMember === selectedIsEaraMember
@@ -130,14 +112,21 @@ export default function ArchiveNews() {
     }
 
     return filtered
-  }, [data, selectedIsEaraMember, debouncedSearch])
+  }, [data, selectedIsEaraMember])
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
     setTimeout(async () => {
       try {
         await fetchMore({
-          variables: { first: PAGE_SIZE, after: endCursor },
+          variables: {
+            first: PAGE_SIZE,
+            after: endCursor,
+            search: debouncedSearch.trim() || undefined,
+            category: selectedCategory,
+            country: selectedCountry,
+            animal: selectedAnimal,
+          },
           updateQuery: (
             prev: GetAllNewsQuery,
             { fetchMoreResult }: { fetchMoreResult?: GetAllNewsQuery }
@@ -157,7 +146,16 @@ export default function ArchiveNews() {
         setLoadingMore(false)
       }
     }, 0)
-  }, [hasNextPage, loadingMore, endCursor, fetchMore])
+  }, [
+    hasNextPage,
+    loadingMore,
+    endCursor,
+    fetchMore,
+    debouncedSearch,
+    selectedCategory,
+    selectedCountry,
+    selectedAnimal,
+  ])
 
   const handleResetFilters = () => {
     setSelectedCategory(null)
@@ -411,7 +409,7 @@ export default function ArchiveNews() {
         </div>
       </Container>
 
-      {hasNextPage && !hasActiveFilters && (
+      {hasNextPage && (
         <Group justify="center" mt={40}>
           <ButtonEara
             label={loadingMore ? 'Loading...' : 'Load More'}
