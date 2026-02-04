@@ -86,7 +86,7 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
                     relatedNews?.seo?.title?.substring(relatedNews?.seo?.title.search('-'), 0) ||
                     'No Title'
                   }
-                  featuredImage={relatedNews?.seo?.opengraphImage?.guid || '/eara-fallback.jpg'}
+                  featuredImage={relatedNews?.seo?.opengraphImage?.guid || '/eara-fallback.png'}
                   link={`/news/${relatedNews?.slug}`}
                   excerpt={truncateText(relatedNews?.seo?.opengraphDescription || '', 23)}
                   orientation="vertical"

@@ -25,7 +25,7 @@ export default function Card({
             {featuredImage && (
               <Image
                 className="border-secondaryColor aspect-square rounded-full border-4 object-cover"
-                src={featuredImage || '/eara-fallback.jpg'}
+                src={featuredImage || '/eara-fallback.png'}
                 alt={title ? `${title} Image` : 'Card Image'}
                 width={180}
                 height={180}

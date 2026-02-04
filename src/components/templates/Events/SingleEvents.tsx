@@ -129,7 +129,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
                       <EventCard
                         title={relatedNews?.title || ''}
                         featuredImage={
-                          relatedNews?.featuredImage?.node?.guid || '/eara-fallback.jpg'
+                          relatedNews?.featuredImage?.node?.guid || '/eara-fallback.png'
                         }
                         link={relatedNews?.uri || ''}
                         excerpt={truncateText(relatedNews?.seo?.opengraphDescription || '', 23)}
@@ -158,7 +158,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
                     <EventCard
                       title={relatedEvent?.title || ''}
                       featuredImage={
-                        relatedEvent?.featuredImage?.node?.guid || '/eara-fallback.jpg'
+                        relatedEvent?.featuredImage?.node?.guid || '/eara-fallback.png'
                       }
                       link={relatedEvent?.uri || ''}
                       excerpt={truncateText(relatedEvent.customFields?.description || '', 23)}

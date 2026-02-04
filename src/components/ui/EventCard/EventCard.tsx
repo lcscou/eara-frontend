@@ -70,7 +70,7 @@ export default function EventCard({
           >
             <div className={clsx('relative overflow-hidden', s.imageWrapper)}>
               <Image
-                src={featuredImage || '/eara-fallback.jpg'}
+                src={featuredImage || '/eara-fallback.png'}
                 width={300}
                 height={300}
                 className="flex aspect-[4/2.3] w-full object-cover transition duration-300 hover:scale-105"

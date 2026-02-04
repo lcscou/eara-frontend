@@ -393,7 +393,7 @@ export default function ArchiveNews() {
                   timeReading={newsItem.seo?.readingTime}
                   author={`${newsItem.author?.node.firstName} ${newsItem.author?.node.lastName}`}
                   excerpt={cleanHTMLTAG(newsItem.content || '').substring(0, 100) + '...'}
-                  featuredImage={newsItem.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                  featuredImage={newsItem.featuredImage?.node.guid || '/eara-fallback.png'}
                   link={`/news/${newsItem.slug}`}
                 />
               ))

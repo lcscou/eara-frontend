@@ -37,7 +37,7 @@ export default function FeaturedNews({
                       <NewsCard
                         orientation="horizontal"
                         title={news.title}
-                        featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                        featuredImage={news.featuredImage?.node.guid || '/eara-fallback.png'}
                         author={formatAuthorName(news.author)}
                         isFeatured
                         link={`/news/${news.slug}`}
@@ -55,7 +55,7 @@ export default function FeaturedNews({
                         orientation="horizontal"
                         title={news.title}
                         link={`/news/${news.slug}`}
-                        featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                        featuredImage={news.featuredImage?.node.guid || '/eara-fallback.png'}
                         author={formatAuthorName(news.author)}
                         timeReading={news.seo?.readingTime}
                         excerpt={cleanHTMLTAG(news.content || '').slice(0, 100) + '...'}
@@ -79,7 +79,7 @@ export default function FeaturedNews({
                     <NewsCard
                       orientation="horizontal"
                       title={news.title}
-                      featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                      featuredImage={news.featuredImage?.node.guid || '/eara-fallback.png'}
                       author={formatAuthorName(news.author)}
                       isFeatured
                       link={`/news/${news.slug}`}
@@ -97,7 +97,7 @@ export default function FeaturedNews({
                       orientation="horizontal"
                       title={news.title}
                       link={`/news/${news.slug}`}
-                      featuredImage={news.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                      featuredImage={news.featuredImage?.node.guid || '/eara-fallback.png'}
                       author={formatAuthorName(news.author)}
                       timeReading={news.seo?.readingTime}
                       excerpt={cleanHTMLTAG(news.content || '').slice(0, 100) + '...'}

@@ -21,7 +21,7 @@ body {
 u {
   text-decoration: none;
 }
-article a {
+article p a {
   text-decoration: underline;
   text-decoration-thickness: 2.4;
   text-decoration-color: var(--color-secondaryColor);

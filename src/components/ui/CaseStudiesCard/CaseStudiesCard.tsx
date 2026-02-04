@@ -12,7 +12,7 @@ function CaseStudiesCard({ title, uri, featuredImage, description }: CaseStudies
     <div className="flex cursor-pointer flex-col items-center justify-center gap-10 rounded-lg bg-white/20 p-4 px-6 py-12 transition-colors hover:bg-white/60">
       <Image
         className="border-secondaryColor aspect-square rounded-full border-4 object-cover"
-        src={featuredImage || '/eara-fallback.jpg'}
+        src={featuredImage || '/eara-fallback.png'}
         alt={alt}
         width={180}
         height={180}

@@ -230,7 +230,7 @@ export default function ArchivePressReleases() {
                 timeReading={item.seo?.readingTime}
                 author="EARA"
                 excerpt={cleanHTMLTAG(item.content || '').substring(0, 100) + '...'}
-                featuredImage={item.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                featuredImage={item.featuredImage?.node.guid || '/eara-fallback.png'}
                 link={`/press-releases/${item.slug}`}
               />
             ))

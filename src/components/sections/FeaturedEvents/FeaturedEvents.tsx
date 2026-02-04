@@ -96,7 +96,7 @@ export default function FeaturedEvents({
                 location={event.customFields?.location || undefined}
                 excerpt={truncateText(event?.customFields?.description || '', 15)}
                 title={event.title || 'Untitled Event'}
-                featuredImage={event.featuredImage?.node.guid || '/eara-fallback.jpg'}
+                featuredImage={event.featuredImage?.node.guid || '/eara-fallback.png'}
               />
             </Carousel.Slide>
           )
