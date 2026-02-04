@@ -3,7 +3,7 @@ import {
   GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank,
   GetMenuQuery_RootQuery,
 } from '@/graphql/generated/graphql'
-
+import { decode } from 'html-entities'
 export function getMenu(
   location: 'MAIN_MENU_LEFT' | 'MAIN_MENU_RIGHT' | 'MAIN_FOOTER',
   data: GetMenuQuery_RootQuery | undefined
@@ -100,7 +100,7 @@ export function getMediaType(
 }
 
 export function cleanHTMLTAG(input: string): string {
-  return input.replace(/<\/?[^>]+(>|$)/g, '')
+  return decode(input.replace(/<\/?[^>]+(>|$)/g, ''))
 }
 
 export function formatAuthorName(
