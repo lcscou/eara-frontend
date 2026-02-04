@@ -25,7 +25,7 @@ export default function SingleAnimals({ data }: { data: GetAnimalQuery }) {
             </Button>
           </Link>
         </div>
-        <div>{renderPageBlocks(data.animal?.blocks)}</div>
+        <article>{renderPageBlocks(data.animal?.blocks)}</article>
       </Container>
     </>
   )

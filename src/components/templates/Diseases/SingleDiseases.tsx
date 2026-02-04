@@ -26,7 +26,7 @@ export default function SingleDiseases({ data }: { data: GetDiseasesQuery }) {
           </Link>
         </div>
       </Container>
-      <div>{renderPageBlocks(data.diseases?.blocks)}</div>
+      <article>{renderPageBlocks(data.diseases?.blocks)}</article>
     </>
   )
 }

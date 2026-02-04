@@ -109,7 +109,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
           </div>
         </section>
 
-        <div>{renderPageBlocks(data.events?.blocks)}</div>
+        <article>{renderPageBlocks(data.events?.blocks)}</article>
       </Container>
 
       {data.events?.customFields?.relatedNews?.nodes &&

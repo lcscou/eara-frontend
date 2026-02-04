@@ -50,7 +50,7 @@ export default function SingleCaseStudies({ data }: { data: GetCaseStudiesQuery 
             </Button>
           </Link>
         </div>
-        <div>{renderPageBlocks(data.caseStudies?.blocks)}</div>
+        <article>{renderPageBlocks(data.caseStudies?.blocks)}</article>
       </Container>
     </>
   )

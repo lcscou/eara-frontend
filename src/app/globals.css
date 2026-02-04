@@ -18,6 +18,12 @@ body {
   background-color: var(--color-earaBgLight) !important;
 }
 
+article a {
+  text-decoration: underline;
+  text-decoration-thickness: 2.5;
+  text-decoration-color: var(--color-secondaryColor);
+}
+
 @media (max-width: 768px) {
   html {
     font-size: 14px;

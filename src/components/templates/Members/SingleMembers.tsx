@@ -25,7 +25,7 @@ export default function SingleMembers({ data }: { data: GetMembersQuery }) {
             </Button>
           </Link>
         </div>
-        <div>{renderPageBlocks(data.member?.blocks)}</div>
+        <article>{renderPageBlocks(data.member?.blocks)}</article>
       </Container>
     </>
   )

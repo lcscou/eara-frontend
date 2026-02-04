@@ -53,15 +53,17 @@ export const theme = createTheme({
   primaryColor: 'primaryColor',
   primaryShade: { dark: 9, light: 9 },
   colors: { primaryColor, secondaryColor, textColorDark, earaDark },
-  // fontFamily: 'var(--font-inter)',
+  fontSizes: {
+    // md: "18px"
+  },
   headings: {
     sizes: {
-      h1: { fontSize: '3.815rem', lineHeight: '1' },
-      h2: { fontSize: '3.052rem', lineHeight: '1' },
-      h3: { fontSize: '2.441rem', lineHeight: '1' },
-      h4: { fontSize: '1.953rem', lineHeight: '1' },
-      h5: { fontSize: '1.563rem', lineHeight: '1' },
-      h6: { fontSize: '1.25rem', lineHeight: '1' },
+      h1: { fontSize: '3.815rem', lineHeight: '1.2' },
+      h2: { fontSize: '3.052rem', lineHeight: '1.2' },
+      h3: { fontSize: '2.441rem', lineHeight: '1.2' },
+      h4: { fontSize: '1.953rem', lineHeight: '1.2' },
+      h5: { fontSize: '1.563rem', lineHeight: '1.2' },
+      h6: { fontSize: '1.25rem', lineHeight: '1.2' },
     },
   },
   components: {

@@ -25,7 +25,7 @@ export default function SinglePressRelease({ data }: { data: GetPressReleaseQuer
             </Button>
           </Link>
         </div>
-        <div>{renderPageBlocks(data.pressRelease?.blocks)}</div>
+        <article>{renderPageBlocks(data.pressRelease?.blocks)}</article>
         {data.pressRelease?.acfPressRelease?.documents &&
           data.pressRelease.acfPressRelease.documents.length > 0 && (
             <div className="mt-10">
