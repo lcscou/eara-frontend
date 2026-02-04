@@ -1,8 +1,9 @@
 'use client'
 import { InfoButtonProps } from '@/lib/types'
 import { Button, Popover } from '@mantine/core'
-import { IconInfoCircle } from '@tabler/icons-react'
+import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react'
 import clsx from 'clsx'
+import Link from 'next/link'
 
 export default function InfoButton({
   content,
@@ -34,7 +35,14 @@ export default function InfoButton({
           </div>
         </Popover.Target>
         <Popover.Dropdown>
-          <div className="flex flex-col gap-2 p-2">{content}</div>
+          <div className="flex flex-col gap-2 p-2">
+            {content}
+            <Link href="/transparency/media-bank">
+              <Button mt={5} rightSection={<IconArrowRight size={18} />}>
+                Browse our media bank
+              </Button>
+            </Link>
+          </div>
         </Popover.Dropdown>
       </Popover>
     </>
