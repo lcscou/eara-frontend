@@ -29,16 +29,18 @@ function OfficeMapFrame({ googleMapsUrl }: { googleMapsUrl?: string | null }) {
   }
 
   return (
-    <iframe
-      src={googleMapsUrl}
-      width="100%"
-      height="550"
-      style={{ border: 0, borderRadius: '8px' }}
-      allowFullScreen
-      loading="lazy"
-      referrerPolicy="no-referrer-when-downgrade"
-      title="Office location map"
-    />
+    <>
+      <iframe
+        src={googleMapsUrl}
+        width="100%"
+        height="550"
+        style={{ border: 0, borderRadius: '8px' }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Office location map"
+      />
+    </>
   )
 }
 
@@ -56,7 +58,7 @@ function OfficeCard({
   onSelect: () => void
 }) {
   return (
-    <button
+    <div
       key={office.id}
       onClick={onSelect}
       className={clsx(
@@ -71,7 +73,7 @@ function OfficeCard({
       <Text dangerouslySetInnerHTML={{ __html: office.acfOffices?.address || '' }} />
       <Text>{office.acfOffices?.email}</Text>
       <Text>{office.acfOffices?.tel}</Text>
-    </button>
+    </div>
   )
 }
 
@@ -143,6 +145,18 @@ export default function ContactPage() {
           {/* Mapa do Google */}
           <div>
             <OfficeMapFrame googleMapsUrl={currentMapUrl} />
+            <div className={clsx('mt-5 w-full rounded-xl bg-white p-8 text-left transition-all')}>
+              <Title mb={15} order={5} c="primaryColor.9">
+                For press enquiries please contact:
+              </Title>
+              <Title mb={15} order={6}>
+                Nuno Miguel Gonsalves <br /> <small>EARA Deputy Director</small>
+              </Title>
+              <Text>Email: ngoncalves@eara.eu</Text>
+              <Text>Tel: +351 934950684</Text>
+              <Text>info@eara.eu</Text>
+              <Text>+44 (0)20 3355 7458</Text>
+            </div>
           </div>
 
           {/* Lista de escritórios */}
