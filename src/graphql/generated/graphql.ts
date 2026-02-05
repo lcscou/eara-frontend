@@ -44,6 +44,33 @@ export type GetAllAnimalsPagedQueryVariables = Exact<{
 
 export type GetAllAnimalsPagedQuery = GetAllAnimalsPagedQuery_RootQuery
 
+export type LoginMutation_RootMutation_login_LoginPayload_user_User = {
+  __typename?: 'User'
+  firstName?: string | null
+}
+
+export type LoginMutation_RootMutation_login_LoginPayload = {
+  __typename?: 'LoginPayload'
+  authToken?: string | null
+  authTokenExpiration?: string | null
+  clientMutationId?: string | null
+  refreshToken?: string | null
+  refreshTokenExpiration?: string | null
+  user?: LoginMutation_RootMutation_login_LoginPayload_user_User | null
+}
+
+export type LoginMutation_RootMutation = {
+  __typename?: 'RootMutation'
+  login?: LoginMutation_RootMutation_login_LoginPayload | null
+}
+
+export type LoginMutationVariables = Exact<{
+  username: Scalars['String']['input']
+  password: Scalars['String']['input']
+}>
+
+export type LoginMutation = LoginMutation_RootMutation
+
 export type GetPagesWithBlockQuery_RootQuery_pages_RootQueryToPageConnection_nodes_Page = {
   __typename?: 'Page'
   title?: string | null
@@ -3879,6 +3906,96 @@ export const GetAllAnimalsPagedDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllAnimalsPagedQuery, GetAllAnimalsPagedQueryVariables>
+export const LoginDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'Login' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'username' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'password' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'login' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'provider' },
+                      value: { kind: 'EnumValue', value: 'PASSWORD' },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'credentials' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'username' },
+                            value: { kind: 'Variable', name: { kind: 'Name', value: 'username' } },
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'password' },
+                            value: { kind: 'Variable', name: { kind: 'Name', value: 'password' } },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'authToken' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'authTokenExpiration' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientMutationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'firstName' } }],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'refreshTokenExpiration' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>
 export const GetPagesWithBlockDocument = {
   kind: 'Document',
   definitions: [

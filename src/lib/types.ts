@@ -85,8 +85,8 @@ export interface ButtonEaraProps extends ButtonProps {
   label?: string
   link?: string
   target?: HTMLAttributeAnchorTarget
-
   className?: string
+  type?: 'button' | 'submit' | 'reset'
   variant?: 'filled' | 'outline' | 'link' | 'with-arrow'
   onClick?: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
 }
