@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import LoginForm from '@/components/auth/LoginForm'
 import { Container, Image, Stack, Text, Title } from '@mantine/core'
 
@@ -21,7 +23,9 @@ export default function LoginPage() {
                   Members Login
                 </Title>
                 <Text>Fill your login and password to access your account</Text>
-                <LoginForm />
+                <Suspense>
+                  <LoginForm />
+                </Suspense>
               </Stack>
             </div>
           </section>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm'
 
@@ -14,7 +15,9 @@ export default function ResetPasswordPage() {
           <h1 className="text-earaDark text-3xl font-semibold">Set new password</h1>
           <p className="text-earaDark/70 mt-2 text-sm">Create a new password for your account.</p>
         </div>
-        <ResetPasswordForm />
+        <Suspense>
+          <ResetPasswordForm />
+        </Suspense>
         <div className="text-center text-sm">
           <Link className="text-primaryColor font-semibold hover:underline" href="/login">
             Back to login
