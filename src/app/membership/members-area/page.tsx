@@ -7,8 +7,8 @@ export const metadata = {
   title: 'Members Area | Eara',
 }
 
-export default function MembersAreaPage() {
-  const token = getAuthToken()
+export default async function MembersAreaPage() {
+  const token = await getAuthToken()
 
   if (!token) {
     redirect('/login?redirect=/membership/members-area')

@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     })
 
     return res
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Unable to authenticate at the moment.' }, { status: 500 })
   }
 }

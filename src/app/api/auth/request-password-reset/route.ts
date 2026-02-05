@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Unable to request a password reset.' }, { status: 500 })
   }
 }

@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ user: result?.data?.resetUserPassword?.user ?? null })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Unable to reset the password at the moment.' },
       { status: 500 }
