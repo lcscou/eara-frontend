@@ -4,6 +4,9 @@ import {
   InMemoryCache,
   registerApolloClient,
 } from '@apollo/client-integration-nextjs'
+import { setContext } from '@apollo/client/link/context'
+
+import { getAuthToken } from './auth/server'
 
 // Cache policy configurada para melhor performance
 const cache = new InMemoryCache({
@@ -144,3 +147,48 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
     },
   })
 })
+
+/**
+ * Cria um Apollo Client autenticado para acessar conteúdos privados do WordPress
+ * Usa o token JWT armazenado no cookie para autenticar as requisições
+ *
+ * @example
+ * ```tsx
+ * import { getAuthenticatedClient } from '@/lib/apollo-client'
+ *
+ * const client = await getAuthenticatedClient()
+ * const { data } = await client.query({
+ *   query: PRIVATE_CONTENT_QUERY,
+ * })
+ * ```
+ */
+export async function getAuthenticatedClient() {
+  const token = await getAuthToken()
+
+  const authLink = setContext(async (_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        ...(token ? { authorization: `Bearer ${token}` } : {}),
+      },
+    }
+  })
+
+  const httpLink = new HttpLink({
+    uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+    fetchOptions: {
+      cache: 'no-store', // Conteúdo privado não deve ser cacheado
+    },
+  })
+
+  return new ApolloClient({
+    cache: new InMemoryCache(),
+    link: authLink.concat(httpLink),
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'network-only', // Sempre buscar do servidor para conteúdo autenticado
+        errorPolicy: 'all',
+      },
+    },
+  })
+}

@@ -1,8 +1,8 @@
 import SingleAnimals from '@/components/templates/SingleAnimals'
 import { GetAnimalDocument, GetAnimalQuery } from '@/graphql/generated/graphql'
-import { getClient } from '@/lib/apollo-client'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 
 // ISR: Revalidar a cada 1 hora
@@ -12,8 +12,7 @@ type AnimalProps = {
   params: { uri: string[] }
 }
 const getAnimalData = cache(async (uri: string[]): Promise<GetAnimalQuery> => {
-  const client = getClient()
-  const { data } = await client.query<GetAnimalQuery>({
+  const result = await queryWithAuthFallback<GetAnimalQuery>({
     query: GetAnimalDocument,
     variables: { id: uri.join('') },
     context: {
@@ -25,8 +24,12 @@ const getAnimalData = cache(async (uri: string[]): Promise<GetAnimalQuery> => {
       },
     },
   })
-  if (!data) notFound()
-  return data
+  const path = `/animals/${uri.join('/')}`
+  if (result.authRequired) {
+    redirect(`/login?redirect=${encodeURIComponent(path)}`)
+  }
+  if (!result.data) notFound()
+  return result.data
 })
 export async function generateMetadata({ params }: AnimalProps): Promise<Metadata> {
   const data = await getAnimalData(params.uri)

@@ -1,8 +1,8 @@
 import SinglePressRelease from '@/components/templates/PressReleases/SinglePressReleases'
 import { GetPressReleaseDocument, GetPressReleaseQuery } from '@/graphql/generated/graphql'
-import { getClient } from '@/lib/apollo-client'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 
 // ISR: Revalidar a cada 30 minutos
@@ -12,8 +12,7 @@ type PressReleaseProps = {
   params: { uri: string[] }
 }
 const getPressReleaseData = cache(async (uri: string[]): Promise<GetPressReleaseQuery> => {
-  const client = getClient()
-  const { data } = await client.query<GetPressReleaseQuery>({
+  const result = await queryWithAuthFallback<GetPressReleaseQuery>({
     query: GetPressReleaseDocument,
     variables: { id: uri.join('') },
     context: {
@@ -25,8 +24,12 @@ const getPressReleaseData = cache(async (uri: string[]): Promise<GetPressRelease
       },
     },
   })
-  if (!data) notFound()
-  return data
+  const path = `/press-releases/${uri.join('/')}`
+  if (result.authRequired) {
+    redirect(`/login?redirect=${encodeURIComponent(path)}`)
+  }
+  if (!result.data) notFound()
+  return result.data
 })
 export async function generateMetadata({ params }: PressReleaseProps): Promise<Metadata> {
   const data = await getPressReleaseData(params.uri)

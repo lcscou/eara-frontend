@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { AUTH_COOKIE_NAME } from '@/lib/auth/constants'
+import { AUTH_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '@/lib/auth/constants'
 
 const LOGIN_MUTATION = `
   mutation Login($username: String!, $password: String!) {
@@ -11,6 +11,7 @@ const LOGIN_MUTATION = `
       authTokenExpiration
       refreshToken
       refreshTokenExpiration
+  
       user {
         id
         name
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
       authTokenExpiration: login.authTokenExpiration,
     })
 
+    // Armazena o JWT token para autenticação nas requisições GraphQL
     res.cookies.set({
       name: AUTH_COOKIE_NAME,
       value: login.authToken,
@@ -75,6 +77,19 @@ export async function POST(request: Request) {
       path: '/',
       maxAge: 60 * 60 * 24, // 1 day
     })
+
+    // Armazena o refresh token para renovação automática
+    if (login.refreshToken) {
+      res.cookies.set({
+        name: REFRESH_TOKEN_COOKIE_NAME,
+        value: login.refreshToken,
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      })
+    }
 
     return res
   } catch {

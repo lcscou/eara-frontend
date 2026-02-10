@@ -30,6 +30,7 @@ export const GetPage = gql`
   query GetPage($id: ID = "") {
     page(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date
@@ -100,6 +101,7 @@ export const GetAnimal = gql`
   query GetAnimal($id: ID = "") {
     animal(id: $id, idType: URI) {
       id
+      status
       title
       date
       author {
@@ -282,6 +284,7 @@ export const GetNews = gql`
   query GetNews($id: ID = "") {
     news(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date
@@ -436,6 +439,7 @@ export const GetEvents = gql`
   query GetEvents($id: ID = "") {
     events(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date
@@ -577,6 +581,7 @@ export const GetDiseases = gql`
   query GetDiseases($id: ID = "") {
     diseases(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date
@@ -663,6 +668,7 @@ export const GetMembers = gql`
   query GetMembers($id: ID = "") {
     member(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date
@@ -922,6 +928,7 @@ export const GetCaseStudies = gql`
   query GetCaseStudies($id: ID!) {
     caseStudies(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date
@@ -991,6 +998,7 @@ export const GetTeam = gql`
   query GetTeam($id: ID!) {
     team(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date
@@ -1139,6 +1147,7 @@ export const GetPressRelease = gql`
   query GetPressRelease($id: ID!) {
     pressRelease(id: $id, idType: URI) {
       id
+      status
       title
       blocks
       date

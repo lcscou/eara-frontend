@@ -1,13 +1,12 @@
 import PageTemplate from '@/components/templates/Page/PageTemplate'
 import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
-import { getClient } from '@/lib/apollo-client'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 
 const getHomePageData = cache(async (): Promise<GetPageQuery> => {
-  const client = getClient()
-  const { data } = await client.query<GetPageQuery>({
+  const result = await queryWithAuthFallback<GetPageQuery>({
     query: GetPageDocument,
     variables: { id: '/' },
     context: {
@@ -19,8 +18,11 @@ const getHomePageData = cache(async (): Promise<GetPageQuery> => {
       },
     },
   })
-  if (!data) notFound()
-  return data
+  if (result.authRequired) {
+    redirect('/login?redirect=/')
+  }
+  if (!result.data) notFound()
+  return result.data
 })
 
 export async function generateMetadata(): Promise<Metadata> {

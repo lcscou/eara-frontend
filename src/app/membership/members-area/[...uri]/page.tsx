@@ -1,14 +1,16 @@
 import PageTemplate from '@/components/templates/Page/PageTemplate'
 import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
-import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
+import { getAuthenticatedClient } from '@/lib/apollo-client'
 import type { Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { cache } from 'react'
 type PageProps = {
   params: Promise<{ uri: string[] }>
 }
 const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
-  const result = await queryWithAuthFallback<GetPageQuery>({
+  console.log(uri.join('/'))
+  const client = await getAuthenticatedClient()
+  const { data } = await client.query<GetPageQuery>({
     query: GetPageDocument,
     variables: { id: uri.join('/') },
     context: {
@@ -20,15 +22,12 @@ const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
       },
     },
   })
-  const path = `/${uri.join('/')}`
-  if (result.authRequired) {
-    redirect(`/login?redirect=${encodeURIComponent(path)}`)
-  }
-  if (!result.data) notFound()
-  return result.data
+  if (!data) notFound()
+  return data
 })
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { uri } = await params
+
   const data = await getPageData(uri)
   if (!data?.page) notFound()
   const title = `Eara | ${data.page.title}`

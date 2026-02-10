@@ -6,8 +6,9 @@ import {
   GetNewsQuery,
 } from '@/graphql/generated/graphql'
 import { getClient } from '@/lib/apollo-client'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 
 // ISR: Revalidar a cada 30 minutos
@@ -17,8 +18,7 @@ type NewsProps = {
   params: { uri: string[] }
 }
 const getNewsData = cache(async (uri: string[]): Promise<GetNewsQuery> => {
-  const client = getClient()
-  const { data } = await client.query<GetNewsQuery>({
+  const result = await queryWithAuthFallback<GetNewsQuery>({
     query: GetNewsDocument,
     variables: { id: uri.join('') },
     context: {
@@ -30,8 +30,12 @@ const getNewsData = cache(async (uri: string[]): Promise<GetNewsQuery> => {
       },
     },
   })
-  if (!data) notFound()
-  return data
+  const path = `/news/${uri.join('/')}`
+  if (result.authRequired) {
+    redirect(`/login?redirect=${encodeURIComponent(path)}`)
+  }
+  if (!result.data) notFound()
+  return result.data
 })
 
 const getAllNewsData = cache(async (): Promise<GetAllNewsQuery> => {

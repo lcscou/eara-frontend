@@ -1,8 +1,8 @@
 import SingleEvents from '@/components/templates/Events/SingleEvents'
 import { GetEventsDocument, GetEventsQuery } from '@/graphql/generated/graphql'
-import { getClient } from '@/lib/apollo-client'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 
 // ISR: Revalidar a cada 30 minutos
@@ -12,8 +12,7 @@ type EventProps = {
   params: { uri: string[] }
 }
 const getEventData = cache(async (uri: string[]): Promise<GetEventsQuery> => {
-  const client = getClient()
-  const { data } = await client.query<GetEventsQuery>({
+  const result = await queryWithAuthFallback<GetEventsQuery>({
     query: GetEventsDocument,
     variables: { id: uri.join('') },
     context: {
@@ -25,8 +24,12 @@ const getEventData = cache(async (uri: string[]): Promise<GetEventsQuery> => {
       },
     },
   })
-  if (!data) notFound()
-  return data
+  const path = `/events/${uri.join('/')}`
+  if (result.authRequired) {
+    redirect(`/login?redirect=${encodeURIComponent(path)}`)
+  }
+  if (!result.data) notFound()
+  return result.data
 })
 export async function generateMetadata({ params }: EventProps): Promise<Metadata> {
   const data = await getEventData(params.uri)

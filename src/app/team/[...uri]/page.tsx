@@ -1,15 +1,14 @@
 import SingleTeam from '@/components/templates/Team/SingleTeam'
 import { GetTeamDocument, GetTeamQuery } from '@/graphql/generated/graphql'
-import { getClient } from '@/lib/apollo-client'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 type MemberProps = {
   params: { uri: string[] }
 }
 const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
-  const client = getClient()
-  const { data } = await client.query<GetTeamQuery>({
+  const result = await queryWithAuthFallback<GetTeamQuery>({
     query: GetTeamDocument,
     variables: { id: uri.join('') },
     context: {
@@ -21,8 +20,12 @@ const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
       },
     },
   })
-  if (!data) notFound()
-  return data
+  const path = `/team/${uri.join('/')}`
+  if (result.authRequired) {
+    redirect(`/login?redirect=${encodeURIComponent(path)}`)
+  }
+  if (!result.data) notFound()
+  return result.data
 })
 export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
   const data = await getTeamData(params.uri)

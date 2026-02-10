@@ -1,8 +1,8 @@
 import SingleCaseStudies from '@/components/templates/CaseStudies/SingleCaseStudies'
 import { GetCaseStudiesDocument, GetCaseStudiesQuery } from '@/graphql/generated/graphql'
-import { getClient } from '@/lib/apollo-client'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 
 // ISR: Revalidar a cada 1 hora
@@ -12,8 +12,7 @@ type CaseStudiesProps = {
   params: { uri: string[] }
 }
 const getCaseStudies = cache(async (uri: string[]): Promise<GetCaseStudiesQuery> => {
-  const client = getClient()
-  const { data } = await client.query<GetCaseStudiesQuery>({
+  const result = await queryWithAuthFallback<GetCaseStudiesQuery>({
     query: GetCaseStudiesDocument,
     variables: { id: uri.join('') },
     context: {
@@ -25,8 +24,12 @@ const getCaseStudies = cache(async (uri: string[]): Promise<GetCaseStudiesQuery>
       },
     },
   })
-  if (!data) notFound()
-  return data
+  const path = `/case-studies/${uri.join('/')}`
+  if (result.authRequired) {
+    redirect(`/login?redirect=${encodeURIComponent(path)}`)
+  }
+  if (!result.data) notFound()
+  return result.data
 })
 export async function generateMetadata({ params }: CaseStudiesProps): Promise<Metadata> {
   const data = await getCaseStudies(params.uri)
