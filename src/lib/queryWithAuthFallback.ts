@@ -1,7 +1,7 @@
 import type { ApolloQueryResult, DocumentNode, OperationVariables } from '@apollo/client'
 
 import { getAuthenticatedClient, getClient } from './apollo-client'
-import { getAuthToken } from './auth/server'
+import { validateAuthToken } from './auth/server'
 
 type GraphQLErrorLike = {
   message?: string
@@ -118,9 +118,9 @@ export async function queryWithAuthFallback<
     }
   }
 
-  // Se tem erro de auth, data null ou conteúdo privado, verifica se há token
-  const token = await getAuthToken()
-  if (!token) {
+  // Se tem erro de auth, data null ou conteúdo privado, verifica se há token válido
+  const hasValidToken = await validateAuthToken()
+  if (!hasValidToken) {
     return {
       data: result.data as TData | undefined,
       errors: graphQLErrors,
@@ -144,9 +144,21 @@ export async function queryWithAuthFallback<
     errorPolicy: 'all',
   })) as ApolloQueryResult<TData>
 
+  // Se a query autenticada também falhar com erro de auth, token expirou
+  const authErrors = getGraphQLErrors(authResult.error) ?? getResultErrors(authResult)
+  if (isAuthError(authErrors)) {
+    return {
+      data: authResult.data as TData | undefined,
+      errors: authErrors,
+      error: authResult.error,
+      usedAuth: true,
+      authRequired: true, // Token expirado - precisa fazer login novamente
+    }
+  }
+
   return {
     data: authResult.data as TData | undefined,
-    errors: getGraphQLErrors(authResult.error) ?? getResultErrors(authResult),
+    errors: authErrors,
     error: authResult.error,
     usedAuth: true,
   }

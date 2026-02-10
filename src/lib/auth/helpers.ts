@@ -1,8 +1,9 @@
-import { getAuthToken } from './server'
+import { getAuthToken, validateAuthToken } from './server'
 
 /**
  * Verifica se o usuário está autenticado
  *
+ * @param validate - Se true, valida o token contra o WordPress (mais lento mas preciso)
  * @returns true se o usuário tem um token de autenticação válido
  *
  * @example
@@ -10,17 +11,25 @@ import { getAuthToken } from './server'
  * import { isAuthenticated } from '@/lib/auth/helpers'
  *
  * export default async function ProtectedPage() {
+ *   // Validação rápida (apenas verifica se o cookie existe)
  *   if (!(await isAuthenticated())) {
  *     redirect('/login')
  *   }
  *
- *   // Renderizar conteúdo protegido
+ *   // Validação completa (verifica se o token é válido no WordPress)
+ *   if (!(await isAuthenticated(true))) {
+ *     redirect('/login')
+ *   }
  * }
  * ```
  */
-export async function isAuthenticated(): Promise<boolean> {
-  const token = await getAuthToken()
-  return !!token
+export async function isAuthenticated(validate = false): Promise<boolean> {
+  if (!validate) {
+    const token = await getAuthToken()
+    return !!token
+  }
+
+  return await validateAuthToken()
 }
 
 /**
