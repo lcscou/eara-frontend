@@ -18,8 +18,6 @@ export default async function Template({ children }: { children: React.ReactNode
 
   if (data.error) return
 
-  console.log(data.data?.menus)
-
   return (
     <>
       <Suspense>{/* <Header /> */}</Suspense>

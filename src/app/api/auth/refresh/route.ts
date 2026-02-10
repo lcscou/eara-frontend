@@ -57,6 +57,11 @@ export async function POST() {
       return NextResponse.json({ error: 'Invalid refresh token.' }, { status: 401 })
     }
 
+    // Calcula tempo de expiração real do WordPress
+    const authTokenMaxAge = refresh.authTokenExpiration
+      ? Math.floor(refresh.authTokenExpiration - Date.now() / 1000)
+      : 60 * 60 * 24 // fallback para 1 dia
+
     const res = NextResponse.json({
       success: true,
       authTokenExpiration: refresh.authTokenExpiration,
@@ -70,7 +75,7 @@ export async function POST() {
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
       path: '/',
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: authTokenMaxAge,
     })
 
     return res

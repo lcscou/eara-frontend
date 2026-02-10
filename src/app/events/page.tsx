@@ -1,8 +1,6 @@
 import ArchiveEventsTemplate from '@/components/templates/Events/ArchiveEvents'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
-export default async function ArchiveEvents({
-  searchParams,
-}: {
+export default async function ArchiveEvents({}: {
   searchParams: { page?: string; category?: string; organizer?: string }
 }) {
   // const pageNumber = await searchParams
@@ -19,7 +17,6 @@ export default async function ArchiveEvents({
   // })
 
   // console.log('Events data:', data)
-  console.log(searchParams)
 
   return (
     <>

@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: EventProps): Promise<Metadata
 }
 export default async function Event({ params }: EventProps) {
   const data = await getEventData(params.uri)
-  console.log(data)
+
   if (!data?.events) notFound()
   return <SingleEvents data={data} />
 }

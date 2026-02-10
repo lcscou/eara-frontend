@@ -13,6 +13,18 @@ const VIEWER_QUERY = `
   }
 `
 
+function decodeJWT(token: string) {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+
+    const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString())
+    return payload
+  } catch {
+    return null
+  }
+}
+
 export async function GET() {
   const cookieStore = await cookies()
   const token = cookieStore.get(AUTH_COOKIE_NAME)?.value
@@ -49,5 +61,13 @@ export async function GET() {
     return NextResponse.json({ authenticated: false }, { status: 401 })
   }
 
-  return NextResponse.json({ authenticated: true, user: result.data.viewer })
+  // Decodifica o JWT para pegar o tempo de expiração
+  const decodedToken = decodeJWT(token)
+  const authTokenExpiration = decodedToken?.exp || null
+
+  return NextResponse.json({
+    authenticated: true,
+    user: result.data.viewer,
+    authTokenExpiration,
+  })
 }

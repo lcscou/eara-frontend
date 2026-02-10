@@ -62,9 +62,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid credentials.' }, { status: 401 })
     }
 
+    // Calcula tempo de expiração real do WordPress
+    const authTokenMaxAge = login.authTokenExpiration
+      ? Math.floor(login.authTokenExpiration - Date.now() / 1000)
+      : 60 * 60 * 24 // fallback para 1 dia se não vier
+
+    const refreshTokenMaxAge = login.refreshTokenExpiration
+      ? Math.floor(login.refreshTokenExpiration - Date.now() / 1000)
+      : 60 * 60 * 24 * 7 // fallback para 7 dias
+
     const res = NextResponse.json({
       user: login.user,
       authTokenExpiration: login.authTokenExpiration,
+      refreshTokenExpiration: login.refreshTokenExpiration,
     })
 
     // Armazena o JWT token para autenticação nas requisições GraphQL
@@ -75,8 +85,10 @@ export async function POST(request: Request) {
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
       path: '/',
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: authTokenMaxAge,
     })
+
+    console.log('Refresh Token Expiration:', login.refreshTokenExpiration)
 
     // Armazena o refresh token para renovação automática
     if (login.refreshToken) {
@@ -87,7 +99,7 @@ export async function POST(request: Request) {
         sameSite: 'lax',
         secure: process.env.NODE_ENV === 'production',
         path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        maxAge: refreshTokenMaxAge,
       })
     }
 

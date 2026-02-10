@@ -6,6 +6,7 @@ import './globals.css'
 import { ApolloWrapper } from './providers/ApolloProvider'
 import { MantineProvider } from './providers/MantineProvider'
 
+import { AuthRefreshProvider } from '@/components/auth/AuthRefreshProvider'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import { ModalsProvider } from '@/contexts/ModalsContext'
 import { GetMenuDocument } from '@/graphql/generated/graphql'
@@ -38,6 +39,7 @@ export default async function RootLayout({
           >
             <MantineProvider>
               <ModalsProvider>
+                <AuthRefreshProvider />
                 {children}
                 <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
                   <BackToTop />
