@@ -1,48 +1,56 @@
 'use client'
+import { GetPagesQuery } from '@/graphql/generated/graphql'
 import { useLogout } from '@/hooks/useLogout'
-import { Avatar, Divider, NavLink, Stack, Tabs, Text, Title } from '@mantine/core'
-import {
-  IconBook2,
-  IconCrown,
-  IconFileDescription,
-  IconHome,
-  IconLogout,
-  IconPhoto,
-  IconTicket,
-  IconUser,
-} from '@tabler/icons-react'
+import { Avatar, Box, Divider, NavLink, Stack, Tabs, Text, Title } from '@mantine/core'
 
-export default function MembersArea() {
+import { IconFileDescription, IconLogout } from '@tabler/icons-react'
+import { useEffect, useState } from 'react'
+
+export default function MembersArea({ privatePages }: { privatePages?: GetPagesQuery }) {
   const { logout, isLoading } = useLogout()
+  const [userInfo, setUserInfo] = useState({ user: { name: 'Admin' } })
+
+  useEffect(() => {
+    ;(async function () {
+      try {
+        const response = await fetch('/api/auth/me', { method: 'GET' })
+        const data = await response.json()
+        setUserInfo({ ...data })
+        console.log(data)
+      } catch (e) {
+        console.log(e)
+      }
+    })()
+  }, [])
+
   return (
     <Tabs variant="pills" radius="xl" orientation="vertical" defaultValue="home">
       <Tabs.List className="min-w-[160px]">
         <NavLink
           href="#required-for-focus"
-          label="Lucas"
+          label={userInfo?.user.name}
           active
           variant="light"
           bdrs={30}
           leftSection={
             <Avatar alt="it's me" color="primaryColor.9">
-              LC
+              {userInfo?.user.name.substring(0, 2).toUpperCase()}
             </Avatar>
           }
           childrenOffset={28}
-        >
-          <NavLink
-            variant="subtle"
-            active
-            leftSection={<IconLogout size={16} />}
-            bdrs={30}
-            href="#required-for-focus"
-            label="Log out"
-            onClick={logout}
-            disabled={isLoading}
-          />
-        </NavLink>
+        ></NavLink>
+        <NavLink
+          variant="light"
+          active
+          leftSection={<IconLogout size={16} />}
+          bdrs={30}
+          href="#required-for-focus"
+          label="Log out"
+          onClick={logout}
+          disabled={isLoading}
+        />
         <Divider my="sm" />
-        <Tabs.Tab value="home" leftSection={<IconHome size={12} />}>
+        {/* <Tabs.Tab value="home" leftSection={<IconHome size={12} />}>
           Home
         </Tabs.Tab>
         <Tabs.Tab value="profile" leftSection={<IconUser size={12} />}>
@@ -53,7 +61,7 @@ export default function MembersArea() {
         </Tabs.Tab>
         <Tabs.Tab value="tickets" leftSection={<IconTicket size={12} />}>
           Tickets
-        </Tabs.Tab>
+        </Tabs.Tab> */}
       </Tabs.List>
 
       <div className="ml-10 w-full rounded-2xl bg-[#eaeaea] p-10">
@@ -71,31 +79,25 @@ export default function MembersArea() {
               Assets
             </Title>
             <div>
-              <div className="grid grid-cols-5 gap-4">
-                <div className="bg-earaBgDark flex aspect-square w-full cursor-pointer items-end rounded-2xl p-5 transition hover:bg-white">
-                  <Stack>
-                    <IconFileDescription size={32} className="text-primaryColor.9" />
-                    <Text c="primaryColor.9" fw="bold">
-                      Policy briefings
-                    </Text>
-                  </Stack>
-                </div>
-                <div className="bg-earaBgDark flex aspect-square w-full cursor-pointer items-end rounded-2xl p-5 transition hover:bg-white">
-                  <Stack>
-                    <IconBook2 size={32} className="text-primaryColor.9" />
-                    <Text c="primaryColor.9" fw="bold">
-                      Comms handbook
-                    </Text>
-                  </Stack>
-                </div>
-                <div className="bg-earaBgDark flex aspect-square w-full cursor-pointer items-end rounded-2xl p-5 transition hover:bg-white">
-                  <Stack>
-                    <IconPhoto size={32} className="text-primaryColor.9" />
-                    <Text c="primaryColor.9" fw="bold">
-                      Resources
-                    </Text>
-                  </Stack>
-                </div>
+              <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                {privatePages?.pages?.nodes &&
+                  privatePages.pages.nodes.map((page) => (
+                    <>
+                      <Box
+                        key={page.id}
+                        component="a"
+                        href={page.uri || '#'}
+                        className="bg-earaBgDark flex aspect-square w-full cursor-pointer items-end rounded-2xl p-5 transition hover:bg-white"
+                      >
+                        <Stack>
+                          <IconFileDescription size={32} className="text-primaryColor.9" />
+                          <Text c="primaryColor.9" fw="bold">
+                            {page.title}
+                          </Text>
+                        </Stack>
+                      </Box>
+                    </>
+                  ))}
               </div>
             </div>
           </Stack>

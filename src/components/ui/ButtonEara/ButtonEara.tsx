@@ -22,7 +22,7 @@ export default function ButtonEara({
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}
           // fw="medium"
-          className={className}
+          className={clsx(s.earaBtn, className)}
           tt="uppercase"
           size="lg"
           styles={{
@@ -45,7 +45,7 @@ export default function ButtonEara({
           {...(link && target ? { target: target } : {})}
           variant="outline"
           tt="uppercase"
-          className={className}
+          className={clsx(s.earaBtn, className)}
           size="lg"
           c="white"
           leftSection={leftSection}
@@ -73,7 +73,7 @@ export default function ButtonEara({
           rightSection={props.rightSection || <IconArrowRight size={16} />}
           unstyled
           tt="uppercase"
-          className={clsx(className, s.link, 'hover:opacity-85')}
+          className={clsx(className, s.link, s.earaBtn, 'hover:opacity-85')}
           size="lg"
           c="primaryColor.9"
           styles={{
@@ -101,7 +101,7 @@ export default function ButtonEara({
       )}
       {variant == 'with-arrow' && (
         <Button
-          className={clsx(s.withArrow, className)}
+          className={clsx(s.withArrow, s.earaBtn, className)}
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
           {...(link && target ? { target: target } : {})}

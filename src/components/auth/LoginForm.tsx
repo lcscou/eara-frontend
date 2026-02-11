@@ -59,7 +59,7 @@ export default function LoginForm() {
             size="lg"
             styles={{
               input: {
-                borderColor: '#312F86',
+                // borderColor: '#312F86',
                 color: '#312F86',
                 background: 'transparent',
                 borderRadius: '50px',
@@ -83,7 +83,7 @@ export default function LoginForm() {
             size="lg"
             styles={{
               input: {
-                borderColor: '#312F86',
+                // borderColor: '#312F86',
                 color: '#312F86',
                 background: 'transparent',
                 borderRadius: '50px',
@@ -95,7 +95,9 @@ export default function LoginForm() {
           />
         </div>
 
-        {error && <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>}
+        {error && (
+          <p className="rounded-full bg-red-50/50 px-4 py-2 text-sm text-red-600">{error}</p>
+        )}
 
         <ButtonEara mt={20} variant="with-arrow" disabled={loading} type="submit">
           {loading ? 'Logging in...' : 'Log in'}

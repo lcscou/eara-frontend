@@ -1,12 +1,26 @@
 import { gql } from '@apollo/client'
-export const GetPagesWithBlock = gql`
-  query GetPagesWithBlock {
-    pages {
+// export const GetPagesWithBlock = gql`
+//   query GetPagesWithBlock {
+//     pages {
+//       nodes {
+//         title
+//         id
+//         uri
+//         blocks
+//       }
+//     }
+//   }
+// `
+export const GetPages = gql`
+  query GetPages($status: PostStatusEnum, $first: Int = 20) {
+    pages(where: { status: $status }, first: $first) {
       nodes {
         title
         id
         uri
-        blocks
+        seo {
+          opengraphDescription
+        }
       }
     }
   }

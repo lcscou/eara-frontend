@@ -176,6 +176,7 @@ export async function getAuthenticatedClient() {
 
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+
     fetchOptions: {
       cache: 'no-store', // Conteúdo privado não deve ser cacheado
     },
