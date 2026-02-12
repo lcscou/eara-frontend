@@ -1,6 +1,7 @@
 'use client'
 
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import JoinEaraForm from '@/components/ui/JoinEaraForm/JoinEaraForm'
 import MediaBankImageBlock from '@/components/ui/MediaBankImageBlock/MediaBankImageBlock'
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
@@ -10,6 +11,13 @@ import { Box, Button, Container, Group, Text } from '@mantine/core'
 export default function TestePage() {
   return (
     <div className="px-8 py-40">
+      <JoinEaraForm
+        title="Cadastre-se"
+        description="Junte-se a nossa comunidade"
+        buttonLabel="Entrar"
+        submitUrl="/api/join-eara"
+        renderMode="inline"
+      />
       <MediaBankImageBlock
         width="400px"
         src="http://eara.local/wp-content/uploads/2025/11/19_UZH_TV_Grosstiere_Schafe_Bruederli_20226564.jpg"

@@ -4,6 +4,7 @@ import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
+import JoinEaraForm from '@/components/ui/JoinEaraForm/JoinEaraForm'
 import MediaBankImageBlock from '@/components/ui/MediaBankImageBlock/MediaBankImageBlock'
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
@@ -302,6 +303,16 @@ export interface EaraNewsletterFormAttributes extends BlockAttribute {
   title?: string
   description?: string
   buttonLabel?: string
+  renderMode?: 'modal' | 'inline'
+  metadata?: Record<string, unknown>
+}
+
+export interface EaraJoinEaraFormAttributes extends BlockAttribute {
+  triggerId?: string
+  title?: string
+  description?: string
+  buttonLabel?: string
+  submitUrl?: string
   renderMode?: 'modal' | 'inline'
   metadata?: Record<string, unknown>
 }
@@ -2629,6 +2640,29 @@ function renderBlock(block: Block, index: number): ReactNode {
           title={title}
           description={description}
           buttonLabel={buttonLabel}
+          renderMode={renderMode}
+        />
+      )
+    }
+
+    case 'eara/join-eara-form': {
+      const attributes_join = attributes as EaraJoinEaraFormAttributes | undefined
+      const triggerId = attributes_join?.triggerId || `join-eara-${index}`
+      const title = attributes_join?.title || 'Join EARA'
+      const description =
+        attributes_join?.description || 'Join our community and stay connected with us.'
+      const buttonLabel = attributes_join?.buttonLabel || 'Join Now'
+      const submitUrl = attributes_join?.submitUrl
+      const renderMode = attributes_join?.renderMode === 'modal' ? 'modal' : 'inline'
+
+      return (
+        <JoinEaraForm
+          key={index}
+          triggerId={triggerId}
+          title={title}
+          description={description}
+          buttonLabel={buttonLabel}
+          submitUrl={submitUrl}
           renderMode={renderMode}
         />
       )
