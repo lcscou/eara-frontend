@@ -11,8 +11,10 @@ import {
   Modal,
   ScrollArea,
   Stack,
+  Tabs,
   Text,
   TextInput,
+  Title,
 } from '@mantine/core'
 import { useDebouncedValue, useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
@@ -33,6 +35,7 @@ type AlgoliaHit = {
   post_content?: string | null
   excerpt?: string | null
   post_excerpt?: string | null
+  post_type?: string | null
   _highlightResult?: {
     title?: HighlightField
     post_title?: HighlightField
@@ -59,6 +62,7 @@ export default function Search() {
   const [hits, setHits] = useState<AlgoliaHit[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const isMobile = useMediaQuery('(max-width: 768px)')
 
@@ -104,9 +108,27 @@ export default function Search() {
         setHits(newHits)
         setError(null)
       })
-      .catch(() => setError('Não foi possível carregar os resultados agora.'))
+      .catch(() => setError('An error occurred while searching. Please try again.'))
       .finally(() => setIsSearching(false))
   }, [debouncedQuery, index])
+
+  const firstPostType = useMemo(() => {
+    if (hits.length === 0) return null
+    const postTypes = Array.from(
+      hits.reduce((acc, hit) => {
+        const postType = hit.post_type || 'Other'
+        acc.add(postType)
+        return acc
+      }, new Set<string>())
+    )
+    return postTypes[0] || null
+  }, [hits])
+
+  useEffect(() => {
+    if (firstPostType && !activeTab) {
+      setActiveTab(firstPostType)
+    }
+  }, [firstPostType, activeTab])
 
   const handleOpen = () => {
     open()
@@ -117,6 +139,7 @@ export default function Search() {
     setQuery('')
     setHits([])
     setError(null)
+    setActiveTab(null)
   }
 
   const resolvePermalink = (permalink?: string | null, uri?: string | null) => {
@@ -167,6 +190,27 @@ export default function Search() {
     if (!plainContent) return 'No preview available.'
 
     return truncateText(cleanHTMLTAG(plainContent), 40)
+  }
+
+  const groupByPostType = (results: AlgoliaHit[]) => {
+    const grouped = new Map<string, AlgoliaHit[]>()
+
+    results.forEach((hit) => {
+      const postType = hit.post_type || 'Other'
+      if (!grouped.has(postType)) {
+        grouped.set(postType, [])
+      }
+      grouped.get(postType)!.push(hit)
+    })
+
+    return grouped
+  }
+
+  const formatPostTypeName = (postType: string) => {
+    return postType
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
   }
 
   const hasResults = hits.length > 0
@@ -275,31 +319,45 @@ export default function Search() {
               )}
 
               {hasResults && (
-                <Stack gap="sm">
-                  {hits.map((hit) => {
-                    const href = resolvePermalink(hit.permalink, hit.uri)
-                    const title = getTitle(hit)
-                    const snippet = getSnippet(hit)
+                <Tabs value={activeTab} onChange={setActiveTab}>
+                  <Tabs.List>
+                    {Array.from(groupByPostType(hits).keys()).map((postType) => (
+                      <Tabs.Tab key={postType} value={postType}>
+                        {formatPostTypeName(postType)}
+                      </Tabs.Tab>
+                    ))}
+                  </Tabs.List>
 
-                    return (
-                      <Box key={hit.objectID} className={classes.resultCard}>
-                        <Anchor component={Link} href={href} className={classes.resultLink}>
-                          <Text fw={600} className={classes.resultTitle}>
-                            {renderHighlightedText(title)}
-                          </Text>
-                          <Text size="sm" c="dimmed" className={classes.resultSnippet}>
-                            {renderHighlightedText(snippet)}
-                          </Text>
-                          <Group gap={6} mt={6} wrap="nowrap" c="primaryColor.9">
-                            <Text size="xs" className={classes.resultUrl}>
-                              {href}
-                            </Text>
-                          </Group>
-                        </Anchor>
-                      </Box>
-                    )
-                  })}
-                </Stack>
+                  {Array.from(groupByPostType(hits).entries()).map(([postType, results]) => (
+                    <Tabs.Panel key={postType} value={postType} pt="md">
+                      <Stack gap="sm">
+                        {results.map((hit) => {
+                          const href = resolvePermalink(hit.permalink, hit.uri)
+                          const title = getTitle(hit)
+                          const snippet = getSnippet(hit)
+
+                          return (
+                            <Box key={hit.objectID} className={classes.resultCard}>
+                              <Anchor component={Link} href={href} className={classes.resultLink}>
+                                <Title fw={600} order={4} className={classes.resultTitle}>
+                                  {renderHighlightedText(title)}
+                                </Title>
+                                <Text size="sm" c="dimmed" className={classes.resultSnippet}>
+                                  {renderHighlightedText(snippet)}
+                                </Text>
+                                <Group gap={6} mt={6} wrap="nowrap" c="primaryColor.9">
+                                  <Text size="xs" className={classes.resultUrl}>
+                                    {href}
+                                  </Text>
+                                </Group>
+                              </Anchor>
+                            </Box>
+                          )
+                        })}
+                      </Stack>
+                    </Tabs.Panel>
+                  ))}
+                </Tabs>
               )}
             </Stack>
           </ScrollArea.Autosize>
