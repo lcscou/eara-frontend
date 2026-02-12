@@ -2450,7 +2450,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       const attrs = attributes as EaraMediaBankAttributes
       const {
         imageUrl,
-        imageAlt,
+        // imageAlt,
         width,
         height,
         credits,
@@ -2649,8 +2649,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       const attributes_join = attributes as EaraJoinEaraFormAttributes | undefined
       const triggerId = attributes_join?.triggerId || `join-eara-${index}`
       const title = attributes_join?.title || 'Join EARA'
-      const description =
-        attributes_join?.description || 'Join our community and stay connected with us.'
+      const description = attributes_join?.description
       const buttonLabel = attributes_join?.buttonLabel || 'Join Now'
       const submitUrl = attributes_join?.submitUrl
       const renderMode = attributes_join?.renderMode === 'modal' ? 'modal' : 'inline'

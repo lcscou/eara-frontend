@@ -26,7 +26,7 @@ export type JoinEaraFormProps = {
 const DEFAULT_TRIGGER_ID = 'join-eara-form'
 
 function JoinEaraFormComponent({
-  triggerId,
+  // triggerId,
   submitUrl,
   onSubmit,
   onSuccess,
@@ -36,7 +36,7 @@ function JoinEaraFormComponent({
   onSubmit?: (payload: JoinEaraFormPayload) => Promise<void> | void
   onSuccess?: () => void
 }) {
-  const { closeModal } = useModals()
+  // const { closeModal } = useModals()
 
   const createInitialState = (): JoinEaraFormPayload => ({
     name: '',
