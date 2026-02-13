@@ -30,7 +30,7 @@ const getDiseaseData = cache(async (uri: string[]): Promise<GetDiseasesQuery> =>
 export async function generateMetadata({ params }: DiseaseProps): Promise<Metadata> {
   const data = await getDiseaseData(params.uri)
   if (!data?.diseases) notFound()
-  const title = `Eara | Diseases - ${data.diseases.title || data.diseases.title}`
+  const title = `EARA | Diseases - ${data.diseases.title || data.diseases.title}`
   const description = data.diseases.seo?.opengraphDescription || ''
 
   return {

@@ -30,7 +30,7 @@ const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
 export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
   const data = await getTeamData(params.uri)
   if (!data?.team) notFound()
-  const title = `Eara | Team - ${data.team.title || data.team.title}`
+  const title = `EARA | Team - ${data.team.title || data.team.title}`
   const description = data.team.seo?.opengraphDescription || ''
 
   return {

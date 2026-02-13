@@ -34,7 +34,7 @@ const getPressReleaseData = cache(async (uri: string[]): Promise<GetPressRelease
 export async function generateMetadata({ params }: PressReleaseProps): Promise<Metadata> {
   const data = await getPressReleaseData(params.uri)
   if (!data?.pressRelease) notFound()
-  const title = `Eara | Press Release - ${data.pressRelease.title || data.pressRelease.title}`
+  const title = `EARA | Press Release - ${data.pressRelease.title || data.pressRelease.title}`
   const description = data.pressRelease.seo?.opengraphDescription || ''
 
   return {

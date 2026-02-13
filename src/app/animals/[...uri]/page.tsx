@@ -34,7 +34,7 @@ const getAnimalData = cache(async (uri: string[]): Promise<GetAnimalQuery> => {
 export async function generateMetadata({ params }: AnimalProps): Promise<Metadata> {
   const data = await getAnimalData(params.uri)
   if (!data?.animal) notFound()
-  const title = `Eara | Animals - ${data.animal.title || data.animal.title}`
+  const title = `EARA | Animals - ${data.animal.title || data.animal.title}`
   const description = data.animal.seo?.opengraphDescription || ''
 
   return {

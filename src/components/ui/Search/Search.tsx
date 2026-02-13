@@ -105,7 +105,8 @@ export default function Search() {
         ],
       })
       .then(({ hits: newHits }) => {
-        setHits(newHits)
+        console.log('Algolia search results:', newHits)
+        setHits(newHits.filter((hit) => hit.post_type !== 'ticker'))
         setError(null)
       })
       .catch(() => setError('An error occurred while searching. Please try again.'))
@@ -183,7 +184,7 @@ export default function Search() {
       hit._highlightResult?.content?.value ||
       hit._highlightResult?.post_content?.value
 
-    if (highlightedSnippet) return highlightedSnippet
+    if (highlightedSnippet) return truncateText(highlightedSnippet, 80)
 
     const plainContent = hit.post_excerpt || hit.excerpt || hit.content || hit.post_content || ''
 

@@ -22,7 +22,7 @@ const getMemberData = cache(async (uri: string[]): Promise<GetMembersQuery> => {
 export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
   const data = await getMemberData(params.uri)
   if (!data?.member) notFound()
-  const title = `Eara | Members - ${data.member.title || data.member.title}`
+  const title = `EARA | Members - ${data.member.title || data.member.title}`
   const description = data.member.seo?.opengraphDescription || ''
 
   return {

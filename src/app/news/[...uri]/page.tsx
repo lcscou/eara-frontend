@@ -59,7 +59,7 @@ const getAllNewsData = cache(async (): Promise<GetAllNewsQuery> => {
 export async function generateMetadata({ params }: NewsProps): Promise<Metadata> {
   const data = await getNewsData(params.uri)
   if (!data?.news) notFound()
-  const title = `Eara | News - ${data.news.title || data.news.title}`
+  const title = `EARA | News - ${data.news.title || data.news.title}`
   const description = data.news.seo?.opengraphDescription || ''
 
   return {

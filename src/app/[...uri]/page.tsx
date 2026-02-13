@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { uri } = await params
   const data = await getPageData(uri)
   if (!data?.page) notFound()
-  const title = `Eara | ${data.page.title}`
+  const title = `EARA | ${data.page.title}`
   const description = data.page.seo?.opengraphDescription || ''
 
   return {

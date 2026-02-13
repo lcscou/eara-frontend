@@ -34,7 +34,7 @@ const getEventData = cache(async (uri: string[]): Promise<GetEventsQuery> => {
 export async function generateMetadata({ params }: EventProps): Promise<Metadata> {
   const data = await getEventData(params.uri)
   if (!data?.events) notFound()
-  const title = `Eara | Events - ${data.events.title || data.events.title}`
+  const title = `EARA | Events - ${data.events.title || data.events.title}`
   const description = data.events.seo?.opengraphDescription || ''
 
   return {

@@ -34,7 +34,7 @@ const getCaseStudies = cache(async (uri: string[]): Promise<GetCaseStudiesQuery>
 export async function generateMetadata({ params }: CaseStudiesProps): Promise<Metadata> {
   const data = await getCaseStudies(params.uri)
   if (!data?.caseStudies) notFound()
-  const title = `Eara | Case Studies - ${data.caseStudies.title || data.caseStudies.title}`
+  const title = `EARA | Case Studies - ${data.caseStudies.title || data.caseStudies.title}`
   const description = data.caseStudies.seo?.opengraphDescription || ''
 
   return {
