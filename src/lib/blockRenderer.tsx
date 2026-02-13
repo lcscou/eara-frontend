@@ -144,6 +144,7 @@ export interface CoreImageAttributes extends BlockAttribute {
   href?: string
   linkTarget?: '_blank' | '_self'
   rel?: string
+  linkClass?: string
   lightbox?: boolean | { enabled?: boolean }
   aspectRatio?: string
   scale?: string
@@ -152,11 +153,22 @@ export interface CoreImageAttributes extends BlockAttribute {
   className?: string
   id?: number
   blob?: string
+  align?: 'left' | 'center' | 'right' | 'wide' | 'full' | ''
+  borderColor?: string
+  anchor?: string
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
   style?: {
     color?: { background?: string; text?: string }
     spacing?: {
       padding?: { bottom?: string; top?: string; left?: string; right?: string }
       margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    border?: {
+      color?: string
+      width?: string
+      style?: string
+      radius?: string
     }
   }
 }
@@ -1317,7 +1329,10 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   const href = attributes?.href
   const linkTarget = attributes?.linkTarget || '_self'
   const rel = attributes?.rel || ''
+  const linkClass = attributes?.linkClass || ''
   const className = attributes?.className || ''
+  const align = attributes?.align
+  const anchor = attributes?.anchor
 
   const {
     bgColor,
@@ -1334,6 +1349,50 @@ function renderCoreImage(block: Block, index: number): ReactNode {
 
   if (!url) return null
 
+  // Define o estilo baseado no alinhamento
+  let alignStyles: React.CSSProperties = {}
+  let containerWidth: string | undefined = displayWidth
+
+  switch (align) {
+    case 'left':
+      alignStyles = {
+        display: 'inline-flex',
+        marginRight: 'auto',
+      }
+      break
+    case 'center':
+      alignStyles = {
+        display: 'flex',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }
+      break
+    case 'right':
+      alignStyles = {
+        display: 'inline-flex',
+        marginLeft: 'auto',
+      }
+      break
+    case 'wide':
+      containerWidth = '100%'
+      alignStyles = {
+        maxWidth: 'var(--wp--style--global--wide-size, 1280px)',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }
+      break
+    case 'full':
+      containerWidth = '100%'
+      alignStyles = {
+        maxWidth: '100%',
+      }
+      break
+    default:
+      alignStyles = {
+        display: 'flex',
+      }
+  }
+
   const img = (
     <Image
       component="img"
@@ -1349,7 +1408,7 @@ function renderCoreImage(block: Block, index: number): ReactNode {
 
   // Se tiver href, envolve em link
   const content = href ? (
-    <a href={href} target={linkTarget} rel={rel}>
+    <a href={href} target={linkTarget} rel={rel} className={linkClass}>
       {img}
     </a>
   ) : (
@@ -1359,12 +1418,13 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   return (
     <Box
       key={index}
-      className={clsx('overflow-hidden rounded-lg', className)}
+      id={anchor}
+      className={clsx('overflow-hidden rounded-lg', className, align && `align${align}`)}
       bg={bgColor}
       c={textColor}
       pb={paddingBottom}
       pt={paddingTop}
-      w={displayWidth}
+      w={containerWidth}
       h={displayHeight}
       pl={paddingLeft}
       pr={paddingRight}
@@ -1372,7 +1432,10 @@ function renderCoreImage(block: Block, index: number): ReactNode {
       mt={marginTop}
       ml={marginLeft}
       mr={marginRight}
-      style={{ display: 'flex', flexDirection: 'column' }}
+      style={{
+        ...alignStyles,
+        flexDirection: 'column',
+      }}
     >
       {content}
       {caption && (
