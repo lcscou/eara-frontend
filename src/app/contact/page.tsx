@@ -150,7 +150,7 @@ export default function ContactPage() {
                 For press enquiries please contact:
               </Title>
               <Title mb={15} order={6}>
-                Nuno Miguel Gonsalves <br /> <small>EARA Deputy Director</small>
+                Nuno M. Gonçalves <br /> <small>EARA Deputy Director</small>
               </Title>
               <Text>Email: ngoncalves@eara.eu</Text>
               <Text>Tel: +351 934950684</Text>
