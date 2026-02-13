@@ -2278,9 +2278,11 @@ function renderBlock(block: Block, index: number): ReactNode {
       const link = attributes.link as string | undefined
       const className = attributes?.className as string | undefined
       const width = attributes?.width as string | undefined
+      const target = attributes?.target as string | undefined
       return (
         <ButtonEara
           key={index}
+          target={target}
           label={label}
           miw={width}
           className={className}
