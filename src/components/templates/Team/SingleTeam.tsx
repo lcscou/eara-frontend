@@ -26,7 +26,7 @@ export default function SingleMembers({ data }: { data: GetTeamQuery }) {
             </Button>
           </Link>
         </div>
-        <article>{renderPageBlocks(data.team?.blocks)}</article>
+        <article>{renderPageBlocks(data.team?.blocks, data.team?.content || undefined)}</article>
       </Container>
     </>
   )

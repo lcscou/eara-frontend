@@ -225,6 +225,11 @@ export interface CoreHtmlAttributes extends BlockAttribute {
   className?: string
 }
 
+export interface CoreFreeformAttributes extends BlockAttribute {
+  content?: string
+  className?: string
+}
+
 export interface CoreSeparatorAttributes extends BlockAttribute {
   opacity?: string
   tagName?: 'hr' | 'div'
@@ -739,7 +744,7 @@ function extractLayoutConfig(layout?: CoreLayoutConfig) {
 /**
  * Renderiza um bloco core/group com suporte a diferentes tipos de layout
  */
-function renderCoreGroup(block: Block, index: number): ReactNode {
+function renderCoreGroup(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreGroupAttributes | undefined
   const tagName = (attributes?.tagName || 'div') as string
   const className = attributes?.className || attributes?.cssClassName || ''
@@ -819,7 +824,9 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
           wrap={flexWrap}
           style={{ width: '100%', ...inlineStyle }}
         >
-          {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          {block.innerBlocks?.map((innerBlock, idx) =>
+            renderBlock(innerBlock, idx, freeformContent)
+          )}
         </Group>
       )
     } else {
@@ -831,7 +838,9 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
           justify={justifyContent as React.CSSProperties['justifyContent']}
           style={{ width: '100%', ...inlineStyle }}
         >
-          {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          {block.innerBlocks?.map((innerBlock, idx) =>
+            renderBlock(innerBlock, idx, freeformContent)
+          )}
         </Stack>
       )
     }
@@ -847,7 +856,7 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
         {...commonProps}
         style={{ width: '100%', ...inlineStyle }}
       >
-        {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+        {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
       </SimpleGrid>
     )
   }
@@ -861,7 +870,7 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
       style={{ ...inlineStyle }}
       className="rounded-2xl"
     >
-      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
     </Box>
   )
 }
@@ -869,7 +878,7 @@ function renderCoreGroup(block: Block, index: number): ReactNode {
 /**
  * Renderiza um bloco core/row (variação do core/group com layout flex horizontal)
  */
-function renderCoreRow(block: Block, index: number): ReactNode {
+function renderCoreRow(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreRowAttributes | undefined
   const tagName = (attributes?.tagName || 'div') as string
   const className = attributes?.cssClassName || ''
@@ -929,7 +938,7 @@ function renderCoreRow(block: Block, index: number): ReactNode {
       mr={marginRight}
       style={{ width: '100%', ...inlineStyle }}
     >
-      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
     </Group>
   )
 }
@@ -937,7 +946,7 @@ function renderCoreRow(block: Block, index: number): ReactNode {
 /**
  * Renderiza um bloco core/stack (variação do core/group com layout flex vertical)
  */
-function renderCoreStack(block: Block, index: number): ReactNode {
+function renderCoreStack(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreStackAttributes | undefined
   const tagName = (attributes?.tagName || 'div') as string
   const className = attributes?.cssClassName || ''
@@ -996,7 +1005,7 @@ function renderCoreStack(block: Block, index: number): ReactNode {
       mr={marginRight}
       style={{ width: '100%', ...inlineStyle }}
     >
-      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
     </Stack>
   )
 }
@@ -1004,7 +1013,7 @@ function renderCoreStack(block: Block, index: number): ReactNode {
 /**
  * Renderiza um bloco core/grid (variação do core/group com layout grid)
  */
-function renderCoreGrid(block: Block, index: number): ReactNode {
+function renderCoreGrid(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreGridAttributes | undefined
   const tagName = (attributes?.tagName || 'div') as string
   const className = attributes?.cssClassName || ''
@@ -1061,7 +1070,7 @@ function renderCoreGrid(block: Block, index: number): ReactNode {
       mr={marginRight}
       style={{ width: '100%', ...inlineStyle }}
     >
-      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
     </SimpleGrid>
   )
 }
@@ -1069,7 +1078,7 @@ function renderCoreGrid(block: Block, index: number): ReactNode {
 /**
  * Renderiza um bloco core/columns (container para múltiplas colunas)
  */
-function renderCoreColumns(block: Block, index: number): ReactNode {
+function renderCoreColumns(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreColumnsAttributes | undefined
   const className = attributes?.cssClassName || ''
   const verticalAlignment = attributes?.verticalAlignment || 'top'
@@ -1173,9 +1182,9 @@ function renderCoreColumns(block: Block, index: number): ReactNode {
         {block.innerBlocks?.map((innerBlock, idx) => {
           // Passa informação do gap para as colunas através de um bloco modificado
           if (innerBlock.name === 'core/column') {
-            return renderCoreColumn(innerBlock, idx, numberOfColumns, gapValue)
+            return renderCoreColumn(innerBlock, idx, numberOfColumns, gapValue, freeformContent)
           }
-          return renderBlock(innerBlock, idx)
+          return renderBlock(innerBlock, idx, freeformContent)
         })}
       </Group>
     </div>
@@ -1189,7 +1198,8 @@ function renderCoreColumn(
   block: Block,
   index: number,
   numberOfColumns: number = 1,
-  gapValue: string = '1rem'
+  gapValue: string = '1rem',
+  freeformContent?: string
 ): ReactNode {
   const attributes = block.attributes as CoreColumnAttributes | undefined
   const className = attributes?.cssClassName || ''
@@ -1308,7 +1318,7 @@ function renderCoreColumn(
       ff={fontFamily}
       style={inlineStyle}
     >
-      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
     </Box>
   )
 }
@@ -1720,6 +1730,48 @@ function renderCoreHtml(block: Block, index: number): ReactNode {
 }
 
 /**
+ * Renderiza um bloco core/freeform (Classic Editor / HTML)
+ * No GraphQL, o conteúdo vem separado e é passado via parâmetro content
+ */
+function renderCoreFreeform(block: Block, index: number, content?: string): ReactNode {
+  const attributes = block.attributes as CoreFreeformAttributes | undefined
+  const className = attributes?.className || ''
+
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
+  if (!content) return null
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+      dangerouslySetInnerHTML={{ __html: content }}
+    />
+  )
+}
+
+/**
  * Renderiza um bloco core/separator (divisor/separador)
  */
 function renderCoreSeparator(block: Block, index: number): ReactNode {
@@ -1922,7 +1974,7 @@ function renderEaraMembersMap(block: Block, index: number): ReactNode {
 /**
  * Renderiza um bloco eara/list usando componentes Mantine
  */
-function renderEaraList(block: Block, index: number): ReactNode {
+function renderEaraList(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as EaraListAttributes | undefined
   const withIcon = attributes?.withIcon || false
   const size = (attributes?.size as MantineSize) || 'md'
@@ -1988,7 +2040,7 @@ function renderEaraList(block: Block, index: number): ReactNode {
             </List.Item>
           )
         }
-        return <List.Item key={idx}>{renderBlock(innerBlock, idx)}</List.Item>
+        return <List.Item key={idx}>{renderBlock(innerBlock, idx, freeformContent)}</List.Item>
       })}
     </List>
   )
@@ -2147,7 +2199,7 @@ function renderCoreListItem(block: Block, index: number): ReactNode {
 }
 
 // Função para renderizar blocos individuais
-function renderBlock(block: Block, index: number): ReactNode {
+function renderBlock(block: Block, index: number, freeformContent?: string): ReactNode {
   const { name, attributes = {}, innerBlocks = [] } = block
   switch (name) {
     // Container personalizado
@@ -2188,7 +2240,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           ml={marginLeft}
           mr={marginRight}
         >
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
         </Container>
       )
     }
@@ -2218,7 +2270,9 @@ function renderBlock(block: Block, index: number): ReactNode {
             titulo: titulo ? parseHtmlContent(titulo) || titulo : 'Untitled',
             conteudo: (
               <div>
-                {accordionBlock.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+                {accordionBlock.innerBlocks?.map((innerBlock, idx) =>
+                  renderBlock(innerBlock, idx, freeformContent)
+                )}
               </div>
             ),
           }
@@ -2244,27 +2298,27 @@ function renderBlock(block: Block, index: number): ReactNode {
     }
     // Core Group - Bloco container do Gutenberg com suporte a múltiplos tipos de layout
     case 'core/group': {
-      return renderCoreGroup(block, index)
+      return renderCoreGroup(block, index, freeformContent)
     }
     // Core Row - Variação do core/group com layout flex horizontal
     case 'core/row': {
-      return renderCoreRow(block, index)
+      return renderCoreRow(block, index, freeformContent)
     }
     // Core Stack - Variação do core/group com layout flex vertical
     case 'core/stack': {
-      return renderCoreStack(block, index)
+      return renderCoreStack(block, index, freeformContent)
     }
     // Core Grid - Variação do core/group com layout grid responsivo
     case 'core/grid': {
-      return renderCoreGrid(block, index)
+      return renderCoreGrid(block, index, freeformContent)
     }
     // Core Columns - Container para múltiplas colunas
     case 'core/columns': {
-      return renderCoreColumns(block, index)
+      return renderCoreColumns(block, index, freeformContent)
     }
     // Core Column - Coluna dentro de core/columns
     case 'core/column': {
-      return renderCoreColumn(block, index)
+      return renderCoreColumn(block, index, 1, '1rem', freeformContent)
     }
     // Group (flexbox)
     case 'eara/group': {
@@ -2328,7 +2382,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           mr={marginRight}
           style={inlineStyle}
         >
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
         </Group>
       )
     }
@@ -2482,7 +2536,7 @@ function renderBlock(block: Block, index: number): ReactNode {
             containerSize={containerSize}
             className="relative"
           >
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </Section>
         </Box>
       )
@@ -2617,14 +2671,14 @@ function renderBlock(block: Block, index: number): ReactNode {
           mr={marginRight}
         >
           <SectionCard image={image} orientation={orientation} backgroundColor={backgroundColor}>
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </SectionCard>
         </Box>
       )
     }
 
     case 'eara/list': {
-      return renderEaraList(block, index)
+      return renderEaraList(block, index, freeformContent)
     }
 
     case 'eara/list-item': {
@@ -2640,7 +2694,7 @@ function renderBlock(block: Block, index: number): ReactNode {
         console.warn('eara/modal-trigger requires triggerId attribute')
         return (
           <div key={index}>
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </div>
         )
       }
@@ -2648,7 +2702,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       return (
         <ModalTrigger key={index} triggerId={triggerId}>
           <div className={clsx('w-fit', className)}>
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </div>
         </ModalTrigger>
       )
@@ -2684,7 +2738,9 @@ function renderBlock(block: Block, index: number): ReactNode {
           className={className}
           metadata={metadata}
         >
-          <div>{innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}</div>
+          <div>
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
+          </div>
         </ModalContent>
       )
     }
@@ -2770,7 +2826,7 @@ function renderBlock(block: Block, index: number): ReactNode {
             featuredImage={featuredImage?.url || ''}
             title={title}
           >
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </Card>
         </Box>
       )
@@ -2869,7 +2925,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           bdrs={customBorderRadius}
           style={inlineStyle}
         >
-          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+          {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
         </Box>
       )
 
@@ -2913,7 +2969,7 @@ function renderBlock(block: Block, index: number): ReactNode {
             overlayOpacity={attributes.overlayOpacity as number | undefined}
             overlayColor={attributes.overlayColor as string | undefined}
           >
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </HomeHero>
         </Box>
       )
@@ -3034,7 +3090,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           }}
         >
           {innerBlocks && innerBlocks.length > 0
-            ? innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))
+            ? innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))
             : parseHtmlContent(values)}
         </List>
       )
@@ -3072,7 +3128,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           mr={marginRight}
         >
           <HeroSlideRoot>
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </HeroSlideRoot>
         </Box>
       )
@@ -3107,7 +3163,7 @@ function renderBlock(block: Block, index: number): ReactNode {
           mr={marginRight}
         >
           <HeroSlideItem bgImageSrc={backgroundImage?.url}>
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </HeroSlideItem>
         </Box>
       )
@@ -3132,6 +3188,10 @@ function renderBlock(block: Block, index: number): ReactNode {
     case 'core/html': {
       return renderCoreHtml(block, index)
     }
+    // Core Freeform (Classic Editor)
+    case 'core/freeform': {
+      return renderCoreFreeform(block, index, freeformContent)
+    }
     // Core Separator
     case 'core/separator': {
       return renderCoreSeparator(block, index)
@@ -3147,7 +3207,7 @@ function renderBlock(block: Block, index: number): ReactNode {
       if (innerBlocks.length > 0) {
         return (
           <div key={index}>
-            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx))}
+            {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </div>
         )
       }
@@ -3160,25 +3220,28 @@ function renderBlock(block: Block, index: number): ReactNode {
   }
 }
 // Função principal para renderizar array de blocos
-export function renderBlocks(blocks: Block[]): ReactNode {
+export function renderBlocks(blocks: Block[], freeformContent?: string): ReactNode {
   if (!blocks || blocks.length === 0) {
     return null
   }
-  return <>{blocks.map((block, index) => renderBlock(block, index))}</>
+  return <>{blocks.map((block, index) => renderBlock(block, index, freeformContent))}</>
 }
 // Função helper para renderizar blocos de uma página
-export function renderPageBlocks(blocks: string | Block[] | null | undefined): ReactNode {
+export function renderPageBlocks(
+  blocks: string | Block[] | null | undefined,
+  content?: string
+): ReactNode {
   if (!blocks) return null
   // Se vier como string JSON, faz parse
   if (typeof blocks === 'string') {
     try {
       const parsed = JSON.parse(blocks)
-      return renderBlocks(parsed)
+      return renderBlocks(parsed, content)
     } catch (error) {
       console.error('Error parsing blocks JSON:', error)
       return null
     }
   }
   // Se já for array, renderiza direto
-  return renderBlocks(blocks)
+  return renderBlocks(blocks, content)
 }

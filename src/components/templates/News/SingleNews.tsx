@@ -47,7 +47,7 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
             </Button>
           </Link>
         </div>
-        <article>{renderPageBlocks(data.news?.blocks)}</article>
+        <article>{renderPageBlocks(data.news?.blocks, data.news?.content || undefined)}</article>
 
         <div className="mt-10">
           <SharePost

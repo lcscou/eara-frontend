@@ -27,7 +27,7 @@ export default function PageTemplate({
           // author={`${data.page?.author?.node.firstName} ${data.page?.author?.node.lastName}`}
         />
       )}
-      <article>{renderPageBlocks(data.page?.blocks)}</article>
+      <article>{renderPageBlocks(data.page?.blocks, data.page?.content || undefined)}</article>
       {withTicker && tickers && tickers.length > 0 && (
         <Ticker
           messages={tickers ?? []}
