@@ -1,9 +1,11 @@
 import Link from 'next/link'
 
 import RequestPasswordResetForm from '@/components/auth/RequestPasswordResetForm'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Reset Password | Eara',
+export const metadata: Metadata = {
+  title: 'EARA | Forgot Password',
+  description: 'Reset your password for your EARA account.',
 }
 
 export default function ForgotPasswordPage() {

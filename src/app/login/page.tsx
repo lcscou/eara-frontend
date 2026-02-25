@@ -2,9 +2,11 @@ import { Suspense } from 'react'
 
 import LoginForm from '@/components/auth/LoginForm'
 import { Container, Image, Stack, Text, Title } from '@mantine/core'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Login | Eara',
+export const metadata: Metadata = {
+  title: 'EARA | Members Login',
+  description: 'Login to your EARA account to access exclusive content and features.',
 }
 
 export default function LoginPage() {

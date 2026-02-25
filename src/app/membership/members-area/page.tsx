@@ -6,9 +6,11 @@ import { GetPagesDocument } from '@/graphql/generated/graphql'
 import { getAuthenticatedClient } from '@/lib/apollo-client'
 import { validateAuthToken } from '@/lib/auth/server'
 import { Container } from '@mantine/core'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Members Area | Eara',
+export const metadata: Metadata = {
+  title: 'EARA | Members Area',
+  description: 'Access exclusive content and features in the EARA Members Area.',
 }
 
 export default async function MembersAreaPage() {

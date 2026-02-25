@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Set new password | Eara',
+export const metadata: Metadata = {
+  title: 'EARA | Reset Password',
+  description: 'Create a new password for your EARA account.',
 }
 
 export default function ResetPasswordPage() {

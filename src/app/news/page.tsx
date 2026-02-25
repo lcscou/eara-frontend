@@ -2,7 +2,13 @@ import ArchiveNews from '@/components/templates/News/ArchiveNews'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 import { GetAllNewsDocument } from '@/graphql/generated/graphql'
 import { query } from '@/lib/apollo-client'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+
+export const metadata: Metadata = {
+  title: 'EARA | Latest research news',
+  description: 'Stay updated with the latest research news from EARA.',
+}
 
 export default async function News() {
   const { data } = await query({ query: GetAllNewsDocument })

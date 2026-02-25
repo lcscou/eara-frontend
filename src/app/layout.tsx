@@ -18,7 +18,7 @@ const hankenGrotesk = Hanken_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'Eara',
+  title: 'EARA',
   description: 'European Animal Research Association',
 }
 

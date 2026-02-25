@@ -1,4 +1,10 @@
+import { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'EARA | Not Found',
+  description: 'The requested resource could not be found.',
+}
 
 export default function NotFound() {
   return (
