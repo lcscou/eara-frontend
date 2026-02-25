@@ -47,6 +47,12 @@ import {
 } from '@/graphql/generated/graphql'
 export default function ArchiveMediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
+  const [hasMounted, setHasMounted] = useState(false)
+
+  const getSafeSrc = (src?: string | null) => {
+    const normalized = src?.trim()
+    return normalized ? normalized : null
+  }
 
   // const searchParams = useSearchParams()
   // const media = searchParams.get('media')
@@ -70,6 +76,10 @@ export default function ArchiveMediaBank() {
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
   })
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
   useEffect(() => {
     fetchMore({
@@ -134,6 +144,12 @@ export default function ArchiveMediaBank() {
 
   const [index, setIndex] = useState(getIndexFromSlug(media) >= 0 ? getIndexFromSlug(media) : 0)
   const [opened, { open, close }] = useDisclosure(getIndexFromSlug(media) >= 0 ? true : false)
+  const currentMedia = filteredeMediaBank[index]
+  const currentMediaType = currentMedia?.mediaType || ''
+  const currentImageSrc = getSafeSrc(currentMedia?.src)
+  const currentVideoId = currentMedia?.videoUrl
+    ? extractYouTubeID(currentMedia.videoUrl)
+    : undefined
   const handleClick = (ev: MouseEvent<HTMLDivElement>) => {
     setIndex(Number(ev.currentTarget.dataset.index))
     open()
@@ -227,49 +243,53 @@ export default function ArchiveMediaBank() {
 
         {filteredeMediaBank?.length === 0 && <ResultNotFound />}
 
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
-          <Masonry gutter="1rem">
-            {filteredeMediaBank.map((item, idx) => (
-              <div key={idx}>
-                {item.mediaType?.includes('video') && item.videoUrl && (
-                  <VideoItem
-                    key={idx}
-                    idx={idx}
-                    onClick={handleClick}
-                    videoURL={extractYouTubeID(item.videoUrl) || undefined}
-                  />
-                )}
-                {item.mediaType?.includes('image') && (
-                  <div
-                    onClick={handleClick}
-                    data-index={idx}
-                    className={clsx(
-                      'relative cursor-pointer overflow-hidden rounded-lg',
-                      s.galleryItem
+        {hasMounted && (
+          <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
+            <Masonry gutter="1rem">
+              {filteredeMediaBank.map((item, idx) => (
+                <div key={idx}>
+                  {item.mediaType?.includes('video') &&
+                    item.videoUrl &&
+                    extractYouTubeID(item.videoUrl) && (
+                      <VideoItem
+                        key={idx}
+                        idx={idx}
+                        onClick={handleClick}
+                        videoURL={extractYouTubeID(item.videoUrl) as string}
+                      />
                     )}
-                  >
-                    <Image
-                      className="rounded-lg"
-                      width={item.width}
-                      height={item.height}
-                      key={idx}
-                      src={item.src}
-                      alt={item.description || ''}
-                    />
+                  {item.mediaType?.includes('image') && getSafeSrc(item.src) && (
                     <div
+                      onClick={handleClick}
+                      data-index={idx}
                       className={clsx(
-                        'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
-                        s.overlay
+                        'relative cursor-pointer overflow-hidden rounded-lg',
+                        s.galleryItem
                       )}
                     >
-                      <IconZoomIn size={30} />
+                      <Image
+                        className="rounded-lg"
+                        width={item.width}
+                        height={item.height}
+                        key={idx}
+                        src={getSafeSrc(item.src) as string}
+                        alt={item.description || ''}
+                      />
+                      <div
+                        className={clsx(
+                          'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
+                          s.overlay
+                        )}
+                      >
+                        <IconZoomIn size={30} />
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </Masonry>
-        </ResponsiveMasonry>
+                  )}
+                </div>
+              ))}
+            </Masonry>
+          </ResponsiveMasonry>
+        )}
 
         <Modal
           opened={opened}
@@ -311,28 +331,30 @@ export default function ArchiveMediaBank() {
                       </ActionIcon>
                     </div>
                   </div>
-                  {filteredeMediaBank[index]?.mediaType?.includes('video') &&
-                    filteredeMediaBank[index]?.videoUrl && (
-                      <iframe
-                        className="h-full w-full"
-                        src={`https://www.youtube.com/embed/${extractYouTubeID(
-                          filteredeMediaBank[index].videoUrl
-                        )}?rel=0&modestbranding=1`}
-                        title="Eara Media Bank Video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allowFullScreen
-                      ></iframe>
-                    )}
-                  {filteredeMediaBank[index]?.mediaType?.includes('image') && (
+                  {currentMediaType.includes('video') && currentVideoId && (
+                    <iframe
+                      className="h-full w-full"
+                      src={`https://www.youtube.com/embed/${currentVideoId}?rel=0&modestbranding=1`}
+                      title="Eara Media Bank Video"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    ></iframe>
+                  )}
+                  {currentMediaType.includes('image') && currentImageSrc && (
                     <Image
                       style={{ objectFit: 'contain', overflow: 'hidden' }}
-                      width={filteredeMediaBank[0].width}
-                      height={filteredeMediaBank[0].height}
-                      src={filteredeMediaBank[index].src}
-                      alt={filteredeMediaBank[index].description || ''}
+                      width={currentMedia?.width || 1200}
+                      height={currentMedia?.height || 800}
+                      src={currentImageSrc}
+                      alt={currentMedia?.description || ''}
                       className="h-full w-full rounded-lg object-contain"
                     />
+                  )}
+                  {currentMediaType.includes('image') && !currentImageSrc && (
+                    <div className="flex h-full w-full items-center justify-center p-6 text-center text-sm">
+                      Image unavailable
+                    </div>
                   )}
                 </div>
               </div>
@@ -434,12 +456,12 @@ export default function ArchiveMediaBank() {
                           </div>
                         </div>
                       )}
-                      {item.mediaType?.includes('image') && (
+                      {item.mediaType?.includes('image') && getSafeSrc(item.src) && (
                         <Image
                           className="aspect-square rounded-lg object-cover"
                           width={70}
                           height={70}
-                          src={item.src}
+                          src={getSafeSrc(item.src) as string}
                           alt={item.description || ''}
                         />
                       )}
@@ -488,7 +510,7 @@ export function VideoItem({
   onClick,
   idx,
 }: {
-  videoURL?: string
+  videoURL: string
   onClick?: (ev: MouseEvent<HTMLDivElement>) => void
   idx?: number
 }) {
