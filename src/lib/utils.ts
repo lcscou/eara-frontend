@@ -56,26 +56,24 @@ export function getMediaType(
   const result = medias.reduce(
     (acc, media) => {
       const cfMedia = media?.cfMediaBank
-      if (cfMedia) {
-        acc.push({
-          id: media.id,
-          uri: media.uri,
-          mediaType: cfMedia.mediaType,
-          slug: media.slug,
-          videoUrl: cfMedia.videoUrl,
-          src: cfMedia.image?.node.guid || '',
-          width: cfMedia.image?.node.mediaDetails?.width ?? 0,
-          height: cfMedia.image?.node.mediaDetails?.height ?? 0,
-          description: cfMedia.description ?? '',
-          credits: cfMedia.credits ?? '',
-          researchArea: cfMedia.researchArea ?? '',
-          creditWebsite: cfMedia.creditWebsite ?? '',
-          creditsMoreInfo: cfMedia.creditsMoreInfo ?? '',
-          speciesFeaturedOrNewApproachMethodology:
-            cfMedia.speciesFeaturedOrNewApproachMethodology ?? '',
-          uploadedDate: cfMedia.uploadedDate ?? '',
-        })
-      }
+      acc.push({
+        id: media.id,
+        uri: media.uri,
+        mediaType: cfMedia?.mediaType,
+        slug: media.slug,
+        videoUrl: cfMedia?.videoUrl,
+        src: cfMedia?.image?.node.guid || '',
+        width: cfMedia?.image?.node.mediaDetails?.width ?? 0,
+        height: cfMedia?.image?.node.mediaDetails?.height ?? 0,
+        description: cfMedia?.description ?? '',
+        credits: cfMedia?.credits ?? '',
+        researchArea: cfMedia?.researchArea ?? '',
+        creditWebsite: cfMedia?.creditWebsite ?? '',
+        creditsMoreInfo: cfMedia?.creditsMoreInfo ?? '',
+        speciesFeaturedOrNewApproachMethodology:
+          cfMedia?.speciesFeaturedOrNewApproachMethodology ?? '',
+        uploadedDate: cfMedia?.uploadedDate ?? '',
+      })
       return acc
     },
     [] as {

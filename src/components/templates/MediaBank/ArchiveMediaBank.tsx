@@ -45,6 +45,20 @@ import {
   GetMediasBankDocument,
   GetMediasBankQuery,
 } from '@/graphql/generated/graphql'
+
+type MediaItem = ReturnType<typeof getMediaType>[number]
+
+type NormalizedMediaItem = MediaItem & {
+  src: string
+  videoUrl: string
+  imageGuid: string
+  videoUrlRaw: string
+  mediaRef: string | null
+  imageSrc: string | null
+  videoId: string | null
+  renderType: 'image' | 'video' | 'unavailable'
+}
+
 export default function ArchiveMediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [hasMounted, setHasMounted] = useState(false)
@@ -139,24 +153,45 @@ export default function ArchiveMediaBank() {
     return getMediaType(nodes)
   }, [d])
 
+  const normalizeMediaItem = useCallback((item: MediaItem): NormalizedMediaItem => {
+    const imageGuid = item.src ?? ''
+    const videoUrlRaw = item.videoUrl ?? ''
+    const imageSrc = getSafeSrc(imageGuid)
+    const videoId = videoUrlRaw ? extractYouTubeID(videoUrlRaw) : null
+    const mediaRef = imageGuid || videoUrlRaw || null
+    const renderType = imageSrc ? 'image' : videoId ? 'video' : 'unavailable'
+
+    return {
+      ...item,
+      src: imageGuid,
+      videoUrl: videoUrlRaw,
+      imageGuid,
+      videoUrlRaw,
+      mediaRef,
+      imageSrc,
+      videoId,
+      renderType,
+    }
+  }, [])
+
+  const normalizedMediaBank = useMemo<NormalizedMediaItem[]>(
+    () => filteredeMediaBank.map(normalizeMediaItem),
+    [filteredeMediaBank, normalizeMediaItem]
+  )
+
   const getIndexFromSlug = (slug: string | null) =>
-    filteredeMediaBank.findIndex((item) => item.slug === slug)
+    normalizedMediaBank.findIndex((item) => item.slug === slug)
 
   const [index, setIndex] = useState(getIndexFromSlug(media) >= 0 ? getIndexFromSlug(media) : 0)
   const [opened, { open, close }] = useDisclosure(getIndexFromSlug(media) >= 0 ? true : false)
-  const currentMedia = filteredeMediaBank[index]
-  const currentMediaType = currentMedia?.mediaType || ''
-  const currentImageSrc = getSafeSrc(currentMedia?.src)
-  const currentVideoId = currentMedia?.videoUrl
-    ? extractYouTubeID(currentMedia.videoUrl)
-    : undefined
+  const currentMedia = normalizedMediaBank[index]
   const handleClick = (ev: MouseEvent<HTMLDivElement>) => {
     setIndex(Number(ev.currentTarget.dataset.index))
     open()
   }
 
   function handleNext() {
-    if (index < filteredeMediaBank.length - 1) {
+    if (index < normalizedMediaBank.length - 1) {
       setIndex(index + 1)
     }
   }
@@ -171,7 +206,7 @@ export default function ArchiveMediaBank() {
       ['ArrowLeft', () => opened && handlePrevious()],
       ['ArrowRight', () => opened && handleNext()],
     ],
-    [String(opened), String(index), String(filteredeMediaBank.length)]
+    [String(opened), String(index), String(normalizedMediaBank.length)]
   )
 
   return (
@@ -241,24 +276,17 @@ export default function ArchiveMediaBank() {
           </Combobox>
         </Group>
 
-        {filteredeMediaBank?.length === 0 && <ResultNotFound />}
+        {normalizedMediaBank?.length === 0 && <ResultNotFound />}
 
         {hasMounted && (
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
             <Masonry gutter="1rem">
-              {filteredeMediaBank.map((item, idx) => (
-                <div key={idx}>
-                  {item.mediaType?.includes('video') &&
-                    item.videoUrl &&
-                    extractYouTubeID(item.videoUrl) && (
-                      <VideoItem
-                        key={idx}
-                        idx={idx}
-                        onClick={handleClick}
-                        videoURL={extractYouTubeID(item.videoUrl) as string}
-                      />
-                    )}
-                  {item.mediaType?.includes('image') && getSafeSrc(item.src) && (
+              {normalizedMediaBank.map((item, idx) => (
+                <div key={item.id || idx}>
+                  {item.renderType === 'video' && item.videoId && (
+                    <VideoItem idx={idx} onClick={handleClick} videoURL={item.videoId} />
+                  )}
+                  {item.renderType === 'image' && item.imageSrc && (
                     <div
                       onClick={handleClick}
                       data-index={idx}
@@ -269,10 +297,9 @@ export default function ArchiveMediaBank() {
                     >
                       <Image
                         className="rounded-lg"
-                        width={item.width}
-                        height={item.height}
-                        key={idx}
-                        src={getSafeSrc(item.src) as string}
+                        width={item.width || 1200}
+                        height={item.height || 800}
+                        src={item.imageSrc}
                         alt={item.description || ''}
                       />
                       <div
@@ -283,6 +310,16 @@ export default function ArchiveMediaBank() {
                       >
                         <IconZoomIn size={30} />
                       </div>
+                    </div>
+                  )}
+                  {item.renderType === 'unavailable' && (
+                    <div className="bg-earaBgLight flex min-h-[180px] flex-col items-center justify-center rounded-lg p-4 text-center text-sm">
+                      <span>Media unavailable</span>
+                      <span>Slug: {item.slug || 'N/A'}</span>
+                      <span>ID: {item.id || 'N/A'}</span>
+                      <span>image.guid: {item.imageGuid || 'N/A'}</span>
+                      <span>videoUrl: {item.videoUrlRaw || 'N/A'}</span>
+                      <span>Media ref: {item.mediaRef || 'N/A'}</span>
                     </div>
                   )}
                 </div>
@@ -322,7 +359,7 @@ export default function ArchiveMediaBank() {
                       <ActionIcon
                         onClick={() => setIndex(index + 1)}
                         variant="light"
-                        disabled={index == filteredeMediaBank.length - 1}
+                        disabled={index == normalizedMediaBank.length - 1}
                         size="xl"
                         radius="xl"
                         aria-label="Next Image"
@@ -331,29 +368,34 @@ export default function ArchiveMediaBank() {
                       </ActionIcon>
                     </div>
                   </div>
-                  {currentMediaType.includes('video') && currentVideoId && (
+                  {currentMedia?.renderType === 'video' && currentMedia.videoId && (
                     <iframe
                       className="h-full w-full"
-                      src={`https://www.youtube.com/embed/${currentVideoId}?rel=0&modestbranding=1`}
+                      src={`https://www.youtube.com/embed/${currentMedia.videoId}?rel=0&modestbranding=1`}
                       title="Eara Media Bank Video"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       referrerPolicy="strict-origin-when-cross-origin"
                       allowFullScreen
                     ></iframe>
                   )}
-                  {currentMediaType.includes('image') && currentImageSrc && (
+                  {currentMedia?.renderType === 'image' && currentMedia.imageSrc && (
                     <Image
                       style={{ objectFit: 'contain', overflow: 'hidden' }}
                       width={currentMedia?.width || 1200}
                       height={currentMedia?.height || 800}
-                      src={currentImageSrc}
+                      src={currentMedia.imageSrc}
                       alt={currentMedia?.description || ''}
                       className="h-full w-full rounded-lg object-contain"
                     />
                   )}
-                  {currentMediaType.includes('image') && !currentImageSrc && (
-                    <div className="flex h-full w-full items-center justify-center p-6 text-center text-sm">
-                      Image unavailable
+                  {currentMedia?.renderType === 'unavailable' && (
+                    <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center text-sm">
+                      <span>Media unavailable</span>
+                      <span>Slug: {currentMedia.slug || 'N/A'}</span>
+                      <span>ID: {currentMedia.id || 'N/A'}</span>
+                      <span>image.guid: {currentMedia.imageGuid || 'N/A'}</span>
+                      <span>videoUrl: {currentMedia.videoUrlRaw || 'N/A'}</span>
+                      <span>Media ref: {currentMedia.mediaRef || 'N/A'}</span>
                     </div>
                   )}
                 </div>
@@ -366,64 +408,58 @@ export default function ArchiveMediaBank() {
                         Species featured or new approach methodology
                       </small>
                       <p className="font-bold">
-                        {filteredeMediaBank[index]?.speciesFeaturedOrNewApproachMethodology ||
-                          'N/A'}
+                        {currentMedia?.speciesFeaturedOrNewApproachMethodology || 'N/A'}
                       </p>
                     </List.Item>
                     <List.Item icon={<IconClipboardSearch className="text-secondaryColor" />}>
                       <small className="uppercase">Area of research</small>
-                      <p className="font-bold">
-                        {filteredeMediaBank[index]?.researchArea || 'N/A'}
-                      </p>
+                      <p className="font-bold">{currentMedia?.researchArea || 'N/A'}</p>
                     </List.Item>
                     <List.Item icon={<IconFileDescription className="text-secondaryColor" />}>
                       <small className="uppercase">Description</small>
-                      <p className="font-bold">{filteredeMediaBank[index]?.description}</p>
+                      <p className="font-bold">{currentMedia?.description}</p>
                     </List.Item>
                     <List.Item icon={<IconCreativeCommons className="text-secondaryColor" />}>
                       <small className="uppercase">Credit</small>
-                      <p className="font-bold">{filteredeMediaBank[index]?.credits}</p>
+                      <p className="font-bold">{currentMedia?.credits}</p>
                       <p className="font-bold">
-                        {filteredeMediaBank[index]?.creditWebsite && (
+                        {currentMedia?.creditWebsite && (
                           <>
                             Website:{' '}
                             <a
-                              href={filteredeMediaBank[index].creditWebsite}
+                              href={currentMedia.creditWebsite}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="underline"
                             >
-                              {filteredeMediaBank[index]?.creditWebsite}
+                              {currentMedia.creditWebsite}
                             </a>
                           </>
                         )}
                       </p>
                       <p className="font-bold">
-                        {filteredeMediaBank[index]?.creditsMoreInfo && (
+                        {currentMedia?.creditsMoreInfo && (
                           <>
                             More Information:{' '}
                             <a
-                              href={filteredeMediaBank[index]?.creditsMoreInfo}
+                              href={currentMedia.creditsMoreInfo}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="underline"
                             >
-                              {filteredeMediaBank[index]?.creditsMoreInfo}
+                              {currentMedia.creditsMoreInfo}
                             </a>
                           </>
                         )}
                       </p>
                     </List.Item>
-                    {filteredeMediaBank[index]?.uploadedDate && (
+                    {currentMedia?.uploadedDate && (
                       <List.Item icon={<IconCalendar className="text-secondaryColor" />}>
                         <small className="uppercase">Uploaded Date</small>
                         <p className="font-bold">
-                          {new Date(filteredeMediaBank[index].uploadedDate).toLocaleDateString(
-                            'en-US',
-                            {
-                              dateStyle: 'long',
-                            }
-                          ) || 'N/A'}
+                          {new Date(currentMedia.uploadedDate).toLocaleDateString('en-US', {
+                            dateStyle: 'long',
+                          }) || 'N/A'}
                         </p>
                       </List.Item>
                     )}
@@ -438,7 +474,7 @@ export default function ArchiveMediaBank() {
                   slideGap={5}
                   w="100%"
                 >
-                  {filteredeMediaBank.map((item, idx) => (
+                  {normalizedMediaBank.map((item, idx) => (
                     <Carousel.Slide
                       onClick={() => setIndex(idx)}
                       key={idx}
@@ -447,7 +483,7 @@ export default function ArchiveMediaBank() {
                         index === idx ? 'opacity-100 saturate-100' : ''
                       )}
                     >
-                      {item.mediaType?.includes('video') && item.videoUrl && (
+                      {item.renderType === 'video' && (
                         <div className="relative aspect-square w-[70px] overflow-hidden rounded-lg object-cover lg:w-[70px]">
                           <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
                             <div className="bg-secondaryColor flex aspect-square w-8 items-center justify-center rounded-full lg:w-10">
@@ -456,14 +492,19 @@ export default function ArchiveMediaBank() {
                           </div>
                         </div>
                       )}
-                      {item.mediaType?.includes('image') && getSafeSrc(item.src) && (
+                      {item.renderType === 'image' && item.imageSrc && (
                         <Image
                           className="aspect-square rounded-lg object-cover"
                           width={70}
                           height={70}
-                          src={getSafeSrc(item.src) as string}
+                          src={item.imageSrc}
                           alt={item.description || ''}
                         />
+                      )}
+                      {item.renderType === 'unavailable' && (
+                        <div className="bg-earaBgLight flex aspect-square w-[70px] items-center justify-center rounded-lg text-[10px]">
+                          N/A
+                        </div>
                       )}
                     </Carousel.Slide>
                   ))}

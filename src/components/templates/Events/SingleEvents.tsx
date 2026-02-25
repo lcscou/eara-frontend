@@ -52,7 +52,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
         </div>
         <section className="py-10">
           <div className="grid gap-10 sm:grid-cols-12">
-            <div className="sm:col-span-7">
+            <div className="sm:col-span-10">
               <Stack>
                 <Group>
                   {startDate && <span>{startDate}</span>}
@@ -97,7 +97,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
                 )}
               </Stack>
             </div>
-            <div className="sm:col-span-5">
+            {/* <div className="sm:col-span-5">
               <div className="flex items-center justify-between rounded-xl bg-white p-8">
                 <Stack gap={1}>
                   <span className="font-bold">Free</span>
@@ -105,7 +105,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
                 </Stack>
                 <Button size="md">Get tickets</Button>
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
 
