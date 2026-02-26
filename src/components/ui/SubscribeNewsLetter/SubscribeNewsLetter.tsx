@@ -5,6 +5,7 @@ import { useModals } from '@/contexts/ModalsContext'
 import {
   Button,
   Group,
+  Input,
   MultiSelect,
   SimpleGrid,
   Stack,
@@ -38,17 +39,14 @@ const INTEREST_OPTIONS = [
   { value: 'training-and-events', label: 'Training and events' },
 ]
 function SubscribeNewsLetterForm({
-  triggerId,
   submitUrl,
   onSubmit,
   onSuccess,
 }: {
-  triggerId: string
   submitUrl?: string
   onSubmit?: (payload: SubscribeNewsLetterPayload) => Promise<void> | void
   onSuccess?: () => void
 }) {
-  const { closeModal } = useModals()
   const createInitialState = (): SubscribeNewsLetterPayload => ({
     firstName: '',
     lastName: '',
@@ -93,72 +91,130 @@ function SubscribeNewsLetterForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-        <TextInput
-          required
-          label=""
-          placeholder="Insert your name*"
-          value={form.firstName}
-          onChange={(event) =>
-            setForm((prev) => ({ ...prev, firstName: event.currentTarget?.value }))
-          }
-          radius="xl"
-          size="lg"
-          styles={{
-            input: {
-              border: '1.5px solid #312F86',
-              backgroundColor: 'transparent',
-              color: '#312F86',
-              transition: 'all 0.2s ease',
-              '&:focus': {
-                borderColor: '#312F86',
-                backgroundColor: '#FFFFFF',
-              },
-              '&::placeholder': {
+        <Input.Wrapper label="First name" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+          <TextInput
+            required
+            placeholder="e.g., Maria"
+            value={form.firstName}
+            onChange={(event) =>
+              setForm((prev) => ({ ...prev, firstName: event.currentTarget?.value }))
+            }
+            radius="xl"
+            size="lg"
+            styles={{
+              input: {
+                // border: '1.5px solid #312F86',
+                backgroundColor: 'transparent',
                 color: '#312F86',
+                transition: 'all 0.2s ease',
+                '&:focus': {
+                  borderColor: '#312F86',
+                  backgroundColor: '#FFFFFF',
+                },
+                '&::placeholder': {
+                  color: '#312F86',
+                },
               },
-            },
-          }}
-        />
-        <TextInput
-          required
-          label=""
-          placeholder="Insert your name*"
-          value={form.lastName}
-          onChange={(event) =>
-            setForm((prev) => ({ ...prev, lastName: event.currentTarget?.value }))
-          }
-          radius="xl"
-          size="lg"
-          styles={{
-            input: {
-              border: '1.5px solid #312F86',
-              backgroundColor: 'transparent',
-              color: '#312F86',
-              transition: 'all 0.2s ease',
-              '&:focus': {
-                borderColor: '#312F86',
-                backgroundColor: '#FFFFFF',
-              },
-              '&::placeholder': {
+            }}
+          />
+        </Input.Wrapper>
+        <Input.Wrapper label="Last name" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+          <TextInput
+            required
+            placeholder="e.g., Silva"
+            value={form.lastName}
+            onChange={(event) =>
+              setForm((prev) => ({ ...prev, lastName: event.currentTarget?.value }))
+            }
+            radius="xl"
+            size="lg"
+            styles={{
+              input: {
+                // border: '1.5px solid #312F86',
+                backgroundColor: 'transparent',
                 color: '#312F86',
+                transition: 'all 0.2s ease',
+                '&:focus': {
+                  borderColor: '#312F86',
+                  backgroundColor: '#FFFFFF',
+                },
+                '&::placeholder': {
+                  color: '#312F86',
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </Input.Wrapper>
       </SimpleGrid>
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+        <Input.Wrapper label="Organization" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+          <TextInput
+            placeholder="e.g., University of Lisbon"
+            value={form.organization}
+            onChange={(event) =>
+              setForm((prev) => ({ ...prev, organization: event.currentTarget?.value }))
+            }
+            radius="xl"
+            size="lg"
+            styles={{
+              input: {
+                // border: '1.5px solid #312F86',
+                backgroundColor: 'transparent',
+                color: '#312F86',
+                transition: 'all 0.2s ease',
+                '&:focus': {
+                  borderColor: '#312F86',
+                  backgroundColor: '#FFFFFF',
+                },
+                '&::placeholder': {
+                  color: '#312F86',
+                },
+              },
+            }}
+          />
+        </Input.Wrapper>
+        <Input.Wrapper label="Email" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+          <TextInput
+            required
+            type="email"
+            placeholder="e.g., maria.silva@university.edu"
+            value={form.email}
+            onChange={(event) =>
+              setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))
+            }
+            radius="xl"
+            size="lg"
+            styles={{
+              input: {
+                // border: '1.5px solid #312F86',
+                backgroundColor: 'transparent',
+                color: '#312F86',
+                transition: 'all 0.2s ease',
+                '&:focus': {
+                  borderColor: '#312F86',
+                  backgroundColor: '#FFFFFF',
+                },
+                '&::placeholder': {
+                  color: '#312F86',
+                },
+              },
+            }}
+          />
+        </Input.Wrapper>
+      </SimpleGrid>
+      <Input.Wrapper label="Country" size="sm" styles={{ label: { marginBottom: '8px' } }}>
         <TextInput
-          label=""
-          placeholder="Insert your institution*"
-          value={form.organization}
+          required
+          placeholder="e.g., Portugal"
+          value={form.country}
           onChange={(event) =>
-            setForm((prev) => ({ ...prev, organization: event.currentTarget?.value }))
+            setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))
           }
           radius="xl"
           size="lg"
           styles={{
             input: {
-              border: '1.5px solid #312F86',
+              // border: '1.5px solid #312F86',
               backgroundColor: 'transparent',
               color: '#312F86',
               transition: 'all 0.2s ease',
@@ -172,18 +228,19 @@ function SubscribeNewsLetterForm({
             },
           }}
         />
-        <TextInput
+      </Input.Wrapper>
+      <Input.Wrapper label="Interests" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <MultiSelect
           required
-          type="email"
-          label=""
-          placeholder="you@example.com*"
-          value={form.email}
-          onChange={(event) => setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))}
+          placeholder="e.g., News Digest"
+          data={INTEREST_OPTIONS}
+          value={form.interests}
+          onChange={(value) => setForm((prev) => ({ ...prev, interests: value }))}
           radius="xl"
           size="lg"
           styles={{
             input: {
-              border: '1.5px solid #312F86',
+              // border: '1.5px solid #312F86',
               backgroundColor: 'transparent',
               color: '#312F86',
               transition: 'all 0.2s ease',
@@ -195,64 +252,15 @@ function SubscribeNewsLetterForm({
                 color: '#312F86',
               },
             },
+            option: {
+              '&[dataSelected]': {
+                backgroundColor: '#312F86',
+                color: '#FFFFFF',
+              },
+            },
           }}
         />
-      </SimpleGrid>
-      <TextInput
-        required
-        label=""
-        placeholder="Country where you are based*"
-        value={form.country}
-        onChange={(event) => setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))}
-        radius="xl"
-        size="lg"
-        styles={{
-          input: {
-            border: '1.5px solid #312F86',
-            backgroundColor: 'transparent',
-            color: '#312F86',
-            transition: 'all 0.2s ease',
-            '&:focus': {
-              borderColor: '#312F86',
-              backgroundColor: '#FFFFFF',
-            },
-            '&::placeholder': {
-              color: '#312F86',
-            },
-          },
-        }}
-      />
-      <MultiSelect
-        required
-        label=""
-        placeholder="I am interested in*"
-        data={INTEREST_OPTIONS}
-        value={form.interests}
-        onChange={(value) => setForm((prev) => ({ ...prev, interests: value }))}
-        radius="xl"
-        size="lg"
-        styles={{
-          input: {
-            border: '1.5px solid #312F86',
-            backgroundColor: 'transparent',
-            color: '#312F86',
-            transition: 'all 0.2s ease',
-            '&:focus': {
-              borderColor: '#312F86',
-              backgroundColor: '#FFFFFF',
-            },
-            '&::placeholder': {
-              color: '#312F86',
-            },
-          },
-          option: {
-            '&[dataSelected]': {
-              backgroundColor: '#312F86',
-              color: '#FFFFFF',
-            },
-          },
-        }}
-      />
+      </Input.Wrapper>
       <Stack gap="xs">
         <Text size="sm" c="dimmed">
           By subscribing, you agree with EARA&apos;s{' '}
@@ -295,13 +303,12 @@ export default function SubscribeNewsLetter({
   const form = useMemo(
     () => (
       <SubscribeNewsLetterForm
-        triggerId={triggerId}
         submitUrl={submitUrl}
         onSubmit={onSubmit}
         onSuccess={handleSuccess}
       />
     ),
-    [triggerId, submitUrl, onSubmit, handleSuccess]
+    [submitUrl, onSubmit, handleSuccess]
   )
   if (renderMode === 'inline') {
     return (

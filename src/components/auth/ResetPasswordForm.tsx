@@ -1,5 +1,6 @@
 'use client'
 
+import { Input, PasswordInput, TextInput } from '@mantine/core'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
@@ -70,48 +71,47 @@ export default function ResetPasswordForm() {
       onSubmit={onSubmit}
       className="mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl bg-white/80 p-8 shadow-lg"
     >
-      <div className="flex flex-col gap-1">
-        <label className="text-earaDark text-sm font-semibold" htmlFor="reset-login">
-          Username
-        </label>
-        <input
+      <Input.Wrapper label="Username" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <TextInput
           id="reset-login"
-          type="text"
-          className="border-earaGrayLight rounded-lg border bg-white px-4 py-3 text-sm"
+          placeholder="e.g., maria.silva"
           value={login}
           readOnly
+          size="md"
+          radius="md"
+          styles={{
+            input: {
+              backgroundColor: '#FFFFFF',
+            },
+          }}
         />
-      </div>
+      </Input.Wrapper>
 
-      <div className="flex flex-col gap-1">
-        <label className="text-earaDark text-sm font-semibold" htmlFor="reset-password">
-          New password
-        </label>
-        <input
+      <Input.Wrapper label="New password" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <PasswordInput
           id="reset-password"
-          type="password"
           autoComplete="new-password"
-          className="border-earaGrayLight rounded-lg border bg-white px-4 py-3 text-sm"
+          placeholder="e.g., MySecurePass123"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
+          size="md"
+          radius="md"
         />
-      </div>
+      </Input.Wrapper>
 
-      <div className="flex flex-col gap-1">
-        <label className="text-earaDark text-sm font-semibold" htmlFor="reset-password-confirm">
-          Confirm password
-        </label>
-        <input
+      <Input.Wrapper label="Confirm password" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <PasswordInput
           id="reset-password-confirm"
-          type="password"
           autoComplete="new-password"
-          className="border-earaGrayLight rounded-lg border bg-white px-4 py-3 text-sm"
+          placeholder="e.g., Repeat MySecurePass123"
           value={confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}
           required
+          size="md"
+          radius="md"
         />
-      </div>
+      </Input.Wrapper>
 
       {error && <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>}
 

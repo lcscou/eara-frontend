@@ -2,7 +2,7 @@
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import { useModals } from '@/contexts/ModalsContext'
-import { Box, Group, Stack, Text, TextInput, Title } from '@mantine/core'
+import { Box, Group, Input, Stack, Text, TextInput, Title } from '@mantine/core'
 import { FormEvent, useCallback, useMemo, useState } from 'react'
 import ButtonEara from '../ButtonEara/ButtonEara'
 
@@ -83,108 +83,114 @@ function JoinEaraFormComponent({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <TextInput
-        required
-        label=""
-        placeholder="Insert your name*"
-        value={form.name}
-        onChange={(event) => setForm((prev) => ({ ...prev, name: event.currentTarget?.value }))}
-        radius="xl"
-        size="lg"
-        styles={{
-          input: {
-            // border: '1.5px solid #312F86',
-            backgroundColor: 'transparent',
-            color: '#312F86',
-            transition: 'all 0.2s ease',
-            '&:focus': {
-              borderColor: '#312F86',
-              backgroundColor: '#FFFFFF',
-            },
-            '&::placeholder': {
+      <Input.Wrapper label="Full name" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <TextInput
+          required
+          placeholder="e.g., Maria Silva"
+          value={form.name}
+          onChange={(event) => setForm((prev) => ({ ...prev, name: event.currentTarget?.value }))}
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              // border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
               color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Input.Wrapper>
 
-      <TextInput
-        required
-        type="email"
-        label=""
-        placeholder="you@example.com*"
-        value={form.email}
-        onChange={(event) => setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))}
-        radius="xl"
-        size="lg"
-        styles={{
-          input: {
-            // border: '1.5px solid #312F86',
-            backgroundColor: 'transparent',
-            color: '#312F86',
-            transition: 'all 0.2s ease',
-            '&:focus': {
-              borderColor: '#312F86',
-              backgroundColor: '#FFFFFF',
-            },
-            '&::placeholder': {
+      <Input.Wrapper label="Email" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <TextInput
+          required
+          type="email"
+          placeholder="e.g., maria.silva@university.edu"
+          value={form.email}
+          onChange={(event) => setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))}
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              // border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
               color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Input.Wrapper>
 
-      <TextInput
-        required
-        label=""
-        placeholder="Insert your institution*"
-        value={form.institution}
-        onChange={(event) =>
-          setForm((prev) => ({ ...prev, institution: event.currentTarget?.value }))
-        }
-        radius="xl"
-        size="lg"
-        styles={{
-          input: {
-            // border: '1.5px solid #312F86',
-            backgroundColor: 'transparent',
-            color: '#312F86',
-            transition: 'all 0.2s ease',
-            '&:focus': {
-              borderColor: '#312F86',
-              backgroundColor: '#FFFFFF',
-            },
-            '&::placeholder': {
+      <Input.Wrapper label="Institution" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <TextInput
+          required
+          placeholder="e.g., University of Lisbon"
+          value={form.institution}
+          onChange={(event) =>
+            setForm((prev) => ({ ...prev, institution: event.currentTarget?.value }))
+          }
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              // border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
               color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Input.Wrapper>
 
-      <TextInput
-        required
-        label=""
-        placeholder="Country where you are based*"
-        value={form.country}
-        onChange={(event) => setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))}
-        radius="xl"
-        size="lg"
-        styles={{
-          input: {
-            // border: '1.5px solid #312F86',
-            backgroundColor: 'transparent',
-            color: '#312F86',
-            transition: 'all 0.2s ease',
-            '&:focus': {
-              borderColor: '#312F86',
-              backgroundColor: '#FFFFFF',
-            },
-            '&::placeholder': {
+      <Input.Wrapper label="Country" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <TextInput
+          required
+          placeholder="e.g., Portugal"
+          value={form.country}
+          onChange={(event) =>
+            setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))
+          }
+          radius="xl"
+          size="lg"
+          styles={{
+            input: {
+              // border: '1.5px solid #312F86',
+              backgroundColor: 'transparent',
               color: '#312F86',
+              transition: 'all 0.2s ease',
+              '&:focus': {
+                borderColor: '#312F86',
+                backgroundColor: '#FFFFFF',
+              },
+              '&::placeholder': {
+                color: '#312F86',
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Input.Wrapper>
 
       <Stack gap="xs">
         {status === 'success' && <Text c="green">Thank you for joining EARA!</Text>}

@@ -47,14 +47,11 @@ export default function LoginForm() {
   return (
     <form onSubmit={onSubmit}>
       <Stack gap={5}>
-        <div className="flex flex-col gap-2">
-          {/* <label className="text-earaDark text-sm font-semibold" htmlFor="login-email">
-          Email
-        </label> */}
+        <Input.Wrapper label="Email" size="sm" styles={{ label: { marginBottom: '8px' } }}>
           <Input
             id="login-email"
             type="email"
-            placeholder="Insert your email*"
+            placeholder="e.g., maria.silva@university.edu"
             autoComplete="email"
             size="lg"
             styles={{
@@ -69,17 +66,14 @@ export default function LoginForm() {
             onChange={(event) => setEmail(event.target.value)}
             required
           />
-        </div>
+        </Input.Wrapper>
 
-        <div className="flex flex-col gap-1">
-          {/* <label className="text-earaDark text-sm font-semibold" htmlFor="login-password">
-          Password
-        </label> */}
+        <Input.Wrapper label="Password" size="sm" styles={{ label: { marginBottom: '8px' } }}>
           <Input
             id="login-password"
             type="password"
             autoComplete="current-password"
-            placeholder="Insert your password*"
+            placeholder="e.g., MySecurePass123"
             size="lg"
             styles={{
               input: {
@@ -93,7 +87,7 @@ export default function LoginForm() {
             onChange={(event) => setPassword(event.target.value)}
             required
           />
-        </div>
+        </Input.Wrapper>
 
         {error && (
           <p className="rounded-full bg-red-50/50 px-4 py-2 text-sm text-red-600">{error}</p>
