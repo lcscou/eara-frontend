@@ -2487,6 +2487,12 @@ function renderCoreListItem(block: Block, index: number): ReactNode {
 // Função para renderizar blocos individuais
 function renderBlock(block: Block, index: number, freeformContent?: string): ReactNode {
   const { name, attributes = {}, innerBlocks = [] } = block
+
+  const metadata = attributes.metadata as { blockVisibility?: boolean } | undefined
+  if (metadata?.blockVisibility === false) {
+    return null
+  }
+
   switch (name) {
     // Container personalizado
     case 'eara/container': {
