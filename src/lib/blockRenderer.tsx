@@ -3122,7 +3122,6 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             featuredImage={featuredImage?.url || ''}
             title={title}
           >
-            link é {link}
             {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </Card>
         </Box>
