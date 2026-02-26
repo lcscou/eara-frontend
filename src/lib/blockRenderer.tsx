@@ -334,6 +334,37 @@ export interface EaraJoinEaraFormAttributes extends BlockAttribute {
   metadata?: Record<string, unknown>
 }
 
+export interface EaraGalleryImage {
+  id?: number | string
+  url?: string
+  src?: string
+  mediaItemUrl?: string
+  alt?: string
+  title?: string
+  caption?: string
+  width?: number
+  height?: number
+  sizes?:
+    | Record<string, string | { sourceUrl?: string; url?: string }>
+    | {
+        thumbnail?: string | { sourceUrl?: string; url?: string }
+        medium?: string | { sourceUrl?: string; url?: string }
+        large?: string | { sourceUrl?: string; url?: string }
+        full?: string | { sourceUrl?: string; url?: string }
+      }
+}
+
+export interface EaraGalleryAttributes extends BlockAttribute {
+  images?: EaraGalleryImage[]
+  layout?: 'grid' | 'masonry'
+  columns?: number
+  gap?: number
+  imageSize?: 'thumbnail' | 'medium' | 'large' | 'full'
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+}
+
 export interface EaraListItemAttributes extends BlockAttribute {
   text?: string
   className?: string
@@ -2145,6 +2176,208 @@ function renderEaraTabs(block: Block, index: number): ReactNode {
   )
 }
 
+function getGalleryImageSource(
+  image: EaraGalleryImage,
+  imageSize: 'thumbnail' | 'medium' | 'large' | 'full'
+): string | undefined {
+  const sizes = image.sizes
+  const valueFromSize = sizes?.[imageSize]
+
+  if (typeof valueFromSize === 'string') return valueFromSize
+  if (
+    valueFromSize &&
+    typeof valueFromSize === 'object' &&
+    ('sourceUrl' in valueFromSize || 'url' in valueFromSize)
+  ) {
+    return valueFromSize.sourceUrl || valueFromSize.url
+  }
+
+  if (imageSize === 'full') {
+    return image.url || image.src || image.mediaItemUrl
+  }
+
+  return (
+    image.url ||
+    image.src ||
+    image.mediaItemUrl ||
+    (typeof sizes?.large === 'string'
+      ? sizes.large
+      : typeof sizes?.medium === 'string'
+        ? sizes.medium
+        : typeof sizes?.thumbnail === 'string'
+          ? sizes.thumbnail
+          : undefined)
+  )
+}
+
+function renderEaraGallery(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as EaraGalleryAttributes | undefined
+  const images = Array.isArray(attributes?.images) ? attributes.images : []
+  const className = attributes?.className || ''
+  const layout = attributes?.layout === 'masonry' ? 'masonry' : 'grid'
+  const columns = Math.max(1, Math.min(6, Number(attributes?.columns || 3)))
+  const gap = Number.isFinite(attributes?.gap) ? Number(attributes?.gap) : 16
+  const imageSize = attributes?.imageSize || 'large'
+
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
+  if (images.length === 0) return null
+
+  if (layout === 'masonry') {
+    const masonryClass = `eara-gallery-masonry-${index}`
+    const tabletColumns = Math.max(1, Math.min(2, columns))
+
+    return (
+      <Box
+        key={index}
+        className={className}
+        bg={bgColor}
+        c={textColor}
+        pb={paddingBottom}
+        pt={paddingTop}
+        pl={paddingLeft}
+        pr={paddingRight}
+        mb={marginBottom}
+        mt={marginTop}
+        ml={marginLeft}
+        mr={marginRight}
+      >
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              .${masonryClass} {
+                column-count: ${columns};
+                column-gap: ${gap}px;
+              }
+
+              @media (max-width: 1024px) {
+                .${masonryClass} {
+                  column-count: ${tabletColumns};
+                }
+              }
+
+              @media (max-width: 640px) {
+                .${masonryClass} {
+                  column-count: 1;
+                }
+              }
+            `,
+          }}
+        />
+
+        <div className={masonryClass}>
+          {images.map((image, imageIndex) => {
+            const src = getGalleryImageSource(image, imageSize)
+            if (!src) return null
+
+            return (
+              <Box
+                key={image.id || imageIndex}
+                style={{ breakInside: 'avoid', marginBottom: `${gap}px` }}
+              >
+                <Image
+                  component="img"
+                  src={src}
+                  alt={image.alt || image.title || ''}
+                  w="100%"
+                  h="auto"
+                  style={{ display: 'block', width: '100%', height: 'auto', borderRadius: '8px' }}
+                />
+              </Box>
+            )
+          })}
+        </div>
+      </Box>
+    )
+  }
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      {(() => {
+        const gridClass = `eara-gallery-grid-${index}`
+        const tabletColumns = Math.max(1, Math.min(2, columns))
+
+        return (
+          <>
+            <style
+              dangerouslySetInnerHTML={{
+                __html: `
+                  .${gridClass} {
+                    display: grid;
+                    grid-template-columns: repeat(${columns}, minmax(0, 1fr));
+                    gap: ${gap}px;
+                  }
+
+                  @media (max-width: 1024px) {
+                    .${gridClass} {
+                      grid-template-columns: repeat(${tabletColumns}, minmax(0, 1fr));
+                    }
+                  }
+
+                  @media (max-width: 640px) {
+                    .${gridClass} {
+                      grid-template-columns: repeat(1, minmax(0, 1fr));
+                    }
+                  }
+                `,
+              }}
+            />
+
+            <div className={gridClass}>
+              {images.map((image, imageIndex) => {
+                const src = getGalleryImageSource(image, imageSize)
+                if (!src) return null
+
+                return (
+                  <Box key={image.id || imageIndex} style={{ width: '100%' }}>
+                    <Image
+                      component="img"
+                      src={src}
+                      alt={image.alt || image.title || ''}
+                      w="100%"
+                      h="auto"
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        height: 'auto',
+                        borderRadius: '8px',
+                      }}
+                    />
+                  </Box>
+                )
+              })}
+            </div>
+          </>
+        )
+      })()}
+    </Box>
+  )
+}
+
 /**
  * Renderiza um item de lista Gutenberg core/list-item com suporte completo a atributos
  */
@@ -2555,6 +2788,10 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
 
     case 'eara/tabs': {
       return renderEaraTabs(block, index)
+    }
+
+    case 'eara/gallery': {
+      return renderEaraGallery(block, index)
     }
 
     case 'eara/latest-news': {
