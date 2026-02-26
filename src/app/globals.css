@@ -58,5 +58,5 @@ input:-webkit-autofill:active {
 .mantine-List-itemLabel {
   color: #000000 !important;
   margin-left: 10px !important;
-  font-weight: 600 !important;
+  font-weight: 400;
 }
