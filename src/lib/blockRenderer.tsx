@@ -3039,7 +3039,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const className = (attributes.className as string) || ''
       const featuredImage = attributes.featuredImage as { url: string } | undefined
       const title = (attributes.title as string) || ''
-      const link = (attributes.uri as string) || ''
+      const link = (attributes.link as string) || ''
       const variant = (attributes.variant as CardProps['variant']) || 'layout-1'
 
       const {
@@ -3073,6 +3073,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             featuredImage={featuredImage?.url || ''}
             title={title}
           >
+            link é {link}
             {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </Card>
         </Box>
