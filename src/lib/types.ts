@@ -71,6 +71,7 @@ export interface QuoteProps {
   avatar?: string
   fontSize?: number | string
   variant?: 'light' | 'dark'
+  backgroundColor?: string
 }
 export interface AccordionItem {
   value: string // valor único para cada item

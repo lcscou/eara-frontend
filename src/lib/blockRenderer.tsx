@@ -2095,6 +2095,15 @@ function renderEaraQuote(block: Block, index: number): ReactNode {
   const attributes = block.attributes as EaraQuoteAttributes | undefined
   const content = attributes?.content || ''
   const author = attributes?.author || 'Quote Author'
+  const backgroundColorMap: Record<NonNullable<EaraQuoteAttributes['backgroundColor']>, string> = {
+    white: 'var(--color-white, #fff)',
+    'light-blue': 'var(--color-earaBgLight)',
+    'light-green': 'color-mix(in srgb, var(--color-secondaryColor) 20%, white)',
+    'light-gray': 'var(--color-earaGrayLight)',
+  }
+  const backgroundColor = attributes?.backgroundColor
+    ? backgroundColorMap[attributes.backgroundColor]
+    : undefined
   const showAvatar = attributes?.showAvatar || false
   const avatarUrl = attributes?.avatarImage?.url || ''
   const variant = attributes?.variant || 'dark'
@@ -2131,6 +2140,7 @@ function renderEaraQuote(block: Block, index: number): ReactNode {
         author={author}
         avatar={showAvatar && avatarUrl ? avatarUrl : undefined}
         variant={variant}
+        backgroundColor={backgroundColor}
       />
     </Box>
   )

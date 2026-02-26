@@ -9,6 +9,7 @@ export default function Quote({
   avatar,
   fontSize = 30,
   variant = 'dark',
+  backgroundColor,
 }: QuoteProps) {
   return (
     <>
@@ -19,6 +20,7 @@ export default function Quote({
             ? 'bg-color-earaBgDark font-normal text-black'
             : 'bg-white font-light text-black'
         )}
+        style={backgroundColor ? { backgroundColor } : undefined}
       >
         <Stack gap={25}>
           <IconQuoteFilled size={'10%'} className="text-primaryColor" />
