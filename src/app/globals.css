@@ -19,7 +19,10 @@ body {
 }
 
 u {
-  text-decoration: none;
+  /* text-decoration: none; */
+  text-decoration: underline;
+  text-decoration-thickness: 2.4;
+  text-decoration-color: var(--color-secondaryColor);
 }
 article p a,
 a u {

@@ -33,7 +33,7 @@ import {
 } from '@mantine/core'
 import { IconCircleCheck } from '@tabler/icons-react'
 import clsx from 'clsx'
-import parse from 'html-react-parser'
+import parse, { domToReact } from 'html-react-parser'
 import React, { ReactNode } from 'react'
 import { CardProps } from './types'
 
@@ -621,6 +621,49 @@ function parseHtmlContent(content: string): ReturnType<typeof parse> | null {
       }
     },
   })
+}
+
+/**
+ * Parse específico para core/paragraph
+ * Aplica estilo de underline em todas as tags <a>
+ */
+function parseParagraphHtmlContent(content: string): ReturnType<typeof parse> | null {
+  if (!content) return null
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const options: any = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    replace: (domNode: any) => {
+      if (domNode.type === 'text') {
+        return
+      }
+
+      if (domNode.name === 'p' && !domNode.children?.length) {
+        return <></>
+      }
+
+      if (domNode.name === 'a') {
+        const attribs = domNode.attribs || {}
+        const anchorProps = { ...attribs }
+        delete anchorProps.style
+
+        return (
+          <a
+            {...anchorProps}
+            style={{
+              textDecoration: 'underline',
+              textDecorationThickness: 2.4,
+              textDecorationColor: 'var(--color-secondaryColor)',
+            }}
+          >
+            {domToReact(domNode.children || [], options)}
+          </a>
+        )
+      }
+    },
+  }
+
+  return parse(content, options)
 }
 
 // Mapeamento de presets de spacing do Container
@@ -3279,7 +3322,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             border: borderColor ? `1px solid ${borderColor}` : undefined,
           }}
         >
-          {parseHtmlContent(content)}
+          {parseParagraphHtmlContent(content)}
         </Box>
       )
     }
