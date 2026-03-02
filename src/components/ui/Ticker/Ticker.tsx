@@ -6,6 +6,7 @@ import { IconArrowRight, IconArrowLeft, IconX } from '@tabler/icons-react'
 import clsx from 'clsx'
 import styles from './Ticker.module.css'
 import { TickerProps } from '@/lib/types'
+import { useWindowScroll } from '@mantine/hooks'
 
 export default function Ticker({
   id,
@@ -20,7 +21,7 @@ export default function Ticker({
   bgColor = 'secondary',
   textColor = 'auto',
   className,
-  radius = 'xl',
+  // radius = 'xl',
   size = 'md',
 }: TickerProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -36,7 +37,7 @@ export default function Ticker({
 
   // Check if we should hide linkLabel on mobile
   const shouldHideLinkLabel = screenWidth <= 480
-
+  const [scroll] = useWindowScroll()
   // Measure text width using temporary DOM element (reusable function)
   const measureTextWidth = useCallback((text: string, element?: HTMLElement) => {
     if (!element) return 0
@@ -353,7 +354,8 @@ export default function Ticker({
   return (
     <div
       className={clsx(styles.tickerWrapper, {
-        [styles.fixedBottom]: position === 'fixed-bottom',
+        [styles.fixedBottom]: position === 'fixed-bottom' && scroll.y < 5, // Show fixed bottom only after scrolling down a bit
+        [styles.fixedTop]: position === 'fixed-top' || scroll.y >= 5,
       })}
     >
       {/* Mobile dismiss button - outside the main ticker container */}
@@ -390,10 +392,11 @@ export default function Ticker({
             [styles.sizeMd]: size === 'md',
             [styles.sizeLg]: size === 'lg',
           },
+
           className
         )}
         style={{
-          borderRadius: radius === 'xl' ? '50px' : `var(--mantine-radius-${radius})`,
+          borderRadius: scroll.y < 5 ? '50px' : '0  0 0.75rem 0.75rem ',
           color: actualTextColor === 'white' ? 'white' : 'var(--color-earaDark)',
         }}
         onMouseEnter={handleMouseEnter}

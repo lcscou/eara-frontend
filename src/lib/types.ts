@@ -125,7 +125,7 @@ export interface TickerProps {
   onDismiss?: () => void
 
   // Posicionamento
-  position?: 'static' | 'fixed-bottom' // default: 'static'
+  position?: 'static' | 'fixed-bottom' | 'fixed-top' // default: 'static'
 
   // Estilo
   bgColor?: 'primary' | 'secondary' | 'light' | 'dark' | 'white' // default: 'secondary'

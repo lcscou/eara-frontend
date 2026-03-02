@@ -17,6 +17,19 @@
   width: auto;
 }
 
+.tickerWrapper.fixedTop {
+  position: fixed;
+  top: 90px;
+  left: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  margin: 0 auto;
+  transition: all 0.1s ease;
+
+  /* max-width: 1200px; */
+  width: auto;
+}
+
 /* Base ticker styles */
 .ticker {
   position: relative;
@@ -95,8 +108,8 @@
 }
 
 .dismissButton svg {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 
 /* Mobile dismiss button - positioned above the ticker bar */
@@ -328,7 +341,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .ticker {
-    width: calc(100vw - 2.5rem);
+    /* width: calc(100vw - 2.5rem); */
     padding: 0.875rem 1.25rem;
     min-height: 55px;
   }
