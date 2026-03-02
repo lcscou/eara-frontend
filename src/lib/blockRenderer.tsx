@@ -16,6 +16,7 @@ import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import MembersMap from '@/components/ui/MembersMap/MembersMap'
 import Section from '@/components/ui/Section/Section'
+import { Carousel } from '@mantine/carousel'
 import {
   Anchor,
   Box,
@@ -435,6 +436,26 @@ export interface EaraTabsAttributes extends BlockAttribute {
   }>
   activeTab?: string
   layout?: 'vertical' | 'horizontal'
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+}
+
+export interface EaraCarouselAttributes extends BlockAttribute {
+  withControls?: boolean
+  withIndicators?: boolean
+  slideGap?: string
+  slideSize?: string
+  height?: string
+  initialSlide?: number
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+}
+
+export interface EaraCarouselItemAttributes extends BlockAttribute {
+  backgroundColor?: string
+  padding?: string
   lock?: Record<string, unknown>
   metadata?: Record<string, unknown>
   className?: string
@@ -2431,6 +2452,122 @@ function renderEaraGallery(block: Block, index: number): ReactNode {
   )
 }
 
+function renderEaraCarousel(block: Block, index: number, freeformContent?: string): ReactNode {
+  const attributes = block.attributes as EaraCarouselAttributes | undefined
+
+  const parseBoolean = (value: unknown, defaultValue: boolean): boolean => {
+    if (typeof value === 'boolean') return value
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase()
+      if (normalized === 'true') return true
+      if (normalized === 'false') return false
+    }
+    return defaultValue
+  }
+
+  const parseNumber = (value: unknown, defaultValue: number): number => {
+    if (typeof value === 'number' && Number.isFinite(value)) return value
+    if (typeof value === 'string') {
+      const parsed = Number(value)
+      if (Number.isFinite(parsed)) return parsed
+    }
+    return defaultValue
+  }
+
+  const withControls = parseBoolean(attributes?.withControls, true)
+  const withIndicators = parseBoolean(attributes?.withIndicators, true)
+  const slideGap = attributes?.slideGap ?? 'md'
+  const slideSize = attributes?.slideSize ?? '100%'
+  const height = attributes?.height ?? '400px'
+  const initialSlide = parseNumber(attributes?.initialSlide, 0)
+  const className = attributes?.className || ''
+
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      <Carousel
+        withControls={withControls}
+        withIndicators={withIndicators}
+        slideGap={slideGap}
+        slideSize={slideSize}
+        height={height}
+        initialSlide={initialSlide}
+      >
+        {block.innerBlocks?.map((innerBlock, idx) => (
+          <Carousel.Slide key={idx}>{renderBlock(innerBlock, idx, freeformContent)}</Carousel.Slide>
+        ))}
+      </Carousel>
+    </Box>
+  )
+}
+
+function renderEaraCarouselItem(block: Block, index: number, freeformContent?: string): ReactNode {
+  const attributes = block.attributes as EaraCarouselItemAttributes | undefined
+
+  const padding = attributes?.padding ?? '2rem'
+  const className = attributes?.className || ''
+
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
+  const hasDirectionalPadding = !!(paddingTop || paddingBottom || paddingLeft || paddingRight)
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      p={hasDirectionalPadding ? undefined : padding}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      {block.innerBlocks?.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
+    </Box>
+  )
+}
+
 /**
  * Renderiza um item de lista Gutenberg core/list-item com suporte completo a atributos
  */
@@ -2860,6 +2997,14 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     case 'eara/latest-events': {
       const eventCategory = (attributes.eventCategory as string) || undefined
       return <FeaturedEvents key={index} withSectionWrapper={false} eventCategory={eventCategory} />
+    }
+
+    case 'eara/carousel': {
+      return renderEaraCarousel(block, index, freeformContent)
+    }
+
+    case 'eara/carousel-item': {
+      return renderEaraCarouselItem(block, index, freeformContent)
     }
 
     case 'eara/media-bank': {
