@@ -369,6 +369,14 @@ export type RelatedNewsFragment = {
   seo?: RelatedNewsFragment_News_seo_PostTypeSEO | null
 }
 
+export type RelatedEventsFragment_Events_categoriesEvents_EventsToCategoryEventConnection_nodes_CategoryEvent =
+  { __typename?: 'CategoryEvent'; id: string; name?: string | null }
+
+export type RelatedEventsFragment_Events_categoriesEvents_EventsToCategoryEventConnection = {
+  __typename?: 'EventsToCategoryEventConnection'
+  nodes: Array<RelatedEventsFragment_Events_categoriesEvents_EventsToCategoryEventConnection_nodes_CategoryEvent>
+}
+
 export type RelatedEventsFragment_Events_customFields_CustomFields = {
   __typename?: 'CustomFields'
   location?: string | null
@@ -376,7 +384,6 @@ export type RelatedEventsFragment_Events_customFields_CustomFields = {
   country?: Array<string | null> | null
   startDate?: string | null
   endDate?: string | null
-  category?: string | null
   description?: string | null
 }
 
@@ -399,6 +406,7 @@ export type RelatedEventsFragment = {
   title?: string | null
   id: string
   uri?: string | null
+  categoriesEvents?: RelatedEventsFragment_Events_categoriesEvents_EventsToCategoryEventConnection | null
   customFields?: RelatedEventsFragment_Events_customFields_CustomFields | null
   featuredImage?: RelatedEventsFragment_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
   seo?: RelatedEventsFragment_Events_seo_PostTypeSEO | null
@@ -446,6 +454,22 @@ type PageInfo_CaseStudiesToInstitutionConnectionPageInfo_Fragment = {
 
 type PageInfo_CaseStudiesToTermNodeConnectionPageInfo_Fragment = {
   __typename?: 'CaseStudiesToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryEventToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryEventToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_CategoryEventToEventsConnectionPageInfo_Fragment = {
+  __typename?: 'CategoryEventToEventsConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -548,8 +572,24 @@ type PageInfo_DiseasesToDiseasesConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_EventsToCategoryEventConnectionPageInfo_Fragment = {
+  __typename?: 'EventsToCategoryEventConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_EventsToEventsConnectionPageInfo_Fragment = {
   __typename?: 'EventsToEventsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_EventsToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'EventsToTermNodeConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -854,6 +894,14 @@ type PageInfo_RootQueryToCaseStudiesConnectionPageInfo_Fragment = {
 
 type PageInfo_RootQueryToCategoryConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToCategoryConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToCategoryEventConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToCategoryEventConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -1363,6 +1411,8 @@ export type PageInfoFragment =
   | PageInfo_CaseStudiesToCaseStudiesConnectionPageInfo_Fragment
   | PageInfo_CaseStudiesToInstitutionConnectionPageInfo_Fragment
   | PageInfo_CaseStudiesToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_CategoryEventToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_CategoryEventToEventsConnectionPageInfo_Fragment
   | PageInfo_CategoryNewsToContentNodeConnectionPageInfo_Fragment
   | PageInfo_CategoryNewsToNewsConnectionPageInfo_Fragment
   | PageInfo_CategoryToAncestorsCategoryConnectionPageInfo_Fragment
@@ -1375,7 +1425,9 @@ export type PageInfoFragment =
   | PageInfo_ContentTypeToContentNodeConnectionPageInfo_Fragment
   | PageInfo_ContentTypeToTaxonomyConnectionPageInfo_Fragment
   | PageInfo_DiseasesToDiseasesConnectionPageInfo_Fragment
+  | PageInfo_EventsToCategoryEventConnectionPageInfo_Fragment
   | PageInfo_EventsToEventsConnectionPageInfo_Fragment
+  | PageInfo_EventsToTermNodeConnectionPageInfo_Fragment
   | PageInfo_GraphqlDocumentGroupToContentNodeConnectionPageInfo_Fragment
   | PageInfo_GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo_Fragment
   | PageInfo_GraphqlDocumentToGraphqlDocumentConnectionPageInfo_Fragment
@@ -1414,6 +1466,7 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToAnimalConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCaseStudiesConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCategoryConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToCategoryEventConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCategoryNewsConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCommentConnectionPageInfo_Fragment
   | PageInfo_RootQueryToContentNodeConnectionPageInfo_Fragment
@@ -2249,6 +2302,15 @@ export type GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserCo
   node: GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserConnectionEdge_node_User
 }
 
+export type GetEventsQuery_RootQuery_events_Events_categoriesEvents_EventsToCategoryEventConnection_nodes_CategoryEvent =
+  { __typename?: 'CategoryEvent'; id: string; name?: string | null }
+
+export type GetEventsQuery_RootQuery_events_Events_categoriesEvents_EventsToCategoryEventConnection =
+  {
+    __typename?: 'EventsToCategoryEventConnection'
+    nodes: Array<GetEventsQuery_RootQuery_events_Events_categoriesEvents_EventsToCategoryEventConnection_nodes_CategoryEvent>
+  }
+
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Animal =
   { __typename?: 'Animal' }
 
@@ -2264,6 +2326,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
     title?: string | null
     id: string
     uri?: string | null
+    categoriesEvents?: RelatedEventsFragment_Events_categoriesEvents_EventsToCategoryEventConnection | null
     customFields?: RelatedEventsFragment_Events_customFields_CustomFields | null
     featuredImage?: RelatedEventsFragment_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
     seo?: RelatedEventsFragment_Events_seo_PostTypeSEO | null
@@ -2428,7 +2491,6 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields = {
   organizer?: string | null
   startDate?: string | null
   locationType?: string | null
-  category?: string | null
   description?: string | null
   relatedEvents?: GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection | null
   relatedNews?: GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection | null
@@ -2464,6 +2526,7 @@ export type GetEventsQuery_RootQuery_events_Events = {
   slug?: string | null
   content?: string | null
   author?: GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserConnectionEdge | null
+  categoriesEvents?: GetEventsQuery_RootQuery_events_Events_categoriesEvents_EventsToCategoryEventConnection | null
   customFields?: GetEventsQuery_RootQuery_events_Events_customFields_CustomFields | null
   seo?: GetEventsQuery_RootQuery_events_Events_seo_PostTypeSEO | null
   featuredImage?: GetEventsQuery_RootQuery_events_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
@@ -2489,6 +2552,15 @@ export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_pa
     hasPreviousPage: boolean
   }
 
+export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_categoriesEvents_EventsToCategoryEventConnection_nodes_CategoryEvent =
+  { __typename?: 'CategoryEvent'; id: string; name?: string | null }
+
+export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_categoriesEvents_EventsToCategoryEventConnection =
+  {
+    __typename?: 'EventsToCategoryEventConnection'
+    nodes: Array<GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_categoriesEvents_EventsToCategoryEventConnection_nodes_CategoryEvent>
+  }
+
 export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_customFields_CustomFields =
   {
     __typename?: 'CustomFields'
@@ -2499,7 +2571,6 @@ export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_no
     order?: number | null
     endDate?: string | null
     organizer?: string | null
-    category?: string | null
     description?: string | null
   }
 
@@ -2517,6 +2588,7 @@ export type GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_no
   id: string
   title?: string | null
   uri?: string | null
+  categoriesEvents?: GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_categoriesEvents_EventsToCategoryEventConnection | null
   customFields?: GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_customFields_CustomFields | null
   featuredImage?: GetAllEventsQuery_RootQuery_allEvents_RootQueryToEventsConnection_nodes_Events_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
 }
@@ -3805,6 +3877,26 @@ export const RelatedEventsFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
           {
             kind: 'Field',
+            name: { kind: 'Name', value: 'categoriesEvents' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
             name: { kind: 'Name', value: 'customFields' },
             selectionSet: {
               kind: 'SelectionSet',
@@ -3814,7 +3906,6 @@ export const RelatedEventsFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'country' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
               ],
             },
@@ -5465,6 +5556,26 @@ export const GetEventsDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'categoriesEvents' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'customFields' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -5538,7 +5649,6 @@ export const GetEventsDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'organizer' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'locationType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                     ],
                   },
@@ -5606,6 +5716,26 @@ export const GetEventsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
           {
             kind: 'Field',
+            name: { kind: 'Name', value: 'categoriesEvents' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
             name: { kind: 'Name', value: 'customFields' },
             selectionSet: {
               kind: 'SelectionSet',
@@ -5615,7 +5745,6 @@ export const GetEventsDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'country' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'startDate' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
               ],
             },
@@ -5825,6 +5954,26 @@ export const GetAllEventsDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'categoriesEvents' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'customFields' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -5836,7 +5985,6 @@ export const GetAllEventsDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'order' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'endDate' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'organizer' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                           ],
                         },

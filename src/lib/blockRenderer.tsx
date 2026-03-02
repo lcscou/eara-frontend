@@ -2858,7 +2858,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     }
 
     case 'eara/latest-events': {
-      return <FeaturedEvents key={index} withSectionWrapper={false} />
+      const eventCategory = (attributes.eventCategory as string) || undefined
+      return <FeaturedEvents key={index} withSectionWrapper={false} eventCategory={eventCategory} />
     }
 
     case 'eara/media-bank': {

@@ -162,6 +162,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
                       featuredImage={
                         relatedEvent?.featuredImage?.node?.guid || '/eara-fallback.png'
                       }
+                      category={relatedEvent?.categoriesEvents?.nodes?.[0]?.name || 'General'}
                       link={relatedEvent?.uri || ''}
                       excerpt={truncateText(relatedEvent.customFields?.description || '', 23)}
                       orientation="vertical"

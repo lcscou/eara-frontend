@@ -12,12 +12,17 @@ import { useMemo, useState } from 'react'
 
 export default function FeaturedEvents({
   withSectionWrapper = true,
+  eventCategory,
 }: {
   withSectionWrapper?: boolean
+  eventCategory?: string | null
 }) {
   const [embla, setEmbla] = useState<EmblaCarouselType | null>(null)
   const { data } = useQuery(GetAllEventsDocument, {
-    variables: { first: 6 },
+    variables: {
+      first: 6,
+      category: eventCategory || undefined,
+    },
     fetchPolicy: 'cache-and-network',
   })
 
@@ -90,7 +95,7 @@ export default function FeaturedEvents({
           return (
             <Carousel.Slide key={event.id}>
               <EventCard
-                category={event?.customFields?.category || 'General'}
+                category={event?.categoriesEvents?.nodes?.[0]?.name || 'General'}
                 link={event.uri || '#'}
                 date={event.customFields?.startDate || undefined}
                 location={event.customFields?.location || undefined}

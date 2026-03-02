@@ -40,15 +40,9 @@ function ArchiveEventsContent() {
       // Se não houver parâmetro de status na URL, mantém 'upcoming' como padrão
       setSelectedStatus('upcoming')
     }
-    if (category) {
-      setSelectedCategory(category)
-    }
-    if (country) {
-      setSelectedCountry(country)
-    }
-    if (locationType) {
-      setSelectedLocationType(locationType)
-    }
+    setSelectedCategory(category && category !== 'all' ? category : null)
+    setSelectedCountry(country || null)
+    setSelectedLocationType(locationType || null)
   }, [searchParams])
 
   // Update URL when filters change
@@ -88,6 +82,17 @@ function ArchiveEventsContent() {
 
   const hasNextPage = data?.allEvents?.pageInfo?.hasNextPage
   const endCursor = data?.allEvents?.pageInfo?.endCursor
+  const availableCategories = useMemo(() => {
+    const categories = new Set<string>()
+
+    data?.allEvents?.nodes?.forEach((event) => {
+      event?.categoriesEvents?.nodes?.forEach((category) => {
+        if (category?.name) categories.add(category.name)
+      })
+    })
+
+    return Array.from(categories).sort((a, b) => a.localeCompare(b))
+  }, [data?.allEvents?.nodes])
 
   // Filter events based on category, location and date
   const filteredEvents = useMemo(() => {
@@ -108,7 +113,9 @@ function ArchiveEventsContent() {
     }
 
     if (selectedCategory) {
-      filtered = filtered.filter((event) => event?.customFields?.category === selectedCategory)
+      filtered = filtered.filter((event) =>
+        event?.categoriesEvents?.nodes?.some((category) => category?.name === selectedCategory)
+      )
     }
 
     if (selectedCountry) {
@@ -197,47 +204,35 @@ function ArchiveEventsContent() {
           <Group gap={5}>
             <Button
               size="md"
-              leftSection={!selectedCategory ? <IconCheck size={18} /> : null}
+              leftSection={selectedCategory === null ? <IconCheck size={18} /> : null}
               fw={500}
               tt="uppercase"
               fz={13}
               onClick={() => {
-                const newCategory = selectedCategory === null ? 'all' : null
-                setSelectedCategory(newCategory)
-                updateURL({ category: newCategory })
+                setSelectedCategory(null)
+                updateURL({ category: null })
               }}
-              variant={!selectedCategory ? 'light' : 'outline'}
+              variant={selectedCategory === null ? 'light' : 'outline'}
             >
               All Categories
             </Button>
-            <Button
-              size="md"
-              leftSection={selectedCategory === 'Conference' ? <IconCheck size={18} /> : null}
-              fw={500}
-              tt="uppercase"
-              fz={13}
-              onClick={() => {
-                setSelectedCategory('Conference')
-                updateURL({ category: 'Conference' })
-              }}
-              variant={selectedCategory === 'Conference' ? 'light' : 'outline'}
-            >
-              Conference
-            </Button>
-            <Button
-              size="md"
-              leftSection={selectedCategory === 'Media Training' ? <IconCheck size={18} /> : null}
-              fw={500}
-              tt="uppercase"
-              fz={13}
-              onClick={() => {
-                setSelectedCategory('Media Training')
-                updateURL({ category: 'Media Training' })
-              }}
-              variant={selectedCategory === 'Media Training' ? 'light' : 'outline'}
-            >
-              Media Training
-            </Button>
+            {availableCategories.map((category) => (
+              <Button
+                key={category}
+                size="md"
+                leftSection={selectedCategory === category ? <IconCheck size={18} /> : null}
+                fw={500}
+                tt="uppercase"
+                fz={13}
+                onClick={() => {
+                  setSelectedCategory(category)
+                  updateURL({ category })
+                }}
+                variant={selectedCategory === category ? 'light' : 'outline'}
+              >
+                {category}
+              </Button>
+            ))}
 
             <Combobox
               store={locationCombobox}
@@ -359,7 +354,7 @@ function ArchiveEventsContent() {
                 excerpt={truncateText(event?.customFields?.description || '', 15)}
                 title={event?.title || ''}
                 date={event?.customFields?.startDate || ''}
-                category={event?.customFields?.category || 'General'}
+                category={event?.categoriesEvents?.nodes?.[0]?.name || 'General'}
                 featuredImage={event?.featuredImage?.node?.guid || ''}
               />
             ))}

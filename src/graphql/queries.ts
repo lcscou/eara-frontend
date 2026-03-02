@@ -221,13 +221,19 @@ export const RelatedEventsFragment = gql`
     title
     id
     uri
+    categoriesEvents {
+      nodes {
+        id
+        name
+      }
+    }
     customFields {
       location
       locationType
       country
       startDate
       endDate
-      category
+
       description
     }
     featuredImage {
@@ -465,6 +471,12 @@ export const GetEvents = gql`
           nicename
         }
       }
+      categoriesEvents {
+        nodes {
+          id
+          name
+        }
+      }
       customFields {
         relatedEvents {
           nodes {
@@ -487,7 +499,7 @@ export const GetEvents = gql`
         organizer
         startDate
         locationType
-        category
+
         description
       }
       slug
@@ -543,6 +555,12 @@ export const GetAllEvents = gql`
         id
         title
         uri
+        categoriesEvents {
+          nodes {
+            id
+            name
+          }
+        }
         customFields {
           startDate
           country
@@ -551,7 +569,6 @@ export const GetAllEvents = gql`
           order
           endDate
           organizer
-          category
           description
         }
         featuredImage {
