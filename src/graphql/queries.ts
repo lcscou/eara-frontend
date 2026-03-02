@@ -731,6 +731,12 @@ export const GetSettings = gql`
   query GetSettings {
     earaSettings {
       themeSettings {
+        archiveTeams {
+          node {
+            id
+            uri
+          }
+        }
         mediabankIntro
         socialMediaLinks {
           instagram

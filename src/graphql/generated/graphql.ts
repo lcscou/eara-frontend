@@ -2833,6 +2833,79 @@ export type GetMembersQueryVariables = Exact<{
 
 export type GetMembersQuery = GetMembersQuery_RootQuery
 
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Animal =
+  { __typename?: 'Animal'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_CaseStudies =
+  { __typename?: 'CaseStudies'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Diseases =
+  { __typename?: 'Diseases'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Events =
+  { __typename?: 'Events'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_MediaBank =
+  { __typename?: 'MediaBank'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_MediaItem =
+  { __typename?: 'MediaItem'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Member =
+  { __typename?: 'Member'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_News =
+  { __typename?: 'News'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Office =
+  { __typename?: 'Office'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Page =
+  { __typename?: 'Page'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Post =
+  { __typename?: 'Post'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_PressRelease =
+  { __typename?: 'PressRelease'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_ResearchArea =
+  { __typename?: 'ResearchArea'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Team =
+  { __typename?: 'Team'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Ticker =
+  { __typename?: 'Ticker'; id: string; uri?: string | null }
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node =
+
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Animal
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_CaseStudies
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Diseases
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Events
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_GraphqlDocument
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_MediaBank
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_MediaItem
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Member
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_News
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Office
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Page
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Post
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_PressRelease
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_ResearchArea
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Team
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Ticker
+
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge =
+  {
+    __typename?: 'AcfContentNodeConnectionEdge'
+    node: GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node
+  }
+
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_socialMediaLinks_ThemeSettingsSocialMediaLinks =
   {
     __typename?: 'ThemeSettingsSocialMediaLinks'
@@ -2848,6 +2921,7 @@ export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_T
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings = {
   __typename?: 'ThemeSettings'
   mediabankIntro?: string | null
+  archiveTeams?: GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge | null
   socialMediaLinks?: GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_socialMediaLinks_ThemeSettingsSocialMediaLinks | null
 }
 
@@ -6410,6 +6484,26 @@ export const GetSettingsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'archiveTeams' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'mediabankIntro' } },
                       {
                         kind: 'Field',

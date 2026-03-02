@@ -1200,7 +1200,7 @@ function renderCoreColumns(block: Block, index: number, freeformContent?: string
   const mobileStackClass = isStackedOnMobile ? `columns-stack-mobile-${columnsId}` : ''
 
   return (
-    <div key="index">
+    <div key={index}>
       {isStackedOnMobile && (
         <style
           dangerouslySetInnerHTML={{

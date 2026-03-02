@@ -2,8 +2,14 @@
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import TeamCard from '@/components/ui/TeamCard/TeamCard'
-import { GetAllTeamDocument, GetAllTeamQuery } from '@/graphql/generated/graphql'
-import { useSuspenseQuery } from '@apollo/client/react'
+import {
+  GetAllTeamDocument,
+  GetAllTeamQuery,
+  GetPageDocument,
+  GetSettingsDocument,
+} from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
+import { useQuery, useSuspenseQuery } from '@apollo/client/react'
 import { Container, Group, Loader } from '@mantine/core'
 import { useCallback, useState } from 'react'
 
@@ -14,7 +20,19 @@ export default function ArchiveTeam() {
     variables: { first: PAGE_SIZE },
   })
 
+  const { data: settingsData } = useSuspenseQuery(GetSettingsDocument)
+
   const [loadingMore, setLoadingMore] = useState(false)
+
+  const archiveTeamPageUri =
+    settingsData?.earaSettings?.themeSettings?.archiveTeams?.node?.uri
+      ?.replace(/^\/+/, '')
+      .replace(/\/+$/, '') ?? ''
+
+  const { data: archiveTeamPageData } = useQuery(GetPageDocument, {
+    variables: { id: archiveTeamPageUri },
+    skip: !archiveTeamPageUri,
+  })
 
   const hasNextPage = data?.allTeams?.pageInfo?.hasNextPage
   const endCursor = data?.allTeams?.pageInfo?.endCursor
@@ -80,6 +98,14 @@ export default function ArchiveTeam() {
           </Group>
         )}
       </Container>
+      {archiveTeamPageData?.page && (
+        <article className="mt-16">
+          {renderPageBlocks(
+            archiveTeamPageData.page.blocks,
+            archiveTeamPageData.page.content || undefined
+          )}
+        </article>
+      )}
     </>
   )
 }
