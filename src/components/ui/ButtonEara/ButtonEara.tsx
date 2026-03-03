@@ -109,7 +109,10 @@ export default function ButtonEara({
             <div
               className={clsx('mx-1 flex items-center justify-center rounded-full', s.arrowIcon)}
             >
-              <IconArrowRight className={clsx('bg-secondaryColor rounded-full p-1 text-black')} />
+              <IconArrowRight
+                fill="#000"
+                className={clsx('bg-secondaryColor rounded-full p-1 text-black')}
+              />
             </div>
           }
           variant="filled"
