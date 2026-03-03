@@ -107,14 +107,9 @@ export default function ButtonEara({
           {...(link && target ? { target: target } : {})}
           rightSection={
             <div
-              className={clsx(
-                'mx-1 flex aspect-square items-center justify-center rounded-full',
-                s.arrowIcon
-              )}
+              className={clsx('mx-1 flex items-center justify-center rounded-full', s.arrowIcon)}
             >
-              <IconArrowRight
-                className={clsx('bg-secondaryColor h-full w-full rounded-full p-1 text-black')}
-              />
+              <IconArrowRight className={clsx('bg-secondaryColor rounded-full p-1 text-black')} />
             </div>
           }
           variant="filled"

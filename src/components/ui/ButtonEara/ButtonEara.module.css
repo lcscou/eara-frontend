@@ -1,6 +1,19 @@
 .withArrow:hover {
   transition: all 0.3s ease;
 }
+
+.arrowIcon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+}
+
+.arrowIcon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .withArrow:hover .arrowIcon svg path {
   /* transform: translateX(4px); */
   animation: bounce-in-right 0.2s alternate ease-in-out 2;
