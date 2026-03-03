@@ -17,6 +17,7 @@ import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import MembersMap from '@/components/ui/MembersMap/MembersMap'
 import Section from '@/components/ui/Section/Section'
 import { Carousel } from '@mantine/carousel'
+import { BarChart, DonutChart } from '@mantine/charts'
 import {
   Anchor,
   Box,
@@ -456,6 +457,47 @@ export interface EaraCarouselAttributes extends BlockAttribute {
 export interface EaraCarouselItemAttributes extends BlockAttribute {
   backgroundColor?: string
   padding?: string
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+}
+
+export interface EaraChartSeriesItem {
+  name: string
+  color: string
+}
+
+export interface EaraChartDonutDataItem {
+  name: string
+  value: number
+  color: string
+}
+
+export interface EaraChartDataItem {
+  [key: string]: string | number | null | undefined
+}
+
+export interface EaraChartAttributes extends BlockAttribute {
+  variant?: 'bar' | 'donut'
+  chartLabel?: string
+  data?: EaraChartDataItem[]
+  series?: EaraChartSeriesItem[]
+  dataKey?: string
+  orientation?: 'vertical' | 'horizontal'
+  type?: 'default' | 'stacked' | 'percent'
+  unit?: string
+  withBarValueLabel?: boolean
+  tooltipDataSource?: 'segment' | 'all'
+  height?: number
+  withLegend?: boolean
+  yAxisLabel?: string
+  xAxisLabel?: string
+  gridAxis?: 'none' | 'x' | 'y' | 'xy'
+  donutSize?: number
+  donutThickness?: number
+  donutWithLabels?: boolean
+  donutWithLabelsLine?: boolean
+  donutData?: EaraChartDonutDataItem[]
   lock?: Record<string, unknown>
   metadata?: Record<string, unknown>
   className?: string
@@ -2568,6 +2610,196 @@ function renderEaraCarouselItem(block: Block, index: number, freeformContent?: s
   )
 }
 
+function renderEaraChart(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as EaraChartAttributes | undefined
+
+  const toCssColor = (color: string): string => {
+    if (!color) return color
+    if (color.startsWith('#') || color.startsWith('rgb') || color.startsWith('var(')) {
+      return color
+    }
+
+    const [name, shade] = color.split('.')
+    if (name && shade && /^\d+$/.test(shade)) {
+      return `var(--mantine-color-${name}-${shade})`
+    }
+
+    return color
+  }
+
+  const parseBoolean = (value: unknown, defaultValue: boolean): boolean => {
+    if (typeof value === 'boolean') return value
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase()
+      if (normalized === 'true') return true
+      if (normalized === 'false') return false
+    }
+    return defaultValue
+  }
+
+  const parseNumber = (value: unknown, defaultValue: number): number => {
+    if (typeof value === 'number' && Number.isFinite(value)) return value
+    if (typeof value === 'string') {
+      const parsed = Number(value)
+      if (Number.isFinite(parsed)) return parsed
+    }
+    return defaultValue
+  }
+
+  const variant = attributes?.variant === 'donut' ? 'donut' : 'bar'
+  const chartLabel = attributes?.chartLabel || 'Chart Title'
+  const className = attributes?.className || ''
+
+  const {
+    bgColor,
+    textColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+  } = extractCommonStyles(attributes)
+
+  if (variant === 'donut') {
+    const donutData = Array.isArray(attributes?.donutData)
+      ? attributes.donutData
+      : [
+          { name: 'USA', value: 400, color: 'indigo.6' },
+          { name: 'India', value: 300, color: 'yellow.6' },
+          { name: 'Japan', value: 100, color: 'teal.6' },
+          { name: 'Other', value: 200, color: 'gray.6' },
+        ]
+
+    const donutSize = parseNumber(attributes?.donutSize, 240)
+    const donutThickness = parseNumber(attributes?.donutThickness, 22)
+    const donutWithLabels = parseBoolean(attributes?.donutWithLabels, true)
+    const donutWithLabelsLine = parseBoolean(attributes?.donutWithLabelsLine, true)
+    const withLegend = parseBoolean(attributes?.withLegend, true)
+
+    return (
+      <Box
+        key={index}
+        className={className}
+        bg={bgColor}
+        c={textColor}
+        pb={paddingBottom}
+        pt={paddingTop}
+        pl={paddingLeft}
+        pr={paddingRight}
+        mb={marginBottom}
+        mt={marginTop}
+        ml={marginLeft}
+        mr={marginRight}
+      >
+        {chartLabel ? (
+          <Title order={4} mb="md">
+            {chartLabel}
+          </Title>
+        ) : null}
+
+        <DonutChart
+          data={donutData}
+          size={donutSize}
+          thickness={donutThickness}
+          withLabels={donutWithLabels}
+          withLabelsLine={donutWithLabelsLine}
+        />
+
+        {withLegend ? (
+          <Group mt="md" gap="md" wrap="wrap">
+            {donutData.map((item, itemIndex) => (
+              <Group key={`${item.name}-${itemIndex}`} gap="xs">
+                <Box
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: '50%',
+                    backgroundColor: toCssColor(item.color),
+                  }}
+                />
+                <Box component="span" fz="sm">
+                  {item.name}
+                </Box>
+              </Group>
+            ))}
+          </Group>
+        ) : null}
+      </Box>
+    )
+  }
+
+  const data = Array.isArray(attributes?.data)
+    ? attributes.data
+    : [
+        { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 0 },
+        { month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+        { month: 'March', Smartphones: 0, Laptops: 1000, Tablets: 200 },
+        { month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+        { month: 'May', Smartphones: 800, Laptops: 0, Tablets: 1200 },
+        { month: 'June', Smartphones: 0, Laptops: 600, Tablets: 1000 },
+      ]
+
+  const series = Array.isArray(attributes?.series)
+    ? attributes.series
+    : [
+        { name: 'Smartphones', color: 'violet.6' },
+        { name: 'Laptops', color: 'blue.6' },
+        { name: 'Tablets', color: 'teal.6' },
+      ]
+
+  const dataKey = attributes?.dataKey || 'month'
+  const orientation = attributes?.orientation === 'horizontal' ? 'horizontal' : 'vertical'
+  const barType = attributes?.type || 'default'
+  const unit = attributes?.unit || ''
+  const withBarValueLabel = parseBoolean(attributes?.withBarValueLabel, false)
+  const height = parseNumber(attributes?.height, 300)
+  const withLegend = parseBoolean(attributes?.withLegend, true)
+  const yAxisLabel = attributes?.yAxisLabel || ''
+  const xAxisLabel = attributes?.xAxisLabel || ''
+  const gridAxis = attributes?.gridAxis || 'y'
+
+  return (
+    <Box
+      key={index}
+      className={className}
+      bg={bgColor}
+      c={textColor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      {chartLabel ? (
+        <Title order={4} mb="md">
+          {chartLabel}
+        </Title>
+      ) : null}
+
+      <BarChart
+        h={height}
+        data={data}
+        dataKey={dataKey}
+        series={series}
+        orientation={orientation}
+        type={barType}
+        unit={unit}
+        withBarValueLabel={withBarValueLabel}
+        withLegend={withLegend}
+        yAxisLabel={yAxisLabel || undefined}
+        xAxisLabel={xAxisLabel || undefined}
+        gridAxis={gridAxis}
+      />
+    </Box>
+  )
+}
+
 /**
  * Renderiza um item de lista Gutenberg core/list-item com suporte completo a atributos
  */
@@ -3005,6 +3237,10 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
 
     case 'eara/carousel-item': {
       return renderEaraCarouselItem(block, index, freeformContent)
+    }
+
+    case 'eara/eara-chart': {
+      return renderEaraChart(block, index)
     }
 
     case 'eara/media-bank': {

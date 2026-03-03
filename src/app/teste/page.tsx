@@ -6,11 +6,37 @@ import MediaBankImageBlock from '@/components/ui/MediaBankImageBlock/MediaBankIm
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
+import { BarChart, DonutChart } from '@mantine/charts'
 import { Box, Button, Container, Group, Text } from '@mantine/core'
 
+export const data = [
+  { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+  { month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+  { month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+  { month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+  { month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+  { month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+]
+
+export const data2 = [
+  { name: 'Mice', value: 74.1, color: 'primaryColor.1' },
+  { name: 'Rats', value: 5.2, color: 'primaryColor.2' },
+  { name: 'Pigs', value: 0.4, color: 'primaryColor.3' },
+  { name: 'Other birds', value: 1.9, color: 'primaryColor.4' },
+  { name: 'Zebra fish', value: 8.9, color: 'primaryColor.5' },
+  { name: 'Other fish', value: 3.7, color: 'primaryColor.6' },
+]
 export default function TestePage() {
   return (
     <div className="px-8 py-40">
+      <BarChart
+        h={300}
+        data={data}
+        dataKey="species"
+        series={[{ name: 'percentage', color: '#00ff00' }]}
+        tickLine="y"
+      />
+      <DonutChart withLabelsLine labelsType="percent" withLabels data={data2} />
       <JoinEaraForm
         title="Cadastre-se"
         description="Junte-se a nossa comunidade"

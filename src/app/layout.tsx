@@ -1,4 +1,5 @@
 import '@mantine/carousel/styles.css'
+import '@mantine/charts/styles.css'
 import '@mantine/core/styles.css'
 import type { Metadata } from 'next'
 import { Hanken_Grotesk } from 'next/font/google'
