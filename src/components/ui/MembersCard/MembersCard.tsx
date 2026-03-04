@@ -18,7 +18,7 @@ export default function MembersCard({
       <div className={clsx('overflow-hidden rounded-lg bg-[#DEE5D6]', s.root)}>
         <div className="flex aspect-[4/2.7] items-center justify-center rounded-lg bg-white p-4">
           <Image
-            src={featuredImage || '/eara-fallback.png'}
+            src={featuredImage || '/logo-eara.svg'}
             alt={title || 'Member Image'}
             width={180}
             height={180}
