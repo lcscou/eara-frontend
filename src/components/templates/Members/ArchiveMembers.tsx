@@ -16,16 +16,19 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 const PAGE_SIZE = 12
 
 export default function ArchiveMembers() {
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
+  const [loadingMore, setLoadingMore] = useState(false)
+
   // Query para buscar países de todos os membros (sem paginação)
   const { data: countriesData } = useSuspenseQuery(GetMembersCountriesDocument)
 
   // Query principal para buscar membros paginados
   const { data, fetchMore } = useSuspenseQuery(GetAllMembersDocument, {
-    variables: { first: PAGE_SIZE },
+    variables: {
+      first: PAGE_SIZE,
+      country: selectedCountry ?? undefined,
+    },
   })
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
-  const [loadingMore, setLoadingMore] = useState(false)
-  const [viewMode, setViewMode] = useState<'list' | 'map'>('list')
 
   const hasNextPage = data?.members?.pageInfo?.hasNextPage
   const endCursor = data?.members?.pageInfo?.endCursor
@@ -40,44 +43,33 @@ export default function ArchiveMembers() {
   // Gerar opções de países com base em TODOS os membros do backend
   const { countryOptions, totalMembers } = useMemo(() => {
     const allCountryMembers = countriesData?.members?.nodes ?? []
-    const countryCount: Record<string, number> = {}
+    const countryMap: Record<string, { value: string; label: string; count: number }> = {}
 
     for (const m of allCountryMembers) {
       const countries = m?.acfMembers?.country ?? []
       for (const raw of countries) {
-        const value = normalizeCountry(raw)
-        if (!value) continue
-        countryCount[value] = (countryCount[value] ?? 0) + 1
+        const normalizedKey = normalizeCountry(raw)
+        if (!normalizedKey) continue
+
+        if (!countryMap[normalizedKey]) {
+          const originalValue = raw?.trim() ?? ''
+          countryMap[normalizedKey] = {
+            value: originalValue,
+            label: capitalizeCountry(originalValue),
+            count: 0,
+          }
+        }
+
+        countryMap[normalizedKey].count += 1
       }
     }
 
-    const options = Object.entries(countryCount)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([value, count]) => ({
-        value,
-        label: capitalizeCountry(value),
-        count,
-      }))
+    const options = Object.values(countryMap).sort((a, b) => a.label.localeCompare(b.label))
 
     return { countryOptions: options, totalMembers: allCountryMembers.length }
   }, [countriesData])
 
-  // Membros visíveis na página atual
-  const { allMembers, countryIndex } = useMemo(() => {
-    const all = data?.members?.nodes ?? []
-    const index: Record<string, Array<(typeof all)[number]>> = {}
-
-    for (const m of all) {
-      const countries = m?.acfMembers?.country ?? []
-      for (const raw of countries) {
-        const value = normalizeCountry(raw)
-        if (!value) continue
-        ;(index[value] ??= []).push(m)
-      }
-    }
-
-    return { allMembers: all, countryIndex: index }
-  }, [data])
+  const allMembers = data?.members?.nodes ?? []
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -85,7 +77,11 @@ export default function ArchiveMembers() {
     setTimeout(async () => {
       try {
         await fetchMore({
-          variables: { first: PAGE_SIZE, after: endCursor },
+          variables: {
+            first: PAGE_SIZE,
+            after: endCursor,
+            country: selectedCountry ?? undefined,
+          },
           updateQuery: (
             prev: GetAllMembersQuery,
             { fetchMoreResult }: { fetchMoreResult?: GetAllMembersQuery }
@@ -105,9 +101,9 @@ export default function ArchiveMembers() {
         setLoadingMore(false)
       }
     }, 0)
-  }, [hasNextPage, loadingMore, endCursor, fetchMore])
+  }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedCountry])
 
-  const filteredMembers = selectedCountry ? (countryIndex[selectedCountry] ?? []) : allMembers
+  const filteredMembers = allMembers
 
   useEffect(() => {
     if (selectedCountry && !countryOptions.some((o) => o.value === selectedCountry)) {
