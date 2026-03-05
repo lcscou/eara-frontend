@@ -127,7 +127,7 @@ export async function GET() {
           title: node?.title || 'Sem titulo',
           latitude: lat,
           longitude: lon,
-          featuredImage: node?.featuredImage?.node?.guid || undefined,
+          featuredImage: node?.featuredImage?.node?.guid || '/logo-eara.svg',
           website: node?.acfMembers?.website || undefined,
         })
       }
