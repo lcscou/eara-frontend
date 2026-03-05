@@ -564,6 +564,14 @@ type PageInfo_ContentTypeToTaxonomyConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_DataChartToDataChartConnectionPageInfo_Fragment = {
+  __typename?: 'DataChartToDataChartConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_DiseasesToDiseasesConnectionPageInfo_Fragment = {
   __typename?: 'DiseasesToDiseasesConnectionPageInfo'
   endCursor?: string | null
@@ -934,6 +942,14 @@ type PageInfo_RootQueryToContentNodeConnectionPageInfo_Fragment = {
 
 type PageInfo_RootQueryToContentTypeConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToContentTypeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToDataChartConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToDataChartConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -1424,6 +1440,7 @@ export type PageInfoFragment =
   | PageInfo_ContentNodeToEnqueuedStylesheetConnectionPageInfo_Fragment
   | PageInfo_ContentTypeToContentNodeConnectionPageInfo_Fragment
   | PageInfo_ContentTypeToTaxonomyConnectionPageInfo_Fragment
+  | PageInfo_DataChartToDataChartConnectionPageInfo_Fragment
   | PageInfo_DiseasesToDiseasesConnectionPageInfo_Fragment
   | PageInfo_EventsToCategoryEventConnectionPageInfo_Fragment
   | PageInfo_EventsToEventsConnectionPageInfo_Fragment
@@ -1471,6 +1488,7 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToCommentConnectionPageInfo_Fragment
   | PageInfo_RootQueryToContentNodeConnectionPageInfo_Fragment
   | PageInfo_RootQueryToContentTypeConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToDataChartConnectionPageInfo_Fragment
   | PageInfo_RootQueryToDiseasesConnectionPageInfo_Fragment
   | PageInfo_RootQueryToEnqueuedScriptConnectionPageInfo_Fragment
   | PageInfo_RootQueryToEnqueuedStylesheetConnectionPageInfo_Fragment
@@ -1693,6 +1711,14 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfCont
     seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
   }
 
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_DataChart =
+  {
+    __typename?: 'DataChart'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal_seo_PostTypeSEO | null
+  }
+
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Diseases =
   {
     __typename?: 'Diseases'
@@ -1809,6 +1835,7 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfCont
 
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Animal
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_CaseStudies
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_DataChart
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Diseases
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Events
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument
@@ -1835,6 +1862,9 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentN
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_CaseStudies =
   { __typename?: 'CaseStudies'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_DataChart =
+  { __typename?: 'DataChart'; id: string; slug?: string | null }
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases =
   { __typename?: 'Diseases'; id: string; slug?: string | null }
@@ -1882,6 +1912,7 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentN
 
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_CaseStudies
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_DataChart
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument
@@ -1907,6 +1938,9 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNo
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_CaseStudies =
   { __typename?: 'CaseStudies'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_DataChart =
+  { __typename?: 'DataChart'; id: string; slug?: string | null }
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases =
   { __typename?: 'Diseases'; id: string; slug?: string | null }
@@ -1954,6 +1988,7 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNo
 
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Animal
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_CaseStudies
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_DataChart
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument
@@ -2082,6 +2117,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_CaseStudies =
   { __typename?: 'CaseStudies'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_DataChart =
+  { __typename?: 'DataChart'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases =
   { __typename?: 'Diseases'; id: string; slug?: string | null }
 
@@ -2128,6 +2166,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_CaseStudies
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_DataChart
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument
@@ -2154,6 +2193,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_CaseStudies =
   { __typename?: 'CaseStudies'; id: string; slug?: string | null }
+
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_DataChart =
+  { __typename?: 'DataChart'; id: string; slug?: string | null }
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases =
   { __typename?: 'Diseases'; id: string; slug?: string | null }
@@ -2201,6 +2243,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Animal
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_CaseStudies
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_DataChart
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument
@@ -2317,6 +2360,9 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_CaseStudies =
   { __typename?: 'CaseStudies' }
 
+export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_DataChart =
+  { __typename?: 'DataChart' }
+
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Diseases =
   { __typename?: 'Diseases' }
 
@@ -2372,6 +2418,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
 
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Animal
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_CaseStudies
+    | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_DataChart
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Diseases
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Events
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_GraphqlDocument
@@ -2398,6 +2445,9 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_CaseStudies =
   { __typename?: 'CaseStudies' }
+
+export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_DataChart =
+  { __typename?: 'DataChart' }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Diseases =
   { __typename?: 'Diseases' }
@@ -2453,6 +2503,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
 
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Animal
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_CaseStudies
+    | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_DataChart
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Diseases
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Events
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument
@@ -2911,6 +2962,9 @@ export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_T
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_CaseStudies =
   { __typename?: 'CaseStudies'; id: string; uri?: string | null }
 
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_DataChart =
+  { __typename?: 'DataChart'; id: string; uri?: string | null }
+
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Diseases =
   { __typename?: 'Diseases'; id: string; uri?: string | null }
 
@@ -2957,6 +3011,7 @@ export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_T
 
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Animal
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_CaseStudies
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_DataChart
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Diseases
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Events
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_GraphqlDocument
@@ -3814,6 +3869,22 @@ export type GetMediabanksCountriesQuery_RootQuery = {
 export type GetMediabanksCountriesQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetMediabanksCountriesQuery = GetMediabanksCountriesQuery_RootQuery
+
+export type GetAllCountriesInMembersQuery_RootQuery_getAllCountriesInMembers_CountryOption = {
+  __typename?: 'CountryOption'
+  label?: string | null
+  value?: string | null
+  count?: number | null
+}
+
+export type GetAllCountriesInMembersQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  getAllCountriesInMembers?: Array<GetAllCountriesInMembersQuery_RootQuery_getAllCountriesInMembers_CountryOption | null> | null
+}
+
+export type GetAllCountriesInMembersQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllCountriesInMembersQuery = GetAllCountriesInMembersQuery_RootQuery
 
 export const RelatedNewsFragmentDoc = {
   kind: 'Document',
@@ -8427,3 +8498,30 @@ export const GetMediabanksCountriesDocument = {
     },
   ],
 } as unknown as DocumentNode<GetMediabanksCountriesQuery, GetMediabanksCountriesQueryVariables>
+export const GetAllCountriesInMembersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllCountriesInMembers' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getAllCountriesInMembers' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllCountriesInMembersQuery, GetAllCountriesInMembersQueryVariables>

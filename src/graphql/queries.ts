@@ -1269,3 +1269,12 @@ export const GetMediabanksCountries = gql`
     }
   }
 `
+export const GetAllCountriesInMembers = gql`
+  query GetAllCountriesInMembers {
+    getAllCountriesInMembers {
+      label
+      value
+      count
+    }
+  }
+`
