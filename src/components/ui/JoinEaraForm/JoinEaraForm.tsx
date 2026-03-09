@@ -86,7 +86,7 @@ function JoinEaraFormComponent({
       <Input.Wrapper label="Full name" size="sm" styles={{ label: { marginBottom: '8px' } }}>
         <TextInput
           required
-          placeholder="e.g., Maria Silva"
+          placeholder="e.g.: Jane Smith"
           value={form.name}
           onChange={(event) => setForm((prev) => ({ ...prev, name: event.currentTarget?.value }))}
           radius="xl"
@@ -113,7 +113,7 @@ function JoinEaraFormComponent({
         <TextInput
           required
           type="email"
-          placeholder="e.g., maria.silva@university.edu"
+          placeholder="e.g.: jane.smith@edu.eu"
           value={form.email}
           onChange={(event) => setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))}
           radius="xl"
@@ -139,7 +139,7 @@ function JoinEaraFormComponent({
       <Input.Wrapper label="Institution" size="sm" styles={{ label: { marginBottom: '8px' } }}>
         <TextInput
           required
-          placeholder="e.g., University of Lisbon"
+          placeholder="e.g.: Oxford University"
           value={form.institution}
           onChange={(event) =>
             setForm((prev) => ({ ...prev, institution: event.currentTarget?.value }))
@@ -167,7 +167,7 @@ function JoinEaraFormComponent({
       <Input.Wrapper label="Country" size="sm" styles={{ label: { marginBottom: '8px' } }}>
         <TextInput
           required
-          placeholder="e.g., Portugal"
+          placeholder="e.g.: United Kingdom"
           value={form.country}
           onChange={(event) =>
             setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))
