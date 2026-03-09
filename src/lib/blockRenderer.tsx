@@ -2520,7 +2520,7 @@ function renderEaraCarousel(block: Block, index: number, freeformContent?: strin
   const withIndicators = parseBoolean(attributes?.withIndicators, true)
   const slideGap = attributes?.slideGap ?? 'md'
   const slideSize = attributes?.slideSize ?? '100%'
-  const height = attributes?.height ?? '400px'
+  const height = attributes?.height ?? 'auto'
   const initialSlide = parseNumber(attributes?.initialSlide, 0)
   const className = attributes?.className || ''
 
