@@ -16,7 +16,7 @@ export default function LoginPage() {
         <Container size="xl" className="flex h-full items-center justify-center">
           <section className="grid w-full overflow-hidden rounded-2xl bg-[#EAEAEA] sm:grid-cols-2">
             <div className="overflow-hidden rounded-2xl">
-              <Image src="./login-members.jpg" w="100%" h="100%" alt="Login" />
+              <Image src="./opt__PLF48240-sRGB-HR.webp" w="100%" h="100%" alt="Login" />
             </div>
             <div className="p-14">
               <Stack>
