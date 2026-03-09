@@ -202,7 +202,7 @@ function JoinEaraFormComponent({
           Clear
         </Button> */}
         <ButtonEara variant="with-arrow" type="submit" loading={isSubmitting} color="primaryColor">
-          Join
+          Submit
         </ButtonEara>
       </Group>
     </form>
