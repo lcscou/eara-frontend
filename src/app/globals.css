@@ -63,3 +63,16 @@ input:-webkit-autofill:active {
   margin-left: 10px !important;
   font-weight: 400;
 }
+
+@media (max-width: 500px) {
+  .hero-home {
+    /* margin-top: 300px; */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-size: 4.5rem !important;
+    }
+  }
+}

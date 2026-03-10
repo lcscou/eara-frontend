@@ -53,7 +53,7 @@ export default function HomeHero({
         }}
         className="flex min-h-svh flex-col items-center justify-center"
       >
-        <div className="relative z-1">
+        <div className="hero-home relative z-1">
           <Container>{children}</Container>
         </div>
         {overlayOpacity > 0 && (
