@@ -3472,7 +3472,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const title = (attributes.title as string) || ''
       const link = (attributes.link as string) || ''
       const variant = (attributes.variant as CardProps['variant']) || 'layout-1'
-
+      const target = (attributes.linkTarget as string) || ''
       const {
         paddingBottom,
         paddingTop,
@@ -3500,6 +3500,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             id={index.toString()}
             variant={variant}
             uri={link}
+            target={target}
             className={className}
             featuredImage={featuredImage?.url || ''}
             title={title}

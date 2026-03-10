@@ -64,6 +64,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   featuredImage?: string
   description?: string
   uri?: string
+  target?: '_self' | '_blank' | '_parent' | '_top' | string
 }
 export interface QuoteProps {
   texto: string

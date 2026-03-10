@@ -9,6 +9,7 @@ export default function Card({
   description,
   featuredImage,
   uri,
+  target = '_self',
   variant = 'layout-1',
   ...props
 }: CardProps) {
@@ -60,7 +61,7 @@ export default function Card({
   )
   if (uri) {
     return (
-      <Link href={uri} aria-label={title ? `Open ${title}` : 'Open'}>
+      <Link href={uri} target={target} aria-label={title ? `Open ${title}` : 'Open'}>
         {cardContent}
       </Link>
     )
