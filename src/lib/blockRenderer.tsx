@@ -2788,6 +2788,23 @@ function renderEaraChart(block: Block, index: number): ReactNode {
         dataKey={dataKey}
         series={series}
         orientation={orientation}
+        {...(orientation === 'vertical'
+          ? {
+              yAxisProps: { width: 100 },
+              tooltipProps: {
+                shared: false,
+                cursor: false,
+              },
+              barChartProps: {
+                barCategoryGap: '20%',
+                barGap: 4,
+              },
+              styles: { tooltipBody: { padding: '10px 10px' } },
+              barProps: {
+                activeBar: { stroke: '#111', strokeWidth: 1 },
+              },
+            }
+          : {})}
         type={barType}
         unit={unit}
         withBarValueLabel={withBarValueLabel}

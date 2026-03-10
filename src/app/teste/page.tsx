@@ -30,11 +30,28 @@ export default function TestePage() {
   return (
     <div className="px-8 py-40">
       <BarChart
-        h={300}
+        h={320}
         data={data}
-        dataKey="species"
-        series={[{ name: 'percentage', color: '#00ff00' }]}
-        tickLine="y"
+        dataKey="month"
+        orientation="vertical"
+        yAxisProps={{ width: 100 }}
+        tooltipProps={{
+          shared: false, // hover por item/barra, não por categoria inteira
+          cursor: false, // remove o retângulo "estranho" do hover
+        }}
+        barChartProps={{
+          barCategoryGap: '20%',
+          barGap: 4,
+        }}
+        styles={{ tooltipBody: { padding: '10px 10px' } }}
+        barProps={{
+          activeBar: { stroke: '#111', strokeWidth: 1 }, // destaque da barra ativa
+        }}
+        series={[
+          { name: 'Smartphones', color: 'violet.6' },
+          { name: 'Laptops', color: 'blue.6' },
+          { name: 'Tablets', color: 'teal.6' },
+        ]}
       />
       <DonutChart withLabelsLine labelsType="percent" withLabels data={data2} />
       <JoinEaraForm
