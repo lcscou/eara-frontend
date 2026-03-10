@@ -782,13 +782,20 @@ export const GetMembersCountries = gql`
 `
 
 export const GetAllMembers = gql`
-  query GetAllMembers($first: Int, $after: String, $before: String, $last: Int, $country: String) {
+  query GetAllMembers(
+    $first: Int
+    $after: String
+    $before: String
+    $last: Int
+    $search: String
+    $country: String
+  ) {
     members(
       first: $first
       after: $after
       before: $before
       last: $last
-      where: { country: $country }
+      where: { country: $country, search: $search }
     ) {
       pageInfo {
         endCursor

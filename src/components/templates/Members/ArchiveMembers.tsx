@@ -9,15 +9,26 @@ import {
   GetAllMembersQuery,
 } from '@/graphql/generated/graphql'
 import { useSuspenseQuery } from '@apollo/client/react'
-import { Combobox, Container, Group, Loader, useCombobox } from '@mantine/core'
-import { IconChevronDown } from '@tabler/icons-react'
+import {
+  Autocomplete,
+  Button,
+  Combobox,
+  Container,
+  Group,
+  Loader,
+  useCombobox,
+} from '@mantine/core'
+import { useDebouncedValue } from '@mantine/hooks'
+import { IconChevronDown, IconRestore, IconSearch } from '@tabler/icons-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const PAGE_SIZE = 12
 
 export default function ArchiveMembers() {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [loadingMore, setLoadingMore] = useState(false)
+  const [debouncedSearch] = useDebouncedValue(searchQuery, 300)
 
   // Query para buscar países de todos os membros (sem paginação)
   const { data: countriesData } = useSuspenseQuery(GetAllCountriesInMembersDocument)
@@ -27,6 +38,7 @@ export default function ArchiveMembers() {
     variables: {
       first: PAGE_SIZE,
       country: selectedCountry ?? undefined,
+      search: debouncedSearch.trim() || undefined,
     },
   })
 
@@ -51,7 +63,7 @@ export default function ArchiveMembers() {
     return { countryOptions: options, totalMembers: membersCount }
   }, [countriesData])
 
-  const allMembers = data?.members?.nodes ?? []
+  const allMembers = useMemo(() => data?.members?.nodes ?? [], [data])
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
@@ -63,6 +75,7 @@ export default function ArchiveMembers() {
             first: PAGE_SIZE,
             after: endCursor,
             country: selectedCountry ?? undefined,
+            search: debouncedSearch.trim() || undefined,
           },
           updateQuery: (
             prev: GetAllMembersQuery,
@@ -83,9 +96,23 @@ export default function ArchiveMembers() {
         setLoadingMore(false)
       }
     }, 0)
-  }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedCountry])
+  }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedCountry, debouncedSearch])
 
   const filteredMembers = allMembers
+
+  const memberTitleOptions = useMemo(() => {
+    const seen = new Set<string>()
+
+    return allMembers
+      .map((member) => member?.title?.trim())
+      .filter((title): title is string => Boolean(title))
+      .filter((title) => {
+        if (seen.has(title)) return false
+        seen.add(title)
+        return true
+      })
+      .sort((a, b) => a.localeCompare(b))
+  }, [allMembers])
 
   useEffect(() => {
     if (selectedCountry && !countryOptions.some((o) => o.value === selectedCountry)) {
@@ -97,10 +124,19 @@ export default function ArchiveMembers() {
     ? countryOptions.find((o) => o.value === selectedCountry)?.label || 'Country'
     : 'Country'
 
+  const hasActiveFilters = selectedCountry !== null || searchQuery.trim() !== ''
+
+  const handleResetFilters = () => {
+    setSelectedCountry(null)
+    setSearchQuery('')
+    countryCombobox.resetSelectedOption()
+  }
+
   return (
     <>
       <Container size="xl" my={100}>
-        <Group mb={40} gap={40} justify="space-between">
+        <MembersMap height="fit-content" />
+        <Group my={40} gap={5} justify="">
           {/* <SegmentedControl
             radius="xl"
             size="md"
@@ -127,7 +163,6 @@ export default function ArchiveMembers() {
               },
             ]}
           /> */}
-          <MembersMap height="fit-content" />
 
           <Combobox
             styles={{
@@ -172,11 +207,47 @@ export default function ArchiveMembers() {
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
+
+          <Autocomplete
+            size="md"
+            placeholder="Search..."
+            data={memberTitleOptions}
+            value={searchQuery}
+            onChange={setSearchQuery}
+            rightSection={
+              <IconSearch
+                className="bg-secondaryColor m-0 rounded-full p-2.5 text-[#312F86]"
+                size={40}
+              />
+            }
+            styles={{
+              input: {
+                background: '#fff',
+                borderColor: '#fff',
+              },
+            }}
+            radius="80px"
+          />
+
+          {hasActiveFilters && (
+            <Button
+              size="md"
+              variant="subtle"
+              leftSection={<IconRestore size={16} />}
+              onClick={handleResetFilters}
+            >
+              Reset
+            </Button>
+          )}
         </Group>
 
         <>
           {filteredMembers?.length === 0 && (
-            <ResultNotFound resetFilters={() => setSelectedCountry(null)} />
+            <ResultNotFound
+              resetFilters={() => {
+                handleResetFilters()
+              }}
+            />
           )}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {filteredMembers?.map((member) => (

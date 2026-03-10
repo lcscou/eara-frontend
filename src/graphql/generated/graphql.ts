@@ -3174,6 +3174,7 @@ export type GetAllMembersQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  search?: InputMaybe<Scalars['String']['input']>
   country?: InputMaybe<Scalars['String']['input']>
 }>
 
@@ -6830,6 +6831,11 @@ export const GetAllMembersDocument = {
         },
         {
           kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
@@ -6871,6 +6877,11 @@ export const GetAllMembersDocument = {
                       kind: 'ObjectField',
                       name: { kind: 'Name', value: 'country' },
                       value: { kind: 'Variable', name: { kind: 'Name', value: 'country' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'search' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'search' } },
                     },
                   ],
                 },
