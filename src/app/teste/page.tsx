@@ -33,20 +33,20 @@ export default function TestePage() {
         h={320}
         data={data}
         dataKey="month"
-        orientation="vertical"
-        yAxisProps={{ width: 100 }}
-        tooltipProps={{
-          shared: false, // hover por item/barra, não por categoria inteira
-          cursor: false, // remove o retângulo "estranho" do hover
-        }}
-        barChartProps={{
-          barCategoryGap: '20%',
-          barGap: 4,
-        }}
-        styles={{ tooltipBody: { padding: '10px 10px' } }}
-        barProps={{
-          activeBar: { stroke: '#111', strokeWidth: 1 }, // destaque da barra ativa
-        }}
+        orientation="horizontal"
+        // yAxisProps={{ width: 100 }}
+        // tooltipProps={{
+        //   shared: false, // hover por item/barra, não por categoria inteira
+        //   cursor: false, // remove o retângulo "estranho" do hover
+        // }}
+        // barChartProps={{
+        //   barCategoryGap: '20%',
+        //   barGap: 4,
+        // }}
+        // styles={{ tooltipBody: { padding: '10px 10px' } }}
+        // barProps={{
+        //   activeBar: { stroke: '#111', strokeWidth: 1 }, // destaque da barra ativa
+        // }}
         series={[
           { name: 'Smartphones', color: 'violet.6' },
           { name: 'Laptops', color: 'blue.6' },
