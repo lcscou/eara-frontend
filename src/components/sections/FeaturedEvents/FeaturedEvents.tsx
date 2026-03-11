@@ -66,19 +66,22 @@ export default function FeaturedEvents({
 
   const content = (
     <>
-      <Group className="absolute top-40 right-20 sm:top-25">
-        <ActionIcon variant="light" radius={80} aria-label="Settings">
-          <IconArrowLeft onClick={() => embla?.scrollPrev()} />
-        </ActionIcon>
-        <Group gap={5}>
-          {Array.from({ length: embla?.slideNodes().length || 3 }, (_, i) => i).map((_, j) => (
-            <span key={j} className="aspect-square w-3 rounded-full bg-[#d6d6ec]"></span>
-          ))}
+      {withSectionWrapper && (
+        <Group className="absolute top-40 right-20 sm:top-25">
+          <ActionIcon variant="light" radius={80} aria-label="Settings">
+            <IconArrowLeft onClick={() => embla?.scrollPrev()} />
+          </ActionIcon>
+          <Group gap={5}>
+            {Array.from({ length: embla?.slideNodes().length || 3 }, (_, i) => i).map((_, j) => (
+              <span key={j} className="aspect-square w-3 rounded-full bg-[#d6d6ec]"></span>
+            ))}
+          </Group>
+          <ActionIcon variant="light" radius={80} aria-label="Settings">
+            <IconArrowRight onClick={() => embla?.scrollNext()} />
+          </ActionIcon>
         </Group>
-        <ActionIcon variant="light" radius={80} aria-label="Settings">
-          <IconArrowRight onClick={() => embla?.scrollNext()} />
-        </ActionIcon>
-      </Group>
+      )}
+
       <Carousel
         slideSize="37%"
         getEmblaApi={setEmbla}
