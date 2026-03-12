@@ -29,9 +29,11 @@ export default function MembersCard({
             {title}
           </Title>
           <small className="text-[#312F86] uppercase">{country}</small>
-          <ButtonEara tt="uppercase" variant="link" link={uri || '/'} target="_blank">
-            Visit Website
-          </ButtonEara>
+          {uri && (
+            <ButtonEara tt="uppercase" variant="link" link={uri || '/'} target="_blank">
+              Visit Website
+            </ButtonEara>
+          )}
         </div>
       </div>
     </>
