@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
     merge_fields: {
       FNAME: firstName,
       LNAME: lastName,
-      ORG: organization ?? '',
-      COUNTRY: country,
+      MMERGE6: organization ?? '',
+      MMERGE5: country,
     },
     tags: Array.isArray(interests)
       ? interests.map((value) => {
