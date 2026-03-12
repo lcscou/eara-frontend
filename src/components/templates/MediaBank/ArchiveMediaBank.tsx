@@ -6,6 +6,7 @@ import { extractYouTubeID, getMediaType } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
 import {
   ActionIcon,
+  Button,
   Combobox,
   Container,
   Group,
@@ -23,6 +24,7 @@ import {
   IconClipboardSearch,
   IconCreativeCommons,
   IconFileDescription,
+  IconMail,
   IconPaw,
   IconPlayerPlayFilled,
   IconZoomIn,
@@ -212,69 +214,80 @@ export default function ArchiveMediaBank() {
   return (
     <>
       <Container size="xl" my={50}>
-        <Group gap={5} mb={50}>
-          <Combobox
-            onOptionSubmit={(value) => {
-              setSelectedAnimal(value === 'all' ? null : value)
-              animalCombobox.closeDropdown()
-            }}
-            store={animalCombobox}
-            width="fit-content"
-            position="bottom-start"
-          >
-            <Combobox.Target>
-              <ButtonEara
-                size="md"
-                onClick={() => animalCombobox.toggleDropdown()}
-                rightSection={<IconChevronDown size={14} />}
-              >
-                {selectedAnimal || 'Animal'}
-              </ButtonEara>
-            </Combobox.Target>
-            <Combobox.Dropdown>
-              <Combobox.Options>
-                <Combobox.Option value="all">All Animals</Combobox.Option>
-                {animalsOptData.mediabanksSpeciesFeatured &&
-                  animalsOptData.mediabanksSpeciesFeatured.map((option) => (
-                    <Combobox.Option key={option?.value} value={option?.value as string}>
-                      {option?.value} <small>({option?.count})</small>
-                    </Combobox.Option>
-                  ))}
-              </Combobox.Options>
-            </Combobox.Dropdown>
-          </Combobox>
+        <div className="flex justify-between">
+          <Group gap={5} mb={50}>
+            <Combobox
+              onOptionSubmit={(value) => {
+                setSelectedAnimal(value === 'all' ? null : value)
+                animalCombobox.closeDropdown()
+              }}
+              store={animalCombobox}
+              width="fit-content"
+              position="bottom-start"
+            >
+              <Combobox.Target>
+                <ButtonEara
+                  size="md"
+                  onClick={() => animalCombobox.toggleDropdown()}
+                  rightSection={<IconChevronDown size={14} />}
+                >
+                  {selectedAnimal || 'Animal'}
+                </ButtonEara>
+              </Combobox.Target>
+              <Combobox.Dropdown>
+                <Combobox.Options>
+                  <Combobox.Option value="all">All Animals</Combobox.Option>
+                  {animalsOptData.mediabanksSpeciesFeatured &&
+                    animalsOptData.mediabanksSpeciesFeatured.map((option) => (
+                      <Combobox.Option key={option?.value} value={option?.value as string}>
+                        {option?.value} <small>({option?.count})</small>
+                      </Combobox.Option>
+                    ))}
+                </Combobox.Options>
+              </Combobox.Dropdown>
+            </Combobox>
 
-          <Combobox
-            onOptionSubmit={(value) => {
-              setSelectedCountry(value === 'all' ? null : value)
-              countryCombobox.closeDropdown()
-            }}
-            store={countryCombobox}
-            width="fit-content"
-            position="bottom-start"
+            <Combobox
+              onOptionSubmit={(value) => {
+                setSelectedCountry(value === 'all' ? null : value)
+                countryCombobox.closeDropdown()
+              }}
+              store={countryCombobox}
+              width="fit-content"
+              position="bottom-start"
+            >
+              <Combobox.Target>
+                <ButtonEara
+                  size="md"
+                  onClick={() => countryCombobox.toggleDropdown()}
+                  rightSection={<IconChevronDown size={14} />}
+                >
+                  {selectedCountry || 'Country'}
+                </ButtonEara>
+              </Combobox.Target>
+              <Combobox.Dropdown>
+                <Combobox.Options>
+                  <Combobox.Option value="all">All Countries</Combobox.Option>
+                  {countriesOptData.mediabanksCountries &&
+                    countriesOptData.mediabanksCountries.map((option) => (
+                      <Combobox.Option key={option?.value} value={option?.value as string}>
+                        {option?.label} <small>({option?.count})</small>
+                      </Combobox.Option>
+                    ))}
+                </Combobox.Options>
+              </Combobox.Dropdown>
+            </Combobox>
+          </Group>
+          <Button
+            component="a"
+            href="mailto:info@eara.eu"
+            size="md"
+            variant="light"
+            leftSection={<IconMail />}
           >
-            <Combobox.Target>
-              <ButtonEara
-                size="md"
-                onClick={() => countryCombobox.toggleDropdown()}
-                rightSection={<IconChevronDown size={14} />}
-              >
-                {selectedCountry || 'Country'}
-              </ButtonEara>
-            </Combobox.Target>
-            <Combobox.Dropdown>
-              <Combobox.Options>
-                <Combobox.Option value="all">All Countries</Combobox.Option>
-                {countriesOptData.mediabanksCountries &&
-                  countriesOptData.mediabanksCountries.map((option) => (
-                    <Combobox.Option key={option?.value} value={option?.value as string}>
-                      {option?.label} <small>({option?.count})</small>
-                    </Combobox.Option>
-                  ))}
-              </Combobox.Options>
-            </Combobox.Dropdown>
-          </Combobox>
-        </Group>
+            Contact Us
+          </Button>
+        </div>
 
         {normalizedMediaBank?.length === 0 && <ResultNotFound />}
 
