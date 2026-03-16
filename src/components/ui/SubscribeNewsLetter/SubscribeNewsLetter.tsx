@@ -94,7 +94,7 @@ function SubscribeNewsLetterForm({
         <Input.Wrapper label="First name" size="sm" styles={{ label: { marginBottom: '8px' } }}>
           <TextInput
             required
-            placeholder="e.g., Maria"
+            placeholder="e.g.: Jane"
             value={form.firstName}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, firstName: event.currentTarget?.value }))
@@ -121,7 +121,7 @@ function SubscribeNewsLetterForm({
         <Input.Wrapper label="Last name" size="sm" styles={{ label: { marginBottom: '8px' } }}>
           <TextInput
             required
-            placeholder="e.g., Silva"
+            placeholder="e.g.: Smith"
             value={form.lastName}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, lastName: event.currentTarget?.value }))
@@ -149,7 +149,7 @@ function SubscribeNewsLetterForm({
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
         <Input.Wrapper label="Organization" size="sm" styles={{ label: { marginBottom: '8px' } }}>
           <TextInput
-            placeholder="e.g., University of Lisbon"
+            placeholder="e.g.: Oxford University"
             value={form.organization}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, organization: event.currentTarget?.value }))
@@ -177,7 +177,7 @@ function SubscribeNewsLetterForm({
           <TextInput
             required
             type="email"
-            placeholder="e.g., maria.silva@university.edu"
+            placeholder="e.g.: jane.smith@edu.eu"
             value={form.email}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))
@@ -205,7 +205,7 @@ function SubscribeNewsLetterForm({
       <Input.Wrapper label="Country" size="sm" styles={{ label: { marginBottom: '8px' } }}>
         <TextInput
           required
-          placeholder="e.g., Portugal"
+          placeholder="e.g.: United Kingdom"
           value={form.country}
           onChange={(event) =>
             setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))
@@ -232,7 +232,7 @@ function SubscribeNewsLetterForm({
       <Input.Wrapper label="Interests" size="sm" styles={{ label: { marginBottom: '8px' } }}>
         <MultiSelect
           required
-          placeholder="e.g., News Digest"
+          placeholder="e.g.: News Digest"
           data={INTEREST_OPTIONS}
           value={form.interests}
           onChange={(value) => setForm((prev) => ({ ...prev, interests: value }))}

@@ -51,7 +51,7 @@ export default function LoginForm() {
           <Input
             id="login-email"
             type="email"
-            placeholder="e.g., maria.silva@university.edu"
+            placeholder="e.g.: jane.smith@edu.eu"
             autoComplete="email"
             size="lg"
             styles={{
@@ -73,7 +73,7 @@ export default function LoginForm() {
             id="login-password"
             type="password"
             autoComplete="current-password"
-            placeholder="e.g., MySecurePass123"
+            placeholder="e.g.: MySecurePass123"
             size="lg"
             styles={{
               input: {

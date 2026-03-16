@@ -74,7 +74,7 @@ export default function ResetPasswordForm() {
       <Input.Wrapper label="Username" size="sm" styles={{ label: { marginBottom: '8px' } }}>
         <TextInput
           id="reset-login"
-          placeholder="e.g., maria.silva"
+          placeholder="e.g.: jane.smith@edu.eu"
           value={login}
           readOnly
           size="md"
@@ -91,7 +91,7 @@ export default function ResetPasswordForm() {
         <PasswordInput
           id="reset-password"
           autoComplete="new-password"
-          placeholder="e.g., MySecurePass123"
+          placeholder="e.g.: MySecurePass123"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
@@ -104,7 +104,7 @@ export default function ResetPasswordForm() {
         <PasswordInput
           id="reset-password-confirm"
           autoComplete="new-password"
-          placeholder="e.g., Repeat MySecurePass123"
+          placeholder="e.g.: Repeat MySecurePass123"
           value={confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}
           required

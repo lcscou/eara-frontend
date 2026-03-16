@@ -51,6 +51,7 @@ export default function RequestPasswordResetForm() {
           id="reset-username"
           type="text"
           autoComplete="username"
+          placeholder="e.g.: jane.smith@edu.eu"
           className="border-earaGrayLight rounded-lg border bg-white px-4 py-3 text-sm"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
