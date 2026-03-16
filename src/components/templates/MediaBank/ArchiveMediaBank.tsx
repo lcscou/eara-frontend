@@ -280,12 +280,12 @@ export default function ArchiveMediaBank() {
           </Group>
           <Button
             component="a"
-            href="mailto:info@eara.eu"
+            href="mailto:hpinheiro@eara.eu"
             size="md"
             variant="light"
             leftSection={<IconMail />}
           >
-            Contact Us
+            Participate
           </Button>
         </div>
 
