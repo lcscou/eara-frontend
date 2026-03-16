@@ -86,10 +86,10 @@ export default function FeaturedEvents({
         slideSize="37%"
         getEmblaApi={setEmbla}
         slideGap={10}
-        withControls={false}
-        withIndicators={false}
+        withControls={true}
+        withIndicators={true}
         emblaOptions={{
-          loop: true,
+          loop: false,
           dragFree: false,
           align: 'center',
         }}
