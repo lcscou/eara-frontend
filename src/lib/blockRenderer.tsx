@@ -374,6 +374,7 @@ export interface EaraListItemAttributes extends BlockAttribute {
 
 export interface EaraBoxAttributes extends BlockAttribute {
   href?: string
+  anchor?: string
   borderRadius?: string
   borderColor?: string
   borderWidth?: string
@@ -2886,6 +2887,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const px = attributes.px ? Number(attributes.px) : undefined
       const py = attributes.py ? Number(attributes.py) : undefined
       const className = (attributes.className as string) || ''
+      const anchor = (attributes.anchor as string) || undefined
+      const anchorId = anchor ? (anchor.startsWith('#') ? anchor : `${anchor}`) : undefined
 
       const {
         bgColor,
@@ -2903,10 +2906,11 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       return (
         <Container
           key={index}
+          id={anchorId}
           size={size}
           px={px}
           py={py}
-          className={className}
+          className={clsx('eara-container scroll-m-[100px]', className)}
           bg={bgColor}
           c={textColor}
           pb={paddingBottom}
@@ -3179,6 +3183,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const subtitle = (attributes.subtitle as string) || ''
       const containerSize = containerSizeMap[attributes.containerSize as string] || 'lg'
       const sectionClassName = (attributes.className as string) || ''
+      const anchor = (attributes.anchor as string) || undefined
+      const anchorId = anchor ? (anchor.startsWith('#') ? anchor : `${anchor}`) : undefined
 
       const {
         bgColor,
@@ -3196,7 +3202,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       return (
         <Box
           key={index}
-          className={sectionClassName}
+          id={anchorId}
+          className={clsx('eara-section scroll-m-[100px]', sectionClassName)}
           bg={bgColor}
           c={textColor}
           pb={paddingBottom}
@@ -3532,6 +3539,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const boxAttributes = attributes as EaraBoxAttributes | undefined
       const className = boxAttributes?.className || ''
       const href = boxAttributes?.href
+      const anchor = boxAttributes?.anchor
+      const anchorId = !href && anchor ? (anchor.startsWith('#') ? anchor : `${anchor}`) : undefined
 
       // Atributos customizados de border
       const customBorderRadius = boxAttributes?.borderRadius
@@ -3607,8 +3616,9 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const boxContent = (
         <Box
           key={index}
+          id={anchorId}
           data-block="eara/box"
-          className={className}
+          className={clsx('eara-box scroll-m-[100px]', className)}
           c={textColor}
           pb={paddingBottom}
           pt={paddingTop}
