@@ -20,7 +20,7 @@ export default function FeaturedEvents({
   const [embla, setEmbla] = useState<EmblaCarouselType | null>(null)
   const { data } = useQuery(GetAllEventsDocument, {
     variables: {
-      first: 6,
+      first: 20,
       category: eventCategory || undefined,
     },
     fetchPolicy: 'cache-and-network',

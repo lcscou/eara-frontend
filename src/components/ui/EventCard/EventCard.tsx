@@ -22,7 +22,7 @@ export default function EventCard({
         <Link href={link || '#'}>
           <div
             className={clsx(
-              'my-5 flex w-fit flex-col overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',
+              'my-5 flex min-h-[320px] w-fit flex-col overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',
               s.root
             )}
           >
