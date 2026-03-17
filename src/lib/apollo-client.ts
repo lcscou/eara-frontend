@@ -71,8 +71,37 @@ const cache = new InMemoryCache({
           },
         },
         members: {
-          merge(existing) {
-            return existing
+          keyArgs: ['where', 'first', 'last'],
+          merge(existing, incoming, { args }) {
+            if (!existing) return incoming
+
+            const dedupeById = (nodes: Array<{ id?: string | null } | null | undefined>) => {
+              const seen = new Set<string>()
+              return nodes.filter((node) => {
+                const id = node?.id
+                if (!id) return true
+                if (seen.has(id)) return false
+                seen.add(id)
+                return true
+              })
+            }
+
+            if (args?.after) {
+              return {
+                ...incoming,
+                nodes: dedupeById([...(existing.nodes || []), ...(incoming.nodes || [])]),
+              }
+            }
+
+            if (args?.before) {
+              return {
+                ...incoming,
+                nodes: dedupeById([...(incoming.nodes || []), ...(existing.nodes || [])]),
+              }
+            }
+
+            // Sem cursor (mudança de filtro/busca): substitui pela nova primeira página.
+            return incoming
           },
         },
         news: {

@@ -54,6 +54,8 @@ const clusterOptions = {
   styles: clusterStyles,
 }
 
+const CLUSTER_MAX_ZOOM = 10 // Desativa clustering acima deste zoom
+
 export default function MapContent({ markers, selectedMarker, onSelectMarker }: MapContentProps) {
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null)
 
@@ -109,13 +111,14 @@ export default function MapContent({ markers, selectedMarker, onSelectMarker }: 
         enableRetinaIcons
         gridSize={80}
         minimumClusterSize={2}
+        maxZoom={CLUSTER_MAX_ZOOM}
         options={clusterOptions}
       >
         {(clusterer) => (
           <>
-            {markers.map((marker) => (
+            {markers.map((marker, index) => (
               <Marker
-                key={marker.id}
+                key={`${marker.id}-${marker.latitude}-${marker.longitude}-${index}`}
                 clusterer={clusterer}
                 position={{ lat: marker.latitude, lng: marker.longitude }}
                 // onMouseOver={() => onSelectMarker(marker.id)}

@@ -42,6 +42,7 @@ export default function MembersMap({ width = '100%', height = '600px' }: Members
 
         const data = (await response.json()) as MembersMapApiResponse
         setMarkers(data.markers ?? [])
+        console.log(`[MembersMap] Markers loaded: ${data.markers?.length ?? 0}`)
       } catch (error) {
         if ((error as Error).name !== 'AbortError') {
           setMarkers([])

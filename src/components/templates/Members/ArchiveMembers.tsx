@@ -6,9 +6,9 @@ import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import {
   GetAllCountriesInMembersDocument,
   GetAllMembersDocument,
-  GetAllMembersQuery,
 } from '@/graphql/generated/graphql'
-import { useSuspenseQuery } from '@apollo/client/react'
+import { NetworkStatus } from '@apollo/client'
+import { useApolloClient, useSuspenseQuery } from '@apollo/client/react'
 import {
   Autocomplete,
   Button,
@@ -25,6 +25,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 const PAGE_SIZE = 12
 
 export default function ArchiveMembers() {
+  const apolloClient = useApolloClient()
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [loadingMore, setLoadingMore] = useState(false)
@@ -34,7 +35,7 @@ export default function ArchiveMembers() {
   const { data: countriesData } = useSuspenseQuery(GetAllCountriesInMembersDocument)
 
   // Query principal para buscar membros paginados
-  const { data, fetchMore } = useSuspenseQuery(GetAllMembersDocument, {
+  const { data, networkStatus } = useSuspenseQuery(GetAllMembersDocument, {
     variables: {
       first: PAGE_SIZE,
       country: selectedCountry ?? undefined,
@@ -42,8 +43,7 @@ export default function ArchiveMembers() {
     },
   })
 
-  const hasNextPage = data?.members?.pageInfo?.hasNextPage
-  const endCursor = data?.members?.pageInfo?.endCursor
+  const isUpdatingFilters = networkStatus === NetworkStatus.setVariables
 
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
@@ -64,41 +64,85 @@ export default function ArchiveMembers() {
   }, [countriesData])
 
   const allMembers = useMemo(() => data?.members?.nodes ?? [], [data])
+  const baseMembers = useMemo(
+    () =>
+      allMembers.filter((member): member is NonNullable<(typeof allMembers)[number]> =>
+        Boolean(member)
+      ),
+    [allMembers]
+  )
+
+  const filterKey = `${selectedCountry ?? ''}::${debouncedSearch.trim()}`
+  const [extraMembers, setExtraMembers] = useState<NonNullable<(typeof allMembers)[number]>[]>([])
+  const [nextPageState, setNextPageState] = useState<{
+    hasNextPage: boolean
+    endCursor: string | null
+  } | null>(null)
+
+  useEffect(() => {
+    setExtraMembers([])
+    setNextPageState(null)
+  }, [filterKey])
+
+  const hasNextPage = nextPageState?.hasNextPage ?? Boolean(data?.members?.pageInfo?.hasNextPage)
+  const endCursor = nextPageState?.endCursor ?? data?.members?.pageInfo?.endCursor ?? null
+
+  const filteredMembers = useMemo(() => {
+    const seen = new Set<string>()
+    const merged = [...baseMembers, ...extraMembers]
+
+    return merged.filter((member) => {
+      if (!member.id) return true
+      if (seen.has(member.id)) return false
+      seen.add(member.id)
+      return true
+    })
+  }, [baseMembers, extraMembers])
 
   const handleLoadMore = useCallback(() => {
-    if (!hasNextPage || loadingMore) return
+    if (!hasNextPage || loadingMore || isUpdatingFilters || !endCursor) return
     setLoadingMore(true)
-    setTimeout(async () => {
+    ;(async () => {
       try {
-        await fetchMore({
+        const result = await apolloClient.query({
+          query: GetAllMembersDocument,
+          fetchPolicy: 'network-only',
           variables: {
             first: PAGE_SIZE,
             after: endCursor,
             country: selectedCountry ?? undefined,
             search: debouncedSearch.trim() || undefined,
           },
-          updateQuery: (
-            prev: GetAllMembersQuery,
-            { fetchMoreResult }: { fetchMoreResult?: GetAllMembersQuery }
-          ) => {
-            if (!fetchMoreResult?.members?.nodes) return prev
-            return {
-              ...prev,
-              members: {
-                ...fetchMoreResult.members,
-                pageInfo: fetchMoreResult.members.pageInfo,
-                nodes: [...(prev?.members?.nodes ?? []), ...(fetchMoreResult.members.nodes ?? [])],
-              },
-            }
-          },
+        })
+
+        const incomingNodes = (result.data?.members?.nodes ?? []).filter(
+          (member): member is NonNullable<(typeof allMembers)[number]> => Boolean(member)
+        )
+
+        setExtraMembers((prev) => {
+          const seen = new Set([...baseMembers, ...prev].map((member) => member.id).filter(Boolean))
+          const next = incomingNodes.filter((member) => (member.id ? !seen.has(member.id) : true))
+          return next.length > 0 ? [...prev, ...next] : prev
+        })
+
+        setNextPageState({
+          hasNextPage: Boolean(result.data?.members?.pageInfo?.hasNextPage),
+          endCursor: result.data?.members?.pageInfo?.endCursor ?? null,
         })
       } finally {
         setLoadingMore(false)
       }
-    }, 0)
-  }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedCountry, debouncedSearch])
-
-  const filteredMembers = allMembers
+    })()
+  }, [
+    hasNextPage,
+    loadingMore,
+    isUpdatingFilters,
+    endCursor,
+    apolloClient,
+    selectedCountry,
+    debouncedSearch,
+    baseMembers,
+  ])
 
   const memberTitleOptions = useMemo(() => {
     const seen = new Set<string>()
@@ -251,7 +295,7 @@ export default function ArchiveMembers() {
           )}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {filteredMembers?.map((member) => (
-              <div key={member?.id}>
+              <div key={member?.slug}>
                 <MembersCard
                   title={member.title}
                   featuredImage={member.featuredImage?.node?.guid}
@@ -269,7 +313,7 @@ export default function ArchiveMembers() {
                 size="lg"
                 variant="filled"
                 onClick={handleLoadMore}
-                disabled={loadingMore}
+                disabled={loadingMore || isUpdatingFilters || !endCursor}
                 leftSection={loadingMore ? <Loader size="sm" color="white" /> : null}
               />
             </Group>
