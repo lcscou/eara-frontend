@@ -22,7 +22,7 @@ import { useDebouncedValue } from '@mantine/hooks'
 import { IconChevronDown, IconRestore, IconSearch } from '@tabler/icons-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-const PAGE_SIZE = 12
+const PAGE_SIZE = 16
 
 export default function ArchiveMembers() {
   const apolloClient = useApolloClient()
