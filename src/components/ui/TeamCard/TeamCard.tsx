@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from './TeamCard.module.css'
 
-export default function TeamCard({ title, featuredImage, description, uri, role }: TeamCardProps) {
+export default function TeamCard({ title, featuredImage, uri, role }: TeamCardProps) {
   const alt = title ? `${title} photo` : 'Animal photo'
 
   const CardContent = (

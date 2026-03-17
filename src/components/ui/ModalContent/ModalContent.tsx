@@ -54,7 +54,20 @@ export function ModalContent({
     return () => {
       unregisterModal(triggerId)
     }
-  }, [triggerId])
+  }, [
+    triggerId,
+    title,
+    centered,
+    size,
+    withCloseButton,
+    fullScreen,
+    lock,
+    className,
+    metadata,
+    children,
+    registerModal,
+    unregisterModal,
+  ])
 
   // Não renderiza nada visualmente
   return null

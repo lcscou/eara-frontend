@@ -1,15 +1,19 @@
 'use client'
 
 import { Input, PasswordInput, TextInput } from '@mantine/core'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export default function ResetPasswordForm() {
-  const searchParams = useSearchParams()
+type ResetPasswordFormProps = {
+  keyValue: string
+  loginValue: string
+}
+
+export default function ResetPasswordForm({ keyValue, loginValue }: ResetPasswordFormProps) {
   const router = useRouter()
 
-  const key = searchParams.get('key') || ''
-  const login = searchParams.get('login') || ''
+  const key = keyValue
+  const login = loginValue
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')

@@ -33,6 +33,7 @@ export default function TestePage() {
         w={300}
         h={400}
         src="http://eara.local/wp-content/uploads/eara-protected-files/featured-project.jpg"
+        alt="Featured project"
       />
       <BarChart
         h={320}

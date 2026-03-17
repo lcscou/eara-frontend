@@ -6,7 +6,6 @@ import Link from 'next/link'
 
 export default function Card({
   title,
-  description,
   featuredImage,
   uri,
   target = '_self',
