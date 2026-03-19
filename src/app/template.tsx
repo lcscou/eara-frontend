@@ -20,12 +20,17 @@ export default async function Template({ children }: { children: React.ReactNode
 
   return (
     <>
-      <Suspense>{/* <Header /> */}</Suspense>
-      <HeaderMegaMenu data={data.data} id="main" />
-      {children}
-      <Suspense>
-        <Footer />
-      </Suspense>
+      {process.env.MAINTENANCE_MODE !== 'true' ? (
+        <>
+          <HeaderMegaMenu data={data.data} id="main" />
+          {children}
+          <Suspense>
+            <Footer />
+          </Suspense>
+        </>
+      ) : (
+        <>{children}</>
+      )}
     </>
   )
 }
