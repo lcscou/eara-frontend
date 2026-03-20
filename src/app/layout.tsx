@@ -12,6 +12,7 @@ import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import { ModalsProvider } from '@/contexts/ModalsContext'
 import { GetMenuDocument } from '@/graphql/generated/graphql'
 import { PreloadQuery } from '@/lib/apollo-client'
+import { GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/next'
 const hankenGrotesk = Hanken_Grotesk({
   variable: '--hanken-grotesk-sans',
@@ -30,6 +31,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {process.env.NODE_ENV === 'production' ? <GoogleTagManager gtmId="GTM-T6WSZKMZ" /> : null}
       <body className={`${hankenGrotesk.variable} antialiased`}>
         <ApolloWrapper>
           <PreloadQuery
