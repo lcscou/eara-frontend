@@ -47,8 +47,7 @@ export default function PageMaintenance() {
       </p>
       <p className="text-md text-gray-500">
         If you have any questions, please contact us at{' '}
-        <a href="mailto:info@eara.eu">info@eara.eu</a>. or{' '}
-        <a href="tel:+1234567890">+1 (234) 567-890</a>.
+        <a href="mailto:info@eara.eu">info@eara.eu</a>
       </p>
     </div>
   )
