@@ -12,7 +12,7 @@ import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import { ModalsProvider } from '@/contexts/ModalsContext'
 import { GetMenuDocument } from '@/graphql/generated/graphql'
 import { PreloadQuery } from '@/lib/apollo-client'
-
+import { Analytics } from '@vercel/analytics/next'
 const hankenGrotesk = Hanken_Grotesk({
   variable: '--hanken-grotesk-sans',
   subsets: ['latin'],
@@ -42,6 +42,7 @@ export default async function RootLayout({
               <ModalsProvider>
                 <AuthRefreshProvider />
                 {children}
+                <Analytics />
                 <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
                   <BackToTop />
                 </div>
