@@ -5,6 +5,13 @@ export function middleware(request: NextRequest) {
   const maintenance = process.env.MAINTENANCE_MODE === 'true'
   const { pathname } = request.nextUrl
 
+  const postSlugMatch = pathname.match(/^\/post\/([^/]+)\/?$/)
+  if (postSlugMatch) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/news/${postSlugMatch[1]}`
+    return NextResponse.redirect(url, 308)
+  }
+
   if (!maintenance) return NextResponse.next()
 
   const allowed =
