@@ -1,7 +1,6 @@
 'use client'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import MembersCard from '@/components/ui/MembersCard/MembersCard'
-import MembersMap from '@/components/ui/MembersMap/MembersMap'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import {
   GetAllCountriesInMembersDocument,
@@ -179,7 +178,7 @@ export default function ArchiveMembers() {
   return (
     <>
       <Container size="xl" my={100}>
-        <MembersMap height="fit-content" />
+        {/* <MembersMap height="fit-content" /> */}
         <Group my={40} gap={5} justify="">
           {/* <SegmentedControl
             radius="xl"
