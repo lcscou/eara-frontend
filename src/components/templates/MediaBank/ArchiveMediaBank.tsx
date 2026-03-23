@@ -355,8 +355,8 @@ export default function ArchiveMediaBank() {
             <div className="relative grid h-full grid-cols-1 grid-rows-1 gap-0 lg:grid-cols-6 lg:grid-rows-5">
               <div className="relative col-span-1 row-span-1 p-4 lg:col-span-4 lg:row-span-4 lg:p-7">
                 <div className="bg-earaBgLight relative h-full w-full overflow-hidden rounded-lg">
-                  <div className="absolute top-0 z-10 flex h-[calc(100%)] w-full justify-between">
-                    <div className="flex h-full items-center justify-center bg-red-50/0 p-4">
+                  <div className="pointer-events-none absolute top-0 z-10 flex h-[calc(100%)] w-full justify-between">
+                    <div className="pointer-events-auto flex h-full items-center justify-center bg-red-50/0 p-4">
                       <ActionIcon
                         onClick={() => setIndex(index - 1)}
                         variant="light"
@@ -368,7 +368,7 @@ export default function ArchiveMediaBank() {
                         <IconArrowLeft />
                       </ActionIcon>
                     </div>
-                    <div className="flex h-full items-center justify-center bg-red-50/0 p-4">
+                    <div className="pointer-events-auto flex h-full items-center justify-center bg-red-50/0 p-4">
                       <ActionIcon
                         onClick={() => setIndex(index + 1)}
                         variant="light"
