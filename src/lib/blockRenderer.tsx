@@ -3478,15 +3478,18 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const renderMode = attributes_join?.renderMode === 'modal' ? 'modal' : 'inline'
 
       return (
-        <JoinEaraForm
-          key={index}
-          triggerId={triggerId}
-          title={title}
-          description={description}
-          buttonLabel={buttonLabel}
-          submitUrl={submitUrl}
-          renderMode={renderMode}
-        />
+        <>
+          submit {submitUrl}
+          <JoinEaraForm
+            key={index}
+            triggerId={triggerId}
+            title={title}
+            description={description}
+            buttonLabel={buttonLabel}
+            submitUrl={submitUrl}
+            renderMode={renderMode}
+          />
+        </>
       )
     }
 

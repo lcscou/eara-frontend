@@ -7,7 +7,6 @@ import { IconChevronDown } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import Search from '../Search/Search'
 
 const ACTIVE_COLOR = '#8fbf29'
 
@@ -99,7 +98,7 @@ export default function HeaderMegaMenu({ data }: HeaderMegaMenuProps) {
                   ) : (
                     <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" />
                   )}
-                  <Search />
+                  {/* <Search /> */}
                 </Group>
               </div>
             </div>
