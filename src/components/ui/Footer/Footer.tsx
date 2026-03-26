@@ -156,7 +156,7 @@ export default function Footer({}: FooterProps) {
               </Grid.Col>
               <Grid.Col span={{ sm: 4 }}>
                 <Title order={4} c="white" mb="8px">
-                  Subscribe our newsletter
+                  Subscribe to our newsletter
                 </Title>
                 <Text c="earaDark.5" mb="20px">
                   Subscribe to receive the latest updates from us.
