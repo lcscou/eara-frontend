@@ -175,6 +175,15 @@ export default function ArchiveMembers() {
     countryCombobox.resetSelectedOption()
   }
 
+  const handleCountryClick = useCallback(
+    (country: string) => {
+      if (!country) return
+      setSelectedCountry(country)
+      countryCombobox.closeDropdown()
+    },
+    [countryCombobox]
+  )
+
   return (
     <>
       <Container size="xl" my={100}>
@@ -300,6 +309,10 @@ export default function ArchiveMembers() {
                   featuredImage={member.featuredImage?.node?.guid}
                   uri={member.acfMembers?.website}
                   country={member.acfMembers?.country?.join(', ')}
+                  countries={(member.acfMembers?.country ?? []).filter((item): item is string =>
+                    Boolean(item?.trim())
+                  )}
+                  onCountryClick={handleCountryClick}
                   id={member?.id}
                 />
               </div>

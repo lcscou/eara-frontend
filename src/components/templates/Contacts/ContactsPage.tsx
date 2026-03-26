@@ -152,8 +152,8 @@ export default function ContactPage() {
               </Title>
               <Text>Email: ngoncalves@eara.eu</Text>
               <Text>Tel: +351 934950684</Text>
-              <Text>info@eara.eu</Text>
-              <Text>+44 (0)20 3355 7458</Text>
+              <Text>Email: info@eara.eu</Text>
+              <Text>Tel: +44 (0)20 3355 7458</Text>
             </div>
           </div>
 

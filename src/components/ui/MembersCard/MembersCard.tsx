@@ -12,7 +12,30 @@ export default function MembersCard({
   // description,
   uri,
   country,
+  countries,
+  onCountryClick,
 }: MembersCardProps) {
+  const formatCountryLabel = (value: string) =>
+    value
+      .replace(/[-_]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+
+  const normalizedCountries = (countries ?? [])
+    .map((item) => item?.trim())
+    .filter((item): item is string => Boolean(item))
+
+  const countriesToRender =
+    normalizedCountries.length > 0
+      ? normalizedCountries
+      : country
+        ? country
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean)
+        : []
+
   return (
     <>
       <div className={clsx('overflow-hidden rounded-lg bg-[#DEE5D6]', s.root)}>
@@ -28,7 +51,35 @@ export default function MembersCard({
           <Title order={5} fz={20}>
             {title}
           </Title>
-          <small className="text-[#312F86] uppercase">{country}</small>
+          {countriesToRender.length > 0 && (
+            <small className="text-[#312F86] uppercase">
+              {countriesToRender.map((item, index) => {
+                const isLast = index === countriesToRender.length - 1
+
+                if (!onCountryClick) {
+                  return (
+                    <span key={item}>
+                      {formatCountryLabel(item)}
+                      {!isLast ? ', ' : ''}
+                    </span>
+                  )
+                }
+
+                return (
+                  <span key={item}>
+                    <button
+                      type="button"
+                      className="cursor-pointer underline decoration-transparent underline-offset-2 transition hover:decoration-current"
+                      onClick={() => onCountryClick(item)}
+                    >
+                      {formatCountryLabel(item).toUpperCase()}
+                    </button>
+                    {!isLast ? ', ' : ''}
+                  </span>
+                )
+              })}
+            </small>
+          )}
           {uri && (
             <ButtonEara tt="uppercase" variant="link" link={uri || '/'} target="_blank">
               Visit Website

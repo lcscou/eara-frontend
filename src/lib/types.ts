@@ -254,6 +254,8 @@ export interface MembersCardProps {
   description?: string | null
   uri?: string | null
   country?: string | null
+  countries?: string[] | null
+  onCountryClick?: (country: string) => void
 }
 
 export interface ResultNotFoundProps {
