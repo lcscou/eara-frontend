@@ -147,7 +147,7 @@ function SubscribeNewsLetterForm({
         </Input.Wrapper>
       </SimpleGrid>
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-        <Input.Wrapper label="Organization" size="sm" styles={{ label: { marginBottom: '8px' } }}>
+        <Input.Wrapper label="Organisation" size="sm" styles={{ label: { marginBottom: '8px' } }}>
           <TextInput
             placeholder="e.g.: Oxford University"
             value={form.organization}
@@ -262,6 +262,10 @@ function SubscribeNewsLetterForm({
         />
       </Input.Wrapper>
       <Stack gap="xs">
+        <Text size="sm" c="dimmed">
+          If you are interested in EARA&apos;s Policy Briefing, please provide your institutional
+          email address. .
+        </Text>
         <Text size="sm" c="dimmed">
           By subscribing, you agree with EARA&apos;s{' '}
           <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline">
