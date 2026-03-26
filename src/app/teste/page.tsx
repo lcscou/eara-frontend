@@ -1,13 +1,14 @@
 'use client'
 
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import Card from '@/components/ui/Card/Card'
 import JoinEaraForm from '@/components/ui/JoinEaraForm/JoinEaraForm'
 import MediaBankImageBlock from '@/components/ui/MediaBankImageBlock/MediaBankImageBlock'
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
 import { BarChart, DonutChart } from '@mantine/charts'
-import { Box, Button, Container, Group, Image, Text } from '@mantine/core'
+import { Box, Button, Container, Group, Text } from '@mantine/core'
 
 export const data = [
   { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
@@ -29,12 +30,7 @@ export const data2 = [
 export default function TestePage() {
   return (
     <div className="px-8 py-40">
-      <Image
-        w={300}
-        h={400}
-        src="http://eara.local/wp-content/uploads/eara-protected-files/featured-project.jpg"
-        alt="Featured project"
-      />
+      <Card title="sds"></Card>
       <BarChart
         h={320}
         data={data}

@@ -12,13 +12,16 @@ export default function Card({
   variant = 'layout-1',
   ...props
 }: CardProps) {
+  const hasLink = Boolean(uri)
+
   const cardContent = (
     <>
       {variant === 'layout-1' && (
         <div
           {...props}
           className={clsx(
-            'flex cursor-pointer flex-col items-center justify-center gap-10 rounded-lg bg-white/20 p-4 px-6 py-12 transition-colors hover:bg-white/60'
+            'flex flex-col items-center justify-center gap-10 rounded-lg bg-white/20 p-4 px-6 py-12 transition-colors',
+            hasLink && 'cursor-pointer hover:bg-white/60'
           )}
         >
           <div>
