@@ -286,7 +286,7 @@ function ArchiveEventsContent() {
               <Combobox.Dropdown>
                 <Combobox.Options>
                   <Combobox.Option value="all">All</Combobox.Option>
-                  <Combobox.Option value="in-site">In-site</Combobox.Option>
+                  <Combobox.Option value="in-site">In-Person</Combobox.Option>
                   <Combobox.Option value="online">Online</Combobox.Option>
                 </Combobox.Options>
               </Combobox.Dropdown>
