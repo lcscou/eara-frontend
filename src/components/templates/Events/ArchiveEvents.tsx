@@ -253,7 +253,7 @@ function ArchiveEventsContent() {
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
-                  <Combobox.Option value="all">All Country</Combobox.Option>
+                  <Combobox.Option value="all">All Countries</Combobox.Option>
                   <Combobox.Option value="portugal">Portugal</Combobox.Option>
                   <Combobox.Option value="germany">Germany</Combobox.Option>
                 </Combobox.Options>
@@ -276,7 +276,7 @@ function ArchiveEventsContent() {
                   onClick={() => locationTypeCombobox.toggleDropdown()}
                   label={
                     selectedLocationType === 'in-site'
-                      ? 'In-site'
+                      ? 'In-person'
                       : selectedLocationType === 'online'
                         ? 'Online'
                         : 'Event Type'

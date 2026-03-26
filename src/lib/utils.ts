@@ -115,6 +115,25 @@ export function truncateText(input: string, maxLength: number): string {
   return input.split(' ').slice(0, maxLength).join(' ') + '...'
 }
 
+export function formatEventDate(date?: string): string | null {
+  if (!date) {
+    return null
+  }
+
+  const parsedDate = new Date(date)
+
+  if (isNaN(parsedDate.getTime())) {
+    return null
+  }
+
+  return `${parsedDate.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'Etc/GMT',
+  })} GMT`
+}
+
 export function extractYouTubeID(url: string): string | null {
   if (!url) return null
   const regex =

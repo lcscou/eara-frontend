@@ -9,7 +9,7 @@ import {
   RelatedNewsFragment,
 } from '@/graphql/generated/graphql'
 import { renderPageBlocks } from '@/lib/blockRenderer'
-import { truncateText } from '@/lib/utils'
+import { formatEventDate, truncateText } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
 import { Button, Center, Container, Group, Stack, Title } from '@mantine/core'
 import { IconArrowLeft, IconCalendar, IconMapPin } from '@tabler/icons-react'
@@ -17,18 +17,9 @@ import Link from 'next/link'
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 
 export default function SingleEvents({ data }: { data: GetEventsQuery }) {
-  const startDate = data.events?.customFields?.startDate
-    ? new Date(data.events.customFields.startDate).toLocaleString('en-US', {
-        dateStyle: 'long',
-        timeStyle: 'short',
-      })
-    : null
-  const endDate = data.events?.customFields?.endDate
-    ? new Date(data.events.customFields.endDate).toLocaleString('en-US', {
-        dateStyle: 'long',
-        timeStyle: 'short',
-      })
-    : null
+  const startDate = formatEventDate(data.events?.customFields?.startDate ?? undefined)
+  const endDate = formatEventDate(data.events?.customFields?.endDate ?? undefined)
+
   return (
     <>
       <PageTitleBar

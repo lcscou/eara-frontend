@@ -1,5 +1,6 @@
 'use client'
 import { PageTitleBarProps } from '@/lib/types'
+import { formatEventDate } from '@/lib/utils'
 import { Container, Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -40,8 +41,8 @@ function PageTitleBarComponent({
     const end = eventEndDate ? new Date(eventEndDate) : null
     const opts: Intl.DateTimeFormatOptions = { dateStyle: 'medium' }
     return end
-      ? `${start.toLocaleString('en-US', opts)} - ${end.toLocaleString('en-US', opts)}`
-      : start.toLocaleString('en-US', opts)
+      ? `${formatEventDate(start.toDateString())} - ${formatEventDate(end.toDateString())}`
+      : formatEventDate(start.toDateString())
   }, [eventStartDate, eventEndDate])
 
   const containerClass = clsx(

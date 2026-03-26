@@ -1,4 +1,5 @@
 import { EventCardProps } from '@/lib/types'
+import { formatEventDate } from '@/lib/utils'
 import { Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -16,6 +17,8 @@ export default function EventCard({
   featuredImage,
   orientation = 'horizontal',
 }: EventCardProps) {
+  const formattedDate = formatEventDate(date)
+
   return (
     <>
       {orientation === 'horizontal' && (
@@ -48,9 +51,7 @@ export default function EventCard({
                   {title}
                 </Title>
                 <span className="text-primaryColor text-sm font-medium uppercase">
-                  {date &&
-                    !isNaN(new Date(date).getTime()) &&
-                    new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+                  {formattedDate}
                 </span>
                 {location && <p className="mt-1 text-sm text-gray-600 uppercase">{location}</p>}
               </div>
@@ -88,14 +89,12 @@ export default function EventCard({
                   {title}
                 </Title>
                 <span className="text-primaryColor text-sm font-medium uppercase">
-                  {date &&
-                    !isNaN(new Date(date).getTime()) &&
-                    new Date(date).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+                  {formattedDate}
                 </span>
               </div>
 
               <p className="my-5">{excerpt}</p>
-              <ButtonEara label="Know More" className="pointer-events-none" variant="link" />
+              <ButtonEara label="Find out more" className="pointer-events-none" variant="link" />
             </div>
           </div>
         </Link>
