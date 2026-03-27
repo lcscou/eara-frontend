@@ -288,7 +288,7 @@ export default function Search() {
           />
 
           {!isSearchConfigured && (
-            <Alert color="yellow" title="Algolia não configurado">
+            <Alert color="yellow" title="Algolia is not configured">
               Defina NEXT_PUBLIC_ALGOLIA_APP_ID, NEXT_PUBLIC_ALGOLIA_SEARCH_KEY e
               NEXT_PUBLIC_ALGOLIA_INDEX_NAME para habilitar a busca no frontend.
             </Alert>
