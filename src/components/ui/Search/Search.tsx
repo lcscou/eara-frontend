@@ -106,7 +106,14 @@ export default function Search() {
       })
       .then(({ hits: newHits }) => {
         console.log('Algolia search results:', newHits)
-        setHits(newHits.filter((hit) => hit.post_type !== 'ticker'))
+        setHits(
+          newHits.filter(
+            (hit) =>
+              hit.post_type !== 'ticker' &&
+              hit.post_type !== 'members' &&
+              hit.post_type !== 'media-bank'
+          )
+        )
         setError(null)
       })
       .catch(() => setError('An error occurred while searching. Please try again.'))
