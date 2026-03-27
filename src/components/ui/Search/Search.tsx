@@ -93,8 +93,9 @@ export default function Search() {
     setIsSearching(true)
     index
       .search<AlgoliaHit>(debouncedQuery, {
-        hitsPerPage: 8,
+        hitsPerPage: 100,
         ...HIGHLIGHT_PROPS,
+
         attributesToHighlight: [
           'post_title',
           'title',

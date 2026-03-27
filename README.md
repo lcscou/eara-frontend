@@ -46,7 +46,7 @@ The header search uses the Algolia Search-only key directly from the browser (no
 ```env
 NEXT_PUBLIC_ALGOLIA_APP_ID=
 NEXT_PUBLIC_ALGOLIA_SEARCH_KEY=
-NEXT_PUBLIC_ALGOLIA_INDEX_NAME=eara_global
+NEXT_PUBLIC_ALGOLIA_INDEX_NAME=wp_searchable_posts
 # Optional: forces permalink replacement to the frontend domain
 NEXT_PUBLIC_SITE_URL=https://example.com
 ```
