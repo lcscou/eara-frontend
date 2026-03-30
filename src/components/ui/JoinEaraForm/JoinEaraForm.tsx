@@ -29,6 +29,7 @@ const DEFAULT_SUBMIT_URL = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT?.r
   '/eara/v1/send-form'
 )
 
+console.log('JoinEaraForm submit URL:', DEFAULT_SUBMIT_URL)
 function JoinEaraFormComponent({
   // triggerId,
   submitUrl,
