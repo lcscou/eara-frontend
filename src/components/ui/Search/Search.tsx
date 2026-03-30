@@ -20,7 +20,7 @@ import { useDebouncedValue, useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
 import algoliasearch, { SearchIndex } from 'algoliasearch/lite'
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import classes from './Search.module.css'
 
 type HighlightField = { value?: string }
@@ -61,8 +61,11 @@ export default function Search() {
   const [debouncedQuery] = useDebouncedValue(query, 320)
   const [hits, setHits] = useState<AlgoliaHit[]>([])
   const [isSearching, setIsSearching] = useState(false)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [totalHits, setTotalHits] = useState(0)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const isMobile = useMediaQuery('(max-width: 768px)')
 
@@ -78,48 +81,75 @@ export default function Search() {
     inputRef.current?.focus()
   }, [opened])
 
-  useEffect(() => {
-    if (!debouncedQuery.trim()) {
-      setHits([])
-      setError(null)
-      return
-    }
-
-    if (!index) {
-      setError('Algolia search is not configured. Check environment variables.')
-      return
-    }
-
-    setIsSearching(true)
-    index
-      .search<AlgoliaHit>(debouncedQuery, {
-        hitsPerPage: 100,
-        ...HIGHLIGHT_PROPS,
-
-        attributesToHighlight: [
-          'post_title',
-          'title',
-          'content',
-          'post_content',
-          'post_excerpt',
-          'excerpt',
-        ],
-      })
-      .then(({ hits: newHits }) => {
-        console.log('Algolia search results:', newHits)
-        setHits(
-          newHits.filter(
-            (hit) =>
-              hit.post_type !== 'ticker' &&
-              hit.post_type !== 'members' &&
-              hit.post_type !== 'media-bank'
-          )
-        )
+  const performSearch = useCallback(
+    (page: number, isInitialSearch: boolean = false) => {
+      if (!debouncedQuery.trim()) {
+        setHits([])
         setError(null)
-      })
-      .catch(() => setError('An error occurred while searching. Please try again.'))
-      .finally(() => setIsSearching(false))
-  }, [debouncedQuery, index])
+        setTotalHits(0)
+        return
+      }
+
+      if (!index) {
+        setError('Algolia search is not configured. Check environment variables.')
+        return
+      }
+
+      if (isInitialSearch) {
+        setIsSearching(true)
+      } else {
+        setIsLoadingMore(true)
+      }
+
+      index
+        .search<AlgoliaHit>(debouncedQuery, {
+          page,
+          hitsPerPage: 50,
+          ...HIGHLIGHT_PROPS,
+          attributesToHighlight: [
+            'post_title',
+            'title',
+            'content',
+            'post_content',
+            'post_excerpt',
+            'excerpt',
+          ],
+        })
+        .then(({ hits: newHits, nbHits }) => {
+          console.log('Algolia search results (page', page, '):', newHits)
+          const filteredHits = newHits.filter((hit) => hit.post_type !== 'ticker')
+
+          if (isInitialSearch) {
+            setHits(filteredHits)
+          } else {
+            setHits((prev) => [...prev, ...filteredHits])
+          }
+
+          setTotalHits(nbHits)
+          setError(null)
+        })
+        .catch(() => setError('An error occurred while searching. Please try again.'))
+        .finally(() => {
+          if (isInitialSearch) {
+            setIsSearching(false)
+          } else {
+            setIsLoadingMore(false)
+          }
+        })
+    },
+    [debouncedQuery, index]
+  )
+
+  useEffect(() => {
+    setCurrentPage(0)
+    performSearch(0, true)
+  }, [performSearch])
+
+  const loadMoreResults = () => {
+    const nextPage = currentPage + 1
+    setCurrentPage(nextPage)
+    performSearch(nextPage, false)
+  }
 
   const firstPostType = useMemo(() => {
     if (hits.length === 0) return null
@@ -149,6 +179,8 @@ export default function Search() {
     setHits([])
     setError(null)
     setActiveTab(null)
+    setCurrentPage(0)
+    setTotalHits(0)
   }
 
   const resolvePermalink = (permalink?: string | null, uri?: string | null) => {
@@ -242,7 +274,7 @@ export default function Search() {
         onClose={handleClose}
         size={isMobile ? '100%' : '80%'}
         // fullScreen
-
+        zIndex={9999999}
         styles={{
           header: {
             background: '#EAEAEA',
@@ -288,7 +320,7 @@ export default function Search() {
           />
 
           {!isSearchConfigured && (
-            <Alert color="yellow" title="Algolia is not configured">
+            <Alert color="yellow" title="Algolia não configurado">
               Defina NEXT_PUBLIC_ALGOLIA_APP_ID, NEXT_PUBLIC_ALGOLIA_SEARCH_KEY e
               NEXT_PUBLIC_ALGOLIA_INDEX_NAME para habilitar a busca no frontend.
             </Alert>
@@ -328,48 +360,79 @@ export default function Search() {
               )}
 
               {hasResults && (
-                <Tabs value={activeTab} onChange={setActiveTab}>
-                  <Tabs.List>
-                    {Array.from(groupByPostType(hits).keys()).map((postType) => (
-                      <Tabs.Tab key={postType} value={postType}>
-                        {formatPostTypeName(postType)}
-                      </Tabs.Tab>
-                    ))}
-                  </Tabs.List>
+                <>
+                  <Tabs value={activeTab} onChange={setActiveTab}>
+                    <Tabs.List>
+                      {Array.from(groupByPostType(hits).keys()).map((postType) => (
+                        <Tabs.Tab key={postType} value={postType}>
+                          {formatPostTypeName(postType)}
+                        </Tabs.Tab>
+                      ))}
+                    </Tabs.List>
 
-                  {Array.from(groupByPostType(hits).entries()).map(([postType, results]) => (
-                    <Tabs.Panel key={postType} value={postType} pt="md">
-                      <Stack gap="sm">
-                        {results.map((hit) => {
-                          const href = resolvePermalink(hit.permalink, hit.uri)
-                          const title = getTitle(hit)
-                          const snippet = getSnippet(hit)
+                    {Array.from(groupByPostType(hits).entries()).map(([postType, results]) => (
+                      <Tabs.Panel key={postType} value={postType} pt="md">
+                        <Stack gap="sm">
+                          {results.map((hit) => {
+                            const href = resolvePermalink(hit.permalink, hit.uri)
+                            const title = getTitle(hit)
+                            const snippet = getSnippet(hit)
 
-                          return (
-                            <Box key={hit.objectID} className={classes.resultCard}>
-                              <Anchor component={Link} href={href} className={classes.resultLink}>
-                                <Title fw={600} order={4} className={classes.resultTitle}>
-                                  {renderHighlightedText(title)}
-                                </Title>
-                                <Text size="sm" c="dimmed" className={classes.resultSnippet}>
-                                  {renderHighlightedText(snippet)}
-                                </Text>
-                                <Group gap={6} mt={6} wrap="nowrap" c="primaryColor.9">
-                                  <Text size="xs" className={classes.resultUrl}>
-                                    {href}
+                            return (
+                              <Box key={hit.objectID} className={classes.resultCard}>
+                                <Anchor component={Link} href={href} className={classes.resultLink}>
+                                  <Title fw={600} order={4} className={classes.resultTitle}>
+                                    {renderHighlightedText(title)}
+                                  </Title>
+                                  <Text size="sm" c="dimmed" className={classes.resultSnippet}>
+                                    {renderHighlightedText(snippet)}
                                   </Text>
-                                </Group>
-                              </Anchor>
-                            </Box>
-                          )
-                        })}
-                      </Stack>
-                    </Tabs.Panel>
-                  ))}
-                </Tabs>
+                                  <Group gap={6} mt={6} wrap="nowrap" c="primaryColor.9">
+                                    <Text size="xs" className={classes.resultUrl}>
+                                      {href}
+                                    </Text>
+                                  </Group>
+                                </Anchor>
+                              </Box>
+                            )
+                          })}
+                        </Stack>
+                      </Tabs.Panel>
+                    ))}
+                  </Tabs>
+                </>
               )}
             </Stack>
           </ScrollArea.Autosize>
+
+          {hasResults && (
+            <Box
+              style={{
+                position: 'sticky',
+                bottom: 0,
+                background: '#EAEAEA',
+                borderTop: '1px solid #d0d0d0',
+                padding: '10px 0',
+              }}
+            >
+              <Group justify="space-between" align="center">
+                <Text size="sm" c="dimmed">
+                  Showing {hits.length} of {totalHits}
+                </Text>
+                {hits.length < totalHits && (
+                  <Button
+                    onClick={loadMoreResults}
+                    loading={isLoadingMore}
+                    disabled={isLoadingMore}
+                    variant="light"
+                    size="sm"
+                  >
+                    {isLoadingMore ? 'Loading more...' : 'Load more results'}
+                  </Button>
+                )}
+              </Group>
+            </Box>
+          )}
         </Stack>
       </Modal>
     </>
