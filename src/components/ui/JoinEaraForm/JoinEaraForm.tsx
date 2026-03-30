@@ -24,6 +24,10 @@ export type JoinEaraFormProps = {
 }
 
 const DEFAULT_TRIGGER_ID = 'join-eara-form'
+const DEFAULT_SUBMIT_URL = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT?.replace(
+  '/graphql',
+  '/eara/v1/send-form'
+)
 
 function JoinEaraFormComponent({
   // triggerId,
@@ -58,10 +62,28 @@ function JoinEaraFormComponent({
       if (onSubmit) {
         await onSubmit(form)
       } else if (submitUrl) {
+        const safeForm = {
+          name: form.name ?? '',
+          email: form.email ?? '',
+          institution: form.institution ?? '',
+          country: form.country ?? '',
+        }
+
+        const payload = {
+          email: safeForm.email,
+          subject: 'New EARA Join Request from Website',
+          message: [
+            `Name: ${safeForm.name}`,
+            `Email: ${safeForm.email}`,
+            `Institution: ${safeForm.institution}`,
+            `Country: ${safeForm.country}`,
+          ].join('\n'),
+        }
+
         const response = await fetch(submitUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form),
+          body: JSON.stringify(payload),
         })
         if (!response.ok) {
           throw new Error('Failed to submit join eara form')
@@ -87,8 +109,11 @@ function JoinEaraFormComponent({
         <TextInput
           required
           placeholder="e.g.: Jane Smith"
-          value={form.name}
-          onChange={(event) => setForm((prev) => ({ ...prev, name: event.currentTarget?.value }))}
+          value={form.name ?? ''}
+          onChange={(event) => {
+            const value = event.currentTarget.value
+            setForm((prev) => ({ ...prev, name: value }))
+          }}
           radius="xl"
           size="lg"
           styles={{
@@ -114,8 +139,11 @@ function JoinEaraFormComponent({
           required
           type="email"
           placeholder="e.g.: jane.smith@edu.eu"
-          value={form.email}
-          onChange={(event) => setForm((prev) => ({ ...prev, email: event.currentTarget?.value }))}
+          value={form.email ?? ''}
+          onChange={(event) => {
+            const value = event.currentTarget.value
+            setForm((prev) => ({ ...prev, email: value }))
+          }}
           radius="xl"
           size="lg"
           styles={{
@@ -140,10 +168,11 @@ function JoinEaraFormComponent({
         <TextInput
           required
           placeholder="e.g.: Oxford University"
-          value={form.institution}
-          onChange={(event) =>
-            setForm((prev) => ({ ...prev, institution: event.currentTarget?.value }))
-          }
+          value={form.institution ?? ''}
+          onChange={(event) => {
+            const value = event.currentTarget.value
+            setForm((prev) => ({ ...prev, institution: value }))
+          }}
           radius="xl"
           size="lg"
           styles={{
@@ -168,10 +197,11 @@ function JoinEaraFormComponent({
         <TextInput
           required
           placeholder="e.g.: United Kingdom"
-          value={form.country}
-          onChange={(event) =>
-            setForm((prev) => ({ ...prev, country: event.currentTarget?.value }))
-          }
+          value={form.country ?? ''}
+          onChange={(event) => {
+            const value = event.currentTarget.value
+            setForm((prev) => ({ ...prev, country: value }))
+          }}
           radius="xl"
           size="lg"
           styles={{
@@ -214,7 +244,7 @@ export default function JoinEaraForm({
   title = 'Join EARA',
   buttonLabel = 'Join Now',
   description = 'Join our community and stay connected with us.',
-  submitUrl,
+  submitUrl = DEFAULT_SUBMIT_URL,
   onSubmit,
   renderMode = 'inline',
 }: JoinEaraFormProps) {

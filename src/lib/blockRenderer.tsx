@@ -3474,7 +3474,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const title = attributes_join?.title || 'Join EARA'
       const description = attributes_join?.description
       const buttonLabel = attributes_join?.buttonLabel || 'Join Now'
-      const submitUrl = attributes_join?.submitUrl
+      const submitUrl = 'http://eara.local/wp-json/eara/v1/send-form'
       const renderMode = attributes_join?.renderMode === 'modal' ? 'modal' : 'inline'
 
       return (
