@@ -3476,7 +3476,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const buttonLabel = attributes_join?.buttonLabel || 'Join Now'
       const submitUrl = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT?.replace(
         '/graphql',
-        '/eara/v1/send-form'
+        '/wp-json/eara/v1/send-form'
       )
       const renderMode = attributes_join?.renderMode === 'modal' ? 'modal' : 'inline'
 
