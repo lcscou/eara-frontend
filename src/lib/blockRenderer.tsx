@@ -3479,7 +3479,6 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
 
       return (
         <>
-          submit {submitUrl}
           <JoinEaraForm
             key={index}
             triggerId={triggerId}
