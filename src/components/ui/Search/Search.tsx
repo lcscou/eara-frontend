@@ -117,7 +117,14 @@ export default function Search() {
         })
         .then(({ hits: newHits, nbHits }) => {
           console.log('Algolia search results (page', page, '):', newHits)
-          const filteredHits = newHits.filter((hit) => hit.post_type !== 'ticker')
+          const filteredHits = newHits.filter(
+            (hit) =>
+              hit.post_type !== 'ticker' &&
+              hit.post_type !== 'data-chart' &&
+              hit.post_type !== 'media-bank' &&
+              hit.post_type !== 'members' &&
+              hit.post_type !== 'data-table'
+          )
 
           if (isInitialSearch) {
             setHits(filteredHits)
@@ -280,7 +287,7 @@ export default function Search() {
             background: '#EAEAEA',
           },
           content: {
-            // overflow: 'hidden',
+            overflow: 'hidden',
             borderRadius: '15px',
             background: '#EAEAEA',
             minHeight: 'var(--modal-content-max-height, calc(100dvh - var(--modal-y-offset) * 2))',
@@ -362,7 +369,17 @@ export default function Search() {
               {hasResults && (
                 <>
                   <Tabs value={activeTab} onChange={setActiveTab}>
-                    <Tabs.List>
+                    <Tabs.List
+                      style={{
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 2,
+                        background: '#EAEAEA',
+                        paddingTop: 4,
+                        paddingBottom: 6,
+                        borderBottom: '1px solid #d0d0d0',
+                      }}
+                    >
                       {Array.from(groupByPostType(hits).keys()).map((postType) => (
                         <Tabs.Tab key={postType} value={postType}>
                           {formatPostTypeName(postType)}
