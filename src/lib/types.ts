@@ -205,6 +205,7 @@ export interface HeaderMenuItemsProps {
   variant?: 'megamenu' | 'dropdown' | 'link'
   label?: string | null
   uri?: string | null
+  notClickable?: boolean | null
   menuTextColor?: string | null
   childItems?: GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem_childItems_MenuItemToMenuItemConnection | null
   currentPath?: string | null

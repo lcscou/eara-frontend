@@ -1554,6 +1554,7 @@ export type MenuItemFieldsFragment_MenuItem_menuAcf_MenuAcf = {
   fieldGroupName?: string | null
   hidden?: boolean | null
   ismegamenu?: boolean | null
+  notClickable?: boolean | null
 }
 
 export type MenuItemFieldsFragment_MenuItem_menuGeral_MenuGeral = {
@@ -4054,6 +4055,7 @@ export const MenuItemFieldsFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'fieldGroupName' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'hidden' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'ismegamenu' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'notClickable' } },
               ],
             },
           },
@@ -5010,6 +5012,7 @@ export const GetMenuDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'fieldGroupName' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'hidden' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'ismegamenu' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'notClickable' } },
               ],
             },
           },

@@ -264,6 +264,7 @@ export const GetMenu = gql`
       fieldGroupName
       hidden
       ismegamenu
+      notClickable
     }
     menuGeral {
       menuTextColor

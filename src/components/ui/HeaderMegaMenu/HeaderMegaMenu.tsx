@@ -13,7 +13,25 @@ const ACTIVE_COLOR = '#8fbf29'
 
 type MenuNode = {
   uri?: string | null
+  menuAcf?: { notClickable?: boolean | null } | null
   childItems?: { nodes?: MenuNode[] | null } | null
+}
+
+const getMenuLinkProps = (uri?: string | null, notClickable?: boolean | null) => {
+  if (!uri || notClickable) return {}
+
+  return {
+    component: 'a' as const,
+    href: uri,
+  }
+}
+
+const getNotClickableCursorProps = (notClickable?: boolean | null) => {
+  if (!notClickable) return {}
+
+  return {
+    style: { cursor: 'default' as const },
+  }
 }
 
 const normalizePath = (path?: string | null) => {
@@ -62,6 +80,7 @@ export default function HeaderMegaMenu({ data }: HeaderMegaMenuProps) {
                           key={item.id}
                           uri={item.uri}
                           label={item.label}
+                          notClickable={item.menuAcf?.notClickable}
                           {...(main_menu_left.menuGeral?.menuTextColor
                             ? { menuTextColor: main_menu_left.menuGeral?.menuTextColor }
                             : {})}
@@ -87,6 +106,7 @@ export default function HeaderMegaMenu({ data }: HeaderMegaMenuProps) {
                               key={item.id}
                               uri={item.uri}
                               label={item.label}
+                              notClickable={item.menuAcf?.notClickable}
                               {...(main_menu_right.menuGeral?.menuTextColor
                                 ? { menuTextColor: main_menu_right.menuGeral?.menuTextColor }
                                 : {})}
@@ -133,6 +153,7 @@ export function MenuItem({
   variant = 'dropdown',
   label,
   uri,
+  notClickable,
   childItems,
   menuTextColor,
   currentPath,
@@ -174,6 +195,7 @@ export function MenuItem({
               className=".mega-col"
               c={isActive ? ACTIVE_COLOR : menuTextColor || 'primaryColor.9'}
               rightSection={hasChildren && <IconChevronDown size={15} />}
+              {...getNotClickableCursorProps(notClickable)}
             >
               {label}
             </Button>
@@ -187,8 +209,8 @@ export function MenuItem({
                     <div key={submenus.id} className="mega-col flex flex-col items-start">
                       <Button
                         variant="menu"
-                        {...(submenus.uri ? { component: 'a' } : {})}
-                        {...(submenus.uri ? { href: submenus.uri } : {})}
+                        {...getMenuLinkProps(submenus.uri, submenus.menuAcf?.notClickable)}
+                        {...getNotClickableCursorProps(submenus.menuAcf?.notClickable)}
                         c={submenuActive ? ACTIVE_COLOR : undefined}
                       >
                         {submenus.label}
@@ -200,8 +222,8 @@ export function MenuItem({
                             c={thirdActive ? ACTIVE_COLOR : 'earaDark.9'}
                             fw={500}
                             variant="menu"
-                            {...(third.uri ? { component: 'a' } : {})}
-                            {...(third.uri ? { href: third.uri } : {})}
+                            {...getMenuLinkProps(third.uri, third.menuAcf?.notClickable)}
+                            {...getNotClickableCursorProps(third.menuAcf?.notClickable)}
                             key={third.id}
                           >
                             {third.label}
@@ -220,8 +242,8 @@ export function MenuItem({
                   return (
                     <Button
                       variant="menu"
-                      {...(submenus.uri ? { component: 'a' } : {})}
-                      {...(submenus.uri ? { href: submenus.uri } : {})}
+                      {...getMenuLinkProps(submenus.uri, submenus.menuAcf?.notClickable)}
+                      {...getNotClickableCursorProps(submenus.menuAcf?.notClickable)}
                       c={submenuActive ? ACTIVE_COLOR : 'earaDark.9'}
                       fw={500}
                       key={submenus.id}
@@ -239,8 +261,8 @@ export function MenuItem({
         <Button
           // c={menuTextColor || 'primaryColor.9'}
           variant="menu"
-          {...(uri ? { component: 'a' } : {})}
-          {...(uri ? { href: uri } : {})}
+          {...getMenuLinkProps(uri, notClickable)}
+          {...getNotClickableCursorProps(notClickable)}
           c={isActive ? ACTIVE_COLOR : menuTextColor || 'primaryColor.9'}
         >
           {label}
@@ -265,7 +287,8 @@ export function MenuItemMobile({ menu, currentPath }: MenuItemMobileProps) {
               key={item.id}
               label={item.label}
               active={itemActive}
-              {...(item.uri ? { href: item.uri } : {})}
+              {...getMenuLinkProps(item.uri, item.menuAcf?.notClickable)}
+              {...getNotClickableCursorProps(item.menuAcf?.notClickable)}
             >
               {item.childItems?.nodes &&
                 item.childItems?.nodes.length > 0 &&
@@ -280,7 +303,8 @@ export function MenuItemMobile({ menu, currentPath }: MenuItemMobileProps) {
                       }}
                       label={thirdLevel.label}
                       active={thirdLevelActive}
-                      {...(thirdLevel.uri ? { href: thirdLevel.uri } : {})}
+                      {...getMenuLinkProps(thirdLevel.uri, thirdLevel.menuAcf?.notClickable)}
+                      {...getNotClickableCursorProps(thirdLevel.menuAcf?.notClickable)}
                     >
                       {thirdLevel.childItems?.nodes &&
                         thirdLevel.childItems?.nodes.length > 0 &&
@@ -298,7 +322,11 @@ export function MenuItemMobile({ menu, currentPath }: MenuItemMobileProps) {
                               }}
                               label={fourthLevel.label}
                               active={fourthLevelActive}
-                              {...(fourthLevel.uri ? { href: fourthLevel.uri } : {})}
+                              {...getMenuLinkProps(
+                                fourthLevel.uri,
+                                fourthLevel.menuAcf?.notClickable
+                              )}
+                              {...getNotClickableCursorProps(fourthLevel.menuAcf?.notClickable)}
                             />
                           )
                         })}
