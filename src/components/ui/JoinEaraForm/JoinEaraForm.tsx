@@ -70,15 +70,68 @@ function JoinEaraFormComponent({
           country: form.country ?? '',
         }
 
+        const na = (v: string) => v.trim() || 'N/A'
+
+        const message = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f2f2f2;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f2f2;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;border-radius:16px;padding:30px 40px;">
+          <tr>
+            <td style="padding-bottom:20px;">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="vertical-align:middle;padding-right:10px;">
+                    <img src="https://www.eara.eu/logo-eara.svg" alt="Logo" style="display:block;">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size:16px;color:#000000;padding-bottom:20px;">
+              You have received a request to Join Eara.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:14px;color:#000000;">
+                <tr>
+                  <td style="padding:6px 0;color:#555555;width:150px;">Name</td>
+                  <td style="padding:6px 0;font-weight:bold;">${na(safeForm.name)}</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;color:#555555;">Email</td>
+                  <td style="padding:6px 0;font-weight:bold;">${na(safeForm.email)}</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;color:#555555;">Institution</td>
+                  <td style="padding:6px 0;font-weight:bold;">${na(safeForm.institution)}</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;color:#555555;">Country</td>
+                  <td style="padding:6px 0;font-weight:bold;">${na(safeForm.country)}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+
         const payload = {
           email: safeForm.email,
           subject: 'New EARA Join Request from Website',
-          message: [
-            `Name: ${safeForm.name}`,
-            `Email: ${safeForm.email}`,
-            `Institution: ${safeForm.institution}`,
-            `Country: ${safeForm.country}`,
-          ].join('\n'),
+          message,
         }
 
         const response = await fetch(submitUrl, {
