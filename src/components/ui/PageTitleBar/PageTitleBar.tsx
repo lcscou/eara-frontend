@@ -39,7 +39,7 @@ function PageTitleBarComponent({
     if (!eventStartDate) return null
     const start = new Date(eventStartDate)
     const end = eventEndDate ? new Date(eventEndDate) : null
-    const opts: Intl.DateTimeFormatOptions = { dateStyle: 'medium' }
+    // const opts: Intl.DateTimeFormatOptions = { dateStyle: 'medium' }
     return end
       ? `${formatEventDate(start.toDateString())} - ${formatEventDate(end.toDateString())}`
       : formatEventDate(start.toDateString())

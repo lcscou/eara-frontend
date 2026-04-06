@@ -1,12 +1,72 @@
-import { HttpLink } from '@apollo/client'
+import { ApolloLink, HttpLink } from '@apollo/client'
 import {
   ApolloClient,
   InMemoryCache,
   registerApolloClient,
 } from '@apollo/client-integration-nextjs'
 import { setContext } from '@apollo/client/link/context'
+import { RetryLink } from '@apollo/client/link/retry'
 
 import { getAuthToken } from './auth/server'
+
+type NetworkErrorLike = {
+  statusCode?: number
+  response?: {
+    status?: number
+  }
+  message?: string
+}
+
+const RETRYABLE_STATUS_CODES = new Set([429, 500, 502, 503, 504])
+
+function getNetworkStatusCode(error: unknown): number | undefined {
+  if (!error || typeof error !== 'object') return undefined
+
+  const candidate = error as NetworkErrorLike
+
+  if (typeof candidate.statusCode === 'number') {
+    return candidate.statusCode
+  }
+
+  if (typeof candidate.response?.status === 'number') {
+    return candidate.response.status
+  }
+
+  return undefined
+}
+
+function shouldRetryApolloRequest(error: unknown) {
+  const statusCode = getNetworkStatusCode(error)
+  if (statusCode) {
+    return RETRYABLE_STATUS_CODES.has(statusCode)
+  }
+
+  if (!error || typeof error !== 'object') return false
+
+  const message = String((error as NetworkErrorLike).message || '').toLowerCase()
+
+  return (
+    message.includes('network') ||
+    message.includes('fetch failed') ||
+    message.includes('bad gateway') ||
+    message.includes('econnreset') ||
+    message.includes('etimedout')
+  )
+}
+
+function createRetryLink() {
+  return new RetryLink({
+    delay: {
+      initial: 300,
+      max: 2000,
+      jitter: true,
+    },
+    attempts: {
+      max: 3,
+      retryIf: (error) => shouldRetryApolloRequest(error),
+    },
+  })
+}
 
 // Cache policy configurada para melhor performance
 const cache = new InMemoryCache({
@@ -156,14 +216,17 @@ const cache = new InMemoryCache({
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   return new ApolloClient({
     cache,
-    link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
-      fetchOptions: {
-        next: {
-          revalidate: 3600, // Cache de 1 hora por padrão
+    link: ApolloLink.from([
+      createRetryLink(),
+      new HttpLink({
+        uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+        fetchOptions: {
+          next: {
+            revalidate: 3600, // Cache de 1 hora por padrão
+          },
         },
-      },
-    }),
+      }),
+    ]),
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'cache-and-network',
@@ -213,7 +276,7 @@ export async function getAuthenticatedClient() {
 
   return new ApolloClient({
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
+    link: ApolloLink.from([createRetryLink(), authLink, httpLink]),
     defaultOptions: {
       query: {
         fetchPolicy: 'network-only', // Sempre buscar do servidor para conteúdo autenticado
