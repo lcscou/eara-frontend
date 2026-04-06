@@ -277,7 +277,9 @@ function JoinEaraFormComponent({
       </Input.Wrapper>
 
       <Stack gap="xs">
-        {status === 'success' && <Text c="green">Thank you for joining EARA!</Text>}
+        {status === 'success' && (
+          <Text c="green">Thank you for your interest in joining EARA!</Text>
+        )}
         {status === 'error' && <Text c="red">Something went wrong. Please try again.</Text>}
       </Stack>
 
