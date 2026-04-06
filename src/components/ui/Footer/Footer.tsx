@@ -6,7 +6,7 @@ import {
   GetSettingsDocument,
 } from '@/graphql/generated/graphql'
 import { FooterProps } from '@/lib/types'
-import { useSuspenseQuery } from '@apollo/client/react'
+import { useQuery } from '@apollo/client/react'
 import { Button, Container, Grid, Group, Image, Stack, Text, Title } from '@mantine/core'
 import {
   IconBrandBluesky,
@@ -21,32 +21,53 @@ import Link from 'next/link'
 import ButtonEara from '../ButtonEara/ButtonEara'
 
 export default function Footer({}: FooterProps) {
-  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, {
+  const {
+    data,
+    error: menuError,
+    loading: menuLoading,
+  } = useQuery<GetMenuQuery>(GetMenuDocument, {
     fetchPolicy: 'cache-first',
+    errorPolicy: 'all',
     context: {
       fetchOptions: {
         next: {
           tags: ['menus'],
-          revalidate: 0,
+          revalidate: 1800,
         },
       },
     },
   })
 
-  const { data: settingsData } = useSuspenseQuery(GetSettingsDocument, {
+  const {
+    data: settingsData,
+    error: settingsError,
+    loading: settingsLoading,
+  } = useQuery(GetSettingsDocument, {
     fetchPolicy: 'cache-first',
+    errorPolicy: 'all',
     context: {
       fetchOptions: {
         next: {
           tags: ['earaSettings'],
-          revalidate: 0,
+          revalidate: 1800,
         },
       },
     },
   })
-  const MAIN_FOOTER = data.menus?.nodes?.filter((menu) =>
+  const MAIN_FOOTER = data?.menus?.nodes?.filter((menu) =>
     menu?.locations?.find((loc) => loc == 'MAIN_FOOTER')
   )[0]
+  const footerItems = MAIN_FOOTER?.menuItems?.nodes ?? []
+
+  if ((menuLoading || settingsLoading || menuError || settingsError) && !data && !settingsData) {
+    return (
+      <Container fluid className="py-[16px]">
+        <footer className="bg-earaDark rounded-2xl p-10 text-white">
+          <Image w={350} src="/logo-eara-light.svg" alt="Logo Eara" />
+        </footer>
+      </Container>
+    )
+  }
 
   return (
     <>
@@ -169,8 +190,8 @@ export default function Footer({}: FooterProps) {
           </div>
 
           <div className="pt-16">
-            <Grid columns={MAIN_FOOTER?.menuItems?.nodes.length} gutter={50}>
-              {MAIN_FOOTER?.menuItems?.nodes.map((menu) => (
+            <Grid columns={Math.max(footerItems.length, 1)} gutter={50}>
+              {footerItems.map((menu) => (
                 <FooterColumn key={menu.id} data={menu} />
               ))}
             </Grid>

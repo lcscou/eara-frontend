@@ -12,7 +12,7 @@ const getHomePageData = cache(async (): Promise<GetPageQuery> => {
     context: {
       fetchOptions: {
         next: {
-          revalidate: 0,
+          revalidate: 1800,
           tags: ['pages', 'pages-home'],
         },
       },

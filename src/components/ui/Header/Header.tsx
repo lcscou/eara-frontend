@@ -5,7 +5,7 @@ import {
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
 } from '@/graphql/generated/graphql'
-import { useSuspenseQuery } from '@apollo/client/react'
+import { useQuery } from '@apollo/client/react'
 import { useGSAP } from '@gsap/react'
 import { Burger, Button, Container, Group, Image, Menu, NavLink, Stack } from '@mantine/core'
 import { useClickOutside, useDisclosure, useMediaQuery } from '@mantine/hooks'
@@ -15,18 +15,19 @@ import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { MouseEvent, MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from 'react'
 export default function Header() {
-  const { data } = useSuspenseQuery<GetMenuQuery>(GetMenuDocument, {
-    fetchPolicy: 'network-only',
+  const { data, error, loading } = useQuery<GetMenuQuery>(GetMenuDocument, {
+    fetchPolicy: 'cache-first',
+    errorPolicy: 'all',
     context: {
       fetchOptions: {
         next: {
           tags: ['menus'],
-
-          revalidate: 0,
+          revalidate: 1800,
         },
       },
     },
   })
+  const hasMenus = (data?.menus?.nodes?.length ?? 0) > 0
   const isMobile = useMediaQuery('(min-width: 1300px)')
   gsap.registerPlugin(useGSAP, SplitText)
   const [opened, { toggle, close }] = useDisclosure()
@@ -76,6 +77,20 @@ export default function Header() {
   function handleMouseLeave() {
     setMegaMenuOpen(false)
   }
+
+  if ((loading || error) && !hasMenus) {
+    return (
+      <Container fluid className="fixed z-[999999] w-full">
+        <header className="flex h-[110px] items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm">
+          <Button unstyled component="a" href="/">
+            <Image src="/logo-eara.svg" className="max-w-[250px]" alt="Logo Eara" />
+          </Button>
+          <Burger opened={false} aria-label="Toggle navigation" disabled />
+        </header>
+      </Container>
+    )
+  }
+
   return (
     <>
       <Container ref={ref} fluid className="fixed z-[999999] w-full">

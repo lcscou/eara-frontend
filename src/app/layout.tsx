@@ -31,7 +31,6 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {process.env.NODE_ENV === 'production' ? <GoogleTagManager gtmId="GTM-T6WSZKMZ" /> : null}
       <body className={`${hankenGrotesk.variable} antialiased`}>
         <ApolloWrapper>
           <PreloadQuery
@@ -45,6 +44,9 @@ export default async function RootLayout({
                 <AuthRefreshProvider />
                 {children}
                 <Analytics />
+                {process.env.NODE_ENV === 'production' ? (
+                  <GoogleTagManager gtmId="GTM-T6WSZKMZ" />
+                ) : null}
                 <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
                   <BackToTop />
                 </div>

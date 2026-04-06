@@ -53,8 +53,6 @@ export default function ArchiveNews() {
     },
   })
 
-  console.log('Fetched news data:', data)
-
   // Fetch categories using dedicated query
   const { data: categoriesData } = useSuspenseQuery<GetAllCategoriesNewsQuery>(
     GetAllCategoriesNewsDocument
