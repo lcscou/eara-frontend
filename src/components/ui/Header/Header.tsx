@@ -13,6 +13,7 @@ import { IconChevronDown, IconSearch } from '@tabler/icons-react'
 import clsx from 'clsx'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
+import Link from 'next/link'
 import { MouseEvent, MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from 'react'
 export default function Header() {
   const { data, error, loading } = useQuery<GetMenuQuery>(GetMenuDocument, {
@@ -82,9 +83,11 @@ export default function Header() {
     return (
       <Container fluid className="fixed z-[999999] w-full">
         <header className="flex h-[110px] items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm">
-          <Button unstyled component="a" href="/">
-            <Image src="/logo-eara.svg" className="max-w-[250px]" alt="Logo Eara" />
-          </Button>
+          <Link href="/">
+            <Button unstyled>
+              <Image src="/logo-eara.svg" className="max-w-[250px]" alt="Logo Eara" />
+            </Button>
+          </Link>
           <Burger opened={false} aria-label="Toggle navigation" disabled />
         </header>
       </Container>

@@ -33,6 +33,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 //   data: GetAllNewsQuery
 // }
 const PAGE_SIZE = 12
+type NewsNode = NonNullable<NonNullable<GetAllNewsQuery['allNews']>['nodes'][number]>
+
 export default function ArchiveNews() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [isFiltering, setIsFiltering] = useState(false)
@@ -51,21 +53,61 @@ export default function ArchiveNews() {
       country: selectedCountry,
       animal: selectedAnimal,
     },
+    fetchPolicy: 'cache-and-network',
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 3600,
+          tags: ['news'],
+        },
+      },
+    },
   })
 
   // Fetch categories using dedicated query
   const { data: categoriesData } = useSuspenseQuery<GetAllCategoriesNewsQuery>(
-    GetAllCategoriesNewsDocument
+    GetAllCategoriesNewsDocument,
+    {
+      fetchPolicy: 'cache-and-network',
+      context: {
+        fetchOptions: {
+          next: {
+            revalidate: 3600,
+            tags: ['news'],
+          },
+        },
+      },
+    }
   )
 
   // Fetch animals using dedicated query
   const { data: animalsData } = useSuspenseQuery<GetAllAnimalsQuery>(GetAllAnimalsDocument, {
     variables: { first: 100 },
+    fetchPolicy: 'cache-and-network',
+    context: {
+      fetchOptions: {
+        next: {
+          revalidate: 3600,
+          tags: ['animals'],
+        },
+      },
+    },
   })
 
   // Fetch countries using dedicated query
   const { data: countriesData } = useSuspenseQuery<GetAllCountryInNewsQuery>(
-    GetAllCountryInNewsDocument
+    GetAllCountryInNewsDocument,
+    {
+      fetchPolicy: 'cache-and-network',
+      context: {
+        fetchOptions: {
+          next: {
+            revalidate: 3600,
+            tags: ['news'],
+          },
+        },
+      },
+    }
   )
 
   // Extract categories from query
@@ -103,7 +145,9 @@ export default function ArchiveNews() {
   const endCursor = data?.allNews?.pageInfo?.endCursor
 
   const filteredNews = useMemo(() => {
-    let filtered = data?.allNews?.nodes ?? []
+    let filtered = (data?.allNews?.nodes ?? []).filter((newsItem): newsItem is NewsNode =>
+      Boolean(newsItem)
+    )
 
     if (selectedIsEaraMember !== null) {
       filtered = filtered.filter(
@@ -391,9 +435,11 @@ export default function ArchiveNews() {
                   date={newsItem.date || ''}
                   title={newsItem.title || 'No Title'}
                   timeReading={newsItem.seo?.readingTime}
-                  author={`${newsItem.author?.node.firstName} ${newsItem.author?.node.lastName}`}
+                  author={[newsItem.author?.node?.firstName, newsItem.author?.node?.lastName]
+                    .filter(Boolean)
+                    .join(' ')}
                   excerpt={cleanHTMLTAG(newsItem.content || '').substring(0, 100) + '...'}
-                  featuredImage={newsItem.featuredImage?.node.guid || '/eara-fallback.png'}
+                  featuredImage={newsItem.featuredImage?.node?.guid || '/eara-fallback.png'}
                   link={`/news/${newsItem.slug}`}
                 />
               ))

@@ -1,9 +1,10 @@
 import ArchiveNews from '@/components/templates/News/ArchiveNews'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 import { GetAllNewsDocument } from '@/graphql/generated/graphql'
-import { query } from '@/lib/apollo-client'
+import { PreloadQuery } from '@/lib/apollo-client'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+
+const PAGE_SIZE = 12
 
 export const metadata: Metadata = {
   title: 'EARA | Latest research news',
@@ -11,13 +12,17 @@ export const metadata: Metadata = {
 }
 
 export default async function News() {
-  const { data } = await query({ query: GetAllNewsDocument })
-  if (!data) notFound()
   return (
     <>
       <PageTitleBar title="Latest research news" subtitle="news" />
       <main>
-        <ArchiveNews />
+        <PreloadQuery
+          query={GetAllNewsDocument}
+          variables={{ first: PAGE_SIZE }}
+          context={{ fetchOptions: { next: { tags: ['news'] } } }}
+        >
+          <ArchiveNews />
+        </PreloadQuery>
       </main>
     </>
   )
