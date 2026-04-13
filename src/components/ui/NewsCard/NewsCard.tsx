@@ -74,11 +74,11 @@ export default function NewsCard({
         <Link href={link || '#'}>
           <div
             className={clsx(
-              'author flex h-full origin-left overflow-hidden rounded-2xl bg-white hover:shadow-xl',
+              'author flex h-full origin-left flex-col overflow-hidden rounded-2xl bg-white hover:shadow-xl md:flex-row',
               s.root
             )}
           >
-            <div className={s.imageWrapper}>
+            <div className={clsx('w-full md:w-auto', s.imageWrapper)}>
               {featuredImage && (
                 <Image
                   src={featuredImage}
@@ -86,12 +86,12 @@ export default function NewsCard({
                   height={600}
                   alt="Featured"
                   className={clsx(
-                    'aspect-[4/3] h-full w-[210px] object-cover object-left sm:w-[400px]'
+                    'aspect-[4/3] w-full object-cover object-left md:h-full md:w-[210px] lg:w-[400px]'
                   )}
                 />
               )}
             </div>
-            <div className="z-10 -ml-10 flex max-w-[300px] flex-col justify-center rounded-2xl bg-white p-7 sm:max-w-[500px]">
+            <div className="z-10 -mt-5 flex w-full max-w-none flex-col justify-center rounded-2xl bg-white p-7 md:-mt-0 md:-ml-10 md:max-w-[500px]">
               <Stack gap={3}>
                 <Text className="opacity-50">{formatedDate}</Text>
                 <Title order={6}>{title}</Title>
