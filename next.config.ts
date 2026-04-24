@@ -8,7 +8,9 @@ const nextConfig: NextConfig = {
       new URL('http://eara.local/**'),
       new URL('http://raw.githubusercontent.com'),
       new URL('https://lightskyblue-camel-505374.hostingersite.com/**'),
+      new URL('http://lightskyblue-camel-505374.hostingersite.com/**'),
       new URL('https://backofficeadmin.eara.eu/**'),
+      new URL('http://backofficeadmin.eara.eu/**'),
     ],
   },
 }
