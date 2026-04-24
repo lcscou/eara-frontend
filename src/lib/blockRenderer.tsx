@@ -15,7 +15,9 @@ import SectionCard from '@/components/sections/SectionCard/SectionCard'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import MembersMap from '@/components/ui/MembersMap/MembersMap'
+import ProtectedCoreImage from '@/components/ui/ProtectedCoreImage/ProtectedCoreImage'
 import Section from '@/components/ui/Section/Section'
+import { isPrivateUploadsUrl } from '@/lib/protected-files/shared'
 import { Carousel } from '@mantine/carousel'
 import { BarChart, DonutChart } from '@mantine/charts'
 import {
@@ -1496,6 +1498,8 @@ function renderCoreImage(block: Block, index: number): ReactNode {
   } = extractCommonStyles(attributes)
 
   if (!url) return null
+  const imageUrl = String(url)
+  const isProtectedImage = isPrivateUploadsUrl(imageUrl)
 
   // Define o estilo baseado no alinhamento
   let alignStyles: React.CSSProperties = {}
@@ -1541,10 +1545,35 @@ function renderCoreImage(block: Block, index: number): ReactNode {
       }
   }
 
-  const img = (
+  const content = isProtectedImage ? (
+    <ProtectedCoreImage
+      url={imageUrl}
+      alt={alt}
+      title={title}
+      width={width}
+      height={height}
+      href={href}
+      linkTarget={linkTarget}
+      rel={rel}
+      linkClass={linkClass}
+    />
+  ) : href ? (
+    <a href={href} target={linkTarget} rel={rel} className={linkClass}>
+      <Image
+        component="img"
+        src={imageUrl}
+        alt={alt}
+        title={title}
+        width={width}
+        height={height}
+        className="rounded-lg"
+        style={{ maxWidth: '100%', objectFit: 'cover' }}
+      />
+    </a>
+  ) : (
     <Image
       component="img"
-      src={url as string}
+      src={imageUrl}
       alt={alt}
       title={title}
       width={width}
@@ -1552,15 +1581,6 @@ function renderCoreImage(block: Block, index: number): ReactNode {
       className="rounded-lg"
       style={{ maxWidth: '100%', objectFit: 'cover' }}
     />
-  )
-
-  // Se tiver href, envolve em link
-  const content = href ? (
-    <a href={href} target={linkTarget} rel={rel} className={linkClass}>
-      {img}
-    </a>
-  ) : (
-    img
   )
 
   return (
