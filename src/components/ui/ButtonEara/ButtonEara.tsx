@@ -7,6 +7,7 @@ export default function ButtonEara({
   label,
   leftSection,
   link,
+  download,
   className,
   target,
   variant = 'filled',
@@ -20,6 +21,7 @@ export default function ButtonEara({
 
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
+          {...(link && download ? { download } : {})}
           {...(link && target ? { target: target } : {})}
           // fw="medium"
           className={clsx(s.earaBtn, className)}
@@ -42,6 +44,7 @@ export default function ButtonEara({
         <Button
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
+          {...(link && download ? { download } : {})}
           {...(link && target ? { target: target } : {})}
           variant="outline"
           tt="uppercase"
@@ -69,6 +72,7 @@ export default function ButtonEara({
           leftSection={leftSection}
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
+          {...(link && download ? { download } : {})}
           {...(link && target ? { target: target } : {})}
           rightSection={props.rightSection || <IconArrowRight size={16} />}
           unstyled
@@ -104,6 +108,7 @@ export default function ButtonEara({
           className={clsx(s.withArrow, s.earaBtn, className)}
           {...(link ? { component: 'a' } : {})}
           {...(link ? { href: link } : {})}
+          {...(link && download ? { download } : {})}
           {...(link && target ? { target: target } : {})}
           rightSection={
             <div

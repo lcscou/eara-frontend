@@ -21,6 +21,16 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const fileNameFromUrl = (() => {
+      try {
+        const pathname = new URL(rawUrl, 'http://localhost').pathname
+        const fileName = pathname.split('/').pop() || ''
+        return decodeURIComponent(fileName) || 'download'
+      } catch {
+        return 'download'
+      }
+    })()
+
     const upstream = await fetchProtectedFileFromWordPress(rawUrl)
 
     if (!upstream.ok) {
@@ -39,9 +49,11 @@ export async function GET(request: NextRequest) {
       'Cache-Control': 'private, no-store, max-age=0',
     })
 
-    if (contentDisposition) {
-      headers.set('Content-Disposition', contentDisposition)
-    }
+    headers.set(
+      'Content-Disposition',
+      contentDisposition ||
+        `attachment; filename="${fileNameFromUrl}"; filename*=UTF-8''${encodeURIComponent(fileNameFromUrl)}`
+    )
 
     return new NextResponse(body, { status: 200, headers })
   } catch {

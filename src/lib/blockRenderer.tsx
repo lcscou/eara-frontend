@@ -16,6 +16,7 @@ import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import MembersMap from '@/components/ui/MembersMap/MembersMap'
 import ProtectedCoreImage from '@/components/ui/ProtectedCoreImage/ProtectedCoreImage'
+import ProtectedDownloadButton from '@/components/ui/ProtectedDownloadButton/ProtectedDownloadButton'
 import Section from '@/components/ui/Section/Section'
 import { isPrivateUploadsUrl } from '@/lib/protected-files/shared'
 import { Carousel } from '@mantine/carousel'
@@ -3095,14 +3096,38 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
         (attributes.variant as 'filled' | 'outline' | 'link' | 'with-arrow') || 'filled'
       const size = (attributes.size as string) || 'md'
       const link = attributes.link as string | undefined
+      const downloadAttr = attributes.download as boolean | string | undefined
+      const download =
+        typeof downloadAttr === 'boolean'
+          ? downloadAttr
+          : typeof downloadAttr === 'string'
+            ? downloadAttr.toLowerCase() === 'true'
+            : false
       const className = attributes?.className as string | undefined
       const width = attributes?.width as string | undefined
       const target = attributes?.target as string | undefined
+
+      if (link && download && isPrivateUploadsUrl(link)) {
+        return (
+          <ProtectedDownloadButton
+            key={index}
+            label={label}
+            privateUrl={link}
+            className={className}
+            width={width}
+            target={target}
+            variant={variant}
+            size={size}
+          />
+        )
+      }
+
       return (
         <ButtonEara
           key={index}
           target={target}
           label={label}
+          download={download}
           miw={width}
           className={className}
           variant={variant}

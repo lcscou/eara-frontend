@@ -86,6 +86,7 @@ export interface AccordionProps {
 export interface ButtonEaraProps extends ButtonProps {
   label?: string
   link?: string
+  download?: boolean | string
   target?: HTMLAttributeAnchorTarget
   className?: string
   type?: 'button' | 'submit' | 'reset'
