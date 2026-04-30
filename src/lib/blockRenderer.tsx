@@ -1298,6 +1298,7 @@ function renderCoreColumns(block: Block, index: number, freeformContent?: string
         />
       )}
       <Group
+        data-block="core/columns"
         key={index}
         className={clsx(className, 'overflow-hidden', mobileStackClass)}
         gap={gapValue}
@@ -1374,7 +1375,8 @@ function renderCoreColumn(
 
   // Calcular width/flexBasis corretamente com desconto do gap
   let flexBasis: string = 'auto'
-  let flexValue: string = '1 1 0%'
+  // let flexValue: string = ''
+  let flexValue: string = className.includes('equal-hight') ? '' : '1 1 0%'
 
   if (width) {
     let widthValue: number | string = width
@@ -1427,6 +1429,7 @@ function renderCoreColumn(
     maxWidth: width ? flexBasis : undefined,
     display: 'flex',
     flexDirection: 'column',
+
     justifyContent:
       verticalAlignment === 'center'
         ? 'center'
@@ -1447,6 +1450,7 @@ function renderCoreColumn(
 
   return (
     <Box
+      data-block="core/column"
       key={index}
       className={clsx('overflow-hidden', className)}
       bdrs="lg"
@@ -3592,6 +3596,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             id={index.toString()}
             variant={variant}
             uri={link}
+            data-block="eara/card"
             target={target}
             className={className}
             featuredImage={featuredImage?.url || ''}
