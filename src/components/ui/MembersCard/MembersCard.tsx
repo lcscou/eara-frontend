@@ -38,16 +38,17 @@ export default function MembersCard({
 
   return (
     <>
-      <div className={clsx('overflow-hidden rounded-lg bg-[#DEE5D6]', s.root)}>
-        <div className="flex aspect-[4/2.7] items-center justify-center rounded-lg bg-white p-4">
+      <div className={clsx('flex h-full flex-col overflow-hidden rounded-lg bg-[#DEE5D6]', s.root)}>
+        <div className="flex h-[180px] items-center justify-center rounded-lg bg-white p-4">
           <Image
             src={featuredImage || '/logo-eara.svg'}
             alt={title || 'Member Image'}
-            width={180}
-            height={180}
+            width={160}
+            height={160}
+            style={{ height: '100%', objectFit: 'contain' }}
           />
         </div>
-        <div className="flex flex-col gap-2 p-7">
+        <div className="flex flex-grow flex-col gap-2 p-7">
           <Title order={5} fz={20}>
             {title}
           </Title>

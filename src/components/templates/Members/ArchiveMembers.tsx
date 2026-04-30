@@ -303,7 +303,7 @@ export default function ArchiveMembers() {
           )}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {filteredMembers?.map((member) => (
-              <div key={member?.slug}>
+              <div key={member?.slug} className="h-full">
                 <MembersCard
                   title={member.title}
                   featuredImage={member.featuredImage?.node?.guid}
