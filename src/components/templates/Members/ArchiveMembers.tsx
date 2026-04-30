@@ -44,8 +44,12 @@ export default function ArchiveMembers() {
 
   const isUpdatingFilters = networkStatus === NetworkStatus.setVariables
 
+  const [countrySearch, setCountrySearch] = useState('')
   const countryCombobox = useCombobox({
-    onDropdownClose: () => countryCombobox.resetSelectedOption(),
+    onDropdownClose: () => {
+      countryCombobox.resetSelectedOption()
+      setCountrySearch('')
+    },
   })
 
   // Opcoes de pais vindas do backend ja com label/value/count
@@ -163,26 +167,28 @@ export default function ArchiveMembers() {
     }
   }, [selectedCountry, countryOptions])
 
+  const filteredCountryOptions = useMemo(() => {
+    const normalizedSearch = countrySearch.trim().toLowerCase()
+    if (!normalizedSearch) return countryOptions
+
+    return countryOptions.filter((opt) => opt.label.toLowerCase().includes(normalizedSearch))
+  }, [countryOptions, countrySearch])
+
   const selectedLabel = selectedCountry
     ? countryOptions.find((o) => o.value === selectedCountry)?.label || 'Country'
-    : 'Country'
+    : 'All Countries'
 
   const hasActiveFilters = selectedCountry !== null || searchQuery.trim() !== ''
 
   const handleResetFilters = () => {
     setSelectedCountry(null)
     setSearchQuery('')
-    countryCombobox.resetSelectedOption()
   }
 
-  const handleCountryClick = useCallback(
-    (country: string) => {
-      if (!country) return
-      setSelectedCountry(country)
-      countryCombobox.closeDropdown()
-    },
-    [countryCombobox]
-  )
+  const handleCountryClick = useCallback((country: string) => {
+    if (!country) return
+    setSelectedCountry(country)
+  }, [])
 
   return (
     <>
@@ -224,11 +230,11 @@ export default function ArchiveMembers() {
               },
             }}
             position="bottom-end"
+            store={countryCombobox}
             onOptionSubmit={(value) => {
               setSelectedCountry(value === 'all' ? null : value)
               countryCombobox.closeDropdown()
             }}
-            store={countryCombobox}
           >
             <Combobox.Target>
               <ButtonEara
@@ -240,7 +246,13 @@ export default function ArchiveMembers() {
                 {selectedLabel}
               </ButtonEara>
             </Combobox.Target>
+
             <Combobox.Dropdown>
+              <Combobox.Search
+                value={countrySearch}
+                onChange={(event) => setCountrySearch(event.currentTarget.value)}
+                placeholder="Search country..."
+              />
               <Combobox.Options
                 styles={{
                   options: {
@@ -251,11 +263,15 @@ export default function ArchiveMembers() {
                 }}
               >
                 <Combobox.Option value="all">All Countries ({totalMembers})</Combobox.Option>
-                {countryOptions.map((opt) => (
-                  <Combobox.Option key={opt.value} value={opt.value}>
-                    {opt.label} ({opt.count})
-                  </Combobox.Option>
-                ))}
+                {filteredCountryOptions.length === 0 ? (
+                  <Combobox.Empty>No countries found</Combobox.Empty>
+                ) : (
+                  filteredCountryOptions.map((opt) => (
+                    <Combobox.Option key={opt.value} value={opt.value}>
+                      {opt.label} ({opt.count})
+                    </Combobox.Option>
+                  ))
+                )}
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
