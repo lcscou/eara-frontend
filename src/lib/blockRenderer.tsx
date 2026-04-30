@@ -507,6 +507,11 @@ export interface EaraChartAttributes extends BlockAttribute {
   className?: string
 }
 
+export interface EaraLatestNewsAttributes extends BlockAttribute {
+  mode?: 'highlight' | 'latest'
+  selectedNews?: Array<number | string>
+}
+
 export interface CoreListAttributes extends BlockAttribute {
   ordered?: boolean
   values?: string
@@ -3292,7 +3297,20 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     }
 
     case 'eara/latest-news': {
-      return <FeaturedNews key={index} withSectionWrapper={false} />
+      const latestNewsAttributes = attributes as EaraLatestNewsAttributes | undefined
+      const mode = latestNewsAttributes?.mode === 'highlight' ? 'highlight' : 'latest'
+      const selectedNews = Array.isArray(latestNewsAttributes?.selectedNews)
+        ? latestNewsAttributes.selectedNews
+        : []
+
+      return (
+        <FeaturedNews
+          key={index}
+          withSectionWrapper={false}
+          mode={mode}
+          selectedNews={selectedNews}
+        />
+      )
     }
 
     case 'eara/latest-events': {
