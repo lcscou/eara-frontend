@@ -78,18 +78,7 @@ input:-webkit-autofill:active {
   }
 }
 
-/* [data-block='core/column'] {
+.equal-hight [data-block='core/column'] {
   height: 100% !important;
-  
-
+  flex: unset !important;
 }
-[data-block='core/columns'] {
-  position: relative !important;
-
-  align-items: stretch !important;
-
-  min-height: max-content !important;
-}
-[data-block='eara/card'] {
-  height: 100% !important;
-} */

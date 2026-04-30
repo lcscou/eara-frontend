@@ -1226,7 +1226,7 @@ function renderCoreGrid(block: Block, index: number, freeformContent?: string): 
  */
 function renderCoreColumns(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreColumnsAttributes | undefined
-  const className = attributes?.cssClassName || ''
+  const className = attributes?.className || ''
   const verticalAlignment = attributes?.verticalAlignment || 'top'
   const isStackedOnMobile = attributes?.isStackedOnMobile !== false // Default true
 
@@ -1376,7 +1376,7 @@ function renderCoreColumn(
   // Calcular width/flexBasis corretamente com desconto do gap
   let flexBasis: string = 'auto'
   // let flexValue: string = ''
-  let flexValue: string = className.includes('equal-hight') ? '' : '1 1 0%'
+  let flexValue: string = '1 1 0%'
 
   if (width) {
     let widthValue: number | string = width
