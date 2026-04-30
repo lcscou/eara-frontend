@@ -2589,6 +2589,7 @@ function renderEaraCarousel(block: Block, index: number, freeformContent?: strin
         slideGap={slideGap}
         slideSize={slideSize}
         height={height}
+        data-block="eara/carousel"
         initialSlide={initialSlide}
       >
         {block.innerBlocks?.map((innerBlock, idx) => (

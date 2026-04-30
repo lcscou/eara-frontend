@@ -82,3 +82,13 @@ input:-webkit-autofill:active {
   height: 100% !important;
   flex: unset !important;
 }
+
+[data-block='core/column'] [data-block='eara/box'] {
+  height: 100% !important;
+}
+[data-block='core/columns'] {
+  align-items: stretch !important;
+}
+[data-block='core/column'] {
+  align-items: stretch !important;
+}
