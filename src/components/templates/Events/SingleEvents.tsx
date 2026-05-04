@@ -112,9 +112,9 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
               className="bg-[#EAEAEA]"
               subtitle="Related"
               title="Related research news"
-              containerSize="none"
+              containerSize="xl"
             >
-              <Carousel slideSize={{ lg: '25%', sm: '33%' }} slideGap={15} withIndicators>
+              <Carousel slideSize={{ lg: '33%', sm: '33%' }} slideGap={15} withIndicators>
                 {data.events?.customFields?.relatedNews?.nodes
                   ?.filter((n): n is RelatedNewsFragment => n?.__typename === 'News')
                   .map((relatedNews) => (
@@ -142,8 +142,8 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
 
       {data.events?.customFields?.relatedEvents?.nodes &&
         data.events?.customFields?.relatedEvents?.nodes?.length > 0 && (
-          <Section subtitle="Related" title="Related events" containerSize="none">
-            <Carousel slideSize={{ lg: '25%', sm: '33%' }} slideGap={15} withIndicators>
+          <Section subtitle="Related" title="Related events" containerSize="xl">
+            <Carousel slideSize={{ lg: '33%', sm: '33%' }} slideGap={15} withIndicators>
               {data.events?.customFields?.relatedEvents?.nodes
                 ?.filter((n): n is RelatedEventsFragment => n?.__typename === 'Events')
                 .map((relatedEvent) => (

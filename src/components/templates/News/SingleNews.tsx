@@ -77,8 +77,8 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
         )}
       </Container>
       {data.news?.acfNews?.relatedNews && data.news?.acfNews?.relatedNews?.nodes.length > 0 && (
-        <Section subtitle="Related" title="More research news" containerSize="none">
-          <Carousel slideSize={{ lg: '25%', sm: '33%' }} slideGap={15} withIndicators>
+        <Section subtitle="Related" title="More research news" containerSize="xl">
+          <Carousel slideSize={{ lg: '33%', sm: '33%' }} slideGap={15} withIndicators>
             {data.news?.acfNews?.relatedNews?.nodes.map((relatedNews) => (
               <Carousel.Slide key={relatedNews?.id} h="fit-content">
                 <EventCard
