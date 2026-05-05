@@ -46,6 +46,7 @@
     "gsap": "^3.13.0",
     "html-entities": "^2.6.0",
     "html-react-parser": "^5.2.10",
+    "jigsawstack": "^0.4.3",
     "next": "15.5.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
