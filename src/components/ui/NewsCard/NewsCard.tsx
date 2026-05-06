@@ -45,7 +45,7 @@ export default function NewsCard({
                   alt="Featured"
                   className={clsx(
                     'w-full object-cover',
-                    isFeatured ? 'aspect-[4/2]' : 'aspect-[4/1.5]'
+                    isFeatured ? 'aspect-4/2' : 'aspect-4/1.5'
                   )}
                 />
               )}

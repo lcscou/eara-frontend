@@ -5,6 +5,7 @@ const hosts = [
   'raw.githubusercontent.com',
   'lightskyblue-camel-505374.hostingersite.com',
   'backofficeadmin.eara.eu',
+  'localhost',
 ]
 
 const protocols = ['http', 'https'] as const
@@ -19,6 +20,7 @@ const remotePatterns = hosts.flatMap((hostname) =>
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
+    unoptimized: process.env.NODE_ENV === 'development',
     remotePatterns,
   },
 }
