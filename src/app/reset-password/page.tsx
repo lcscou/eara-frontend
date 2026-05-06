@@ -9,13 +9,14 @@ export const metadata: Metadata = {
   description: 'Create a new password for your EARA account.',
 }
 
-export default function ResetPasswordPage({
+export default async function ResetPasswordPage({
   searchParams,
 }: {
-  searchParams: { key?: string; login?: string }
+  searchParams: Promise<{ key?: string; login?: string }>
 }) {
-  const key = searchParams?.key || ''
-  const login = searchParams?.login || ''
+  const resolvedSearchParams = await searchParams
+  const key = resolvedSearchParams?.key || ''
+  const login = resolvedSearchParams?.login || ''
 
   return (
     <main className="flex min-h-[70vh] items-center justify-center px-6 py-16">

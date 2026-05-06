@@ -6,7 +6,7 @@ loadEnvConfig(process.cwd())
 const config: CodegenConfig = {
   schema: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
   overwrite: true,
-  documents: ['src/**/*.graphql', 'src/**/*.ts', 'src/**/*.tsx'],
+  documents: ['src/**/*.{graphql,ts,tsx}', '!src/graphql/generated/**'],
   generates: {
     './src/graphql/generated/graphql.ts': {
       plugins: ['typescript', 'typescript-operations', 'typed-document-node'],

@@ -207,7 +207,7 @@ export default function Gallery({ data }: GalleryProps) {
                     )}
                   >
                     {item.mediaType?.includes('video') && item.videoUrl && (
-                      <div className="relative aspect-square w-[90px] overflow-hidden rounded-lg object-cover">
+                      <div className="relative aspect-square w-22.5 overflow-hidden rounded-lg object-cover">
                         <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
                           <div className="bg-secondaryColor flex aspect-square w-10 items-center justify-center rounded-full">
                             <IconPlayerPlayFilled size={20} />

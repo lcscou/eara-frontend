@@ -12,8 +12,6 @@ import { AuthRefreshProvider } from '@/components/auth/AuthRefreshProvider'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import TranslationWidget from '@/components/ui/TranslationWidget/TranslationWidget'
 import { ModalsProvider } from '@/contexts/ModalsContext'
-import { GetMenuDocument } from '@/graphql/generated/graphql'
-import { PreloadQuery } from '@/lib/apollo-client'
 
 import { ApolloWrapper } from './providers/ApolloProvider'
 import { MantineProvider } from './providers/MantineProvider'
@@ -36,27 +34,20 @@ export default async function RootLayout({
     <html data-scroll-behavior="smooth" lang="en">
       <body className={`${hankenGrotesk.variable} antialiased`}>
         <ApolloWrapper>
-          <PreloadQuery
-            errorPolicy="ignore"
-            fetchPolicy="cache-first"
-            query={GetMenuDocument}
-            context={{ fetchOptions: { next: { tags: ['menus'] } } }}
-          >
-            <MantineProvider>
-              <ModalsProvider>
-                <AuthRefreshProvider />
-                {children}
-                <Analytics />
-                {process.env.NODE_ENV === 'production' ? (
-                  <GoogleTagManager gtmId="GTM-T6WSZKMZ" />
-                ) : null}
-                <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
-                  <TranslationWidget />
-                  <BackToTop />
-                </div>
-              </ModalsProvider>
-            </MantineProvider>
-          </PreloadQuery>
+          <MantineProvider>
+            <ModalsProvider>
+              <AuthRefreshProvider />
+              {children}
+              <Analytics />
+              {process.env.NODE_ENV === 'production' ? (
+                <GoogleTagManager gtmId="GTM-T6WSZKMZ" />
+              ) : null}
+              <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
+                <TranslationWidget />
+                <BackToTop />
+              </div>
+            </ModalsProvider>
+          </MantineProvider>
         </ApolloWrapper>
       </body>
     </html>
