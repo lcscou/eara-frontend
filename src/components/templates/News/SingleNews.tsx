@@ -43,7 +43,7 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
       />
       <Container size="lg" className="my-20">
         <div className="mb-5 flex justify-end">
-          <Link href="/news">
+          <Link href="/news" prefetch={false}>
             <Button variant="subtle" leftSection={<IconArrowLeft size={16} />}>
               Back to news list
             </Button>
