@@ -1,15 +1,16 @@
+import { decode } from 'html-entities'
+
 import {
   GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_author_NodeWithAuthorToUserConnectionEdge,
   GetMediasBankQuery_RootQuery_mediasBank_RootQueryToMediaBankConnection_nodes_MediaBank,
   GetMenuQuery_RootQuery,
 } from '@/graphql/generated/graphql'
-import { decode } from 'html-entities'
 export function getMenu(
   location: 'MAIN_MENU_LEFT' | 'MAIN_MENU_RIGHT' | 'MAIN_FOOTER',
   data: GetMenuQuery_RootQuery | undefined
 ) {
   const menus = data?.menus?.nodes ?? []
-  const result = menus.find((m) => m?.locations?.includes(location))
+  const result = menus.find((m) => m?.locations?.includes(location as never))
 
   return result
 }

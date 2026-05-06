@@ -1,4 +1,4 @@
 echo "🔎 Checking TypeScript..."
-yarn tsc --noEmit
+pnpm tsc --noEmit
 echo "🧹 Making code beauty..."
 npx lint-staged

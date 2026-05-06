@@ -1,17 +1,25 @@
 import type { NextConfig } from 'next'
+const hosts = [
+  'eara.x00.online',
+  'eara.local',
+  'raw.githubusercontent.com',
+  'lightskyblue-camel-505374.hostingersite.com',
+  'backofficeadmin.eara.eu',
+]
 
+const protocols = ['http', 'https'] as const
+
+const remotePatterns = hosts.flatMap((hostname) =>
+  protocols.map((protocol) => ({
+    protocol,
+    hostname,
+    pathname: '/**',
+  }))
+)
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [
-      new URL('https://eara.x00.online/**'),
-      new URL('http://eara.local/**'),
-      new URL('http://raw.githubusercontent.com'),
-      new URL('https://lightskyblue-camel-505374.hostingersite.com/**'),
-      new URL('http://lightskyblue-camel-505374.hostingersite.com/**'),
-      new URL('https://backofficeadmin.eara.eu/**'),
-      new URL('http://backofficeadmin.eara.eu/**'),
-    ],
+    remotePatterns,
   },
 }
 
