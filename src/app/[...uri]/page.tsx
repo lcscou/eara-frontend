@@ -1,26 +1,27 @@
-import PageTemplate from '@/components/templates/Page/PageTemplate'
-import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
-import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
+
+import PageTemplate from '@/components/templates/Page/PageTemplate'
+import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 type PageProps = {
   params: Promise<{ uri: string[] }>
 }
 const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
   const result = await queryWithAuthFallback<GetPageQuery>({
     query: GetPageDocument,
-    variables: { id: uri.join('/') },
+    variables: { id: uri?.join('/') },
     context: {
       fetchOptions: {
         next: {
           revalidate: 0,
-          tags: ['pages', `pages-${uri.join('')}`],
+          tags: ['pages', `pages-${uri?.join('')}`],
         },
       },
     },
   })
-  const path = `/${uri.join('/')}`
+  const path = `/${uri?.join('/')}`
   if (result.authRequired) {
     redirect(`/login?redirect=${encodeURIComponent(path)}`)
   }

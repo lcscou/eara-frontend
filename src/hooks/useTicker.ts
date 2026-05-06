@@ -1,18 +1,11 @@
 'use client'
 
+import { useSuspenseQuery } from '@apollo/client/react'
+
 import { GetAllTickersDocument } from '@/graphql/generated/graphql'
 import { TickerProps } from '@/lib/types'
-import { useSuspenseQuery } from '@apollo/client/react'
 export function useTicker() {
-  const { data, error, refetch } = useSuspenseQuery(GetAllTickersDocument, {
-    context: {
-      fetchOptions: {
-        next: {
-          tags: ['tickers'],
-        },
-      },
-    },
-  })
+  const { data, error, refetch } = useSuspenseQuery(GetAllTickersDocument)
   const tickers: TickerProps['messages'] = []
   data.tickers?.nodes.forEach((ticker) => {
     if (ticker) {

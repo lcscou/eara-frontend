@@ -1,10 +1,4 @@
 'use client'
-import {
-  GetMenuDocument,
-  GetMenuQuery,
-  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
-  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
-} from '@/graphql/generated/graphql'
 import { useQuery } from '@apollo/client/react'
 import { useGSAP } from '@gsap/react'
 import { Burger, Button, Container, Group, Image, Menu, NavLink, Stack } from '@mantine/core'
@@ -15,6 +9,14 @@ import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import Link from 'next/link'
 import { MouseEvent, MouseEvent as ReactMouseEvent, useMemo, useRef, useState } from 'react'
+
+import {
+  GetMenuDocument,
+  GetMenuQuery,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
+  MenuLocationEnum,
+} from '@/graphql/generated/graphql'
 export default function Header() {
   const { data, error, loading } = useQuery<GetMenuQuery>(GetMenuDocument, {
     fetchPolicy: 'cache-first',
@@ -57,8 +59,8 @@ export default function Header() {
   )
   const [MAIN_MENU_LEFT, MAIN_MENU_RIGHT] = useMemo(() => {
     const menus = data?.menus?.nodes ?? []
-    const left = menus.find((m) => m?.locations?.includes('MAIN_MENU_LEFT'))
-    const right = menus.find((m) => m?.locations?.includes('MAIN_MENU_RIGHT'))
+    const left = menus.find((m) => m?.locations?.includes(MenuLocationEnum.MainMenuLeft))
+    const right = menus.find((m) => m?.locations?.includes(MenuLocationEnum.MainMenuRight))
     return [left, right]
   }, [data])
   function getMegaMenuItems(location: typeof MAIN_MENU_RIGHT, id: string) {
@@ -81,11 +83,11 @@ export default function Header() {
 
   if ((loading || error) && !hasMenus) {
     return (
-      <Container fluid className="fixed z-[999999] w-full">
-        <header className="flex h-[110px] items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm">
+      <Container fluid className="fixed z-999999 w-full">
+        <header className="flex h-27.5 items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm">
           <Link href="/">
             <Button unstyled>
-              <Image src="/logo-eara.svg" className="max-w-[250px]" alt="Logo Eara" />
+              <Image src="/logo-eara.svg" className="max-w-62.5" alt="Logo Eara" />
             </Button>
           </Link>
           <Burger opened={false} aria-label="Toggle navigation" disabled />
@@ -96,15 +98,15 @@ export default function Header() {
 
   return (
     <>
-      <Container ref={ref} fluid className="fixed z-[999999] w-full">
+      <Container ref={ref} fluid className="fixed z-999999 w-full">
         <header
           ref={container}
-          className="flex h-[110px] items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm"
+          className="flex h-27.5 items-center justify-between gap-10 rounded-b-lg bg-[#ffffff80] p-6 backdrop-blur-sm"
         >
           <>
             <div id="menu-left" className="flex gap-10">
               <Button unstyled component="a" href="/">
-                <Image src="/logo-eara.svg" className="max-w-[250px]" alt="Logo Eara" />
+                <Image src="/logo-eara.svg" className="max-w-62.5" alt="Logo Eara" />
               </Button>
               {isMobile && (
                 <Group gap={10}>
@@ -136,7 +138,7 @@ export default function Header() {
                 unstyled
                 bg="secondaryColor.7"
                 c="white"
-                className="flex aspect-square w-[40px] cursor-pointer items-center justify-center rounded-full"
+                className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full"
               >
                 <IconSearch size={18} />
               </Button>
@@ -147,7 +149,7 @@ export default function Header() {
         {megaMenuOpen && (
           <div
             onMouseLeave={handleMouseLeave}
-            className="megamenu mt-1 flex min-h-[300px] origin-top-left gap-10 rounded-lg bg-[#ffffff80] py-14 backdrop-blur-sm"
+            className="megamenu mt-1 flex min-h-75 origin-top-left gap-10 rounded-lg bg-[#ffffff80] py-14 backdrop-blur-sm"
           >
             <div className="grid w-full grid-cols-4 px-80">
               {megaMenuContent?.id && megaMenuContent?.location && (
@@ -298,7 +300,7 @@ export function MenuItem({
           )}
         </Menu.Target>
         {menus.childItems!.nodes.length > 0 && (
-          <Menu.Dropdown className="min-w-[200px]">
+          <Menu.Dropdown className="min-w-50">
             {menus.childItems?.nodes.map((s) => (
               <Menu.Item key={s.label} component="a" {...(menus.uri ? { href: menus.uri } : {})}>
                 {s.label}

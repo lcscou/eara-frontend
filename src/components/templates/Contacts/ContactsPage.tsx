@@ -1,13 +1,14 @@
 'use client'
 
-import {
-  GetAllOfficesDocument,
-  type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office,
-} from '@/graphql/generated/graphql'
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Container, Stack, Text, Title } from '@mantine/core'
 import clsx from 'clsx'
 import { useMemo, useState } from 'react'
+
+import {
+  GetAllOfficesDocument,
+  type GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office,
+} from '@/graphql/generated/graphql'
 
 type Office = GetAllOfficesQuery_RootQuery_offices_RootQueryToOfficeConnection_nodes_Office
 
@@ -62,7 +63,7 @@ function OfficeCard({
       onClick={onSelect}
       className={clsx(
         'w-full rounded-xl p-8 text-left transition-all hover:bg-white/50',
-        isActive ? 'bg-white hover:bg-white/100' : 'bg-transparent'
+        isActive ? 'bg-white hover:bg-white' : 'bg-transparent'
       )}
       aria-pressed={isActive}
     >

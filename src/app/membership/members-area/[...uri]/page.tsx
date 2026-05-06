@@ -1,31 +1,32 @@
+import type { Metadata } from 'next'
+import { notFound, redirect } from 'next/navigation'
+import { cache } from 'react'
+
 import PageTemplate from '@/components/templates/Page/PageTemplate'
 import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
 import { getAuthenticatedClient } from '@/lib/apollo-client'
 import { validateAuthToken } from '@/lib/auth/server'
-import type { Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
-import { cache } from 'react'
 type PageProps = {
   params: Promise<{ uri: string[] }>
 }
 const getPageData = cache(async (uri: string[]): Promise<GetPageQuery> => {
-  console.log(uri.join('/'))
+  console.log(uri?.join('/'))
 
   // Valida o token antes de tentar buscar dados
   const isValid = await validateAuthToken()
   if (!isValid) {
-    redirect(`/login?redirect=/membership/members-area/${uri.join('/')}`)
+    redirect(`/login?redirect=/membership/members-area/${uri?.join('/')}`)
   }
 
   const client = await getAuthenticatedClient()
   const { data } = await client.query<GetPageQuery>({
     query: GetPageDocument,
-    variables: { id: uri.join('/') },
+    variables: { id: uri?.join('/') },
     context: {
       fetchOptions: {
         next: {
           revalidate: 0,
-          tags: ['pages', `pages-${uri.join('')}`],
+          tags: ['pages', `pages-${uri?.join('')}`],
         },
       },
     },

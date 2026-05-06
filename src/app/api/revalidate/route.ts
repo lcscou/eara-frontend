@@ -1,6 +1,8 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
+const REVALIDATE_TAG_PROFILE = 'max'
+
 export async function POST(request: NextRequest) {
   try {
     // Validar token de segurança
@@ -24,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     // Revalidar por tag
     if (tag) {
-      revalidateTag(tag)
+      revalidateTag(tag, REVALIDATE_TAG_PROFILE)
       console.log(`Revalidated tag: ${tag}`)
     }
 
@@ -34,59 +36,59 @@ export async function POST(request: NextRequest) {
         case 'post':
         case 'news':
           revalidatePath('/news')
-          revalidateTag('news')
+          revalidateTag('news', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated news archive')
           break
 
         case 'events':
           revalidatePath('/events')
-          revalidateTag('events')
+          revalidateTag('events', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated events archive')
           break
 
         case 'case-studies':
           revalidatePath('/case-studies')
-          revalidateTag('case-studies')
+          revalidateTag('case-studies', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated case studies archive')
           break
 
         case 'animal':
           revalidatePath('/animals')
-          revalidateTag('animals')
+          revalidateTag('animals', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated animals archive')
           break
 
         case 'member':
           revalidatePath('/members')
-          revalidateTag('members')
+          revalidateTag('members', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated members archive')
           break
 
         case 'page':
-          revalidateTag('pages')
+          revalidateTag('pages', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated pages')
           break
 
         case 'team':
           revalidatePath('/team')
-          revalidateTag('team')
+          revalidateTag('team', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated team archive')
           break
         case 'press-release':
           revalidatePath('/press-releases')
-          revalidateTag('press-release')
+          revalidateTag('press-release', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated press releases archive')
           break
 
         case 'menu':
         case 'menus':
-          revalidateTag('menus')
+          revalidateTag('menus', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated menus')
           break
 
         case 'ticker':
         case 'tickers':
-          revalidateTag('tickers')
+          revalidateTag('tickers', REVALIDATE_TAG_PROFILE)
           console.log('Revalidated tickers')
           break
       }

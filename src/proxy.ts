@@ -30,7 +30,7 @@ const redirects: Record<string, string> = {
   '/eara-conference-2025': '/projects/eara-conference',
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const maintenance = process.env.MAINTENANCE_MODE === 'true'
   const { pathname } = request.nextUrl
 

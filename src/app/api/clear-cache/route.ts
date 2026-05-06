@@ -1,6 +1,8 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 
+const REVALIDATE_TAG_PROFILE = 'max'
+
 export async function GET() {
   try {
     console.log('Starting cache clear...')
@@ -22,7 +24,7 @@ export async function GET() {
     ]
 
     tags.forEach((tag) => {
-      revalidateTag(tag)
+      revalidateTag(tag, REVALIDATE_TAG_PROFILE)
       console.log(`Revalidated tag: ${tag}`)
     })
 
