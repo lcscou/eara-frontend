@@ -1,8 +1,9 @@
+import type { Metadata } from 'next'
+
 import ArchiveNews from '@/components/templates/News/ArchiveNews'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 import { GetAllNewsDocument } from '@/graphql/generated/graphql'
 import { PreloadQuery } from '@/lib/apollo-client'
-import type { Metadata } from 'next'
 
 const PAGE_SIZE = 12
 

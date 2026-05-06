@@ -1,8 +1,9 @@
 'use client'
 
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { Text } from '@mantine/core'
 import { HTMLAttributeAnchorTarget, useEffect, useMemo, useState } from 'react'
+
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 
 type AuthState = 'checking' | 'authenticated' | 'unauthenticated'
 

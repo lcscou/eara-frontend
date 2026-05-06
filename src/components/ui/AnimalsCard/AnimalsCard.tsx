@@ -1,9 +1,11 @@
 'use client'
-import { AnimalsCardProps } from '@/lib/types'
 import { Text, Title } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import { memo } from 'react'
+
+import { AnimalsCardProps } from '@/lib/types'
+
 import styles from './AnimalsCard.module.css'
 
 function AnimalsCard({ title, uri, featuredImage, description }: AnimalsCardProps) {

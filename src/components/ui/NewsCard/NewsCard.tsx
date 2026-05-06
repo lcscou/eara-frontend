@@ -1,8 +1,10 @@
-import { NewsCardProps } from '@/lib/types'
 import { Stack, Text, Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { NewsCardProps } from '@/lib/types'
+
 import s from './NewsCard.module.css'
 
 export default function NewsCard({

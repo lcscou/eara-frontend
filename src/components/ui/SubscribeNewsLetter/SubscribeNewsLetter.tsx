@@ -1,7 +1,4 @@
 'use client'
-import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
-import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
-import { useModals } from '@/contexts/ModalsContext'
 import {
   Button,
   Group,
@@ -14,6 +11,11 @@ import {
   Title,
 } from '@mantine/core'
 import { FormEvent, useCallback, useMemo, useState } from 'react'
+
+import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
+import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
+import { useModals } from '@/contexts/ModalsContext'
+
 import ButtonEara from '../ButtonEara/ButtonEara'
 export type SubscribeNewsLetterPayload = {
   firstName: string

@@ -1,9 +1,10 @@
+import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+
 import ArchiveMembers from '@/components/templates/Members/ArchiveMembers'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 import { GetAllMembersDocument } from '@/graphql/generated/graphql'
 import { query } from '@/lib/apollo-client'
-import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'EARA | Members',

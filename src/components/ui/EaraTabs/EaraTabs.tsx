@@ -1,5 +1,6 @@
 import { Box, Image, Stack, Tabs } from '@mantine/core'
 import parse from 'html-react-parser'
+
 import styles from './EaraTabs.module.css'
 
 export type EaraTabItem = {

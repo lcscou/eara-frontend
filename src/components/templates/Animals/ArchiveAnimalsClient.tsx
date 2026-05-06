@@ -1,11 +1,12 @@
 'use client'
 
-import AnimalsCard from '@/components/ui/AnimalsCard/AnimalsCard'
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import { gql } from '@apollo/client'
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Group, Loader, Skeleton } from '@mantine/core'
 import { useCallback, useMemo, useState } from 'react'
+
+import AnimalsCard from '@/components/ui/AnimalsCard/AnimalsCard'
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 
 const PAGE_SIZE = 12
 

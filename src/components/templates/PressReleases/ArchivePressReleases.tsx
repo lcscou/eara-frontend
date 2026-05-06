@@ -1,9 +1,4 @@
 'use client'
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import NewsCard from '@/components/ui/NewsCard/NewsCard'
-import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import { GetAllPressReleaseDocument, GetAllPressReleaseQuery } from '@/graphql/generated/graphql'
-import { cleanHTMLTAG } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
 import {
   Button,
@@ -18,7 +13,13 @@ import {
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconChevronDown, IconRestore, IconSearch } from '@tabler/icons-react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import NewsCard from '@/components/ui/NewsCard/NewsCard'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
+import { GetAllPressReleaseDocument, GetAllPressReleaseQuery } from '@/graphql/generated/graphql'
+import { cleanHTMLTAG } from '@/lib/utils'
 
 const PAGE_SIZE = 12
 export default function ArchivePressReleases() {
@@ -71,8 +72,13 @@ export default function ArchivePressReleases() {
     return { allPressReleases: all, typeIndex: index, typeOptions: options }
   }, [data])
 
+  const effectiveSelectedType =
+    selectedType && typeOptions.some((o) => o.value === selectedType) ? selectedType : null
+
   const filteredPressReleases = useMemo(() => {
-    let filtered = selectedType ? (typeIndex[selectedType] ?? []) : allPressReleases
+    let filtered = effectiveSelectedType
+      ? (typeIndex[effectiveSelectedType] ?? [])
+      : allPressReleases
 
     // Apply search filter
     if (debouncedSearch.trim()) {
@@ -86,7 +92,7 @@ export default function ArchivePressReleases() {
     }
 
     return filtered
-  }, [allPressReleases, typeIndex, selectedType, debouncedSearch])
+  }, [allPressReleases, typeIndex, effectiveSelectedType, debouncedSearch])
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
@@ -124,14 +130,8 @@ export default function ArchivePressReleases() {
     setSearchQuery('')
   }
 
-  useEffect(() => {
-    if (selectedType && !typeOptions.some((o) => o.value === selectedType)) {
-      setSelectedType(null)
-    }
-  }, [selectedType, typeOptions])
-
-  const selectedLabel = selectedType
-    ? typeOptions.find((o) => o.value === selectedType)?.label || 'Type'
+  const selectedLabel = effectiveSelectedType
+    ? typeOptions.find((o) => o.value === effectiveSelectedType)?.label || 'Type'
     : 'Type'
 
   const hasActiveFilters = selectedType !== null || searchQuery.trim() !== ''

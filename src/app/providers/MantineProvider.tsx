@@ -1,6 +1,7 @@
 'use client'
 
 import { MantineProvider as BaseMantineProvider } from '@mantine/core'
+
 import { theme } from '@/styles/theme'
 
 export function MantineProvider({ children }: { children: React.ReactNode }) {

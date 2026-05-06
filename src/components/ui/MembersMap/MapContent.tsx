@@ -7,6 +7,7 @@ import {
 } from '@react-google-maps/api'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
+
 import styles from './MembersMap.module.css'
 import { MapContentProps } from './types'
 

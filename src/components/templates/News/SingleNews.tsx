@@ -1,15 +1,17 @@
 'use client'
 
+import { Carousel } from '@mantine/carousel'
+import { Button, Center, Container } from '@mantine/core'
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
+import Link from 'next/link'
+
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import Section from '@/components/ui/Section/Section'
 import { GetAllNewsQuery, GetNewsQuery } from '@/graphql/generated/graphql'
 import { renderPageBlocks } from '@/lib/blockRenderer'
 import { truncateText } from '@/lib/utils'
-import { Carousel } from '@mantine/carousel'
-import { Button, Center, Container } from '@mantine/core'
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
-import Link from 'next/link'
+
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 import SharePost from '../../ui/SharePost/SharePost'
 

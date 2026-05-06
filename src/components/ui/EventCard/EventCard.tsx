@@ -1,9 +1,11 @@
-import { EventCardProps } from '@/lib/types'
-import { formatEventDate } from '@/lib/utils'
 import { Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { EventCardProps } from '@/lib/types'
+import { formatEventDate } from '@/lib/utils'
+
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './EventCard.module.css'
 

@@ -1,8 +1,8 @@
+import { Container, Image, Stack, Text, Title } from '@mantine/core'
+import { Metadata } from 'next'
 import { Suspense } from 'react'
 
 import LoginForm from '@/components/auth/LoginForm'
-import { Container, Image, Stack, Text, Title } from '@mantine/core'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'EARA | Members Login',

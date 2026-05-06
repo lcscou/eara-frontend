@@ -1,8 +1,5 @@
 'use client'
-import { GalleryProps } from '@/lib/types'
-import { MouseEvent, useState } from 'react'
 
-import { extractYouTubeID } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
 import { List, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -18,7 +15,12 @@ import {
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
+import { MouseEvent, useState } from 'react'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+
+import { GalleryProps } from '@/lib/types'
+import { extractYouTubeID } from '@/lib/utils'
+
 import ResultNotFound from '../ResultNotFound/ResultNotFound'
 import s from './Gallery.module.css'
 export default function Gallery({ data }: GalleryProps) {

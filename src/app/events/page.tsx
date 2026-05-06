@@ -1,6 +1,7 @@
+import { Metadata } from 'next'
+
 import ArchiveEventsTemplate from '@/components/templates/Events/ArchiveEvents'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
-import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'EARA | Events',
   description: 'Stay updated with the latest events from EARA.',

@@ -1,4 +1,5 @@
 import { DocumentNode, OperationVariables } from '@apollo/client'
+
 import { getClient } from './apollo-client'
 
 interface QueryWithTagsOptions<TVariables extends OperationVariables = OperationVariables> {

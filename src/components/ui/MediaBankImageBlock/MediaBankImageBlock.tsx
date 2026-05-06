@@ -1,5 +1,7 @@
-import { MediaBankImageBlockProps } from '@/lib/types'
 import { Image } from '@mantine/core'
+
+import { MediaBankImageBlockProps } from '@/lib/types'
+
 import InfoButton from '../InfoButton/InfoButton'
 
 export default function MediaBankImageBlock({

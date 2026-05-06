@@ -1,18 +1,4 @@
 'use client'
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import NewsCard from '@/components/ui/NewsCard/NewsCard'
-import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import {
-  GetAllAnimalsDocument,
-  GetAllAnimalsQuery,
-  GetAllCategoriesNewsDocument,
-  GetAllCategoriesNewsQuery,
-  GetAllCountryInNewsDocument,
-  GetAllCountryInNewsQuery,
-  GetAllNewsDocument,
-  GetAllNewsQuery,
-} from '@/graphql/generated/graphql'
-import { cleanHTMLTAG } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
 import {
   Button,
@@ -27,7 +13,22 @@ import {
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconCheck, IconChevronDown, IconRestore, IconSearch } from '@tabler/icons-react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import NewsCard from '@/components/ui/NewsCard/NewsCard'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
+import {
+  GetAllAnimalsDocument,
+  GetAllAnimalsQuery,
+  GetAllCategoriesNewsDocument,
+  GetAllCategoriesNewsQuery,
+  GetAllCountryInNewsDocument,
+  GetAllCountryInNewsQuery,
+  GetAllNewsDocument,
+  GetAllNewsQuery,
+} from '@/graphql/generated/graphql'
+import { cleanHTMLTAG } from '@/lib/utils'
 
 // interface ArchiveNewsProps {
 //   data: GetAllNewsQuery
@@ -37,13 +38,15 @@ type NewsNode = NonNullable<NonNullable<GetAllNewsQuery['allNews']>['nodes'][num
 
 export default function ArchiveNews() {
   const [loadingMore, setLoadingMore] = useState(false)
-  const [isFiltering, setIsFiltering] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedIsEaraMember, setSelectedIsEaraMember] = useState<boolean | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300)
+  const filterTransitionKey = `${selectedCategory ?? ''}|${selectedCountry ?? ''}|${selectedAnimal ?? ''}|${selectedIsEaraMember ?? ''}|${debouncedSearch.trim()}`
+  const [debouncedFilterTransitionKey] = useDebouncedValue(filterTransitionKey, 500)
+  const isFiltering = debouncedFilterTransitionKey !== filterTransitionKey
 
   const { data, fetchMore } = useSuspenseQuery<GetAllNewsQuery>(GetAllNewsDocument, {
     variables: {
@@ -118,16 +121,6 @@ export default function ArchiveNews() {
 
   // Extract countries from query
   const countries = useMemo(() => countriesData?.newsCountries ?? [], [countriesData])
-
-  // Effect to handle filter changes and show loading state
-  useEffect(() => {
-    setIsFiltering(true)
-    const timeout = setTimeout(() => {
-      setIsFiltering(false)
-    }, 500) // Show loader for at least 500ms
-
-    return () => clearTimeout(timeout)
-  }, [selectedCategory, selectedCountry, selectedAnimal, selectedIsEaraMember, debouncedSearch])
 
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),

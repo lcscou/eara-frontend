@@ -1,9 +1,10 @@
+import { useSuspenseQuery } from '@apollo/client/react'
 import { Box, Container } from '@mantine/core'
+import Link from 'next/link'
 
 import { GetHeroHomeOfTheDayDocument } from '@/graphql/generated/graphql'
 import { HomeHeroProps } from '@/lib/types'
-import { useSuspenseQuery } from '@apollo/client/react'
-import Link from 'next/link'
+
 import InfoButton from '../InfoButton/InfoButton'
 
 export default function HomeHero({

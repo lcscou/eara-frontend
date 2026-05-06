@@ -1,10 +1,11 @@
 'use client'
-import { PageTitleBarProps } from '@/lib/types'
-import { formatEventDate } from '@/lib/utils'
 import { Container, Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
 import React, { memo, useMemo } from 'react'
+
+import { PageTitleBarProps } from '@/lib/types'
+import { formatEventDate } from '@/lib/utils'
 
 type InfoRowProps = {
   label: string

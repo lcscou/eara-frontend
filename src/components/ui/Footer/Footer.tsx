@@ -1,11 +1,4 @@
 'use client'
-import {
-  GetMenuDocument,
-  GetMenuQuery,
-  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
-  GetSettingsDocument,
-} from '@/graphql/generated/graphql'
-import { FooterProps } from '@/lib/types'
 import { useQuery } from '@apollo/client/react'
 import { Button, Container, Grid, Group, Image, Stack, Text, Title } from '@mantine/core'
 import {
@@ -18,6 +11,15 @@ import {
   IconBrandYoutube,
 } from '@tabler/icons-react'
 import Link from 'next/link'
+
+import {
+  GetMenuDocument,
+  GetMenuQuery,
+  GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem,
+  GetSettingsDocument,
+} from '@/graphql/generated/graphql'
+import { FooterProps } from '@/lib/types'
+
 import ButtonEara from '../ButtonEara/ButtonEara'
 
 export default function Footer({}: FooterProps) {

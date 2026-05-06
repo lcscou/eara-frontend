@@ -1,7 +1,7 @@
+import { Metadata } from 'next'
 import Link from 'next/link'
 
 import RequestPasswordResetForm from '@/components/auth/RequestPasswordResetForm'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'EARA | Forgot Password',

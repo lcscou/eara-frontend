@@ -1,5 +1,10 @@
 'use client'
 
+import { Carousel } from '@mantine/carousel'
+import { Button, Center, Container, Group, Stack, Title } from '@mantine/core'
+import { IconArrowLeft, IconCalendar, IconMapPin } from '@tabler/icons-react'
+import Link from 'next/link'
+
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import Section from '@/components/ui/Section/Section'
@@ -10,10 +15,7 @@ import {
 } from '@/graphql/generated/graphql'
 import { renderPageBlocks } from '@/lib/blockRenderer'
 import { formatEventDate, truncateText } from '@/lib/utils'
-import { Carousel } from '@mantine/carousel'
-import { Button, Center, Container, Group, Stack, Title } from '@mantine/core'
-import { IconArrowLeft, IconCalendar, IconMapPin } from '@tabler/icons-react'
-import Link from 'next/link'
+
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 
 export default function SingleEvents({ data }: { data: GetEventsQuery }) {

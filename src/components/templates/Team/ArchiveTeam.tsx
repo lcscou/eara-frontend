@@ -1,4 +1,8 @@
 'use client'
+import { useQuery, useSuspenseQuery } from '@apollo/client/react'
+import { Container, Group, Loader } from '@mantine/core'
+import { useCallback, useState } from 'react'
+
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import TeamCard from '@/components/ui/TeamCard/TeamCard'
@@ -9,9 +13,6 @@ import {
   GetSettingsDocument,
 } from '@/graphql/generated/graphql'
 import { renderPageBlocks } from '@/lib/blockRenderer'
-import { useQuery, useSuspenseQuery } from '@apollo/client/react'
-import { Container, Group, Loader } from '@mantine/core'
-import { useCallback, useState } from 'react'
 
 const PAGE_SIZE = 12
 

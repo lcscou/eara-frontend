@@ -1,8 +1,6 @@
 'use client'
 
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
-
-import { extractYouTubeID, getMediaType } from '@/lib/utils'
+import { useSuspenseQuery } from '@apollo/client/react'
 import { Carousel } from '@mantine/carousel'
 import {
   ActionIcon,
@@ -31,23 +29,21 @@ import {
 } from '@tabler/icons-react'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { MouseEvent, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 // import { useSearchParams } from 'next/navigation'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
-
-import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import { useSuspenseQuery } from '@apollo/client/react'
-import s from './ArchiveMediaBank.module.css'
 
 const PAGE_SIZE = 12
 
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import {
   GetAllAnimalsInMediaBankDocument,
   GetMediabanksCountriesDocument,
   GetMediasBankDocument,
   GetMediasBankQuery,
 } from '@/graphql/generated/graphql'
-
+import { extractYouTubeID, getMediaType } from '@/lib/utils'
 type MediaItem = ReturnType<typeof getMediaType>[number]
 
 type NormalizedMediaItem = MediaItem & {
@@ -61,9 +57,15 @@ type NormalizedMediaItem = MediaItem & {
   renderType: 'image' | 'video' | 'unavailable'
 }
 
+import s from './ArchiveMediaBank.module.css'
+
 export default function ArchiveMediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
-  const [hasMounted, setHasMounted] = useState(false)
+  const hasMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
 
   const getSafeSrc = (src?: string | null) => {
     const normalized = src?.trim()
@@ -92,10 +94,6 @@ export default function ArchiveMediaBank() {
   const countryCombobox = useCombobox({
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
   })
-
-  useEffect(() => {
-    setHasMounted(true)
-  }, [])
 
   useEffect(() => {
     fetchMore({
@@ -326,7 +324,7 @@ export default function ArchiveMediaBank() {
                     </div>
                   )}
                   {item.renderType === 'unavailable' && (
-                    <div className="bg-earaBgLight flex min-h-[180px] flex-col items-center justify-center rounded-lg p-4 text-center text-sm">
+                    <div className="bg-earaBgLight flex min-h-45 flex-col items-center justify-center rounded-lg p-4 text-center text-sm">
                       <span>Media unavailable</span>
                       <span>Slug: {item.slug || 'N/A'}</span>
                       <span>ID: {item.id || 'N/A'}</span>
@@ -414,7 +412,7 @@ export default function ArchiveMediaBank() {
                 </div>
               </div>
               <div className="col-span-1 row-span-1 p-4 lg:col-span-2 lg:col-start-5 lg:row-span-4 lg:p-7">
-                <div className="bg-earaBgLight h-full max-h-[400px] overflow-y-auto rounded-lg p-4 lg:max-h-none lg:p-8">
+                <div className="bg-earaBgLight h-full max-h-100 overflow-y-auto rounded-lg p-4 lg:max-h-none lg:p-8">
                   <List spacing="md" size="md">
                     <List.Item icon={<IconPaw className="text-secondaryColor" />}>
                       <small className="uppercase">
@@ -497,7 +495,7 @@ export default function ArchiveMediaBank() {
                       )}
                     >
                       {item.renderType === 'video' && (
-                        <div className="relative aspect-square w-[70px] overflow-hidden rounded-lg object-cover lg:w-[70px]">
+                        <div className="relative aspect-square w-17.5 overflow-hidden rounded-lg object-cover lg:w-17.5">
                           <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
                             <div className="bg-secondaryColor flex aspect-square w-8 items-center justify-center rounded-full lg:w-10">
                               <IconPlayerPlayFilled size={20} className="lg:size-5" />
@@ -515,7 +513,7 @@ export default function ArchiveMediaBank() {
                         />
                       )}
                       {item.renderType === 'unavailable' && (
-                        <div className="bg-earaBgLight flex aspect-square w-[70px] items-center justify-center rounded-lg text-[10px]">
+                        <div className="bg-earaBgLight flex aspect-square w-17.5 items-center justify-center rounded-lg text-[10px]">
                           N/A
                         </div>
                       )}
@@ -531,7 +529,7 @@ export default function ArchiveMediaBank() {
                       onFocus={() => handleLoadMore()}
                       onClick={() => handleLoadMore()}
                     >
-                      <div className="bg-earaBgLight flex aspect-square w-[70px] items-center justify-center rounded-lg lg:w-[70px]">
+                      <div className="bg-earaBgLight flex aspect-square w-17.5 items-center justify-center rounded-lg lg:w-17.5">
                         <Loader size="sm" />
                       </div>
                     </Carousel.Slide>

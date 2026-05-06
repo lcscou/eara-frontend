@@ -1,9 +1,11 @@
 'use client'
+import { Box, Group, Input, Stack, Text, TextInput, Title } from '@mantine/core'
+import { FormEvent, useCallback, useMemo, useState } from 'react'
+
 import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
 import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
 import { useModals } from '@/contexts/ModalsContext'
-import { Box, Group, Input, Stack, Text, TextInput, Title } from '@mantine/core'
-import { FormEvent, useCallback, useMemo, useState } from 'react'
+
 import ButtonEara from '../ButtonEara/ButtonEara'
 
 export type JoinEaraFormPayload = {

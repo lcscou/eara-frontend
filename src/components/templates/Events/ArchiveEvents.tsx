@@ -1,49 +1,46 @@
 'use client'
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import EventCard from '@/components/ui/EventCard/EventCard'
-import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import { GetAllEventsDocument, GetAllEventsQuery } from '@/graphql/generated/graphql'
-
-import { truncateText } from '@/lib/utils'
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Button, Combobox, Container, Group, Loader, Skeleton, useCombobox } from '@mantine/core'
 import { IconCheck, IconChevronDown, IconRestore } from '@tabler/icons-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useMemo, useState } from 'react'
+
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import EventCard from '@/components/ui/EventCard/EventCard'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
+import { GetAllEventsDocument, GetAllEventsQuery } from '@/graphql/generated/graphql'
+import { truncateText } from '@/lib/utils'
 
 const PAGE_SIZE = 12
 
 function ArchiveEventsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const initialStatusParam = searchParams.get('status')
+  const initialCategoryParam = searchParams.get('category')
+  const initialCountryParam = searchParams.get('country')
+  const initialLocationTypeParam = searchParams.get('locationType')
+
+  const parseStatus = (value: string | null): 'all' | 'upcoming' | 'past' => {
+    if (value === 'all' || value === 'upcoming' || value === 'past') return value
+    return 'upcoming'
+  }
 
   const [loadingMore, setLoadingMore] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
-  const [selectedLocationType, setSelectedLocationType] = useState<string | null>(null)
-  const [selectedStatus, setSelectedStatus] = useState<'all' | 'upcoming' | 'past'>('upcoming')
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    initialCategoryParam && initialCategoryParam !== 'all' ? initialCategoryParam : null
+  )
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(initialCountryParam || null)
+  const [selectedLocationType, setSelectedLocationType] = useState<string | null>(
+    initialLocationTypeParam || null
+  )
+  const [selectedStatus, setSelectedStatus] = useState<'all' | 'upcoming' | 'past'>(
+    parseStatus(initialStatusParam)
+  )
 
   const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
     variables: { first: PAGE_SIZE },
   })
-
-  // Initialize filters from URL params
-  useEffect(() => {
-    const status = searchParams.get('status')
-    const category = searchParams.get('category')
-    const country = searchParams.get('country')
-    const locationType = searchParams.get('locationType')
-
-    if (status === 'upcoming' || status === 'past' || status === 'all') {
-      setSelectedStatus(status as 'all' | 'upcoming' | 'past')
-    } else if (!status) {
-      // Se não houver parâmetro de status na URL, mantém 'upcoming' como padrão
-      setSelectedStatus('upcoming')
-    }
-    setSelectedCategory(category && category !== 'all' ? category : null)
-    setSelectedCountry(country || null)
-    setSelectedLocationType(locationType || null)
-  }, [searchParams])
 
   // Update URL when filters change
   const updateURL = useCallback(

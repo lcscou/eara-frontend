@@ -1,11 +1,12 @@
 import '@mantine/carousel/styles.css'
 import '@mantine/charts/styles.css'
 import '@mantine/core/styles.css'
+import { GoogleTagManager } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Hanken_Grotesk } from 'next/font/google'
+
 import './globals.css'
-import { ApolloWrapper } from './providers/ApolloProvider'
-import { MantineProvider } from './providers/MantineProvider'
 
 import { AuthRefreshProvider } from '@/components/auth/AuthRefreshProvider'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
@@ -13,8 +14,9 @@ import TranslationWidget from '@/components/ui/TranslationWidget/TranslationWidg
 import { ModalsProvider } from '@/contexts/ModalsContext'
 import { GetMenuDocument } from '@/graphql/generated/graphql'
 import { PreloadQuery } from '@/lib/apollo-client'
-import { GoogleTagManager } from '@next/third-parties/google'
-import { Analytics } from '@vercel/analytics/next'
+
+import { ApolloWrapper } from './providers/ApolloProvider'
+import { MantineProvider } from './providers/MantineProvider'
 const hankenGrotesk = Hanken_Grotesk({
   variable: '--hanken-grotesk-sans',
   subsets: ['latin'],
@@ -31,7 +33,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html data-scroll-behavior="smooth" lang="en">
       <body className={`${hankenGrotesk.variable} antialiased`}>
         <ApolloWrapper>
           <PreloadQuery

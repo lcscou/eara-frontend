@@ -1,7 +1,9 @@
-import { ButtonEaraProps } from '@/lib/types'
 import { Button } from '@mantine/core'
 import { IconArrowRight } from '@tabler/icons-react'
 import clsx from 'clsx'
+
+import { ButtonEaraProps } from '@/lib/types'
+
 import s from './ButtonEara.module.css'
 export default function ButtonEara({
   label,

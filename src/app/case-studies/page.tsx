@@ -1,6 +1,7 @@
+import { Metadata } from 'next'
+
 import ArchiveCaseStudies from '@/components/templates/CaseStudies/ArchiveCaseStudies'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'EARA | Case Studies',

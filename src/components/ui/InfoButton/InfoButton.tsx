@@ -1,9 +1,10 @@
 'use client'
-import { InfoButtonProps } from '@/lib/types'
 import { Button, Popover } from '@mantine/core'
 import { IconArrowRight, IconInfoCircle } from '@tabler/icons-react'
 import clsx from 'clsx'
 import Link from 'next/link'
+
+import { InfoButtonProps } from '@/lib/types'
 
 export default function InfoButton({
   content,

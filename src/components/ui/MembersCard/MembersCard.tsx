@@ -1,8 +1,10 @@
 'use client'
-import { MembersCardProps } from '@/lib/types'
 import { Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
+
+import { MembersCardProps } from '@/lib/types'
+
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './MembersCard.module.css'
 

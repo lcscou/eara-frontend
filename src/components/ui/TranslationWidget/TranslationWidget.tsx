@@ -120,9 +120,9 @@ export default function TranslationWidget() {
   )
 
   return (
-    <div className="flex aspect-square w-[55px] items-center justify-center">
+    <div className="flex aspect-square w-13.75 items-center justify-center">
       {loading ? (
-        <div className="flex aspect-square w-[55px] cursor-not-allowed items-center justify-center rounded-full bg-[#D5D7F3]">
+        <div className="flex aspect-square w-13.75 cursor-not-allowed items-center justify-center rounded-full bg-[#D5D7F3]">
           <Loader size="xs" />
         </div>
       ) : activeLanguage ? (

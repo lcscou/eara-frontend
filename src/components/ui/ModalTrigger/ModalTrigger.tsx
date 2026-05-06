@@ -1,7 +1,8 @@
 'use client'
 
-import { useModals } from '@/contexts/ModalsContext'
 import React, { ReactNode } from 'react'
+
+import { useModals } from '@/contexts/ModalsContext'
 
 interface ModalTriggerProps {
   triggerId: string

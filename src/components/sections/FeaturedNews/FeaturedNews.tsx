@@ -1,12 +1,13 @@
 'use client'
 
+import { gql } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
+import { Center, Skeleton } from '@mantine/core'
+
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import NewsCard from '@/components/ui/NewsCard/NewsCard'
 import Section from '@/components/ui/Section/Section'
 import { cleanHTMLTAG, formatAuthorName } from '@/lib/utils'
-import { gql } from '@apollo/client'
-import { useQuery } from '@apollo/client/react'
-import { Center, Skeleton } from '@mantine/core'
 
 const GetFeaturedNewsDocument = gql`
   query GetFeaturedNews($first: Int, $in: [ID]) {

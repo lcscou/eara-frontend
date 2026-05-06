@@ -1,8 +1,9 @@
+import { Suspense } from 'react'
+
 import Footer from '@/components/ui/Footer/Footer'
 import HeaderMegaMenu from '@/components/ui/HeaderMegaMenu/HeaderMegaMenu'
 import { GetMenuDocument } from '@/graphql/generated/graphql'
 import { query } from '@/lib/apollo-client'
-import { Suspense } from 'react'
 
 export default async function Template({ children }: { children: React.ReactNode }) {
   let menuData: unknown = null

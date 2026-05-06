@@ -1,14 +1,15 @@
 'use client'
-import EventCard from '@/components/ui/EventCard/EventCard'
-import Section from '@/components/ui/Section/Section'
-import { GetAllEventsDocument } from '@/graphql/generated/graphql'
-import { truncateText } from '@/lib/utils'
 import { useQuery } from '@apollo/client/react'
 import { Carousel } from '@mantine/carousel'
 import { ActionIcon, Group } from '@mantine/core'
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
 import { EmblaCarouselType } from 'embla-carousel'
 import { useMemo, useState } from 'react'
+
+import EventCard from '@/components/ui/EventCard/EventCard'
+import Section from '@/components/ui/Section/Section'
+import { GetAllEventsDocument } from '@/graphql/generated/graphql'
+import { truncateText } from '@/lib/utils'
 
 export default function FeaturedEvents({
   withSectionWrapper = true,

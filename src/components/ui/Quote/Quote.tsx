@@ -1,7 +1,9 @@
-import { QuoteProps } from '@/lib/types'
 import { Avatar, Group, Stack, Title } from '@mantine/core'
 import { IconQuoteFilled } from '@tabler/icons-react'
 import clsx from 'clsx'
+
+import { QuoteProps } from '@/lib/types'
+
 import s from './Quote.module.css'
 export default function Quote({
   texto,
