@@ -250,8 +250,10 @@ function ArchiveEventsContent() {
               </Combobox.Target>
               <Combobox.Dropdown>
                 <Combobox.Options>
-                  <Combobox.Option value="all">All Countries</Combobox.Option>
-                  <Combobox.Option value="portugal">Portugal</Combobox.Option>
+                  <Combobox.Option value="all">All countries</Combobox.Option>
+                  <Combobox.Option value="international">International</Combobox.Option>
+                  <Combobox.Option value="ireland">Ireland</Combobox.Option>
+                  <Combobox.Option value="italy">Italy</Combobox.Option>
                   <Combobox.Option value="germany">Germany</Combobox.Option>
                 </Combobox.Options>
               </Combobox.Dropdown>
@@ -283,7 +285,7 @@ function ArchiveEventsContent() {
               <Combobox.Dropdown>
                 <Combobox.Options>
                   <Combobox.Option value="all">All</Combobox.Option>
-                  <Combobox.Option value="in-site">In-Person</Combobox.Option>
+                  <Combobox.Option value="in-site">In-person</Combobox.Option>
                   <Combobox.Option value="online">Online</Combobox.Option>
                 </Combobox.Options>
               </Combobox.Dropdown>

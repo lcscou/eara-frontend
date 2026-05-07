@@ -11,6 +11,8 @@ import Section from '@/components/ui/Section/Section'
 import { GetAllEventsDocument } from '@/graphql/generated/graphql'
 import { truncateText } from '@/lib/utils'
 
+import s from './FeaturedEvents.module.css'
+
 export default function FeaturedEvents({
   withSectionWrapper = true,
   eventCategory,
@@ -84,6 +86,7 @@ export default function FeaturedEvents({
       )}
 
       <Carousel
+        className={s.carousel}
         slideSize="37%"
         getEmblaApi={setEmbla}
         slideGap={10}
@@ -97,7 +100,7 @@ export default function FeaturedEvents({
       >
         {upcomingEvents.map((event) => {
           return (
-            <Carousel.Slide key={event.id}>
+            <Carousel.Slide key={event.id} className={s.slide}>
               <EventCard
                 category={event?.categoriesEvents?.nodes?.[0]?.name || 'General'}
                 link={event.uri || '#'}

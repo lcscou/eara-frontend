@@ -24,10 +24,10 @@ export default function EventCard({
   return (
     <>
       {orientation === 'horizontal' && (
-        <Link href={link || '#'}>
+        <Link href={link || '#'} className="block h-full">
           <div
             className={clsx(
-              'my-5 flex min-h-80 w-fit flex-col overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',
+              'my-5 flex h-full min-h-[320px] w-fit flex-col overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',
               s.root
             )}
           >
@@ -64,7 +64,7 @@ export default function EventCard({
         </Link>
       )}
       {orientation === 'vertical' && (
-        <Link href={link || '#'}>
+        <Link href={link || '#'} className="block h-full">
           <div
             className={clsx(
               'my-5 h-full w-full overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',

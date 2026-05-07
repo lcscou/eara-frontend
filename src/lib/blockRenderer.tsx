@@ -1227,7 +1227,7 @@ function renderCoreGrid(block: Block, index: number, freeformContent?: string): 
  */
 function renderCoreColumns(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreColumnsAttributes | undefined
-  const className = attributes?.cssClassName || ''
+  const className = attributes?.className || ''
   const verticalAlignment = attributes?.verticalAlignment || 'top'
   const isStackedOnMobile = attributes?.isStackedOnMobile !== false // Default true
 
@@ -1299,6 +1299,7 @@ function renderCoreColumns(block: Block, index: number, freeformContent?: string
         />
       )}
       <Group
+        data-block="core/columns"
         key={index}
         className={clsx(className, 'overflow-hidden', mobileStackClass)}
         gap={gapValue}
@@ -1375,6 +1376,7 @@ function renderCoreColumn(
 
   // Calcular width/flexBasis corretamente com desconto do gap
   let flexBasis: string = 'auto'
+  // let flexValue: string = ''
   let flexValue: string = '1 1 0%'
 
   if (width) {
@@ -1428,6 +1430,7 @@ function renderCoreColumn(
     maxWidth: width ? flexBasis : undefined,
     display: 'flex',
     flexDirection: 'column',
+
     justifyContent:
       verticalAlignment === 'center'
         ? 'center'
@@ -1448,6 +1451,7 @@ function renderCoreColumn(
 
   return (
     <Box
+      data-block="core/column"
       key={index}
       className={clsx('overflow-hidden', className)}
       bdrs="lg"
@@ -2586,6 +2590,7 @@ function renderEaraCarousel(block: Block, index: number, freeformContent?: strin
         slideGap={slideGap}
         slideSize={slideSize}
         height={height}
+        data-block="eara/carousel"
         initialSlide={initialSlide}
       >
         {block.innerBlocks?.map((innerBlock, idx) => (
@@ -3591,6 +3596,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             id={index.toString()}
             variant={variant}
             uri={link}
+            data-block="eara/card"
             target={target}
             className={className}
             featuredImage={featuredImage?.url || ''}

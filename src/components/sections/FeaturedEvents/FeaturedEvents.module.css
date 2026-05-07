@@ -1,0 +1,19 @@
+.carousel :global(.mantine-Carousel-container) {
+  align-items: stretch;
+}
+
+.slide {
+  display: flex;
+  height: auto;
+  padding-block: 1.25rem;
+}
+
+.slide > * {
+  width: 100%;
+  height: 100%;
+}
+
+.slide > a > div {
+  margin-top: 0;
+  margin-bottom: 0;
+}
