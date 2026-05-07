@@ -1,6 +1,8 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
+const YOAST_SITEMAP_FILE_REGEX = /^(?:.*\/)?[^/]*sitemap[^/]*\.(xml|xsl)$/i
+
 const redirects: Record<string, string> = {
   '/post/feature-animal-research-saves-lives-so-why-do-opponents-say-it-is-ineffective':
     '/news/feature-animal-research-saves-lives-so-why-do-opponents-say-it-is-ineffective',
@@ -34,6 +36,15 @@ export function proxy(request: NextRequest) {
   const maintenance = process.env.MAINTENANCE_MODE === 'true'
   const { pathname } = request.nextUrl
 
+  const isYoastSitemapRequest = YOAST_SITEMAP_FILE_REGEX.test(pathname)
+
+  // Keep public sitemap child URLs while routing them to the internal XML gateway.
+  if (isYoastSitemapRequest && pathname !== '/sitemap.xml' && !pathname.startsWith('/sitemap/')) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/sitemap${pathname}`
+    return NextResponse.rewrite(url)
+  }
+
   const normalizedPath =
     pathname !== '/' && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
   const redirectDestination = redirects[normalizedPath]
@@ -57,7 +68,9 @@ export function proxy(request: NextRequest) {
     pathname.startsWith('/_next') ||
     pathname.startsWith('/favicon') ||
     pathname === '/robots.txt' ||
-    pathname === '/sitemap.xml'
+    pathname === '/sitemap.xml' ||
+    pathname.startsWith('/sitemap/') ||
+    isYoastSitemapRequest
 
   if (allowed) return NextResponse.next()
 

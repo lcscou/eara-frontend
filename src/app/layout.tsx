@@ -12,6 +12,7 @@ import { AuthRefreshProvider } from '@/components/auth/AuthRefreshProvider'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import TranslationWidget from '@/components/ui/TranslationWidget/TranslationWidget'
 import { ModalsProvider } from '@/contexts/ModalsContext'
+import { PUBLIC_SITE_ORIGIN } from '@/lib/seo/site-url'
 
 import { ApolloWrapper } from './providers/ApolloProvider'
 import { MantineProvider } from './providers/MantineProvider'
@@ -21,8 +22,20 @@ const hankenGrotesk = Hanken_Grotesk({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(PUBLIC_SITE_ORIGIN),
   title: 'EARA',
   description: 'European Animal Research Association',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
 }
 
 export default async function RootLayout({
