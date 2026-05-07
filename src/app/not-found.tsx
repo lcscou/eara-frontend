@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="pt-[220px] pb-[110px]">
+    <div className="pt-55 pb-27.5">
       <div className="my-auto flex flex-col items-center justify-center gap-4">
         <h2 className="text-4xl font-bold">Not Found</h2>
         <p>Could not find requested resource</p>

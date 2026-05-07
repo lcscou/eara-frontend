@@ -89,7 +89,7 @@ function PageTitleBarComponent({
             </div>
             <div
               className={clsx(
-                'sm:px-unset mt-5 w-fit max-w-5xl px-[16px] sm:mt-0',
+                'sm:px-unset mt-5 w-fit max-w-5xl px-4 sm:mt-0',
                 backgroundTitle && 'bg-black/50 p-5'
               )}
             >
