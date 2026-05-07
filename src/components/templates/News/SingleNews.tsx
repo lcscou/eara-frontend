@@ -14,6 +14,7 @@ import { truncateText } from '@/lib/utils'
 
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 import SharePost from '../../ui/SharePost/SharePost'
+import s from './SingleNews.module.css'
 
 type SingleNewsProps = {
   data: GetNewsQuery
@@ -79,23 +80,25 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
         )}
       </Container>
       {data.news?.acfNews?.relatedNews && data.news?.acfNews?.relatedNews?.nodes.length > 0 && (
-        <Section subtitle="Related" title="More research news" containerSize="none">
-          <Carousel slideSize={{ lg: '25%', sm: '33%' }} slideGap={15} withIndicators>
-            {data.news?.acfNews?.relatedNews?.nodes.map((relatedNews) => (
-              <Carousel.Slide key={relatedNews?.id} h="fit-content">
-                <EventCard
-                  title={
-                    relatedNews?.seo?.title?.substring(relatedNews?.seo?.title.search('-'), 0) ||
-                    'No Title'
-                  }
-                  featuredImage={relatedNews?.seo?.opengraphImage?.guid || '/eara-fallback.png'}
-                  link={`/news/${relatedNews?.slug}`}
-                  excerpt={truncateText(relatedNews?.seo?.opengraphDescription || '', 23)}
-                  orientation="vertical"
-                />
-              </Carousel.Slide>
-            ))}
-          </Carousel>
+        <Section subtitle="Related" title="More research news" containerSize="xl">
+          <div className={s.carouselContainer}>
+            <Carousel slideSize={{ lg: '33%', sm: '33%' }} slideGap={15} withIndicators>
+              {data.news?.acfNews?.relatedNews?.nodes.map((relatedNews) => (
+                <Carousel.Slide key={relatedNews?.id} h="100%">
+                  <EventCard
+                    title={
+                      relatedNews?.seo?.title?.substring(relatedNews?.seo?.title.search('-'), 0) ||
+                      'No Title'
+                    }
+                    featuredImage={relatedNews?.seo?.opengraphImage?.guid || '/eara-fallback.png'}
+                    link={`/news/${relatedNews?.slug}`}
+                    excerpt={truncateText(relatedNews?.seo?.opengraphDescription || '', 23)}
+                    orientation="vertical"
+                  />
+                </Carousel.Slide>
+              ))}
+            </Carousel>
+          </div>
           <Center py={20}>
             <ButtonEara variant="link" link="/news">
               VIEW ALL
