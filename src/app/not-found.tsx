@@ -1,7 +1,5 @@
-'use client'
-import { Container, Modal, useModalsStack } from '@mantine/core'
+import { Container } from '@mantine/core'
 import { Metadata } from 'next'
-import Link from 'next/link'
 
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 
@@ -91,7 +89,6 @@ const cards = [
 ]
 
 export default function NotFound() {
-  const stack = useModalsStack(['first', 'second', 'third', 'fourth', 'fifth', 'sixth'])
   return (
     <div className="pt-30 pb-27.5">
       <div className="my-auto flex flex-col items-center justify-center gap-4">
@@ -111,11 +108,14 @@ export default function NotFound() {
                 <p className="text-[.9rem]">{card.description}</p>
                 <div className="flex flex-col justify-start gap-2">
                   {card.links.map((link) => (
-                    <Link key={link.label} href={link.href}>
-                      <ButtonEara variant="link" className="cursor-pointer text-left text-[.9rem]">
-                        {link.label}
-                      </ButtonEara>
-                    </Link>
+                    <ButtonEara
+                      key={link.label}
+                      variant="link"
+                      link={link.href}
+                      className="cursor-pointer text-left text-[.9rem]"
+                    >
+                      {link.label}
+                    </ButtonEara>
                   ))}
                 </div>
               </div>
@@ -123,12 +123,6 @@ export default function NotFound() {
           </div>
         </Container>
       </div>
-      <Modal {...stack.register('first')}>First</Modal>
-      <Modal {...stack.register('second')}>Second</Modal>
-      <Modal {...stack.register('third')}>Third</Modal>
-      <Modal {...stack.register('fourth')}>Fourth</Modal>
-      <Modal {...stack.register('fifth')}>Fifth</Modal>
-      <Modal {...stack.register('sixth')}>Sixth</Modal>
     </div>
   )
 }
