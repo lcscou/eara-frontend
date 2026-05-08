@@ -10,7 +10,6 @@ import './globals.css'
 
 import { AuthRefreshProvider } from '@/components/auth/AuthRefreshProvider'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
-import TranslationWidget from '@/components/ui/TranslationWidget/TranslationWidget'
 import { ModalsProvider } from '@/contexts/ModalsContext'
 import { PUBLIC_SITE_ORIGIN } from '@/lib/seo/site-url'
 
@@ -56,7 +55,7 @@ export default async function RootLayout({
                 <GoogleTagManager gtmId="GTM-T6WSZKMZ" />
               ) : null}
               <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
-                <TranslationWidget />
+                {/* <TranslationWidget /> */}
                 <BackToTop />
               </div>
             </ModalsProvider>
