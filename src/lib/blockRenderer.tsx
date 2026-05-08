@@ -1,24 +1,3 @@
-import FeaturedEvents from '@/components/sections/FeaturedEvents/FeaturedEvents'
-import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
-import Accordion from '@/components/ui/Accordion/Accordion'
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import Card from '@/components/ui/Card/Card'
-import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
-import JoinEaraForm from '@/components/ui/JoinEaraForm/JoinEaraForm'
-import MediaBankImageBlock from '@/components/ui/MediaBankImageBlock/MediaBankImageBlock'
-import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
-import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
-import Quote from '@/components/ui/Quote/Quote'
-import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
-
-import SectionCard from '@/components/sections/SectionCard/SectionCard'
-import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
-import HomeHero from '@/components/ui/HomeHero/HomeHero'
-import MembersMap from '@/components/ui/MembersMap/MembersMap'
-import ProtectedCoreImage from '@/components/ui/ProtectedCoreImage/ProtectedCoreImage'
-import ProtectedDownloadButton from '@/components/ui/ProtectedDownloadButton/ProtectedDownloadButton'
-import Section from '@/components/ui/Section/Section'
-import { isPrivateUploadsUrl } from '@/lib/protected-files/shared'
 import { Carousel } from '@mantine/carousel'
 import { BarChart, DonutChart } from '@mantine/charts'
 import {
@@ -40,6 +19,28 @@ import { IconCircleCheck } from '@tabler/icons-react'
 import clsx from 'clsx'
 import parse, { domToReact } from 'html-react-parser'
 import React, { ReactNode } from 'react'
+
+import FeaturedEvents from '@/components/sections/FeaturedEvents/FeaturedEvents'
+import FeaturedNews from '@/components/sections/FeaturedNews/FeaturedNews'
+import SectionCard from '@/components/sections/SectionCard/SectionCard'
+import Accordion from '@/components/ui/Accordion/Accordion'
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import Card from '@/components/ui/Card/Card'
+import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
+import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
+import HomeHero from '@/components/ui/HomeHero/HomeHero'
+import JoinEaraForm from '@/components/ui/JoinEaraForm/JoinEaraForm'
+import MediaBankImageBlock from '@/components/ui/MediaBankImageBlock/MediaBankImageBlock'
+import MembersMap from '@/components/ui/MembersMap/MembersMap'
+import { ModalContent } from '@/components/ui/ModalContent/ModalContent'
+import { ModalTrigger } from '@/components/ui/ModalTrigger/ModalTrigger'
+import ProtectedCoreImage from '@/components/ui/ProtectedCoreImage/ProtectedCoreImage'
+import ProtectedDownloadButton from '@/components/ui/ProtectedDownloadButton/ProtectedDownloadButton'
+import Quote from '@/components/ui/Quote/Quote'
+import Section from '@/components/ui/Section/Section'
+import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
+import { isPrivateUploadsUrl } from '@/lib/protected-files/shared'
+
 import { CardProps } from './types'
 
 // Types para os blocos
@@ -2941,7 +2942,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           size={size}
           px={px}
           py={py}
-          className={clsx('eara-container scroll-m-[100px]', className)}
+          className={clsx('eara-container scroll-m-25', className)}
           bg={bgColor}
           c={textColor}
           pb={paddingBottom}
@@ -3258,7 +3259,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
         <Box
           key={index}
           id={anchorId}
-          className={clsx('eara-section scroll-m-[100px]', sectionClassName)}
+          className={clsx('eara-section scroll-m-25', sectionClassName)}
           bg={bgColor}
           c={textColor}
           pb={paddingBottom}
@@ -3549,17 +3550,15 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
       const renderMode = attributes_join?.renderMode === 'modal' ? 'modal' : 'inline'
 
       return (
-        <>
-          <JoinEaraForm
-            key={index}
-            triggerId={triggerId}
-            title={title}
-            description={description}
-            buttonLabel={buttonLabel}
-            submitUrl={submitUrl}
-            renderMode={renderMode}
-          />
-        </>
+        <JoinEaraForm
+          key={index}
+          triggerId={triggerId}
+          title={title}
+          description={description}
+          buttonLabel={buttonLabel}
+          submitUrl={submitUrl}
+          renderMode={renderMode}
+        />
       )
     }
 
@@ -3692,7 +3691,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           key={index}
           id={anchorId}
           data-block="eara/box"
-          className={clsx('eara-box scroll-m-[100px]', className)}
+          className={clsx('eara-box scroll-m-25', className)}
           c={textColor}
           pb={paddingBottom}
           pt={paddingTop}

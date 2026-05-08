@@ -1,7 +1,8 @@
 'use client'
-import { ResultNotFoundProps } from '@/lib/types'
 import { Button, Title } from '@mantine/core'
 import { IconRestore, IconZoomCancel } from '@tabler/icons-react'
+
+import { ResultNotFoundProps } from '@/lib/types'
 
 export default function ResultNotFound({ resetFilters }: ResultNotFoundProps) {
   return (

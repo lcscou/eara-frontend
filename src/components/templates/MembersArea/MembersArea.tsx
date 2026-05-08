@@ -1,10 +1,10 @@
 'use client'
-import { GetPagesQuery } from '@/graphql/generated/graphql'
-import { useLogout } from '@/hooks/useLogout'
 import { Avatar, Box, Divider, NavLink, Stack, Tabs, Text, Title } from '@mantine/core'
-
 import { IconFileDescription, IconLogout } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
+
+import { GetPagesQuery } from '@/graphql/generated/graphql'
+import { useLogout } from '@/hooks/useLogout'
 
 export default function MembersArea({ privatePages }: { privatePages?: GetPagesQuery }) {
   const { logout, isLoading } = useLogout()

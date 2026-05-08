@@ -1,10 +1,12 @@
 'use client'
 
-import { GetPressReleaseQuery } from '@/graphql/generated/graphql'
-import { renderPageBlocks } from '@/lib/blockRenderer'
 import { Button, Container, Stack } from '@mantine/core'
 import { IconArrowLeft, IconDownload } from '@tabler/icons-react'
 import Link from 'next/link'
+
+import { GetPressReleaseQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
+
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 
 export default function SinglePressRelease({ data }: { data: GetPressReleaseQuery }) {

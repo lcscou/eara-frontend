@@ -1,8 +1,9 @@
-import { CardProps } from '@/lib/types'
 import { Text, Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { CardProps } from '@/lib/types'
 
 export default function Card({
   title,

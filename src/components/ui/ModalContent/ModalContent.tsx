@@ -1,7 +1,8 @@
 'use client'
 
-import { useModals } from '@/contexts/ModalsContext'
 import { ReactNode, useEffect } from 'react'
+
+import { useModals } from '@/contexts/ModalsContext'
 
 interface ModalContentProps {
   triggerId: string

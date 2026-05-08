@@ -1,9 +1,10 @@
-import PageTemplate from '@/components/templates/Page/PageTemplate'
-import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
-import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
+
+import PageTemplate from '@/components/templates/Page/PageTemplate'
+import { GetPageDocument, GetPageQuery } from '@/graphql/generated/graphql'
+import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 
 const getHomePageData = cache(async (): Promise<GetPageQuery> => {
   const result = await queryWithAuthFallback<GetPageQuery>({

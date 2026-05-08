@@ -1,7 +1,9 @@
 'use client'
-import { AccordionProps } from '@/lib/types'
 import { Accordion as MantineAccordion } from '@mantine/core'
 import clsx from 'clsx'
+
+import { AccordionProps } from '@/lib/types'
+
 import s from './Accordion.module.css'
 
 export default function Accordion({ items, variant = 'blue' }: AccordionProps) {

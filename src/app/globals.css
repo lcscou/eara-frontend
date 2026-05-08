@@ -92,3 +92,7 @@ input:-webkit-autofill:active {
 [data-block='core/column'] {
   align-items: stretch !important;
 }
+
+.title-md [data-block='eara/card'] h5 {
+  font-size: 1.2rem !important;
+}

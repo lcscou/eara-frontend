@@ -1,10 +1,11 @@
+import { ButtonProps } from '@mantine/core'
+import { HTMLAttributeAnchorTarget, MouseEventHandler, ReactElement } from 'react'
+
 import {
   GetMenuQuery_RootQuery,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem_childItems_MenuItemToMenuItemConnection,
 } from '@/graphql/generated/graphql'
-import { ButtonProps } from '@mantine/core'
-import { HTMLAttributeAnchorTarget, MouseEventHandler, ReactElement } from 'react'
 
 export interface PageTitleBarProps {
   title?: string | null

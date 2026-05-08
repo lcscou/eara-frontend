@@ -1,8 +1,5 @@
 'use client'
-import { GalleryProps } from '@/lib/types'
-import { MouseEvent, useState } from 'react'
 
-import { extractYouTubeID } from '@/lib/utils'
 import { Carousel } from '@mantine/carousel'
 import { List, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -18,7 +15,12 @@ import {
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
+import { MouseEvent, useState } from 'react'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+
+import { GalleryProps } from '@/lib/types'
+import { extractYouTubeID } from '@/lib/utils'
+
 import ResultNotFound from '../ResultNotFound/ResultNotFound'
 import s from './Gallery.module.css'
 export default function Gallery({ data }: GalleryProps) {
@@ -205,7 +207,7 @@ export default function Gallery({ data }: GalleryProps) {
                     )}
                   >
                     {item.mediaType?.includes('video') && item.videoUrl && (
-                      <div className="relative aspect-square w-[90px] overflow-hidden rounded-lg object-cover">
+                      <div className="relative aspect-square w-22.5 overflow-hidden rounded-lg object-cover">
                         <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
                           <div className="bg-secondaryColor flex aspect-square w-10 items-center justify-center rounded-full">
                             <IconPlayerPlayFilled size={20} />

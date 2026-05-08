@@ -1,12 +1,14 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { Box, Anchor } from '@mantine/core'
-import { IconArrowRight, IconArrowLeft, IconX } from '@tabler/icons-react'
-import clsx from 'clsx'
-import styles from './Ticker.module.css'
-import { TickerProps } from '@/lib/types'
+import { Anchor, Box } from '@mantine/core'
 import { useWindowScroll } from '@mantine/hooks'
+import { IconArrowLeft, IconArrowRight, IconX } from '@tabler/icons-react'
+import clsx from 'clsx'
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+import { TickerProps } from '@/lib/types'
+
+import styles from './Ticker.module.css'
 
 export default function Ticker({
   id,
@@ -27,6 +29,10 @@ export default function Ticker({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [messageOverflowStates, setMessageOverflowStates] = useState<Record<string, boolean>>({})
+  const [messageScrollEndStates, setMessageScrollEndStates] = useState<Record<string, string>>({})
+  const [messageAnimationDurationStates, setMessageAnimationDurationStates] = useState<
+    Record<string, number>
+  >({})
   const [isDismissed, setIsDismissed] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const textRef = useRef<HTMLDivElement>(null)
@@ -38,6 +44,34 @@ export default function Ticker({
   // Check if we should hide linkLabel on mobile
   const shouldHideLinkLabel = screenWidth <= 480
   const [scroll] = useWindowScroll()
+
+  const getAnimationDurationFromTravelDistance = useCallback(
+    (travelDistance: number) => {
+      if (travelDistance <= 0) return 0
+
+      // Base speed: 50px per second, with min/max bounds
+      const baseSpeed = 50
+      const calculatedDuration = (travelDistance / baseSpeed) * 1000
+
+      let minDuration: number
+      let maxDuration: number
+
+      if (screenWidth <= 480) {
+        minDuration = 3000
+        maxDuration = 8000
+      } else if (screenWidth <= 768) {
+        minDuration = 4000
+        maxDuration = 10000
+      } else {
+        minDuration = 5000
+        maxDuration = 15000
+      }
+
+      return Math.max(minDuration, Math.min(maxDuration, calculatedDuration))
+    },
+    [screenWidth]
+  )
+
   // Measure text width using temporary DOM element (reusable function)
   const measureTextWidth = useCallback((text: string, element?: HTMLElement) => {
     if (!element) return 0
@@ -73,6 +107,8 @@ export default function Ticker({
 
     const messageContainerWidth = messageContainer.clientWidth
     const newOverflowStates: Record<string, boolean> = {}
+    const newScrollEndStates: Record<string, string> = {}
+    const newAnimationDurationStates: Record<string, number> = {}
 
     // Check each message individually
     messages.forEach((message) => {
@@ -80,15 +116,21 @@ export default function Ticker({
       const textWidth = measureTextWidth(message.text, element)
 
       // Check if text needs animation (text wider than container)
-      const needsAnimation = textWidth > messageContainerWidth
+      const travelDistance = textWidth - messageContainerWidth
+      const needsAnimation = travelDistance > 0
 
       // Store the result
       newOverflowStates[message.id] = needsAnimation
+      newScrollEndStates[message.id] = needsAnimation ? `-${travelDistance}px` : '0px'
+      newAnimationDurationStates[message.id] =
+        getAnimationDurationFromTravelDistance(travelDistance)
     })
 
     // Update all states at once
     setMessageOverflowStates(newOverflowStates)
-  }, [messages, measureTextWidth])
+    setMessageScrollEndStates(newScrollEndStates)
+    setMessageAnimationDurationStates(newAnimationDurationStates)
+  }, [messages, measureTextWidth, getAnimationDurationFromTravelDistance])
 
   // Effect to handle screen size detection and overflow recalculation
   useEffect(() => {
@@ -165,58 +207,8 @@ export default function Ticker({
   // Get current message overflow state
   const currentMessage = messages[currentIndex]
   const isCurrentMessageOverflowing = messageOverflowStates[currentMessage?.id] || false
-
-  // Calculate dynamic animation duration based on text width and available space
-  const getAnimationDuration = useCallback(
-    (messageId: string) => {
-      if (!textRef.current) {
-        // Fallback to screen-based duration if no ref
-        if (screenWidth <= 480) return 6000
-        if (screenWidth <= 768) return 8000
-        return 12000
-      }
-
-      const element = textRef.current
-      // textRef is on .messageText, we need to go up to .messageContainer
-      const messageContainer = element.closest('[class*="messageContainer"]')
-      if (!messageContainer) return 12000
-
-      const messageContainerWidth = messageContainer.clientWidth
-
-      // Find the message to calculate its text width
-      const message = messages.find((m) => m.id === messageId)
-      if (!message) return 12000
-
-      // Measure text width using reusable function
-      const textWidth = measureTextWidth(message.text, element)
-
-      // Calculate distance the text needs to travel
-      const travelDistance = textWidth - messageContainerWidth
-
-      if (travelDistance <= 0) return 0 // No animation needed
-
-      // Calculate duration based on travel distance
-      // Base speed: 50px per second, with min/max bounds
-      const baseSpeed = 50 // pixels per second
-      const calculatedDuration = (travelDistance / baseSpeed) * 1000 // convert to milliseconds
-
-      // Apply min/max bounds based on screen size
-      let minDuration, maxDuration
-      if (screenWidth <= 480) {
-        minDuration = 3000 // 3s min for mobile
-        maxDuration = 8000 // 8s max for mobile
-      } else if (screenWidth <= 768) {
-        minDuration = 4000 // 4s min for tablet
-        maxDuration = 10000 // 10s max for tablet
-      } else {
-        minDuration = 5000 // 5s min for desktop
-        maxDuration = 15000 // 15s max for desktop
-      }
-
-      return Math.max(minDuration, Math.min(maxDuration, calculatedDuration))
-    },
-    [messages, screenWidth, measureTextWidth]
-  )
+  const currentScrollEnd = messageScrollEndStates[currentMessage?.id] || '0px'
+  const currentAnimationDuration = messageAnimationDurationStates[currentMessage?.id] || 0
 
   // Auto-play functionality - usa timeout individual por mensagem
   useEffect(() => {
@@ -229,7 +221,7 @@ export default function Ticker({
 
     // Set timeout based on current message overflow status
     const timeoutDuration = isCurrentMessageOverflowing
-      ? getAnimationDuration(currentMessage.id)
+      ? currentAnimationDuration
       : autoPlayInterval
 
     autoPlayTimeoutRef.current = setTimeout(() => {
@@ -250,8 +242,7 @@ export default function Ticker({
     messages.length,
     isCurrentMessageOverflowing,
     currentIndex,
-    getAnimationDuration,
-    currentMessage.id,
+    currentAnimationDuration,
   ])
 
   // Check text overflow for all messages when component mounts or messages change
@@ -265,6 +256,10 @@ export default function Ticker({
       clearTimeout(timeoutId)
     }
   }, [messages, checkAllMessagesOverflow])
+
+  useEffect(() => {
+    checkAllMessagesOverflow()
+  }, [currentIndex, checkAllMessagesOverflow])
 
   // Determine text color automatically
   const actualTextColor =
@@ -287,53 +282,6 @@ export default function Ticker({
 
   // Se não há mensagens ou foi dismissed, não renderiza nada
   if (!messages?.length || isDismissed) return null
-
-  const renderMessage = () => {
-    const animationDuration = getAnimationDuration(currentMessage.id)
-
-    // Calculate actual scroll distance needed
-    let scrollEnd = '0px' // Default: no scroll needed
-
-    if (isCurrentMessageOverflowing && textRef.current) {
-      const element = textRef.current
-      // textRef is on .messageText, we need to go up to .messageContainer
-      const messageContainer = element.closest('[class*="messageContainer"]')
-
-      if (messageContainer) {
-        const messageContainerWidth = messageContainer.clientWidth
-
-        // Measure text width using reusable function
-        const textWidth = measureTextWidth(currentMessage.text, element)
-
-        // Calculate exact distance to travel
-        const travelDistance = textWidth - messageContainerWidth
-        if (travelDistance > 0) {
-          scrollEnd = `-${travelDistance}px`
-        }
-      }
-    }
-
-    const messageContent = (
-      <div
-        key={`message-${currentMessage.id}-${isCurrentMessageOverflowing}`}
-        ref={textRef}
-        className={clsx(
-          styles.messageText,
-          isCurrentMessageOverflowing ? styles.messageTextScrolling : styles.messageTextStatic
-        )}
-        style={
-          {
-            '--animation-duration': `${animationDuration / 1000}s`,
-            '--scroll-end': scrollEnd,
-          } as React.CSSProperties
-        }
-      >
-        {currentMessage.text}
-      </div>
-    )
-
-    return messageContent
-  }
 
   const renderLinkSection = () => {
     if (!currentMessage.link) return null
@@ -431,7 +379,26 @@ export default function Ticker({
           })}
         >
           <div className={styles.messageContainer}>
-            <div className={styles.message}>{renderMessage()}</div>
+            <div className={styles.message}>
+              <div
+                key={`message-${currentMessage.id}-${isCurrentMessageOverflowing}`}
+                ref={textRef}
+                className={clsx(
+                  styles.messageText,
+                  isCurrentMessageOverflowing
+                    ? styles.messageTextScrolling
+                    : styles.messageTextStatic
+                )}
+                style={
+                  {
+                    '--animation-duration': `${currentAnimationDuration / 1000}s`,
+                    '--scroll-end': currentScrollEnd,
+                  } as React.CSSProperties
+                }
+              >
+                {currentMessage.text}
+              </div>
+            </div>
           </div>
           {renderLinkSection()}
         </div>

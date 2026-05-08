@@ -1,7 +1,7 @@
 'use client'
 import { Button, Transition } from '@mantine/core'
-import { IconArrowUp } from '@tabler/icons-react'
 import { useWindowScroll } from '@mantine/hooks'
+import { IconArrowUp } from '@tabler/icons-react'
 
 export default function BackToTop() {
   const [scroll, scrollTo] = useWindowScroll()

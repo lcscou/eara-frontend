@@ -1,17 +1,20 @@
 'use client'
 
+import { Carousel } from '@mantine/carousel'
+import { Button, Center, Container } from '@mantine/core'
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
+import Link from 'next/link'
+
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
 import Section from '@/components/ui/Section/Section'
 import { GetAllNewsQuery, GetNewsQuery } from '@/graphql/generated/graphql'
 import { renderPageBlocks } from '@/lib/blockRenderer'
 import { truncateText } from '@/lib/utils'
-import { Carousel } from '@mantine/carousel'
-import { Button, Center, Container } from '@mantine/core'
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
-import Link from 'next/link'
+
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 import SharePost from '../../ui/SharePost/SharePost'
+import s from './SingleNews.module.css'
 
 type SingleNewsProps = {
   data: GetNewsQuery
@@ -41,7 +44,7 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
       />
       <Container size="lg" className="my-20">
         <div className="mb-5 flex justify-end">
-          <Link href="/news">
+          <Link href="/news" prefetch={false}>
             <Button variant="subtle" leftSection={<IconArrowLeft size={16} />}>
               Back to news list
             </Button>
@@ -78,22 +81,24 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
       </Container>
       {data.news?.acfNews?.relatedNews && data.news?.acfNews?.relatedNews?.nodes.length > 0 && (
         <Section subtitle="Related" title="More research news" containerSize="xl">
-          <Carousel slideSize={{ lg: '33%', sm: '33%' }} slideGap={15} withIndicators>
-            {data.news?.acfNews?.relatedNews?.nodes.map((relatedNews) => (
-              <Carousel.Slide key={relatedNews?.id} h="fit-content">
-                <EventCard
-                  title={
-                    relatedNews?.seo?.title?.substring(relatedNews?.seo?.title.search('-'), 0) ||
-                    'No Title'
-                  }
-                  featuredImage={relatedNews?.seo?.opengraphImage?.guid || '/eara-fallback.png'}
-                  link={`/news/${relatedNews?.slug}`}
-                  excerpt={truncateText(relatedNews?.seo?.opengraphDescription || '', 23)}
-                  orientation="vertical"
-                />
-              </Carousel.Slide>
-            ))}
-          </Carousel>
+          <div className={s.carouselContainer}>
+            <Carousel slideSize={{ lg: '33%', sm: '33%' }} slideGap={15} withIndicators>
+              {data.news?.acfNews?.relatedNews?.nodes.map((relatedNews) => (
+                <Carousel.Slide key={relatedNews?.id} h="100%">
+                  <EventCard
+                    title={
+                      relatedNews?.seo?.title?.substring(relatedNews?.seo?.title.search('-'), 0) ||
+                      'No Title'
+                    }
+                    featuredImage={relatedNews?.seo?.opengraphImage?.guid || '/eara-fallback.png'}
+                    link={`/news/${relatedNews?.slug}`}
+                    excerpt={truncateText(relatedNews?.seo?.opengraphDescription || '', 23)}
+                    orientation="vertical"
+                  />
+                </Carousel.Slide>
+              ))}
+            </Carousel>
+          </div>
           <Center py={20}>
             <ButtonEara variant="link" link="/news">
               VIEW ALL

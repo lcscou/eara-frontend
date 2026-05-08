@@ -1,8 +1,10 @@
 'use client'
-import { MembersCardProps } from '@/lib/types'
 import { Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
+
+import { MembersCardProps } from '@/lib/types'
+
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './MembersCard.module.css'
 
@@ -39,7 +41,7 @@ export default function MembersCard({
   return (
     <>
       <div className={clsx('flex h-full flex-col overflow-hidden rounded-lg bg-[#DEE5D6]', s.root)}>
-        <div className="flex h-[180px] items-center justify-center rounded-lg bg-white p-4">
+        <div className="flex h-45 items-center justify-center rounded-lg bg-white p-4">
           <Image
             src={featuredImage || '/logo-eara.svg'}
             alt={title || 'Member Image'}
@@ -48,7 +50,7 @@ export default function MembersCard({
             style={{ height: '100%', objectFit: 'contain' }}
           />
         </div>
-        <div className="flex flex-grow flex-col gap-2 p-7">
+        <div className="flex grow flex-col gap-2 p-7">
           <Title order={5} fz={20}>
             {title}
           </Title>

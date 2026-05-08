@@ -1,10 +1,12 @@
 'use client'
 
-import { GetCaseStudiesQuery } from '@/graphql/generated/graphql'
-import { renderPageBlocks } from '@/lib/blockRenderer'
 import { Button, Container } from '@mantine/core'
 import { IconArrowLeft } from '@tabler/icons-react'
 import Link from 'next/link'
+
+import { GetCaseStudiesQuery } from '@/graphql/generated/graphql'
+import { renderPageBlocks } from '@/lib/blockRenderer'
+
 import PageTitleBar from '../../ui/PageTitleBar/PageTitleBar'
 
 export default function SingleCaseStudies({ data }: { data: GetCaseStudiesQuery }) {

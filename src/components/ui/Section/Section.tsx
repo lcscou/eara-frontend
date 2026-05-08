@@ -1,6 +1,7 @@
-import { SectionProps } from '@/lib/types'
 import { Container, Text, Title } from '@mantine/core'
 import clsx from 'clsx'
+
+import { SectionProps } from '@/lib/types'
 export default function Section({
   children,
   title,

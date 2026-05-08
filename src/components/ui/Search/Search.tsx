@@ -1,6 +1,5 @@
 'use client'
 
-import { cleanHTMLTAG, truncateText } from '@/lib/utils'
 import {
   Alert,
   Anchor,
@@ -16,11 +15,14 @@ import {
   TextInput,
   Title,
 } from '@mantine/core'
-import { useDebouncedValue, useDisclosure, useMediaQuery } from '@mantine/hooks'
+import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
 import algoliasearch, { SearchIndex } from 'algoliasearch/lite'
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
+import { cleanHTMLTAG, truncateText } from '@/lib/utils'
+
 import classes from './Search.module.css'
 
 type HighlightField = { value?: string }
@@ -58,15 +60,16 @@ const HIGHLIGHT_PROPS = {
 export default function Search() {
   const [opened, { open, close }] = useDisclosure()
   const [query, setQuery] = useState('')
-  const [debouncedQuery] = useDebouncedValue(query, 320)
+  const [debouncedQuery, setDebouncedQuery] = useState('')
   const [hits, setHits] = useState<AlgoliaHit[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<string | null>(null)
-  const [currentPage, setCurrentPage] = useState(0)
+  const [selectedTab, setSelectedTab] = useState<string | null>(null)
+  const currentPageRef = useRef(0)
   const [totalHits, setTotalHits] = useState(0)
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   const isSearchConfigured = Boolean(ALGOLIA_APP_ID && ALGOLIA_SEARCH_KEY && ALGOLIA_INDEX_NAME)
@@ -82,8 +85,8 @@ export default function Search() {
   }, [opened])
 
   const performSearch = useCallback(
-    (page: number, isInitialSearch: boolean = false) => {
-      if (!debouncedQuery.trim()) {
+    (searchTerm: string, page: number, isInitialSearch: boolean = false) => {
+      if (!searchTerm.trim()) {
         setHits([])
         setError(null)
         setTotalHits(0)
@@ -102,7 +105,7 @@ export default function Search() {
       }
 
       index
-        .search<AlgoliaHit>(debouncedQuery, {
+        .search<AlgoliaHit>(searchTerm, {
           page,
           hitsPerPage: 50,
           ...HIGHLIGHT_PROPS,
@@ -144,18 +147,36 @@ export default function Search() {
           }
         })
     },
-    [debouncedQuery, index]
+    [index]
   )
 
   useEffect(() => {
-    setCurrentPage(0)
-    performSearch(0, true)
-  }, [performSearch])
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current)
+      }
+    }
+  }, [])
+
+  const handleQueryChange = (nextQuery: string) => {
+    setQuery(nextQuery)
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current)
+    }
+
+    debounceTimerRef.current = setTimeout(() => {
+      setDebouncedQuery(nextQuery)
+      currentPageRef.current = 0
+      setSelectedTab(null)
+      performSearch(nextQuery, 0, true)
+    }, 320)
+  }
 
   const loadMoreResults = () => {
-    const nextPage = currentPage + 1
-    setCurrentPage(nextPage)
-    performSearch(nextPage, false)
+    const nextPage = currentPageRef.current + 1
+    currentPageRef.current = nextPage
+    performSearch(debouncedQuery, nextPage, false)
   }
 
   const firstPostType = useMemo(() => {
@@ -170,23 +191,25 @@ export default function Search() {
     return postTypes[0] || null
   }, [hits])
 
-  useEffect(() => {
-    if (firstPostType && !activeTab) {
-      setActiveTab(firstPostType)
-    }
-  }, [firstPostType, activeTab])
+  const groupedResults = useMemo(() => groupByPostType(hits), [hits])
+  const activeTab =
+    selectedTab && groupedResults.has(selectedTab) ? selectedTab : (firstPostType ?? null)
 
   const handleOpen = () => {
     open()
   }
 
   const handleClose = () => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current)
+    }
     close()
     setQuery('')
+    setDebouncedQuery('')
     setHits([])
     setError(null)
-    setActiveTab(null)
-    setCurrentPage(0)
+    setSelectedTab(null)
+    currentPageRef.current = 0
     setTotalHits(0)
   }
 
@@ -240,7 +263,7 @@ export default function Search() {
     return truncateText(cleanHTMLTAG(plainContent), 40)
   }
 
-  const groupByPostType = (results: AlgoliaHit[]) => {
+  function groupByPostType(results: AlgoliaHit[]) {
     const grouped = new Map<string, AlgoliaHit[]>()
 
     results.forEach((hit) => {
@@ -250,7 +273,6 @@ export default function Search() {
       }
       grouped.get(postType)!.push(hit)
     })
-
     return grouped
   }
 
@@ -269,7 +291,7 @@ export default function Search() {
         unstyled
         bg="secondaryColor.7"
         c="#272727"
-        className="flex aspect-square w-[40px] cursor-pointer items-center justify-center rounded-full"
+        className="flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full"
         onClick={handleOpen}
         aria-label="Search"
       >
@@ -323,7 +345,7 @@ export default function Search() {
                 borderRadius: '80px',
               },
             }}
-            onChange={(event) => setQuery(event.currentTarget.value)}
+            onChange={(event) => handleQueryChange(event.currentTarget.value)}
           />
 
           {!isSearchConfigured && (
@@ -368,7 +390,7 @@ export default function Search() {
 
               {hasResults && (
                 <>
-                  <Tabs value={activeTab} onChange={setActiveTab}>
+                  <Tabs value={activeTab} onChange={setSelectedTab}>
                     <Tabs.List
                       style={{
                         position: 'sticky',
@@ -380,14 +402,14 @@ export default function Search() {
                         borderBottom: '1px solid #d0d0d0',
                       }}
                     >
-                      {Array.from(groupByPostType(hits).keys()).map((postType) => (
+                      {Array.from(groupedResults.keys()).map((postType) => (
                         <Tabs.Tab key={postType} value={postType}>
                           {formatPostTypeName(postType)}
                         </Tabs.Tab>
                       ))}
                     </Tabs.List>
 
-                    {Array.from(groupByPostType(hits).entries()).map(([postType, results]) => (
+                    {Array.from(groupedResults.entries()).map(([postType, results]) => (
                       <Tabs.Panel key={postType} value={postType} pt="md">
                         <Stack gap="sm">
                           {results.map((hit) => {

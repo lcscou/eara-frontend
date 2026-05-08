@@ -1,6 +1,7 @@
 'use client'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
+
 import MapContent from './MapContent'
 import styles from './MembersMap.module.css'
 import { MapContentProps, MapMarker } from './types'

@@ -1,7 +1,8 @@
-import ArchiveAnimalsClient from '@/components/templates/Animals/ArchiveAnimalsClient'
-import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 import { Container } from '@mantine/core'
 import { Metadata } from 'next'
+
+import ArchiveAnimalsClient from '@/components/templates/Animals/ArchiveAnimalsClient'
+import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
 export const metadata: Metadata = {
   title: 'EARA | Animals',
   description: 'Stay updated with the latest animals from EARA.',

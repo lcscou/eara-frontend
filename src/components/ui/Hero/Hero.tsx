@@ -2,6 +2,7 @@
 import { Carousel } from '@mantine/carousel'
 import clsx from 'clsx'
 import { createContext, ReactNode, useContext, useState } from 'react'
+
 import s from './Hero.module.css'
 
 type HeroSlideContextType = {

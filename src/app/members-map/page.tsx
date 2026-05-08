@@ -1,7 +1,8 @@
 'use client'
 
-import { MembersMap } from '@/components/ui/MembersMap'
 import { Container } from '@mantine/core'
+
+import { MembersMap } from '@/components/ui/MembersMap'
 export default function Page() {
   return (
     <div className="px-8 py-40">

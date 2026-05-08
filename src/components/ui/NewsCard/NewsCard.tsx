@@ -1,8 +1,10 @@
-import { NewsCardProps } from '@/lib/types'
 import { Stack, Text, Title } from '@mantine/core'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { NewsCardProps } from '@/lib/types'
+
 import s from './NewsCard.module.css'
 
 export default function NewsCard({
@@ -43,7 +45,7 @@ export default function NewsCard({
                   alt="Featured"
                   className={clsx(
                     'w-full object-cover',
-                    isFeatured ? 'aspect-[4/2]' : 'aspect-[4/1.5]'
+                    isFeatured ? 'aspect-4/2' : 'aspect-4/1.5'
                   )}
                 />
               )}
@@ -86,12 +88,12 @@ export default function NewsCard({
                   height={600}
                   alt="Featured"
                   className={clsx(
-                    'aspect-[4/3] w-full object-cover object-left md:h-full md:w-[210px] lg:w-[400px]'
+                    'aspect-4/3 w-full object-cover object-left md:h-full md:w-52.5 lg:w-100'
                   )}
                 />
               )}
             </div>
-            <div className="z-10 -mt-5 flex w-full max-w-none flex-col justify-center rounded-2xl bg-white p-7 md:-mt-0 md:-ml-10 md:max-w-[500px]">
+            <div className="z-10 -mt-5 flex w-full max-w-none flex-col justify-center rounded-2xl bg-white p-7 md:mt-0 md:-ml-10 md:max-w-125">
               <Stack gap={3}>
                 <Text className="opacity-50">{formatedDate}</Text>
                 <Title order={6}>{title}</Title>

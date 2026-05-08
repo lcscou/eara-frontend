@@ -44,6 +44,7 @@ const getAllNewsData = cache(async (): Promise<GetAllNewsQuery> => {
   const { data } = await client.query<GetAllNewsQuery>({
     query: GetAllNewsDocument,
     variables: { first: 1000 },
+    fetchPolicy: 'no-cache',
     context: {
       fetchOptions: {
         next: {

@@ -387,13 +387,22 @@ export const GetAllNews = gql`
     $category: String
     $country: String
     $animal: String
+    $animalNews: String
+    $researchAreasNews: String
   ) {
     allNews(
       first: $first
       after: $after
       before: $before
       last: $last
-      where: { search: $search, category: $category, country: $country, animal: $animal }
+      where: {
+        animalsNews: $animalNews
+        researchAreasNews: $researchAreasNews
+        search: $search
+        category: $category
+        country: $country
+        animal: $animal
+      }
     ) {
       pageInfo {
         endCursor
@@ -421,6 +430,22 @@ export const GetAllNews = gql`
           breadcrumbs {
             text
             url
+          }
+        }
+        animalsNews {
+          nodes {
+            count
+            slug
+            name
+            databaseId
+          }
+        }
+        researchAreaNews {
+          nodes {
+            count
+            slug
+            name
+            databaseId
           }
         }
         acfNews {
@@ -456,6 +481,31 @@ export const GetAllNews = gql`
     }
   }
 `
+export const GetAllResearchAreasNews = gql`
+  query GetAllResearchAreasNews {
+    researchAreaNews {
+      nodes {
+        count
+        name
+        databaseId
+        slug
+      }
+    }
+  }
+`
+export const GetAllAnimalsNews = gql`
+  query GetAllAnimalsNews {
+    animalsNews {
+      nodes {
+        count
+        name
+        databaseId
+        slug
+      }
+    }
+  }
+`
+
 export const GetEvents = gql`
   query GetEvents($id: ID = "") {
     events(id: $id, idType: URI) {

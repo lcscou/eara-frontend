@@ -1,11 +1,4 @@
 'use client'
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import MembersCard from '@/components/ui/MembersCard/MembersCard'
-import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import {
-  GetAllCountriesInMembersDocument,
-  GetAllMembersDocument,
-} from '@/graphql/generated/graphql'
 import { NetworkStatus } from '@apollo/client'
 import { useApolloClient, useSuspenseQuery } from '@apollo/client/react'
 import {
@@ -19,7 +12,15 @@ import {
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconChevronDown, IconRestore, IconSearch } from '@tabler/icons-react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import MembersCard from '@/components/ui/MembersCard/MembersCard'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
+import {
+  GetAllCountriesInMembersDocument,
+  GetAllMembersDocument,
+} from '@/graphql/generated/graphql'
 
 const PAGE_SIZE = 16
 
@@ -30,14 +31,30 @@ export default function ArchiveMembers() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300)
 
+  // Keep selected country valid against current options without effect-driven state sync.
+  const isCountryValueValid = useCallback(
+    (value: string | null, options: Array<{ value: string }>) =>
+      Boolean(value && options.some((o) => o.value === value)),
+    []
+  )
+
   // Query para buscar países de todos os membros (sem paginação)
   const { data: countriesData } = useSuspenseQuery(GetAllCountriesInMembersDocument)
 
   // Query principal para buscar membros paginados
+  const effectiveSelectedCountry = isCountryValueValid(
+    selectedCountry,
+    (countriesData?.getAllCountriesInMembers ?? [])
+      .filter((country): country is { value: string } => Boolean(country?.value))
+      .map((country) => ({ value: country.value }))
+  )
+    ? selectedCountry
+    : null
+
   const { data, networkStatus } = useSuspenseQuery(GetAllMembersDocument, {
     variables: {
       first: PAGE_SIZE,
-      country: selectedCountry ?? undefined,
+      country: effectiveSelectedCountry ?? undefined,
       search: debouncedSearch.trim() || undefined,
     },
   })
@@ -75,17 +92,19 @@ export default function ArchiveMembers() {
     [allMembers]
   )
 
-  const filterKey = `${selectedCountry ?? ''}::${debouncedSearch.trim()}`
-  const [extraMembers, setExtraMembers] = useState<NonNullable<(typeof allMembers)[number]>[]>([])
-  const [nextPageState, setNextPageState] = useState<{
-    hasNextPage: boolean
-    endCursor: string | null
-  } | null>(null)
+  const filterKey = `${effectiveSelectedCountry ?? ''}::${debouncedSearch.trim()}`
+  const [extraMembersByFilter, setExtraMembersByFilter] = useState<
+    Record<string, NonNullable<(typeof allMembers)[number]>[]>
+  >({})
+  const [nextPageByFilter, setNextPageByFilter] = useState<
+    Record<string, { hasNextPage: boolean; endCursor: string | null }>
+  >({})
 
-  useEffect(() => {
-    setExtraMembers([])
-    setNextPageState(null)
-  }, [filterKey])
+  const extraMembers = useMemo(
+    () => extraMembersByFilter[filterKey] ?? [],
+    [extraMembersByFilter, filterKey]
+  )
+  const nextPageState = nextPageByFilter[filterKey] ?? null
 
   const hasNextPage = nextPageState?.hasNextPage ?? Boolean(data?.members?.pageInfo?.hasNextPage)
   const endCursor = nextPageState?.endCursor ?? data?.members?.pageInfo?.endCursor ?? null
@@ -113,7 +132,7 @@ export default function ArchiveMembers() {
           variables: {
             first: PAGE_SIZE,
             after: endCursor,
-            country: selectedCountry ?? undefined,
+            country: effectiveSelectedCountry ?? undefined,
             search: debouncedSearch.trim() || undefined,
           },
         })
@@ -122,16 +141,27 @@ export default function ArchiveMembers() {
           (member): member is NonNullable<(typeof allMembers)[number]> => Boolean(member)
         )
 
-        setExtraMembers((prev) => {
-          const seen = new Set([...baseMembers, ...prev].map((member) => member.id).filter(Boolean))
+        setExtraMembersByFilter((prevByFilter) => {
+          const currentExtra = prevByFilter[filterKey] ?? []
+          const seen = new Set(
+            [...baseMembers, ...currentExtra].map((member) => member.id).filter(Boolean)
+          )
           const next = incomingNodes.filter((member) => (member.id ? !seen.has(member.id) : true))
-          return next.length > 0 ? [...prev, ...next] : prev
+          if (next.length === 0) return prevByFilter
+
+          return {
+            ...prevByFilter,
+            [filterKey]: [...currentExtra, ...next],
+          }
         })
 
-        setNextPageState({
-          hasNextPage: Boolean(result.data?.members?.pageInfo?.hasNextPage),
-          endCursor: result.data?.members?.pageInfo?.endCursor ?? null,
-        })
+        setNextPageByFilter((prevByFilter) => ({
+          ...prevByFilter,
+          [filterKey]: {
+            hasNextPage: Boolean(result.data?.members?.pageInfo?.hasNextPage),
+            endCursor: result.data?.members?.pageInfo?.endCursor ?? null,
+          },
+        }))
       } finally {
         setLoadingMore(false)
       }
@@ -142,9 +172,10 @@ export default function ArchiveMembers() {
     isUpdatingFilters,
     endCursor,
     apolloClient,
-    selectedCountry,
+    effectiveSelectedCountry,
     debouncedSearch,
     baseMembers,
+    filterKey,
   ])
 
   const memberTitleOptions = useMemo(() => {
@@ -161,12 +192,6 @@ export default function ArchiveMembers() {
       .sort((a, b) => a.localeCompare(b))
   }, [allMembers])
 
-  useEffect(() => {
-    if (selectedCountry && !countryOptions.some((o) => o.value === selectedCountry)) {
-      setSelectedCountry(null)
-    }
-  }, [selectedCountry, countryOptions])
-
   const filteredCountryOptions = useMemo(() => {
     const normalizedSearch = countrySearch.trim().toLowerCase()
     if (!normalizedSearch) return countryOptions
@@ -178,7 +203,7 @@ export default function ArchiveMembers() {
     ? countryOptions.find((o) => o.value === selectedCountry)?.label || 'Country'
     : 'All Countries'
 
-  const hasActiveFilters = selectedCountry !== null || searchQuery.trim() !== ''
+  const hasActiveFilters = effectiveSelectedCountry !== null || searchQuery.trim() !== ''
 
   const handleResetFilters = () => {
     setSelectedCountry(null)

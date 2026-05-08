@@ -1,3 +1,6 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import type { NextConfig } from 'next'
 const hosts = [
   'eara.x00.online',
@@ -6,6 +9,8 @@ const hosts = [
   'lightskyblue-camel-505374.hostingersite.com',
   'backofficeadmin.eara.eu',
 ]
+
+const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const protocols = ['http', 'https'] as const
 
@@ -18,7 +23,11 @@ const remotePatterns = hosts.flatMap((hostname) =>
 )
 const nextConfig: NextConfig = {
   /* config options here */
+  turbopack: {
+    root: dirname,
+  },
   images: {
+    unoptimized: process.env.NODE_ENV === 'development',
     remotePatterns,
   },
 }

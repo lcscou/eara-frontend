@@ -1,9 +1,10 @@
 'use client'
-import { CaseStudiesCardProps } from '@/lib/types'
 import { Text, Title } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import { memo } from 'react'
+
+import { CaseStudiesCardProps } from '@/lib/types'
 
 function CaseStudiesCard({ title, uri, featuredImage, description }: CaseStudiesCardProps) {
   const alt = title ? `${title} photo` : 'Case Study photo'

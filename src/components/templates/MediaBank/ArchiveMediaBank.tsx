@@ -1,8 +1,6 @@
 'use client'
 
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
-
-import { extractYouTubeID, getMediaType } from '@/lib/utils'
+import { useSuspenseQuery } from '@apollo/client/react'
 import { Carousel } from '@mantine/carousel'
 import {
   ActionIcon,
@@ -30,24 +28,33 @@ import {
   IconZoomIn,
 } from '@tabler/icons-react'
 import clsx from 'clsx'
+import type { EmblaCarouselType } from 'embla-carousel'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
-// import { useSearchParams } from 'next/navigation'
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react'
 
-import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import { useSuspenseQuery } from '@apollo/client/react'
-import s from './ArchiveMediaBank.module.css'
+const Masonry = dynamic(() => import('react-responsive-masonry').then((mod) => mod.default), {
+  ssr: false,
+})
+
+const ResponsiveMasonry = dynamic(
+  () => import('react-responsive-masonry').then((mod) => mod.ResponsiveMasonry),
+  {
+    ssr: false,
+  }
+)
 
 const PAGE_SIZE = 12
 
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import {
   GetAllAnimalsInMediaBankDocument,
   GetMediabanksCountriesDocument,
   GetMediasBankDocument,
   GetMediasBankQuery,
 } from '@/graphql/generated/graphql'
-
+import { extractYouTubeID, getMediaType } from '@/lib/utils'
 type MediaItem = ReturnType<typeof getMediaType>[number]
 
 type NormalizedMediaItem = MediaItem & {
@@ -61,17 +68,17 @@ type NormalizedMediaItem = MediaItem & {
   renderType: 'image' | 'video' | 'unavailable'
 }
 
+import s from './ArchiveMediaBank.module.css'
+
 export default function ArchiveMediaBank() {
   const [loadingMore, setLoadingMore] = useState(false)
-  const [hasMounted, setHasMounted] = useState(false)
 
   const getSafeSrc = (src?: string | null) => {
     const normalized = src?.trim()
     return normalized ? normalized : null
   }
 
-  // const searchParams = useSearchParams()
-  // const media = searchParams.get('media')
+  // TODO(next16): restore query-based media selection when route/search params behavior is finalized.
   const media = null
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
@@ -93,64 +100,42 @@ export default function ArchiveMediaBank() {
     onDropdownClose: () => countryCombobox.resetSelectedOption(),
   })
 
-  useEffect(() => {
-    setHasMounted(true)
-  }, [])
-
-  useEffect(() => {
-    fetchMore({
-      variables: {
-        first: PAGE_SIZE,
-        after: null,
-        speciesFeatured: selectedAnimal || undefined,
-        country: selectedCountry || undefined,
-      },
-      updateQuery: (_, { fetchMoreResult }) => {
-        return fetchMoreResult || _
-      },
-    })
-  }, [selectedAnimal, selectedCountry, fetchMore])
-
   const hasNextPage = d?.mediasBank?.pageInfo.hasNextPage
   const endCursor = d?.mediasBank?.pageInfo?.endCursor
 
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
-    setTimeout(async () => {
-      try {
-        await fetchMore({
-          variables: {
-            first: PAGE_SIZE,
-            after: endCursor,
-            speciesFeatured: selectedAnimal || undefined,
-            country: selectedCountry || undefined,
+    void fetchMore({
+      variables: {
+        first: PAGE_SIZE,
+        after: endCursor,
+        speciesFeatured: selectedAnimal || undefined,
+        country: selectedCountry || undefined,
+      },
+      updateQuery: (
+        prev: GetMediasBankQuery,
+        { fetchMoreResult }: { fetchMoreResult?: GetMediasBankQuery }
+      ) => {
+        if (!fetchMoreResult?.mediasBank?.nodes) return prev
+        return {
+          ...prev,
+          mediasBank: {
+            ...fetchMoreResult.mediasBank,
+            pageInfo: fetchMoreResult.mediasBank.pageInfo,
+            nodes: [
+              ...(prev?.mediasBank?.nodes ?? []),
+              ...(fetchMoreResult.mediasBank.nodes ?? []),
+            ],
           },
-          updateQuery: (
-            prev: GetMediasBankQuery,
-            { fetchMoreResult }: { fetchMoreResult?: GetMediasBankQuery }
-          ) => {
-            if (!fetchMoreResult?.mediasBank?.nodes) return prev
-            return {
-              ...prev,
-              mediasBank: {
-                ...fetchMoreResult.mediasBank,
-                pageInfo: fetchMoreResult.mediasBank.pageInfo,
-                nodes: [
-                  ...(prev?.mediasBank?.nodes ?? []),
-                  ...(fetchMoreResult.mediasBank.nodes ?? []),
-                ],
-              },
-            }
-          },
-        })
-      } finally {
-        setLoadingMore(false)
-      }
-    }, 0)
+        }
+      },
+    }).finally(() => {
+      setLoadingMore(false)
+    })
   }, [hasNextPage, loadingMore, endCursor, fetchMore, selectedAnimal, selectedCountry])
 
-  const filteredeMediaBank = useMemo(() => {
+  const filteredMediaBank = useMemo(() => {
     const nodes = d?.mediasBank?.nodes ?? []
     return getMediaType(nodes)
   }, [d])
@@ -177,39 +162,95 @@ export default function ArchiveMediaBank() {
   }, [])
 
   const normalizedMediaBank = useMemo<NormalizedMediaItem[]>(
-    () => filteredeMediaBank.map(normalizeMediaItem),
-    [filteredeMediaBank, normalizeMediaItem]
+    () => filteredMediaBank.map(normalizeMediaItem),
+    [filteredMediaBank, normalizeMediaItem]
   )
 
-  const getIndexFromSlug = (slug: string | null) =>
-    normalizedMediaBank.findIndex((item) => item.slug === slug)
-
-  const [index, setIndex] = useState(getIndexFromSlug(media) >= 0 ? getIndexFromSlug(media) : 0)
-  const [opened, { open, close }] = useDisclosure(getIndexFromSlug(media) >= 0 ? true : false)
-  const currentMedia = normalizedMediaBank[index]
-  const handleClick = (ev: MouseEvent<HTMLDivElement>) => {
-    setIndex(Number(ev.currentTarget.dataset.index))
-    open()
-  }
-
-  function handleNext() {
-    if (index < normalizedMediaBank.length - 1) {
-      setIndex(index + 1)
-    }
-  }
-  function handlePrevious() {
-    if (index > 0) {
-      setIndex(index - 1)
-    }
-  }
-
-  useHotkeys(
-    [
-      ['ArrowLeft', () => opened && handlePrevious()],
-      ['ArrowRight', () => opened && handleNext()],
-    ],
-    [String(opened), String(index), String(normalizedMediaBank.length)]
+  const getIndexFromSlug = useCallback(
+    (slug: string | null) => normalizedMediaBank.findIndex((item) => item.slug === slug),
+    [normalizedMediaBank]
   )
+
+  const [index, setIndex] = useState(0)
+  const [carouselApi, setCarouselApi] = useState<EmblaCarouselType | null>(null)
+  const [opened, { open, close }] = useDisclosure(false)
+
+  useEffect(() => {
+    if (!media) return
+    const nextIndex = getIndexFromSlug(media)
+    if (nextIndex >= 0) {
+      setIndex(nextIndex)
+      open()
+    }
+  }, [media, getIndexFromSlug, open])
+
+  const safeIndex = useMemo(() => {
+    if (normalizedMediaBank.length === 0) return 0
+    return Math.min(index, normalizedMediaBank.length - 1)
+  }, [index, normalizedMediaBank.length])
+
+  const currentMedia = normalizedMediaBank[safeIndex]
+
+  const handleClick = useCallback(
+    (ev: MouseEvent<HTMLDivElement>) => {
+      const rawIndex = ev.currentTarget.dataset.index
+      if (rawIndex == null) return
+      const nextIndex = Number(rawIndex)
+      if (Number.isNaN(nextIndex)) return
+      setIndex(nextIndex)
+      open()
+    },
+    [open]
+  )
+
+  const handleNext = useCallback(() => {
+    setIndex((prev) => (prev < normalizedMediaBank.length - 1 ? prev + 1 : prev))
+  }, [normalizedMediaBank.length])
+
+  const handlePrevious = useCallback(() => {
+    setIndex((prev) => (prev > 0 ? prev - 1 : prev))
+  }, [])
+
+  const handleSelectCarouselItem = useCallback((nextIndex: number) => {
+    setIndex(nextIndex)
+  }, [])
+
+  const getMediaKey = useCallback(
+    (item: NormalizedMediaItem, idx: number) =>
+      item.id ?? item.slug ?? item.mediaRef ?? `media-${idx}`,
+    []
+  )
+
+  useHotkeys([
+    ['ArrowLeft', () => opened && handlePrevious()],
+    ['ArrowRight', () => opened && handleNext()],
+  ])
+
+  useEffect(() => {
+    if (!carouselApi) return
+    if (carouselApi.selectedScrollSnap() === safeIndex) return
+    carouselApi.scrollTo(safeIndex)
+  }, [carouselApi, safeIndex])
+
+  useEffect(() => {
+    if (!carouselApi) return
+
+    const syncIndexFromCarousel = () => {
+      const selected = carouselApi.selectedScrollSnap()
+      setIndex((prev) => (prev === selected ? prev : selected))
+    }
+
+    carouselApi.on('select', syncIndexFromCarousel)
+    return () => {
+      carouselApi.off('select', syncIndexFromCarousel)
+    }
+  }, [carouselApi])
+
+  useEffect(() => {
+    if (normalizedMediaBank.length === 0 && opened) {
+      close()
+    }
+  }, [normalizedMediaBank.length, opened, close])
 
   return (
     <>
@@ -291,55 +332,53 @@ export default function ArchiveMediaBank() {
 
         {normalizedMediaBank?.length === 0 && <ResultNotFound />}
 
-        {hasMounted && (
-          <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
-            <Masonry gutter="1rem">
-              {normalizedMediaBank.map((item, idx) => (
-                <div key={item.id || idx}>
-                  {item.renderType === 'video' && item.videoId && (
-                    <VideoItem idx={idx} onClick={handleClick} videoURL={item.videoId} />
-                  )}
-                  {item.renderType === 'image' && item.imageSrc && (
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
+          <Masonry gutter="1rem">
+            {normalizedMediaBank.map((item, idx) => (
+              <div key={getMediaKey(item, idx)}>
+                {item.renderType === 'video' && item.videoId && (
+                  <VideoItem idx={idx} onClick={handleClick} videoURL={item.videoId} />
+                )}
+                {item.renderType === 'image' && item.imageSrc && (
+                  <div
+                    onClick={handleClick}
+                    data-index={idx}
+                    className={clsx(
+                      'relative cursor-pointer overflow-hidden rounded-lg',
+                      s.galleryItem
+                    )}
+                  >
+                    <Image
+                      className="rounded-lg"
+                      width={item.width || 1200}
+                      height={item.height || 800}
+                      src={item.imageSrc}
+                      alt={item.description || ''}
+                    />
                     <div
-                      onClick={handleClick}
-                      data-index={idx}
                       className={clsx(
-                        'relative cursor-pointer overflow-hidden rounded-lg',
-                        s.galleryItem
+                        'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
+                        s.overlay
                       )}
                     >
-                      <Image
-                        className="rounded-lg"
-                        width={item.width || 1200}
-                        height={item.height || 800}
-                        src={item.imageSrc}
-                        alt={item.description || ''}
-                      />
-                      <div
-                        className={clsx(
-                          'absolute top-0 right-0 flex h-full w-full items-center justify-center bg-black/60 p-1 text-white',
-                          s.overlay
-                        )}
-                      >
-                        <IconZoomIn size={30} />
-                      </div>
+                      <IconZoomIn size={30} />
                     </div>
-                  )}
-                  {item.renderType === 'unavailable' && (
-                    <div className="bg-earaBgLight flex min-h-[180px] flex-col items-center justify-center rounded-lg p-4 text-center text-sm">
-                      <span>Media unavailable</span>
-                      <span>Slug: {item.slug || 'N/A'}</span>
-                      <span>ID: {item.id || 'N/A'}</span>
-                      <span>image.guid: {item.imageGuid || 'N/A'}</span>
-                      <span>videoUrl: {item.videoUrlRaw || 'N/A'}</span>
-                      <span>Media ref: {item.mediaRef || 'N/A'}</span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </Masonry>
-          </ResponsiveMasonry>
-        )}
+                  </div>
+                )}
+                {item.renderType === 'unavailable' && (
+                  <div className="bg-earaBgLight flex min-h-45 flex-col items-center justify-center rounded-lg p-4 text-center text-sm">
+                    <span>Media unavailable</span>
+                    <span>Slug: {item.slug || 'N/A'}</span>
+                    <span>ID: {item.id || 'N/A'}</span>
+                    <span>image.guid: {item.imageGuid || 'N/A'}</span>
+                    <span>videoUrl: {item.videoUrlRaw || 'N/A'}</span>
+                    <span>Media ref: {item.mediaRef || 'N/A'}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
 
         <Modal
           opened={opened}
@@ -358,10 +397,10 @@ export default function ArchiveMediaBank() {
                   <div className="pointer-events-none absolute top-0 z-10 flex h-[calc(100%)] w-full justify-between">
                     <div className="pointer-events-auto flex h-full items-center justify-center bg-red-50/0 p-4">
                       <ActionIcon
-                        onClick={() => setIndex(index - 1)}
+                        onClick={handlePrevious}
                         variant="light"
                         size="xl"
-                        disabled={index <= 0}
+                        disabled={safeIndex <= 0}
                         radius="xl"
                         aria-label="Previous Image"
                       >
@@ -370,9 +409,9 @@ export default function ArchiveMediaBank() {
                     </div>
                     <div className="pointer-events-auto flex h-full items-center justify-center bg-red-50/0 p-4">
                       <ActionIcon
-                        onClick={() => setIndex(index + 1)}
+                        onClick={handleNext}
                         variant="light"
-                        disabled={index == normalizedMediaBank.length - 1}
+                        disabled={safeIndex === normalizedMediaBank.length - 1}
                         size="xl"
                         radius="xl"
                         aria-label="Next Image"
@@ -414,7 +453,7 @@ export default function ArchiveMediaBank() {
                 </div>
               </div>
               <div className="col-span-1 row-span-1 p-4 lg:col-span-2 lg:col-start-5 lg:row-span-4 lg:p-7">
-                <div className="bg-earaBgLight h-full max-h-[400px] overflow-y-auto rounded-lg p-4 lg:max-h-none lg:p-8">
+                <div className="bg-earaBgLight h-full max-h-100 overflow-y-auto rounded-lg p-4 lg:max-h-none lg:p-8">
                   <List spacing="md" size="md">
                     <List.Item icon={<IconPaw className="text-secondaryColor" />}>
                       <small className="uppercase">
@@ -481,23 +520,24 @@ export default function ArchiveMediaBank() {
               </div>
               <div className="col-span-1 row-span-1 flex w-full items-center overflow-hidden p-2 lg:col-span-6 lg:row-start-5 lg:px-5">
                 <Carousel
+                  getEmblaApi={setCarouselApi}
                   slideSize={100}
                   emblaOptions={{ align: 'center' }}
-                  defaultValue={index}
+                  initialSlide={safeIndex}
                   slideGap={5}
                   w="100%"
                 >
                   {normalizedMediaBank.map((item, idx) => (
                     <Carousel.Slide
-                      onClick={() => setIndex(idx)}
-                      key={idx}
+                      onClick={() => handleSelectCarouselItem(idx)}
+                      key={getMediaKey(item, idx)}
                       className={clsx(
                         'cursor-pointer opacity-60 saturate-0 hover:saturate-100',
-                        index === idx ? 'opacity-100 saturate-100' : ''
+                        safeIndex === idx ? 'opacity-100 saturate-100' : ''
                       )}
                     >
                       {item.renderType === 'video' && (
-                        <div className="relative aspect-square w-[70px] overflow-hidden rounded-lg object-cover lg:w-[70px]">
+                        <div className="relative aspect-square w-17.5 overflow-hidden rounded-lg object-cover lg:w-17.5">
                           <div className="absolute top-0 left-0 z-40 flex h-full w-full items-center justify-center bg-black/50">
                             <div className="bg-secondaryColor flex aspect-square w-8 items-center justify-center rounded-full lg:w-10">
                               <IconPlayerPlayFilled size={20} className="lg:size-5" />
@@ -515,7 +555,7 @@ export default function ArchiveMediaBank() {
                         />
                       )}
                       {item.renderType === 'unavailable' && (
-                        <div className="bg-earaBgLight flex aspect-square w-[70px] items-center justify-center rounded-lg text-[10px]">
+                        <div className="bg-earaBgLight flex aspect-square w-17.5 items-center justify-center rounded-lg text-[10px]">
                           N/A
                         </div>
                       )}
@@ -531,7 +571,7 @@ export default function ArchiveMediaBank() {
                       onFocus={() => handleLoadMore()}
                       onClick={() => handleLoadMore()}
                     >
-                      <div className="bg-earaBgLight flex aspect-square w-[70px] items-center justify-center rounded-lg lg:w-[70px]">
+                      <div className="bg-earaBgLight flex aspect-square w-17.5 items-center justify-center rounded-lg lg:w-17.5">
                         <Loader size="sm" />
                       </div>
                     </Carousel.Slide>

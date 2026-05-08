@@ -1,14 +1,14 @@
 'use client'
 
-import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
-import CaseStudiesCard from '@/components/ui/CaseStudiesCard/CaseStudiesCard'
-import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
-import { GetAllCaseStudiesDocument, GetAllCaseStudiesQuery } from '@/graphql/generated/graphql'
-
 import { useSuspenseQuery } from '@apollo/client/react'
 import { Button, Combobox, Container, Group, Loader, useCombobox } from '@mantine/core'
 import { IconChevronDown, IconRestore } from '@tabler/icons-react'
 import { useCallback, useEffect, useState } from 'react'
+
+import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
+import CaseStudiesCard from '@/components/ui/CaseStudiesCard/CaseStudiesCard'
+import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
+import { GetAllCaseStudiesDocument, GetAllCaseStudiesQuery } from '@/graphql/generated/graphql'
 
 const PAGE_SIZE = 12
 

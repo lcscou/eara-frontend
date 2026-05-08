@@ -88,7 +88,8 @@ const cache = new InMemoryCache({
           },
         },
         allNews: {
-          keyArgs: ['where'],
+          // Keep filter sets grouped, but avoid collisions between first/last page sizes.
+          keyArgs: ['where', 'first', 'last'],
           merge(existing, incoming, { args }) {
             if (!existing) return incoming
             if (args?.after) {

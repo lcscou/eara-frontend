@@ -1,12 +1,14 @@
 'use client'
-import { HeaderMegaMenuProps, HeaderMenuItemsProps, MenuItemMobileProps } from '@/lib/types'
-import { getMenu } from '@/lib/utils'
 import { Burger, Button, Container, Drawer, Group, HoverCard, NavLink } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { IconChevronDown } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
+import { HeaderMegaMenuProps, HeaderMenuItemsProps, MenuItemMobileProps } from '@/lib/types'
+import { getMenu } from '@/lib/utils'
+
 import Search from '../Search/Search'
 
 const ACTIVE_COLOR = '#8fbf29'

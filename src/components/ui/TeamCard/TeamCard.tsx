@@ -1,7 +1,9 @@
-import { TeamCardProps } from '@/lib/types'
 import { Title } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { TeamCardProps } from '@/lib/types'
+
 import styles from './TeamCard.module.css'
 
 export default function TeamCard({ title, featuredImage, uri, role }: TeamCardProps) {
