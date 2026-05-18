@@ -37,13 +37,11 @@ function PageTitleBarComponent({
   aditionalInfoTable,
 }: PageTitleBarProps) {
   const dateText = useMemo(() => {
-    if (!eventStartDate) return null
-    const start = new Date(eventStartDate)
-    const end = eventEndDate ? new Date(eventEndDate) : null
-    // const opts: Intl.DateTimeFormatOptions = { dateStyle: 'medium' }
-    return end
-      ? `${formatEventDate(start.toDateString())} - ${formatEventDate(end.toDateString())}`
-      : formatEventDate(start.toDateString())
+    const start = formatEventDate(eventStartDate ?? undefined)
+    if (!start) return null
+
+    const end = formatEventDate(eventEndDate ?? undefined)
+    return end ? `${start} - ${end}` : start
   }, [eventStartDate, eventEndDate])
 
   const containerClass = clsx(

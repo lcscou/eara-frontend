@@ -121,7 +121,30 @@ export function formatEventDate(date?: string): string | null {
     return null
   }
 
-  const parsedDate = new Date(date)
+  const value = date.trim()
+
+  // Preserve calendar dates from ISO-like values (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss)
+  // to avoid timezone shifts between users in different regions.
+  const isoCalendarMatch = value.match(/^(\d{4})-(\d{2})-(\d{2})(?:$|[T\s])/)
+
+  let parsedDate: Date
+
+  if (isoCalendarMatch) {
+    const year = Number(isoCalendarMatch[1])
+    const month = Number(isoCalendarMatch[2])
+    const day = Number(isoCalendarMatch[3])
+    parsedDate = new Date(Date.UTC(year, month - 1, day))
+
+    if (
+      parsedDate.getUTCFullYear() !== year ||
+      parsedDate.getUTCMonth() !== month - 1 ||
+      parsedDate.getUTCDate() !== day
+    ) {
+      return null
+    }
+  } else {
+    parsedDate = new Date(value)
+  }
 
   if (isNaN(parsedDate.getTime())) {
     return null
