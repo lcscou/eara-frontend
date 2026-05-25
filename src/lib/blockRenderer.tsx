@@ -27,6 +27,7 @@ import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
+import FormContainer, { type EaraFormFieldBlock } from '@/components/ui/FormContainer/FormContainer'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import JoinEaraForm from '@/components/ui/JoinEaraForm/JoinEaraForm'
@@ -338,6 +339,15 @@ export interface EaraJoinEaraFormAttributes extends BlockAttribute {
   submitUrl?: string
   renderMode?: 'modal' | 'inline'
   metadata?: Record<string, unknown>
+}
+
+export interface EaraFormContainerAttributes extends BlockAttribute {
+  recipient?: string
+  successMessage?: string
+  errorMessage?: string
+  lock?: Record<string, unknown>
+  className?: string
+  style?: Record<string, unknown>
 }
 
 export interface EaraGalleryImage {
@@ -3559,6 +3569,49 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           submitUrl={submitUrl}
           renderMode={renderMode}
         />
+      )
+    }
+
+    case 'eara/form-container': {
+      const attributes_form_container = attributes as EaraFormContainerAttributes | undefined
+      const recipient = attributes_form_container?.recipient || ''
+      const successMessage =
+        attributes_form_container?.successMessage || 'Thank you! Your message has been sent.'
+      const errorMessage =
+        attributes_form_container?.errorMessage || 'Something went wrong. Please try again.'
+      const className = attributes_form_container?.className || ''
+
+      const {
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
+      return (
+        <Box
+          key={index}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+        >
+          <FormContainer
+            className={className}
+            recipient={recipient}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            fields={innerBlocks as EaraFormFieldBlock[]}
+          />
+        </Box>
       )
     }
 
