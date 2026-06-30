@@ -57,6 +57,7 @@ const redirects: Record<string, string> = {
   '/sweden': '/projects/ambassadors-nework',
   '/portugal': '/projects/ambassadors-nework',
   '/news/categories/estonia': '/news',
+  '/which-animals-are-used-in-research': '/diseases/brain',
 }
 
 export function proxy(request: NextRequest) {
