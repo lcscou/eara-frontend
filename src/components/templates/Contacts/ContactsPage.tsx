@@ -124,15 +124,24 @@ export default function ContactPage() {
     [data?.offices?.nodes]
   )
 
-  // Define o primeiro escritório como padrão
-  const defaultOfficeId = offices[0]?.id
+  const [currentTabId, setCurrentTabId] = useState<string | undefined>(undefined)
 
-  const [currentTabId, setCurrentTabId] = useState<string | undefined>(defaultOfficeId)
+  // Usa seleção atual quando válida, senão cai para o primeiro escritório.
+  const selectedOfficeId = useMemo(() => {
+    if (offices.length === 0) return undefined
+
+    const hasValidSelection =
+      currentTabId != null && offices.some((office) => office.id === currentTabId)
+
+    if (hasValidSelection) return currentTabId
+
+    return offices[0].id
+  }, [offices, currentTabId])
 
   // Encontra o escritório atualmente selecionado
   const currentOffice = useMemo(
-    () => offices.find((office) => office.id === currentTabId),
-    [offices, currentTabId]
+    () => offices.find((office) => office.id === selectedOfficeId),
+    [offices, selectedOfficeId]
   )
 
   // Obtém a URL do mapa do escritório selecionado
@@ -144,7 +153,7 @@ export default function ContactPage() {
   if (loading && offices.length === 0) {
     return (
       <Container size="xl" my={100}>
-        <Text c="dimmed">A carregar contactos...</Text>
+        <Text c="dimmed">Loading contacts...</Text>
       </Container>
     )
   }
@@ -152,7 +161,7 @@ export default function ContactPage() {
   if (error && offices.length === 0) {
     return (
       <Container size="xl" my={100}>
-        <Text c="dimmed">Nao foi possivel carregar os contactos neste momento.</Text>
+        <Text c="dimmed">Unable to load contacts at this time.</Text>
       </Container>
     )
   }
@@ -161,7 +170,7 @@ export default function ContactPage() {
     <>
       <Container size="xl" my={100}>
         <div className="grid grid-cols-1 gap-20 sm:grid-cols-2">
-          {/* Mapa do Google */}
+          {/* Google Map */}
           <div>
             <OfficeMapFrame googleMapsUrl={currentMapUrl} />
             <div className={clsx('mt-5 w-full rounded-xl bg-white p-8 text-left transition-all')}>
@@ -178,10 +187,10 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Lista de escritórios */}
+          {/* Offices List */}
           <OfficesList
             offices={offices}
-            currentTabId={currentTabId}
+            currentTabId={selectedOfficeId}
             onTabChange={setCurrentTabId}
           />
         </div>
