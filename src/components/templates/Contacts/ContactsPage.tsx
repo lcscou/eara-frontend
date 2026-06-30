@@ -1,6 +1,6 @@
 'use client'
 
-import { useSuspenseQuery } from '@apollo/client/react'
+import { useQuery } from '@apollo/client/react'
 import { Container, Stack, Text, Title } from '@mantine/core'
 import clsx from 'clsx'
 import { useMemo, useState } from 'react'
@@ -23,7 +23,7 @@ function OfficeMapFrame({ googleMapsUrl }: { googleMapsUrl?: string | null }) {
         className="flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50"
         style={{ height: '550px' }}
       >
-        <Text c="dimmed">Mapa não disponível</Text>
+        <Text c="dimmed">Maps not available</Text>
       </div>
     )
   }
@@ -92,7 +92,7 @@ function OfficesList({
   if (!offices || offices.length === 0) {
     return (
       <Stack gap={10}>
-        <Text c="dimmed">Nenhum escritório disponível</Text>
+        <Text c="dimmed">No offices available</Text>
       </Stack>
     )
   }
@@ -112,12 +112,16 @@ function OfficesList({
 }
 
 export default function ContactPage() {
-  const { data } = useSuspenseQuery(GetAllOfficesDocument)
+  const { data, loading, error } = useQuery(GetAllOfficesDocument, {
+    errorPolicy: 'all',
+    // Avoid hard failures during SSR/prerender when backend is temporarily unavailable.
+    ssr: false,
+  })
 
   // Extrai lista de escritórios com validação
   const offices = useMemo(
-    () => data.offices?.nodes?.filter((office): office is Office => office != null) ?? [],
-    [data.offices?.nodes]
+    () => data?.offices?.nodes?.filter((office): office is Office => office != null) ?? [],
+    [data?.offices?.nodes]
   )
 
   // Define o primeiro escritório como padrão
@@ -136,6 +140,22 @@ export default function ContactPage() {
     () => currentOffice?.acfOffices?.googleMaps ?? undefined,
     [currentOffice]
   )
+
+  if (loading && offices.length === 0) {
+    return (
+      <Container size="xl" my={100}>
+        <Text c="dimmed">A carregar contactos...</Text>
+      </Container>
+    )
+  }
+
+  if (error && offices.length === 0) {
+    return (
+      <Container size="xl" my={100}>
+        <Text c="dimmed">Nao foi possivel carregar os contactos neste momento.</Text>
+      </Container>
+    )
+  }
 
   return (
     <>
