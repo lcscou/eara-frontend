@@ -3,7 +3,7 @@ import { useSuspenseQuery } from '@apollo/client/react'
 import { Button, Combobox, Container, Group, Loader, Skeleton, useCombobox } from '@mantine/core'
 import { IconCheck, IconChevronDown, IconRestore } from '@tabler/icons-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useCallback, useMemo, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import EventCard from '@/components/ui/EventCard/EventCard'
@@ -37,6 +37,7 @@ function ArchiveEventsContent() {
   const [selectedStatus, setSelectedStatus] = useState<'all' | 'upcoming' | 'past'>(
     parseStatus(initialStatusParam)
   )
+  const isAutoFetchingRef = useRef(false)
 
   const { data, fetchMore } = useSuspenseQuery<GetAllEventsQuery>(GetAllEventsDocument, {
     variables: { first: PAGE_SIZE },
@@ -134,36 +135,52 @@ function ArchiveEventsContent() {
     selectedStatus,
   ])
 
+  const isDefaultUpcomingView =
+    selectedStatus === 'upcoming' && !selectedCategory && !selectedCountry && !selectedLocationType
+
+  const shouldAutoLoadMore = isDefaultUpcomingView && filteredEvents.length === 0 && !!hasNextPage
+
+  const mergeEventsQuery = useCallback(
+    (prev: GetAllEventsQuery, fetchMoreResult?: GetAllEventsQuery): GetAllEventsQuery => {
+      if (!fetchMoreResult?.allEvents?.nodes) return prev
+      return {
+        ...prev,
+        allEvents: {
+          ...fetchMoreResult.allEvents,
+          pageInfo: fetchMoreResult.allEvents.pageInfo,
+          nodes: [...(prev?.allEvents?.nodes ?? []), ...(fetchMoreResult.allEvents.nodes ?? [])],
+        },
+      }
+    },
+    []
+  )
+
   const handleLoadMore = useCallback(() => {
     if (!hasNextPage || loadingMore) return
     setLoadingMore(true)
     setTimeout(async () => {
       try {
         await fetchMore({
-          variables: { first: PAGE_SIZE, before: endCursor },
-          updateQuery: (
-            prev: GetAllEventsQuery,
-            { fetchMoreResult }: { fetchMoreResult?: GetAllEventsQuery }
-          ) => {
-            if (!fetchMoreResult?.allEvents?.nodes) return prev
-            return {
-              ...prev,
-              allEvents: {
-                ...fetchMoreResult.allEvents,
-                pageInfo: fetchMoreResult.allEvents.pageInfo,
-                nodes: [
-                  ...(prev?.allEvents?.nodes ?? []),
-                  ...(fetchMoreResult.allEvents.nodes ?? []),
-                ],
-              },
-            }
-          },
+          variables: { first: PAGE_SIZE, after: endCursor },
+          updateQuery: (prev, { fetchMoreResult }) => mergeEventsQuery(prev, fetchMoreResult),
         })
       } finally {
         setLoadingMore(false)
       }
     }, 0)
-  }, [hasNextPage, loadingMore, endCursor, fetchMore])
+  }, [hasNextPage, loadingMore, endCursor, fetchMore, mergeEventsQuery])
+
+  useEffect(() => {
+    if (!shouldAutoLoadMore || !endCursor || isAutoFetchingRef.current) return
+
+    isAutoFetchingRef.current = true
+    fetchMore({
+      variables: { first: PAGE_SIZE, after: endCursor },
+      updateQuery: (prev, { fetchMoreResult }) => mergeEventsQuery(prev, fetchMoreResult),
+    }).finally(() => {
+      isAutoFetchingRef.current = false
+    })
+  }, [shouldAutoLoadMore, endCursor, fetchMore, mergeEventsQuery])
 
   const statusCombobox = useCombobox({
     onDropdownClose: () => statusCombobox.resetSelectedOption(),
@@ -360,12 +377,16 @@ function ArchiveEventsContent() {
           </div>
         ) : (
           <>
-            {selectedStatus === 'upcoming' &&
-            !selectedCategory &&
-            !selectedCountry &&
-            !selectedLocationType ? (
+            {isDefaultUpcomingView ? (
               <div className="mt-10 text-center">
-                <p className="text-lg text-gray-600">No events scheduled at the moment.</p>
+                {shouldAutoLoadMore || loadingMore ? (
+                  <Group justify="center" gap={8}>
+                    <Loader size="sm" />
+                    <p className="text-lg text-gray-600">Loading events...</p>
+                  </Group>
+                ) : (
+                  <p className="text-lg text-gray-600">No events scheduled at the moment.</p>
+                )}
               </div>
             ) : (
               <ResultNotFound resetFilters={handleResetFilters} />

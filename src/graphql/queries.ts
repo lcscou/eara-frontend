@@ -593,8 +593,8 @@ export const GetAllEvents = gql`
       }
       last: $last
       first: $first
-      after: $before
-      before: $after
+      after: $after
+      before: $before
     ) {
       pageInfo {
         endCursor

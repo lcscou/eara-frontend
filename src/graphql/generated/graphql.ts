@@ -32232,12 +32232,12 @@ export const GetAllEventsDocument = {
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'after' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
               },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'before' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
               },
             ],
             selectionSet: {
