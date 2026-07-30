@@ -370,6 +370,7 @@ function ArchiveEventsContent() {
                 excerpt={truncateText(event?.customFields?.description || '', 15)}
                 title={event?.title || ''}
                 date={event?.customFields?.startDate || ''}
+                endDate={event?.customFields?.endDate || ''}
                 category={event?.categoriesEvents?.nodes?.[0]?.name || 'General'}
                 featuredImage={event?.featuredImage?.node?.guid || ''}
               />

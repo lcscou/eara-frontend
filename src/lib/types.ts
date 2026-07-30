@@ -179,6 +179,7 @@ export interface EventCardProps {
   id?: string
   title: string
   date?: string
+  endDate?: string
   excerpt?: string
   category?: string
   featuredImage?: string

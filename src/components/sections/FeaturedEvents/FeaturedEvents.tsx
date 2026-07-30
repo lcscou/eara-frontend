@@ -105,6 +105,7 @@ export default function FeaturedEvents({
                 category={event?.categoriesEvents?.nodes?.[0]?.name || 'General'}
                 link={event.uri || '#'}
                 date={event.customFields?.startDate || undefined}
+                endDate={event.customFields?.endDate || undefined}
                 location={event.customFields?.location || undefined}
                 excerpt={truncateText(event?.customFields?.description || '', 15)}
                 title={event.title || 'Untitled Event'}
