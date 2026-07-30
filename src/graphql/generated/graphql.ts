@@ -25948,6 +25948,7 @@ export type GetPostQuery_RootQuery = {
 export type GetPostQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
   idType?: InputMaybe<PostIdType>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetPostQuery = GetPostQuery_RootQuery
@@ -26008,9 +26009,194 @@ export type GetPageQuery_RootQuery = {
 
 export type GetPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetPageQuery = GetPageQuery_RootQuery
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Animal = {
+  __typename: 'Animal'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_CaseStudies = {
+  __typename: 'CaseStudies'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_DataChart = {
+  __typename: 'DataChart'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Diseases = {
+  __typename: 'Diseases'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Events = {
+  __typename: 'Events'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_GraphqlDocument = {
+  __typename: 'GraphqlDocument'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaBank = {
+  __typename: 'MediaBank'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaItem = {
+  __typename: 'MediaItem'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Member = {
+  __typename: 'Member'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_News = {
+  __typename: 'News'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Office = {
+  __typename: 'Office'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Page = {
+  __typename: 'Page'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Post = {
+  __typename: 'Post'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_PressRelease = {
+  __typename: 'PressRelease'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_ResearchArea = {
+  __typename: 'ResearchArea'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Team = {
+  __typename: 'Team'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Ticker = {
+  __typename: 'Ticker'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode =
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Animal
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_CaseStudies
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_DataChart
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Diseases
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Events
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_GraphqlDocument
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaBank
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaItem
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Member
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_News
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Office
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Page
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Post
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_PressRelease
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_ResearchArea
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Team
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Ticker
+
+export type GetPreviewAccessByUriQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  contentNode?: GetPreviewAccessByUriQuery_RootQuery_contentNode | null
+}
+
+export type GetPreviewAccessByUriQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
+}>
+
+export type GetPreviewAccessByUriQuery = GetPreviewAccessByUriQuery_RootQuery
 
 export type GetAnimalQuery_RootQuery_animal_Animal_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
@@ -26081,6 +26267,7 @@ export type GetAnimalQuery_RootQuery = {
 
 export type GetAnimalQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetAnimalQuery = GetAnimalQuery_RootQuery
@@ -27964,6 +28151,7 @@ export type GetNewsQuery_RootQuery = {
 
 export type GetNewsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetNewsQuery = GetNewsQuery_RootQuery
@@ -28563,6 +28751,7 @@ export type GetEventsQuery_RootQuery = {
 
 export type GetEventsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetEventsQuery = GetEventsQuery_RootQuery
@@ -28767,6 +28956,7 @@ export type GetDiseasesQuery_RootQuery = {
 
 export type GetDiseasesQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetDiseasesQuery = GetDiseasesQuery_RootQuery
@@ -28925,6 +29115,7 @@ export type GetMembersQuery_RootQuery = {
 
 export type GetMembersQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetMembersQuery = GetMembersQuery_RootQuery
@@ -29413,6 +29604,7 @@ export type GetCaseStudiesQuery_RootQuery = {
 
 export type GetCaseStudiesQueryVariables = Exact<{
   id: Scalars['ID']['input']
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetCaseStudiesQuery = GetCaseStudiesQuery_RootQuery
@@ -29518,6 +29710,7 @@ export type GetTeamQuery_RootQuery = {
 
 export type GetTeamQueryVariables = Exact<{
   id: Scalars['ID']['input']
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetTeamQuery = GetTeamQuery_RootQuery
@@ -29774,6 +29967,7 @@ export type GetPressReleaseQuery_RootQuery = {
 
 export type GetPressReleaseQueryVariables = Exact<{
   id: Scalars['ID']['input']
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetPressReleaseQuery = GetPressReleaseQuery_RootQuery
@@ -30452,6 +30646,12 @@ export const GetPostDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'PostIdType' } },
           defaultValue: { kind: 'EnumValue', value: 'URI' },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -30469,6 +30669,11 @@ export const GetPostDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'idType' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -30519,6 +30724,12 @@ export const GetPageDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -30536,6 +30747,11 @@ export const GetPageDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -30621,6 +30837,67 @@ export const GetPageDocument = {
     },
   ],
 } as unknown as DocumentNode<GetPageQuery, GetPageQueryVariables>
+export const GetPreviewAccessByUriDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPreviewAccessByUri' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          defaultValue: { kind: 'StringValue', value: '', block: false },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: true },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contentNode' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'idType' },
+                value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isPreview' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isRestricted' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetPreviewAccessByUriQuery, GetPreviewAccessByUriQueryVariables>
 export const GetAnimalDocument = {
   kind: 'Document',
   definitions: [
@@ -30634,6 +30911,12 @@ export const GetAnimalDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
         },
       ],
       selectionSet: {
@@ -30652,6 +30935,11 @@ export const GetAnimalDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -31140,6 +31428,12 @@ export const GetNewsDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -31157,6 +31451,11 @@ export const GetNewsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -31818,6 +32117,12 @@ export const GetEventsDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -31835,6 +32140,11 @@ export const GetEventsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -32471,6 +32781,12 @@ export const GetDiseasesDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -32488,6 +32804,11 @@ export const GetDiseasesDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -32780,6 +33101,12 @@ export const GetMembersDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -32797,6 +33124,11 @@ export const GetMembersDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -33693,6 +34025,12 @@ export const GetCaseStudiesDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -33710,6 +34048,11 @@ export const GetCaseStudiesDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -33926,6 +34269,12 @@ export const GetTeamDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -33943,6 +34292,11 @@ export const GetTeamDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -34441,6 +34795,12 @@ export const GetPressReleaseDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -34458,6 +34818,11 @@ export const GetPressReleaseDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {

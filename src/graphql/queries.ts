@@ -26,8 +26,8 @@ export const GetPages = gql`
   }
 `
 export const GetPost = gql`
-  query GetPost($id: ID = "", $idType: PostIdType = URI) {
-    post(id: $id, idType: $idType) {
+  query GetPost($id: ID = "", $idType: PostIdType = URI, $asPreview: Boolean = false) {
+    post(id: $id, idType: $idType, asPreview: $asPreview) {
       title
       content
       blocks
@@ -41,8 +41,8 @@ export const GetPost = gql`
   }
 `
 export const GetPage = gql`
-  query GetPage($id: ID = "") {
-    page(id: $id, idType: URI) {
+  query GetPage($id: ID = "", $asPreview: Boolean = false) {
+    page(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -73,6 +73,19 @@ export const GetPage = gql`
           title
         }
       }
+    }
+  }
+`
+
+export const GetPreviewAccessByUri = gql`
+  query GetPreviewAccessByUri($id: ID = "", $asPreview: Boolean = true) {
+    contentNode(id: $id, idType: URI, asPreview: $asPreview) {
+      __typename
+      id
+      uri
+      status
+      isPreview
+      isRestricted
     }
   }
 `
@@ -112,8 +125,8 @@ export const GetPage = gql`
 //   }
 // `
 export const GetAnimal = gql`
-  query GetAnimal($id: ID = "") {
-    animal(id: $id, idType: URI) {
+  query GetAnimal($id: ID = "", $asPreview: Boolean = false) {
+    animal(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -302,8 +315,8 @@ export const GetMenu = gql`
   }
 `
 export const GetNews = gql`
-  query GetNews($id: ID = "") {
-    news(id: $id, idType: URI) {
+  query GetNews($id: ID = "", $asPreview: Boolean = false) {
+    news(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -507,8 +520,8 @@ export const GetAllAnimalsNews = gql`
 `
 
 export const GetEvents = gql`
-  query GetEvents($id: ID = "") {
-    events(id: $id, idType: URI) {
+  query GetEvents($id: ID = "", $asPreview: Boolean = false) {
+    events(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -660,8 +673,8 @@ export const GetAllOffices = gql`
   }
 `
 export const GetDiseases = gql`
-  query GetDiseases($id: ID = "") {
-    diseases(id: $id, idType: URI) {
+  query GetDiseases($id: ID = "", $asPreview: Boolean = false) {
+    diseases(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -747,8 +760,8 @@ export const GetAllDiseases = gql`
   }
 `
 export const GetMembers = gql`
-  query GetMembers($id: ID = "") {
-    member(id: $id, idType: URI) {
+  query GetMembers($id: ID = "", $asPreview: Boolean = false) {
+    member(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -1020,8 +1033,8 @@ export const GetAllCaseStudies = gql`
   }
 `
 export const GetCaseStudies = gql`
-  query GetCaseStudies($id: ID!) {
-    caseStudies(id: $id, idType: URI) {
+  query GetCaseStudies($id: ID!, $asPreview: Boolean = false) {
+    caseStudies(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -1090,8 +1103,8 @@ export const GetAllTickers = gql`
   }
 `
 export const GetTeam = gql`
-  query GetTeam($id: ID!) {
-    team(id: $id, idType: URI) {
+  query GetTeam($id: ID!, $asPreview: Boolean = false) {
+    team(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
@@ -1239,8 +1252,8 @@ export const GetHeroHomeOfTheDay = gql`
 `
 
 export const GetPressRelease = gql`
-  query GetPressRelease($id: ID!) {
-    pressRelease(id: $id, idType: URI) {
+  query GetPressRelease($id: ID!, $asPreview: Boolean = false) {
+    pressRelease(id: $id, idType: URI, asPreview: $asPreview) {
       id
       status
       title
