@@ -45,6 +45,7 @@ export default function ArchiveNews() {
   const [selectedResearchArea, setSelectedResearchArea] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedIsEaraMember, setSelectedIsEaraMember] = useState<boolean | null>(null)
+  const [countrySearch, setCountrySearch] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300)
   const filterTransitionKey = `${selectedCategory ?? ''}|${selectedCountry ?? ''}|${selectedAnimal ?? ''}|${selectedResearchArea ?? ''}|${selectedIsEaraMember ?? ''}|${debouncedSearch.trim()}`
@@ -150,8 +151,20 @@ export default function ArchiveNews() {
   // Extract countries from query
   const countries = useMemo(() => countriesData?.newsCountries ?? [], [countriesData])
 
+  const filteredCountryOptions = useMemo(() => {
+    const normalizedSearch = countrySearch.trim().toLowerCase()
+    if (!normalizedSearch) return countries
+
+    return countries.filter((country) =>
+      (country?.label || '').toLowerCase().includes(normalizedSearch)
+    )
+  }, [countries, countrySearch])
+
   const countryCombobox = useCombobox({
-    onDropdownClose: () => countryCombobox.resetSelectedOption(),
+    onDropdownClose: () => {
+      countryCombobox.resetSelectedOption()
+      setCountrySearch('')
+    },
   })
 
   const categoryCombobox = useCombobox({
@@ -328,6 +341,11 @@ export default function ArchiveNews() {
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
+                <Combobox.Search
+                  value={countrySearch}
+                  onChange={(event) => setCountrySearch(event.currentTarget.value)}
+                  placeholder="Search country..."
+                />
                 <Combobox.Options
                   styles={{
                     options: {
@@ -338,15 +356,19 @@ export default function ArchiveNews() {
                   }}
                 >
                   <Combobox.Option value="all">All Countries</Combobox.Option>
-                  {countries.map((country) => (
-                    <Combobox.Option
-                      key={country?.value}
-                      value={country?.value || ''}
-                      className="overflow-hidden text-ellipsis whitespace-nowrap"
-                    >
-                      {country?.label}
-                    </Combobox.Option>
-                  ))}
+                  {filteredCountryOptions.length === 0 ? (
+                    <Combobox.Empty>No countries found</Combobox.Empty>
+                  ) : (
+                    filteredCountryOptions.map((country) => (
+                      <Combobox.Option
+                        key={country?.value}
+                        value={country?.value || ''}
+                        className="overflow-hidden text-ellipsis whitespace-nowrap"
+                      >
+                        {country?.label}
+                      </Combobox.Option>
+                    ))
+                  )}
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
