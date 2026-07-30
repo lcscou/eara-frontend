@@ -34,6 +34,8 @@ export type FormContainerProps = {
   className?: string
   fields?: EaraFormFieldBlock[]
   submitUrl?: string
+  formTitle?: string
+  formId?: string
 }
 
 const WORDPRESS_GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT
@@ -96,7 +98,13 @@ function defaultLabelForType(type: EaraFormFieldBlockName): string {
   return 'Text'
 }
 
-function buildMessageHtml(fields: ParsedField[], values: Record<string, string>): string {
+function buildMessageHtml(
+  fields: ParsedField[],
+  values: Record<string, string>,
+  source?: { title?: string; id?: string }
+): string {
+  const sourceTitle = source?.title?.trim() || 'N/A'
+  const sourceId = source?.id?.trim() || 'N/A'
   const rows = fields
     .filter((field) => field.type !== 'eara/form-submit')
     .map((field) => {
@@ -130,6 +138,20 @@ function buildMessageHtml(fields: ParsedField[], values: Record<string, string>)
             </td>
           </tr>
           <tr>
+            <td style="padding-bottom:12px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:14px;color:#000000;">
+                <tr>
+                  <td style="padding:6px 0;color:#555555;width:180px;">Form Title</td>
+                  <td style="padding:6px 0;font-weight:bold;">${escapeHtml(sourceTitle)}</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;color:#555555;">Form ID</td>
+                  <td style="padding:6px 0;font-weight:bold;">${escapeHtml(sourceId)}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
             <td>
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:14px;color:#000000;">
                 ${rows}
@@ -151,6 +173,8 @@ export default function FormContainer({
   className,
   fields = [],
   submitUrl = DEFAULT_SUBMIT_URL,
+  formTitle = '',
+  formId = '',
 }: FormContainerProps) {
   const parsedFields = useMemo<ParsedField[]>(() => {
     return fields
@@ -204,14 +228,20 @@ export default function FormContainer({
 
     try {
       if (submitUrl) {
-        const html = buildMessageHtml(parsedFields, values)
+        const html = buildMessageHtml(parsedFields, values, {
+          title: formTitle,
+          id: formId,
+        })
+        const normalizedFormTitle = formTitle.trim()
 
         const response = await fetch(submitUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             recipient: recipient.trim() || undefined,
-            subject: 'New website form submission',
+            subject: normalizedFormTitle
+              ? `New website form submission - ${normalizedFormTitle}`
+              : 'New website form submission',
             html,
           }),
         })

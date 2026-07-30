@@ -18,6 +18,8 @@ export type JoinEaraFormPayload = {
 export type JoinEaraFormProps = {
   triggerId?: string
   title?: string
+  formId?: string
+  formTitle?: string
   buttonLabel?: string
   description?: string
   submitUrl?: string
@@ -37,11 +39,15 @@ function JoinEaraFormComponent({
   submitUrl,
   onSubmit,
   onSuccess,
+  formId,
+  formTitle,
 }: {
   triggerId: string
   submitUrl?: string
   onSubmit?: (payload: JoinEaraFormPayload) => Promise<void> | void
   onSuccess?: () => void
+  formId?: string
+  formTitle?: string
 }) {
   // const { closeModal } = useModals()
 
@@ -73,6 +79,8 @@ function JoinEaraFormComponent({
         }
 
         const na = (v: string) => v.trim() || 'N/A'
+        const sourceTitle = na(formTitle ?? '')
+        const sourceId = na(formId ?? '')
 
         const message = `<!DOCTYPE html>
 <html lang="en">
@@ -99,6 +107,20 @@ function JoinEaraFormComponent({
           <tr>
             <td style="font-size:16px;color:#000000;padding-bottom:20px;">
               You have received a request to Join Eara.
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-bottom:12px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:14px;color:#000000;">
+                <tr>
+                  <td style="padding:6px 0;color:#555555;width:150px;">Form Title</td>
+                  <td style="padding:6px 0;font-weight:bold;">${sourceTitle}</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0;color:#555555;">Form ID</td>
+                  <td style="padding:6px 0;font-weight:bold;">${sourceId}</td>
+                </tr>
+              </table>
             </td>
           </tr>
           <tr>
@@ -132,7 +154,10 @@ function JoinEaraFormComponent({
 
         const payload = {
           email: safeForm.email,
-          subject: 'New EARA Join Request from Website',
+          subject:
+            sourceTitle !== 'N/A'
+              ? `New EARA Join Request from Website - ${sourceTitle}`
+              : 'New EARA Join Request from Website',
           message,
         }
 
@@ -300,6 +325,8 @@ function JoinEaraFormComponent({
 export default function JoinEaraForm({
   triggerId = DEFAULT_TRIGGER_ID,
   title = 'Join EARA',
+  formId,
+  formTitle,
   buttonLabel = 'Join Now',
   description = 'Join our community and stay connected with us.',
   submitUrl = DEFAULT_SUBMIT_URL,
@@ -321,9 +348,11 @@ export default function JoinEaraForm({
         submitUrl={submitUrl}
         onSubmit={onSubmit}
         onSuccess={handleSuccess}
+        formId={formId || triggerId}
+        formTitle={formTitle || title}
       />
     ),
-    [triggerId, submitUrl, onSubmit, handleSuccess]
+    [triggerId, submitUrl, onSubmit, handleSuccess, formId, formTitle, title]
   )
 
   if (renderMode === 'inline') {

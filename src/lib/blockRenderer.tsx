@@ -323,6 +323,7 @@ export interface EaraModalContentAttributes extends BlockAttribute {
 }
 
 export interface EaraNewsletterFormAttributes extends BlockAttribute {
+  id?: string
   triggerId?: string
   title?: string
   description?: string
@@ -332,6 +333,7 @@ export interface EaraNewsletterFormAttributes extends BlockAttribute {
 }
 
 export interface EaraJoinEaraFormAttributes extends BlockAttribute {
+  id?: string
   triggerId?: string
   title?: string
   description?: string
@@ -342,6 +344,8 @@ export interface EaraJoinEaraFormAttributes extends BlockAttribute {
 }
 
 export interface EaraFormContainerAttributes extends BlockAttribute {
+  id?: string
+  title?: string
   recipient?: string
   successMessage?: string
   errorMessage?: string
@@ -3529,7 +3533,9 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     case 'eara/newsletter-form': {
       const attributes_newsletter = attributes as EaraNewsletterFormAttributes | undefined
       const triggerId = attributes_newsletter?.triggerId || `newsletter-${index}`
+      const formId = attributes_newsletter?.id || triggerId
       const title = attributes_newsletter?.title || 'Subscribe to our newsletter'
+      const formTitle = attributes_newsletter?.title || title
       const description =
         attributes_newsletter?.description || 'Subscribe to receive the latest updates from us.'
       const buttonLabel = attributes_newsletter?.buttonLabel || 'Subscribe'
@@ -3540,6 +3546,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           key={index}
           triggerId={triggerId}
           title={title}
+          formId={formId}
+          formTitle={formTitle}
           description={description}
           buttonLabel={buttonLabel}
           renderMode={renderMode}
@@ -3550,7 +3558,9 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     case 'eara/join-eara-form': {
       const attributes_join = attributes as EaraJoinEaraFormAttributes | undefined
       const triggerId = attributes_join?.triggerId || `join-eara-${index}`
+      const formId = attributes_join?.id || triggerId
       const title = attributes_join?.title || 'Join EARA'
+      const formTitle = attributes_join?.title || title
       const description = attributes_join?.description
       const buttonLabel = attributes_join?.buttonLabel || 'Join Now'
       const submitUrl = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT?.replace(
@@ -3564,6 +3574,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           key={index}
           triggerId={triggerId}
           title={title}
+          formId={formId}
+          formTitle={formTitle}
           description={description}
           buttonLabel={buttonLabel}
           submitUrl={submitUrl}
@@ -3574,6 +3586,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
 
     case 'eara/form-container': {
       const attributes_form_container = attributes as EaraFormContainerAttributes | undefined
+      const formId = attributes_form_container?.id || ''
+      const formTitle = attributes_form_container?.title || ''
       const recipient = attributes_form_container?.recipient || ''
       const successMessage =
         attributes_form_container?.successMessage || 'Thank you! Your message has been sent.'
@@ -3607,6 +3621,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           <FormContainer
             className={className}
             recipient={recipient}
+            formId={formId}
+            formTitle={formTitle}
             successMessage={successMessage}
             errorMessage={errorMessage}
             fields={innerBlocks as EaraFormFieldBlock[]}
