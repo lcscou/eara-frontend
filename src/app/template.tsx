@@ -15,6 +15,7 @@ export default async function Template({ children }: { children: React.ReactNode
         fetchOptions: {
           next: {
             tags: ['menus'],
+            revalidate: 3600,
           },
         },
       },
