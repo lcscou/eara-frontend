@@ -1,4 +1,4 @@
-import { PUBLIC_SITE_ORIGIN, WORDPRESS_SITE_ORIGIN } from '@/lib/seo/site-url'
+import { getCurrentServerSiteConfig } from '@/lib/site-config-server'
 
 const DEFAULT_REVALIDATE_SECONDS = 900
 const DEFAULT_TIMEOUT_MS = 8_000
@@ -19,12 +19,6 @@ const STREAM_THRESHOLD_BYTES = readPositiveInt(
   DEFAULT_STREAM_THRESHOLD_BYTES
 )
 
-const BACKEND_HOST = new URL(WORDPRESS_SITE_ORIGIN).host
-const REWRITE_WINDOW_BYTES = Math.max(BACKEND_HOST.length + 32, 128)
-
-const BACKEND_ORIGIN_REGEX = new RegExp(`https?:\\/\\/${escapeRegExp(BACKEND_HOST)}`, 'gi')
-const BACKEND_PROTOCOL_RELATIVE_REGEX = new RegExp(`\\/\\/${escapeRegExp(BACKEND_HOST)}`, 'gi')
-
 export const SITEMAP_REVALIDATE_SECONDS = REVALIDATE_SECONDS
 
 type ProxySitemapOptions = {
@@ -37,13 +31,20 @@ export async function proxySitemapXml({ upstreamPath }: ProxySitemapOptions): Pr
     return textResponse('Invalid sitemap path.', 400)
   }
 
-  const upstreamUrl = new URL(normalizedPath, `${WORDPRESS_SITE_ORIGIN}/`).toString()
+  const site = await getCurrentServerSiteConfig()
+  const wordpressOrigin = site.wordpressOrigin
+  const publicOrigin = site.publicOrigin
+  const backendHost = new URL(wordpressOrigin).host
+  const rewriteWindowBytes = Math.max(backendHost.length + 32, 128)
+  const backendOriginRegex = new RegExp(`https?:\\/\\/${escapeRegExp(backendHost)}`, 'gi')
+  const backendProtocolRelativeRegex = new RegExp(`\\/\\/${escapeRegExp(backendHost)}`, 'gi')
+  const upstreamUrl = new URL(normalizedPath, `${wordpressOrigin}/`).toString()
 
   try {
     const upstreamResponse = await fetch(upstreamUrl, {
       next: {
         revalidate: REVALIDATE_SECONDS,
-        tags: ['sitemaps', `sitemap:${normalizedPath}`],
+        tags: [`site:${site.key}:sitemaps`, `site:${site.key}:sitemap:${normalizedPath}`],
       },
       headers: {
         Accept: 'application/xml, text/xml;q=0.9, application/xhtml+xml;q=0.8, */*;q=0.5',
@@ -59,7 +60,14 @@ export async function proxySitemapXml({ upstreamPath }: ProxySitemapOptions): Pr
       return textResponse('Upstream sitemap is unavailable.', 502)
     }
 
-    return buildXmlResponse(upstreamResponse, normalizedPath)
+    return buildXmlResponse(
+      upstreamResponse,
+      normalizedPath,
+      publicOrigin,
+      backendOriginRegex,
+      backendProtocolRelativeRegex,
+      rewriteWindowBytes
+    )
   } catch (error) {
     if (error instanceof DOMException && error.name === 'TimeoutError') {
       return textResponse('Sitemap upstream timeout.', 504)
@@ -69,7 +77,14 @@ export async function proxySitemapXml({ upstreamPath }: ProxySitemapOptions): Pr
   }
 }
 
-async function buildXmlResponse(upstream: Response, normalizedPath: string): Promise<Response> {
+async function buildXmlResponse(
+  upstream: Response,
+  normalizedPath: string,
+  publicOrigin: string,
+  backendOriginRegex: RegExp,
+  backendProtocolRelativeRegex: RegExp,
+  rewriteWindowBytes: number
+): Promise<Response> {
   const contentLength = Number.parseInt(upstream.headers.get('content-length') || '0', 10)
   const contentType = pickXmlContentType(upstream.headers.get('content-type'), normalizedPath)
 
@@ -82,23 +97,55 @@ async function buildXmlResponse(upstream: Response, normalizedPath: string): Pro
   })
 
   if (upstream.body && contentLength >= STREAM_THRESHOLD_BYTES) {
-    return new Response(rewriteXmlStream(upstream.body), {
-      status: 200,
-      headers,
-    })
+    return new Response(
+      rewriteXmlStream(
+        upstream.body,
+        publicOrigin,
+        backendOriginRegex,
+        backendProtocolRelativeRegex,
+        rewriteWindowBytes
+      ),
+      {
+        status: 200,
+        headers,
+      }
+    )
   }
 
-  return new Response(await rewriteXmlStringSync(upstream), {
-    status: 200,
-    headers,
-  })
+  return new Response(
+    await rewriteXmlStringSync(
+      upstream,
+      publicOrigin,
+      backendOriginRegex,
+      backendProtocolRelativeRegex
+    ),
+    {
+      status: 200,
+      headers,
+    }
+  )
 }
 
-function rewriteXmlStringSync(upstream: Response): Promise<string> {
-  return upstream.text().then((xml) => rewriteOrigin(xml))
+function rewriteXmlStringSync(
+  upstream: Response,
+  publicOrigin: string,
+  backendOriginRegex: RegExp,
+  backendProtocolRelativeRegex: RegExp
+): Promise<string> {
+  return upstream
+    .text()
+    .then((xml) =>
+      rewriteOrigin(xml, publicOrigin, backendOriginRegex, backendProtocolRelativeRegex)
+    )
 }
 
-function rewriteXmlStream(stream: ReadableStream<Uint8Array>): ReadableStream<Uint8Array> {
+function rewriteXmlStream(
+  stream: ReadableStream<Uint8Array>,
+  publicOrigin: string,
+  backendOriginRegex: RegExp,
+  backendProtocolRelativeRegex: RegExp,
+  rewriteWindowBytes: number
+): ReadableStream<Uint8Array> {
   const decoder = new TextDecoder()
   const encoder = new TextEncoder()
   let carryOver = ''
@@ -108,31 +155,53 @@ function rewriteXmlStream(stream: ReadableStream<Uint8Array>): ReadableStream<Ui
       transform(chunk, controller) {
         const text = carryOver + decoder.decode(chunk, { stream: true })
 
-        if (text.length <= REWRITE_WINDOW_BYTES) {
+        if (text.length <= rewriteWindowBytes) {
           carryOver = text
           return
         }
 
-        const splitAt = text.length - REWRITE_WINDOW_BYTES
-        const writable = text.slice(0, splitAt)
+        const splitAt = text.length - rewriteWindowBytes
         carryOver = text.slice(splitAt)
 
-        controller.enqueue(encoder.encode(rewriteOrigin(writable)))
+        controller.enqueue(
+          encoder.encode(
+            rewriteOrigin(
+              text.slice(0, splitAt),
+              publicOrigin,
+              backendOriginRegex,
+              backendProtocolRelativeRegex
+            )
+          )
+        )
       },
       flush(controller) {
         const remaining = carryOver + decoder.decode()
         if (remaining) {
-          controller.enqueue(encoder.encode(rewriteOrigin(remaining)))
+          controller.enqueue(
+            encoder.encode(
+              rewriteOrigin(
+                remaining,
+                publicOrigin,
+                backendOriginRegex,
+                backendProtocolRelativeRegex
+              )
+            )
+          )
         }
       },
     })
   )
 }
 
-function rewriteOrigin(xml: string): string {
+function rewriteOrigin(
+  xml: string,
+  publicOrigin: string,
+  backendOriginRegex: RegExp,
+  backendProtocolRelativeRegex: RegExp
+): string {
   return xml
-    .replace(BACKEND_ORIGIN_REGEX, PUBLIC_SITE_ORIGIN)
-    .replace(BACKEND_PROTOCOL_RELATIVE_REGEX, `//${new URL(PUBLIC_SITE_ORIGIN).host}`)
+    .replace(backendOriginRegex, publicOrigin)
+    .replace(backendProtocolRelativeRegex, `//${new URL(publicOrigin).host}`)
 }
 
 function normalizeSitemapPath(rawPath: string): string | null {

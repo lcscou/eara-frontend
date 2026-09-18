@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-import { AUTH_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '@/lib/auth/constants'
+import { getAuthCookieName, getRefreshTokenCookieName } from '@/lib/auth/constants'
+import { getCurrentServerSiteConfig } from '@/lib/site-config-server'
 
 const REFRESH_TOKEN_MUTATION = `
   mutation RefreshToken($refreshToken: String!) {
@@ -15,23 +16,14 @@ const REFRESH_TOKEN_MUTATION = `
 export async function POST() {
   try {
     const cookieStore = await cookies()
-    const refreshToken = cookieStore.get(REFRESH_TOKEN_COOKIE_NAME)?.value
+    const site = await getCurrentServerSiteConfig()
+    const refreshToken = cookieStore.get(getRefreshTokenCookieName(site.key))?.value
 
     if (!refreshToken) {
       return NextResponse.json({ error: 'No refresh token found.' }, { status: 401 })
     }
 
-    const endpoint =
-      process.env.WORDPRESS_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT
-
-    if (!endpoint) {
-      return NextResponse.json(
-        { error: 'WordPress GraphQL endpoint is not configured.' },
-        { status: 500 }
-      )
-    }
-
-    const response = await fetch(endpoint, {
+    const response = await fetch(site.graphqlEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +61,7 @@ export async function POST() {
 
     // Atualiza o auth token com o novo token
     res.cookies.set({
-      name: AUTH_COOKIE_NAME,
+      name: getAuthCookieName(site.key),
       value: refresh.authToken,
       httpOnly: true,
       sameSite: 'lax',
