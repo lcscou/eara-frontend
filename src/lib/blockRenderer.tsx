@@ -12,6 +12,7 @@ import {
   MantineSize,
   SimpleGrid,
   Stack,
+  Table,
   TextProps,
   Title,
 } from '@mantine/core'
@@ -577,6 +578,44 @@ export interface CoreListItemAttributes extends BlockAttribute {
   anchor?: string
 }
 
+export interface CoreTableCell {
+  content?: string
+  tag?: 'th' | 'td'
+  align?: 'left' | 'center' | 'right'
+}
+
+export interface CoreTableRow {
+  cells?: CoreTableCell[]
+}
+
+export interface CoreTableAttributes extends BlockAttribute {
+  hasFixedLayout?: boolean
+  caption?: string
+  head?: CoreTableRow[]
+  body?: CoreTableRow[]
+  foot?: CoreTableRow[]
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+  style?: {
+    elements?: { link?: { color?: { text?: string } } }
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    typography?: { fontSize?: string; fontFamily?: string }
+    color?: { background?: string; text?: string }
+    border?: { color?: string; width?: string; style?: string; radius?: string }
+  }
+  backgroundColor?: string
+  textColor?: string
+  gradient?: string
+  fontSize?: string
+  fontFamily?: string
+  borderColor?: string
+  anchor?: string
+}
+
 // Mapeamento de presets de spacing do WordPress para valores CSS
 const spacingPresets: Record<string, string> = {
   '20': '0.5rem', // 8px
@@ -599,6 +638,7 @@ const colorPresets: Record<string, string> = {
   'eara-bg-dark': '#e2e2e5',
   'eara-bg-light': '#ededfa',
   'eara-gray-light': '#eaeaea',
+  'eara-dark': '#272727',
   accent: '#00cc66',
 }
 
@@ -668,6 +708,9 @@ function resolveWordPressValue(value: unknown): string | undefined {
   }
   if (value === 'eara-gray-light') {
     return colorPresets['eara-gray-light']
+  }
+  if (value === 'eara-dark') {
+    return colorPresets['eara-dark']
   }
   if (value === 'primary-color') {
     return colorPresets['primary']
@@ -2029,6 +2072,94 @@ function renderCoreSeparator(block: Block, index: number): ReactNode {
     >
       <Box component={tagName} className={combinedClassName} style={inlineStyle} />
     </Center>
+  )
+}
+
+/**
+ * Renderiza um bloco core/table usando Table do Mantine
+ */
+function renderCoreTable(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreTableAttributes | undefined
+  const className = attributes?.className || ''
+  const anchor = attributes?.anchor
+  const caption = attributes?.caption
+  const hasFixedLayout = attributes?.hasFixedLayout ?? false
+  const head = attributes?.head || []
+  const body = attributes?.body || []
+  const foot = attributes?.foot || []
+
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
+
+  const striped = className.includes('is-style-stripes')
+
+  const renderRow = (row: CoreTableRow, rowIdx: number, defaultTag: 'th' | 'td') => (
+    <Table.Tr key={rowIdx}>
+      {(row.cells || []).map((cell, cellIdx) => {
+        const Tag = (cell.tag || defaultTag) === 'th' ? Table.Th : Table.Td
+        return (
+          <Tag key={cellIdx} style={{ textAlign: cell.align }}>
+            {parseHtmlContent(cell.content || '')}
+          </Tag>
+        )
+      })}
+    </Table.Tr>
+  )
+
+  return (
+    <Table.ScrollContainer
+      key={index}
+      minWidth={0}
+      id={anchor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      <Table
+        className={className}
+        layout={hasFixedLayout ? 'fixed' : 'auto'}
+        striped={striped}
+        withTableBorder={!!borderColor}
+        withColumnBorders={!!borderColor}
+        c={textColor}
+        fz={fontSize}
+        ff={fontFamily}
+        style={{
+          background: gradient ? gradient : bgColor,
+          borderColor: borderColor || undefined,
+        }}
+      >
+        {caption && <Table.Caption>{parseHtmlContent(caption)}</Table.Caption>}
+        {head.length > 0 && (
+          <Table.Thead>{head.map((row, rowIdx) => renderRow(row, rowIdx, 'th'))}</Table.Thead>
+        )}
+        {body.length > 0 && (
+          <Table.Tbody>{body.map((row, rowIdx) => renderRow(row, rowIdx, 'td'))}</Table.Tbody>
+        )}
+        {foot.length > 0 && (
+          <Table.Tfoot>{foot.map((row, rowIdx) => renderRow(row, rowIdx, 'td'))}</Table.Tfoot>
+        )}
+      </Table>
+    </Table.ScrollContainer>
   )
 }
 
@@ -4047,6 +4178,10 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     // Core List Item
     case 'core/list-item': {
       return renderCoreListItem(block, index)
+    }
+    // Core Table
+    case 'core/table': {
+      return renderCoreTable(block, index)
     }
     // Bloco desconhecido - renderiza HTML bruto ou aviso
     default: {
