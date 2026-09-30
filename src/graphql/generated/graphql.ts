@@ -3914,6 +3914,8 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   Events = 'EVENTS',
   /** The Type of Content object */
+  GraphqlDocument = 'GRAPHQL_DOCUMENT',
+  /** The Type of Content object */
   MediaBank = 'MEDIA_BANK',
   /** The Type of Content object */
   Members = 'MEMBERS',
@@ -4087,6 +4089,12 @@ export enum ContentTypesOfCategoryEventEnum {
 export enum ContentTypesOfCategoryNewsEnum {
   /** The Type of Content object */
   News = 'NEWS',
+}
+
+/** Allowed Content Types of the GraphqlDocumentGroup taxonomy. */
+export enum ContentTypesOfGraphqlDocumentGroupEnum {
+  /** The Type of Content object */
+  GraphqlDocument = 'GRAPHQL_DOCUMENT',
 }
 
 /** Allowed Content Types of the Institution taxonomy. */
@@ -4420,6 +4428,76 @@ export type CreateEventsPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>
   /** The Post object mutation type. */
   events?: Maybe<Events>
+}
+
+/** Input for the createGraphqlDocumentGroup mutation. */
+export type CreateGraphqlDocumentGroupInput = {
+  /** The slug that the graphql_document_group will be an alias of */
+  aliasOf?: InputMaybe<Scalars['String']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The description of the graphql_document_group object */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The name of the graphql_document_group object to mutate */
+  name: Scalars['String']['input']
+  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the createGraphqlDocumentGroup mutation. */
+export type CreateGraphqlDocumentGroupPayload = {
+  __typename?: 'CreateGraphqlDocumentGroupPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The created graphql_document_group */
+  graphqlDocumentGroup?: Maybe<GraphqlDocumentGroup>
+}
+
+/** Input for the createGraphqlDocument mutation. */
+export type CreateGraphqlDocumentInput = {
+  /** Alias names for saved GraphQL query documents */
+  alias?: InputMaybe<Array<Scalars['String']['input']>>
+  /** The userId to assign as the author of the object */
+  authorId?: InputMaybe<Scalars['ID']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The content of the object */
+  content?: InputMaybe<Scalars['String']['input']>
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars['String']['input']>
+  /** Description for the saved GraphQL document */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The excerpt of the object */
+  excerpt?: InputMaybe<Scalars['String']['input']>
+  /** Allow, deny or default access grant for specific query */
+  grant?: InputMaybe<Scalars['String']['input']>
+  /** Set connections between the graphqlDocument and graphqlDocumentGroups */
+  graphqlDocumentGroups?: InputMaybe<GraphqlDocumentGraphqlDocumentGroupsInput>
+  /** JSON-encoded HTTP headers to send with this query (IDE execution context). */
+  headers?: InputMaybe<Scalars['String']['input']>
+  /** HTTP Cache-Control max-age directive for a saved GraphQL document */
+  maxAgeHeader?: InputMaybe<Scalars['Int']['input']>
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars['Int']['input']>
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars['String']['input']>
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>
+  /** The title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+  /** JSON-encoded variables to send with this query (IDE execution context). */
+  variables?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the createGraphqlDocument mutation. */
+export type CreateGraphqlDocumentPayload = {
+  __typename?: 'CreateGraphqlDocumentPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The Post object mutation type. */
+  graphqlDocument?: Maybe<GraphqlDocument>
 }
 
 /** Input for the createInstitution mutation. */
@@ -5770,6 +5848,48 @@ export type DeleteEventsPayload = {
   deletedId?: Maybe<Scalars['ID']['output']>
   /** The object before it was deleted */
   events?: Maybe<Events>
+}
+
+/** Input for the deleteGraphqlDocumentGroup mutation. */
+export type DeleteGraphqlDocumentGroupInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the graphqlDocumentGroup to delete */
+  id: Scalars['ID']['input']
+}
+
+/** The payload for the deleteGraphqlDocumentGroup mutation. */
+export type DeleteGraphqlDocumentGroupPayload = {
+  __typename?: 'DeleteGraphqlDocumentGroupPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The ID of the deleted object */
+  deletedId?: Maybe<Scalars['ID']['output']>
+  /** The deleted term object */
+  graphqlDocumentGroup?: Maybe<GraphqlDocumentGroup>
+}
+
+/** Input for the deleteGraphqlDocument mutation. */
+export type DeleteGraphqlDocumentInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** Whether the object should be force deleted instead of being moved to the trash */
+  forceDelete?: InputMaybe<Scalars['Boolean']['input']>
+  /** The ID of the graphqlDocument to delete */
+  id: Scalars['ID']['input']
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock?: InputMaybe<Scalars['Boolean']['input']>
+}
+
+/** The payload for the deleteGraphqlDocument mutation. */
+export type DeleteGraphqlDocumentPayload = {
+  __typename?: 'DeleteGraphqlDocumentPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The ID of the deleted object */
+  deletedId?: Maybe<Scalars['ID']['output']>
+  /** The object before it was deleted */
+  graphqlDocument?: Maybe<GraphqlDocument>
 }
 
 /** Input for the deleteInstitution mutation. */
@@ -7157,6 +7277,8 @@ export type GeneralSettings = Node & {
   dateFormat?: Maybe<Scalars['String']['output']>
   /** Site tagline. */
   description?: Maybe<Scalars['String']['output']>
+  /** This address is used for admin purposes, like new user notification. */
+  email?: Maybe<Scalars['String']['output']>
   /** The address at which visitors reach the site&#039;s front end. Can differ from the `url` field when the front end and the content management backend are served from different addresses, such as on headless or decoupled installs. */
   homeUrl?: Maybe<Scalars['String']['output']>
   /** The globally unique identifier of the settings group. */
@@ -7175,7 +7297,7 @@ export type GeneralSettings = Node & {
   timezone?: Maybe<Scalars['String']['output']>
   /** Site title. */
   title?: Maybe<Scalars['String']['output']>
-  /** The base URL where the site&#039;s application and content management backend are served. Can differ from the `homeUrl` field when the front end and backend are served from different addresses, such as on headless or decoupled installs. */
+  /** Site URL. */
   url?: Maybe<Scalars['String']['output']>
 }
 
@@ -7259,6 +7381,824 @@ export enum GoogleProviderPromptTypeEnum {
   None = 'NONE',
   /** The authorization server prompts the user to select a user account. This allows a user who has multiple accounts at the authorization server to select amongst the multiple accounts that they may have current sessions for. */
   SelectAccount = 'SELECT_ACCOUNT',
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocument = ContentNode &
+  DatabaseIdentifier &
+  Node &
+  NodeWithAuthor &
+  NodeWithContentEditor &
+  NodeWithExcerpt &
+  NodeWithPageAttributes &
+  NodeWithTemplate &
+  NodeWithTitle &
+  UniformResourceIdentifiable &
+  WithAcfCommonProps & {
+    __typename?: 'GraphqlDocument'
+    /** Alias names for saved GraphQL query documents */
+    alias?: Maybe<Array<Scalars['String']['output']>>
+    /**
+     * The ancestors of the content node.
+     * @deprecated This content type is not hierarchical and typically will not have ancestors
+     */
+    ancestors?: Maybe<GraphqlDocumentToGraphqlDocumentConnection>
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']['output']>
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']['output']>
+    /** Returns all blocks as a JSON object */
+    blocks?: Maybe<Scalars['JSON']['output']>
+    /** Fields of the CommonProps ACF Field Group */
+    commonProps?: Maybe<CommonProps>
+    /** The content of the post. */
+    content?: Maybe<Scalars['String']['output']>
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars['String']['output']
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output']
+    /** Post publishing date. */
+    date?: Maybe<Scalars['String']['output']>
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars['String']['output']>
+    /** Description for the saved GraphQL document */
+    description?: Maybe<Scalars['String']['output']>
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars['String']['output']>
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars['String']['output']>
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>
+    /** The excerpt of the post. */
+    excerpt?: Maybe<Scalars['String']['output']>
+    /** Allow, deny or default access grant for specific query */
+    grant?: Maybe<Scalars['String']['output']>
+    /** Connection between the GraphqlDocument type and the graphqlDocumentGroup type */
+    graphqlDocumentGroups?: Maybe<GraphqlDocumentToGraphqlDocumentGroupConnection>
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    graphqlDocumentId: Scalars['Int']['output']
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars['String']['output']>
+    /** Whether the graphql_document object is password protected. */
+    hasPassword?: Maybe<Scalars['Boolean']['output']>
+    /** JSON-encoded HTTP headers to send with this query (IDE execution context). */
+    headers?: Maybe<Scalars['String']['output']>
+    /** The globally unique identifier of the graphql_document object. */
+    id: Scalars['ID']['output']
+    /** Whether the node is a Comment */
+    isComment: Scalars['Boolean']['output']
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output']
+    /** Whether the node represents the front page. */
+    isFrontPage: Scalars['Boolean']['output']
+    /** Whether  the node represents the blog page. */
+    isPostsPage: Scalars['Boolean']['output']
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars['Boolean']['output']>
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output']
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>
+    /** The permalink of the post */
+    link?: Maybe<Scalars['String']['output']>
+    /** HTTP Cache-Control max-age directive for a saved GraphQL document */
+    maxAgeHeader?: Maybe<Scalars['Int']['output']>
+    /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+    menuOrder?: Maybe<Scalars['Int']['output']>
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars['String']['output']>
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars['String']['output']>
+    /**
+     * The parent of the content node.
+     * @deprecated This content type is not hierarchical and typically will not have a parent
+     */
+    parent?: Maybe<GraphqlDocumentToParentConnectionEdge>
+    /** The password for the graphql_document object. */
+    password?: Maybe<Scalars['String']['output']>
+    /**
+     * Connection between the graphqlDocument type and the graphqlDocument type
+     * @deprecated The &quot;GraphqlDocument&quot; Type is not publicly queryable and does not support previews. This field will be removed in the future.
+     */
+    preview?: Maybe<GraphqlDocumentToPreviewConnectionEdge>
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars['ID']['output']>
+    /** The Yoast SEO data of the ContentNode */
+    seo?: Maybe<PostTypeSeo>
+    /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+    slug?: Maybe<Scalars['String']['output']>
+    /** The current status of the object */
+    status?: Maybe<Scalars['String']['output']>
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>
+    /** Connection between the GraphqlDocument type and the TermNode type */
+    terms?: Maybe<GraphqlDocumentToTermNodeConnection>
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars['String']['output']>
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>
+    /** JSON-encoded variables to send with this query (IDE execution context). */
+    variables?: Maybe<Scalars['String']['output']>
+  }
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentAncestorsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentBlocksArgs = {
+  attributes?: InputMaybe<Scalars['Boolean']['input']>
+  dynamicContent?: InputMaybe<Scalars['Boolean']['input']>
+  htmlContent?: InputMaybe<Scalars['Boolean']['input']>
+  originalContent?: InputMaybe<Scalars['Boolean']['input']>
+  postTemplate?: InputMaybe<Scalars['Boolean']['input']>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentContentArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentExcerptArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentGraphqlDocumentGroupsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<GraphqlDocumentToGraphqlDocumentGroupConnectionWhereArgs>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentTermsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<GraphqlDocumentToTermNodeConnectionWhereArgs>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentTitleArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>
+}
+
+/** A paginated collection of graphqlDocument Nodes, Supports cursor-based pagination and filtering to efficiently retrieve sets of graphqlDocument Nodes */
+export type GraphqlDocumentConnection = {
+  /** A list of edges (relational context) between RootQuery and connected graphqlDocument Nodes */
+  edges: Array<GraphqlDocumentConnectionEdge>
+  /** A list of connected graphqlDocument Nodes */
+  nodes: Array<GraphqlDocument>
+  /** Information about pagination in a connection. */
+  pageInfo: GraphqlDocumentConnectionPageInfo
+}
+
+/** Represents a connection to a graphqlDocument. Contains both the graphqlDocument Node and metadata about the relationship. */
+export type GraphqlDocumentConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']['output']>
+  /** The connected graphqlDocument Node */
+  node: GraphqlDocument
+}
+
+/** Pagination metadata specific to &quot;GraphqlDocumentConnectionEdge&quot; collections. Provides cursors and flags for navigating through sets of &quot;GraphqlDocumentConnectionEdge&quot; Nodes. */
+export type GraphqlDocumentConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output']
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output']
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>
+}
+
+/** Set relationships between the graphqlDocument to graphqlDocumentGroups */
+export type GraphqlDocumentGraphqlDocumentGroupsInput = {
+  /** If true, this will append the graphqlDocumentGroup to existing related graphqlDocumentGroups. If false, this will replace existing relationships. Default true. */
+  append?: InputMaybe<Scalars['Boolean']['input']>
+  /** The input list of items to set. */
+  nodes?: InputMaybe<Array<InputMaybe<GraphqlDocumentGraphqlDocumentGroupsNodeInput>>>
+}
+
+/** List of graphqlDocumentGroups to connect the graphqlDocument to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
+export type GraphqlDocumentGraphqlDocumentGroupsNodeInput = {
+  /** The description of the graphqlDocumentGroup. This field is used to set a description of the graphqlDocumentGroup if a new one is created during the mutation. */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the graphqlDocumentGroup. If present, this will be used to connect to the graphqlDocument. If no existing graphqlDocumentGroup exists with this ID, no connection will be made. */
+  id?: InputMaybe<Scalars['ID']['input']>
+  /** The name of the graphqlDocumentGroup. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** The slug of the graphqlDocumentGroup. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Tag the saved query document with other queries as a &quot;group&quot;. */
+export type GraphqlDocumentGroup = DatabaseIdentifier &
+  Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'GraphqlDocumentGroup'
+    /** Connection between the GraphqlDocumentGroup type and the ContentNode type */
+    contentNodes?: Maybe<GraphqlDocumentGroupToContentNodeConnection>
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']['output']>
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output']
+    /** The description of the object */
+    description?: Maybe<Scalars['String']['output']>
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    graphqlDocumentGroupId?: Maybe<Scalars['Int']['output']>
+    /** Connection between the GraphqlDocumentGroup type and the graphqlDocument type */
+    graphqlDocuments?: Maybe<GraphqlDocumentGroupToGraphqlDocumentConnection>
+    /** The globally unique ID for the object */
+    id: Scalars['ID']['output']
+    /** Whether the node is a Comment */
+    isComment: Scalars['Boolean']['output']
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output']
+    /** Whether the node represents the front page. */
+    isFrontPage: Scalars['Boolean']['output']
+    /** Whether  the node represents the blog page. */
+    isPostsPage: Scalars['Boolean']['output']
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output']
+    /** The link to the term */
+    link?: Maybe<Scalars['String']['output']>
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']['output']>
+    /** The Yoast SEO data of the Groups taxonomy. */
+    seo?: Maybe<TaxonomySeo>
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']['output']>
+    /** Connection between the GraphqlDocumentGroup type and the Taxonomy type */
+    taxonomy?: Maybe<GraphqlDocumentGroupToTaxonomyConnectionEdge>
+    /** The name of the taxonomy that the object is associated with */
+    taxonomyName?: Maybe<Scalars['String']['output']>
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']['output']>
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']['output']>
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>
+  }
+
+/** Tag the saved query document with other queries as a &quot;group&quot;. */
+export type GraphqlDocumentGroupContentNodesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<GraphqlDocumentGroupToContentNodeConnectionWhereArgs>
+}
+
+/** Tag the saved query document with other queries as a &quot;group&quot;. */
+export type GraphqlDocumentGroupEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** Tag the saved query document with other queries as a &quot;group&quot;. */
+export type GraphqlDocumentGroupEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** Tag the saved query document with other queries as a &quot;group&quot;. */
+export type GraphqlDocumentGroupGraphqlDocumentsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<GraphqlDocumentGroupToGraphqlDocumentConnectionWhereArgs>
+}
+
+/** A paginated collection of graphqlDocumentGroup Nodes, Supports cursor-based pagination and filtering to efficiently retrieve sets of graphqlDocumentGroup Nodes */
+export type GraphqlDocumentGroupConnection = {
+  /** A list of edges (relational context) between RootQuery and connected graphqlDocumentGroup Nodes */
+  edges: Array<GraphqlDocumentGroupConnectionEdge>
+  /** A list of connected graphqlDocumentGroup Nodes */
+  nodes: Array<GraphqlDocumentGroup>
+  /** Information about pagination in a connection. */
+  pageInfo: GraphqlDocumentGroupConnectionPageInfo
+}
+
+/** Represents a connection to a graphqlDocumentGroup. Contains both the graphqlDocumentGroup Node and metadata about the relationship. */
+export type GraphqlDocumentGroupConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']['output']>
+  /** The connected graphqlDocumentGroup Node */
+  node: GraphqlDocumentGroup
+}
+
+/** Pagination metadata specific to &quot;GraphqlDocumentGroupConnectionEdge&quot; collections. Provides cursors and flags for navigating through sets of &quot;GraphqlDocumentGroupConnectionEdge&quot; Nodes. */
+export type GraphqlDocumentGroupConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output']
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output']
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>
+}
+
+/** Identifier types for retrieving a specific GraphqlDocumentGroup. Determines which unique property (global ID, database ID, slug, etc.) is used to locate the GraphqlDocumentGroup. */
+export enum GraphqlDocumentGroupIdType {
+  /** The Database ID for the node */
+  DatabaseId = 'DATABASE_ID',
+  /** The hashed Global ID */
+  Id = 'ID',
+  /** The name of the node */
+  Name = 'NAME',
+  /** Url friendly name of the node */
+  Slug = 'SLUG',
+  /** The URI for the node */
+  Uri = 'URI',
+}
+
+/** Connection between the GraphqlDocumentGroup type and the ContentNode type */
+export type GraphqlDocumentGroupToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'GraphqlDocumentGroupToContentNodeConnection'
+    /** Edges for the GraphqlDocumentGroupToContentNodeConnection connection */
+    edges: Array<GraphqlDocumentGroupToContentNodeConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>
+    /** Information about pagination in a connection. */
+    pageInfo: GraphqlDocumentGroupToContentNodeConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type GraphqlDocumentGroupToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'GraphqlDocumentGroupToContentNodeConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: ContentNode
+  }
+
+/** Pagination metadata specific to &quot;GraphqlDocumentGroupToContentNodeConnection&quot; collections. Provides cursors and flags for navigating through sets of GraphqlDocumentGroupToContentNodeConnection Nodes. */
+export type GraphqlDocumentGroupToContentNodeConnectionPageInfo = ContentNodeConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'GraphqlDocumentGroupToContentNodeConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the GraphqlDocumentGroupToContentNodeConnection connection */
+export type GraphqlDocumentGroupToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypesOfGraphqlDocumentGroupEnum>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the GraphqlDocumentGroup type and the graphqlDocument type */
+export type GraphqlDocumentGroupToGraphqlDocumentConnection = Connection &
+  GraphqlDocumentConnection & {
+    __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnection'
+    /** Edges for the GraphqlDocumentGroupToGraphqlDocumentConnection connection */
+    edges: Array<GraphqlDocumentGroupToGraphqlDocumentConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<GraphqlDocument>
+    /** Information about pagination in a connection. */
+    pageInfo: GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type GraphqlDocumentGroupToGraphqlDocumentConnectionEdge = Edge &
+  GraphqlDocumentConnectionEdge & {
+    __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: GraphqlDocument
+  }
+
+/** Pagination metadata specific to &quot;GraphqlDocumentGroupToGraphqlDocumentConnection&quot; collections. Provides cursors and flags for navigating through sets of GraphqlDocumentGroupToGraphqlDocumentConnection Nodes. */
+export type GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo =
+  GraphqlDocumentConnectionPageInfo &
+    PageInfo &
+    WpPageInfo & {
+      __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo'
+      /** When paginating forwards, the cursor to continue. */
+      endCursor?: Maybe<Scalars['String']['output']>
+      /** When paginating forwards, are there more items? */
+      hasNextPage: Scalars['Boolean']['output']
+      /** When paginating backwards, are there more items? */
+      hasPreviousPage: Scalars['Boolean']['output']
+      /** Raw schema for page */
+      seo?: Maybe<SeoPostTypePageInfo>
+      /** When paginating backwards, the cursor to continue. */
+      startCursor?: Maybe<Scalars['String']['output']>
+    }
+
+/** Arguments for filtering the GraphqlDocumentGroupToGraphqlDocumentConnection connection */
+export type GraphqlDocumentGroupToGraphqlDocumentConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the GraphqlDocumentGroup type and the Taxonomy type */
+export type GraphqlDocumentGroupToTaxonomyConnectionEdge = Edge &
+  OneToOneConnection &
+  TaxonomyConnectionEdge & {
+    __typename?: 'GraphqlDocumentGroupToTaxonomyConnectionEdge'
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The node of the connection, without the edges */
+    node: Taxonomy
+  }
+
+/** Identifier types for retrieving a specific GraphqlDocument. Specifies which unique attribute is used to find an exact GraphqlDocument. */
+export enum GraphqlDocumentIdType {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID',
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  Slug = 'SLUG',
+  /** Identify a resource by the URI. */
+  Uri = 'URI',
+}
+
+/** Connection between the graphqlDocument type and the graphqlDocument type */
+export type GraphqlDocumentToGraphqlDocumentConnection = Connection &
+  GraphqlDocumentConnection & {
+    __typename?: 'GraphqlDocumentToGraphqlDocumentConnection'
+    /** Edges for the GraphqlDocumentToGraphqlDocumentConnection connection */
+    edges: Array<GraphqlDocumentToGraphqlDocumentConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<GraphqlDocument>
+    /** Information about pagination in a connection. */
+    pageInfo: GraphqlDocumentToGraphqlDocumentConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type GraphqlDocumentToGraphqlDocumentConnectionEdge = Edge &
+  GraphqlDocumentConnectionEdge & {
+    __typename?: 'GraphqlDocumentToGraphqlDocumentConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: GraphqlDocument
+  }
+
+/** Pagination metadata specific to &quot;GraphqlDocumentToGraphqlDocumentConnection&quot; collections. Provides cursors and flags for navigating through sets of GraphqlDocumentToGraphqlDocumentConnection Nodes. */
+export type GraphqlDocumentToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'GraphqlDocumentToGraphqlDocumentConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Connection between the GraphqlDocument type and the graphqlDocumentGroup type */
+export type GraphqlDocumentToGraphqlDocumentGroupConnection = Connection &
+  GraphqlDocumentGroupConnection & {
+    __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnection'
+    /** Edges for the GraphqlDocumentToGraphqlDocumentGroupConnection connection */
+    edges: Array<GraphqlDocumentToGraphqlDocumentGroupConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<GraphqlDocumentGroup>
+    /** Information about pagination in a connection. */
+    pageInfo: GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type GraphqlDocumentToGraphqlDocumentGroupConnectionEdge = Edge &
+  GraphqlDocumentGroupConnectionEdge & {
+    __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The Yoast SEO Primary graphql_document_group */
+    isPrimary?: Maybe<Scalars['Boolean']['output']>
+    /** The item at the end of the edge */
+    node: GraphqlDocumentGroup
+  }
+
+/** Pagination metadata specific to &quot;GraphqlDocumentToGraphqlDocumentGroupConnection&quot; collections. Provides cursors and flags for navigating through sets of GraphqlDocumentToGraphqlDocumentGroupConnection Nodes. */
+export type GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo =
+  GraphqlDocumentGroupConnectionPageInfo &
+    PageInfo &
+    WpPageInfo & {
+      __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo'
+      /** When paginating forwards, the cursor to continue. */
+      endCursor?: Maybe<Scalars['String']['output']>
+      /** When paginating forwards, are there more items? */
+      hasNextPage: Scalars['Boolean']['output']
+      /** When paginating backwards, are there more items? */
+      hasPreviousPage: Scalars['Boolean']['output']
+      /** Raw schema for page */
+      seo?: Maybe<SeoPostTypePageInfo>
+      /** When paginating backwards, the cursor to continue. */
+      startCursor?: Maybe<Scalars['String']['output']>
+    }
+
+/** Arguments for filtering the GraphqlDocumentToGraphqlDocumentGroupConnection connection */
+export type GraphqlDocumentToGraphqlDocumentGroupConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>
+}
+
+/** Connection between the graphqlDocument type and the graphqlDocument type */
+export type GraphqlDocumentToParentConnectionEdge = Edge &
+  GraphqlDocumentConnectionEdge &
+  OneToOneConnection & {
+    __typename?: 'GraphqlDocumentToParentConnectionEdge'
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The node of the connection, without the edges */
+    node: GraphqlDocument
+  }
+
+/** Connection between the graphqlDocument type and the graphqlDocument type */
+export type GraphqlDocumentToPreviewConnectionEdge = Edge &
+  GraphqlDocumentConnectionEdge &
+  OneToOneConnection & {
+    __typename?: 'GraphqlDocumentToPreviewConnectionEdge'
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The node of the connection, without the edges */
+    node: GraphqlDocument
+  }
+
+/** Connection between the GraphqlDocument type and the TermNode type */
+export type GraphqlDocumentToTermNodeConnection = Connection &
+  TermNodeConnection & {
+    __typename?: 'GraphqlDocumentToTermNodeConnection'
+    /** Edges for the GraphqlDocumentToTermNodeConnection connection */
+    edges: Array<GraphqlDocumentToTermNodeConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<TermNode>
+    /** Information about pagination in a connection. */
+    pageInfo: GraphqlDocumentToTermNodeConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type GraphqlDocumentToTermNodeConnectionEdge = Edge &
+  TermNodeConnectionEdge & {
+    __typename?: 'GraphqlDocumentToTermNodeConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: TermNode
+  }
+
+/** Pagination metadata specific to &quot;GraphqlDocumentToTermNodeConnection&quot; collections. Provides cursors and flags for navigating through sets of GraphqlDocumentToTermNodeConnection Nodes. */
+export type GraphqlDocumentToTermNodeConnectionPageInfo = PageInfo &
+  TermNodeConnectionPageInfo &
+  WpPageInfo & {
+    __typename?: 'GraphqlDocumentToTermNodeConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the GraphqlDocumentToTermNodeConnection connection */
+export type GraphqlDocumentToTermNodeConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** The Taxonomy to filter terms by */
+  taxonomies?: InputMaybe<Array<InputMaybe<TaxonomyEnum>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Daily featured media-bank metadata for HeroHome */
@@ -11535,10 +12475,6 @@ export enum PluginStatusEnum {
   Inactive = 'INACTIVE',
   /** The plugin is a must-use plugin. */
   MustUse = 'MUST_USE',
-  /** The plugin is activated on the multisite network. */
-  NetworkActivated = 'NETWORK_ACTIVATED',
-  /** The plugin is installed on the multisite network, but is currently inactive. */
-  NetworkInactive = 'NETWORK_INACTIVE',
   /** The plugin is technically active but was paused while loading. */
   Paused = 'PAUSED',
   /** The plugin was active recently. */
@@ -14622,6 +15558,10 @@ export type RootMutation = {
   createDiseases?: Maybe<CreateDiseasesPayload>
   /** The createEvents mutation */
   createEvents?: Maybe<CreateEventsPayload>
+  /** The createGraphqlDocument mutation */
+  createGraphqlDocument?: Maybe<CreateGraphqlDocumentPayload>
+  /** The createGraphqlDocumentGroup mutation */
+  createGraphqlDocumentGroup?: Maybe<CreateGraphqlDocumentGroupPayload>
   /** The createInstitution mutation */
   createInstitution?: Maybe<CreateInstitutionPayload>
   /** The createMediaBank mutation */
@@ -14678,6 +15618,10 @@ export type RootMutation = {
   deleteDiseases?: Maybe<DeleteDiseasesPayload>
   /** The deleteEvents mutation */
   deleteEvents?: Maybe<DeleteEventsPayload>
+  /** The deleteGraphqlDocument mutation */
+  deleteGraphqlDocument?: Maybe<DeleteGraphqlDocumentPayload>
+  /** The deleteGraphqlDocumentGroup mutation */
+  deleteGraphqlDocumentGroup?: Maybe<DeleteGraphqlDocumentGroupPayload>
   /** The deleteInstitution mutation */
   deleteInstitution?: Maybe<DeleteInstitutionPayload>
   /** The deleteMediaBank mutation */
@@ -14754,6 +15698,10 @@ export type RootMutation = {
   updateDiseases?: Maybe<UpdateDiseasesPayload>
   /** The updateEvents mutation */
   updateEvents?: Maybe<UpdateEventsPayload>
+  /** The updateGraphqlDocument mutation */
+  updateGraphqlDocument?: Maybe<UpdateGraphqlDocumentPayload>
+  /** The updateGraphqlDocumentGroup mutation */
+  updateGraphqlDocumentGroup?: Maybe<UpdateGraphqlDocumentGroupPayload>
   /** Updates a single WPGraphQL setting field. Requires the manage-settings capability. */
   updateGraphqlSetting?: Maybe<UpdateGraphqlSettingPayload>
   /** The updateInstitution mutation */
@@ -14844,6 +15792,16 @@ export type RootMutationCreateDiseasesArgs = {
 /** The root mutation */
 export type RootMutationCreateEventsArgs = {
   input: CreateEventsInput
+}
+
+/** The root mutation */
+export type RootMutationCreateGraphqlDocumentArgs = {
+  input: CreateGraphqlDocumentInput
+}
+
+/** The root mutation */
+export type RootMutationCreateGraphqlDocumentGroupArgs = {
+  input: CreateGraphqlDocumentGroupInput
 }
 
 /** The root mutation */
@@ -14984,6 +15942,16 @@ export type RootMutationDeleteDiseasesArgs = {
 /** The root mutation */
 export type RootMutationDeleteEventsArgs = {
   input: DeleteEventsInput
+}
+
+/** The root mutation */
+export type RootMutationDeleteGraphqlDocumentArgs = {
+  input: DeleteGraphqlDocumentInput
+}
+
+/** The root mutation */
+export type RootMutationDeleteGraphqlDocumentGroupArgs = {
+  input: DeleteGraphqlDocumentGroupInput
 }
 
 /** The root mutation */
@@ -15174,6 +16142,16 @@ export type RootMutationUpdateDiseasesArgs = {
 /** The root mutation */
 export type RootMutationUpdateEventsArgs = {
   input: UpdateEventsInput
+}
+
+/** The root mutation */
+export type RootMutationUpdateGraphqlDocumentArgs = {
+  input: UpdateGraphqlDocumentInput
+}
+
+/** The root mutation */
+export type RootMutationUpdateGraphqlDocumentGroupArgs = {
+  input: UpdateGraphqlDocumentGroupInput
 }
 
 /** The root mutation */
@@ -15375,6 +16353,19 @@ export type RootQuery = WithAcfOptionsPageEaraSettings & {
   generalSettings?: Maybe<GeneralSettings>
   /** Get all unique country values from Members posts */
   getAllCountriesInMembers?: Maybe<Array<Maybe<CountryOption>>>
+  /** An object of the graphqlDocument Type. Saved GraphQL Documents */
+  graphqlDocument?: Maybe<GraphqlDocument>
+  /**
+   * A graphqlDocument object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  graphqlDocumentBy?: Maybe<GraphqlDocument>
+  /** A 0bject */
+  graphqlDocumentGroup?: Maybe<GraphqlDocumentGroup>
+  /** Connection between the RootQuery type and the graphqlDocumentGroup type */
+  graphqlDocumentGroups?: Maybe<RootQueryToGraphqlDocumentGroupConnection>
+  /** Connection between the RootQuery type and the graphqlDocument type */
+  graphqlDocuments?: Maybe<RootQueryToGraphqlDocumentConnection>
   /** Daily pick among media-bank posts with is_featured = true */
   heroHomeOfTheDay?: Maybe<HeroHomeMetadata>
   /** A 0bject */
@@ -15832,6 +16823,45 @@ export type RootQueryEventsByArgs = {
   id?: InputMaybe<Scalars['ID']['input']>
   slug?: InputMaybe<Scalars['String']['input']>
   uri?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The root entry point into the Graph */
+export type RootQueryGraphqlDocumentArgs = {
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
+  id: Scalars['ID']['input']
+  idType?: InputMaybe<GraphqlDocumentIdType>
+}
+
+/** The root entry point into the Graph */
+export type RootQueryGraphqlDocumentByArgs = {
+  graphqlDocumentId?: InputMaybe<Scalars['Int']['input']>
+  id?: InputMaybe<Scalars['ID']['input']>
+  slug?: InputMaybe<Scalars['String']['input']>
+  uri?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The root entry point into the Graph */
+export type RootQueryGraphqlDocumentGroupArgs = {
+  id: Scalars['ID']['input']
+  idType?: InputMaybe<GraphqlDocumentGroupIdType>
+}
+
+/** The root entry point into the Graph */
+export type RootQueryGraphqlDocumentGroupsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<RootQueryToGraphqlDocumentGroupConnectionWhereArgs>
+}
+
+/** The root entry point into the Graph */
+export type RootQueryGraphqlDocumentsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<RootQueryToGraphqlDocumentConnectionWhereArgs>
 }
 
 /** The root entry point into the Graph */
@@ -17373,6 +18403,179 @@ export type RootQueryToEventsConnectionWhereArgs = {
   template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the RootQuery type and the graphqlDocument type */
+export type RootQueryToGraphqlDocumentConnection = Connection &
+  GraphqlDocumentConnection & {
+    __typename?: 'RootQueryToGraphqlDocumentConnection'
+    /** Edges for the RootQueryToGraphqlDocumentConnection connection */
+    edges: Array<RootQueryToGraphqlDocumentConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<GraphqlDocument>
+    /** Information about pagination in a connection. */
+    pageInfo: RootQueryToGraphqlDocumentConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type RootQueryToGraphqlDocumentConnectionEdge = Edge &
+  GraphqlDocumentConnectionEdge & {
+    __typename?: 'RootQueryToGraphqlDocumentConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: GraphqlDocument
+  }
+
+/** Pagination metadata specific to &quot;RootQueryToGraphqlDocumentConnection&quot; collections. Provides cursors and flags for navigating through sets of RootQueryToGraphqlDocumentConnection Nodes. */
+export type RootQueryToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'RootQueryToGraphqlDocumentConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the RootQueryToGraphqlDocumentConnection connection */
+export type RootQueryToGraphqlDocumentConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the RootQuery type and the graphqlDocumentGroup type */
+export type RootQueryToGraphqlDocumentGroupConnection = Connection &
+  GraphqlDocumentGroupConnection & {
+    __typename?: 'RootQueryToGraphqlDocumentGroupConnection'
+    /** Edges for the RootQueryToGraphqlDocumentGroupConnection connection */
+    edges: Array<RootQueryToGraphqlDocumentGroupConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<GraphqlDocumentGroup>
+    /** Information about pagination in a connection. */
+    pageInfo: RootQueryToGraphqlDocumentGroupConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type RootQueryToGraphqlDocumentGroupConnectionEdge = Edge &
+  GraphqlDocumentGroupConnectionEdge & {
+    __typename?: 'RootQueryToGraphqlDocumentGroupConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: GraphqlDocumentGroup
+  }
+
+/** Pagination metadata specific to &quot;RootQueryToGraphqlDocumentGroupConnection&quot; collections. Provides cursors and flags for navigating through sets of RootQueryToGraphqlDocumentGroupConnection Nodes. */
+export type RootQueryToGraphqlDocumentGroupConnectionPageInfo =
+  GraphqlDocumentGroupConnectionPageInfo &
+    PageInfo &
+    WpPageInfo & {
+      __typename?: 'RootQueryToGraphqlDocumentGroupConnectionPageInfo'
+      /** When paginating forwards, the cursor to continue. */
+      endCursor?: Maybe<Scalars['String']['output']>
+      /** When paginating forwards, are there more items? */
+      hasNextPage: Scalars['Boolean']['output']
+      /** When paginating backwards, are there more items? */
+      hasPreviousPage: Scalars['Boolean']['output']
+      /** Raw schema for page */
+      seo?: Maybe<SeoPostTypePageInfo>
+      /** When paginating backwards, the cursor to continue. */
+      startCursor?: Maybe<Scalars['String']['output']>
+    }
+
+/** Arguments for filtering the RootQueryToGraphqlDocumentGroupConnection connection */
+export type RootQueryToGraphqlDocumentGroupConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Connection between the RootQuery type and the institution type */
@@ -19425,6 +20628,7 @@ export type SeoContentTypes = {
   dataChart?: Maybe<SeoContentType>
   diseases?: Maybe<SeoContentType>
   events?: Maybe<SeoContentType>
+  graphqlDocument?: Maybe<SeoContentType>
   mediaBank?: Maybe<SeoContentType>
   mediaItem?: Maybe<SeoContentType>
   member?: Maybe<SeoContentType>
@@ -19632,6 +20836,7 @@ export type SeoTaxonomyTypes = {
   category?: Maybe<SeoTaxonomyType>
   categoryEvent?: Maybe<SeoTaxonomyType>
   categoryNews?: Maybe<SeoTaxonomyType>
+  graphqlDocumentGroup?: Maybe<SeoTaxonomyType>
   institution?: Maybe<SeoTaxonomyType>
   postFormat?: Maybe<SeoTaxonomyType>
   researchAreasNews?: Maybe<SeoTaxonomyType>
@@ -19740,6 +20945,8 @@ export type Settings = {
   generalSettingsDateFormat?: Maybe<Scalars['String']['output']>
   /** Settings of the string Settings Group */
   generalSettingsDescription?: Maybe<Scalars['String']['output']>
+  /** Settings of the string Settings Group */
+  generalSettingsEmail?: Maybe<Scalars['String']['output']>
   /** Settings of the string Settings Group */
   generalSettingsHomeUrl?: Maybe<Scalars['String']['output']>
   /** Settings of the string Settings Group */
@@ -20247,6 +21454,8 @@ export enum TaxonomyEnum {
   Categoryevent = 'CATEGORYEVENT',
   /** Taxonomy enum categories-news */
   Categorynews = 'CATEGORYNEWS',
+  /** Taxonomy enum graphql_document_group */
+  Graphqldocumentgroup = 'GRAPHQLDOCUMENTGROUP',
   /** Taxonomy enum institution */
   Institution = 'INSTITUTION',
   /** Taxonomy enum post_format */
@@ -22254,6 +23463,82 @@ export type UpdateEventsPayload = {
   events?: Maybe<Events>
 }
 
+/** Input for the updateGraphqlDocumentGroup mutation. */
+export type UpdateGraphqlDocumentGroupInput = {
+  /** The slug that the graphql_document_group will be an alias of */
+  aliasOf?: InputMaybe<Scalars['String']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The description of the graphql_document_group object */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the graphqlDocumentGroup object to update */
+  id: Scalars['ID']['input']
+  /** The name of the graphql_document_group object to mutate */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the updateGraphqlDocumentGroup mutation. */
+export type UpdateGraphqlDocumentGroupPayload = {
+  __typename?: 'UpdateGraphqlDocumentGroupPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The created graphql_document_group */
+  graphqlDocumentGroup?: Maybe<GraphqlDocumentGroup>
+}
+
+/** Input for the updateGraphqlDocument mutation. */
+export type UpdateGraphqlDocumentInput = {
+  /** Alias names for saved GraphQL query documents */
+  alias?: InputMaybe<Array<Scalars['String']['input']>>
+  /** The userId to assign as the author of the object */
+  authorId?: InputMaybe<Scalars['ID']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The content of the object */
+  content?: InputMaybe<Scalars['String']['input']>
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars['String']['input']>
+  /** Description for the saved GraphQL document */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The excerpt of the object */
+  excerpt?: InputMaybe<Scalars['String']['input']>
+  /** Allow, deny or default access grant for specific query */
+  grant?: InputMaybe<Scalars['String']['input']>
+  /** Set connections between the graphqlDocument and graphqlDocumentGroups */
+  graphqlDocumentGroups?: InputMaybe<GraphqlDocumentGraphqlDocumentGroupsInput>
+  /** JSON-encoded HTTP headers to send with this query (IDE execution context). */
+  headers?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the graphqlDocument object */
+  id: Scalars['ID']['input']
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock?: InputMaybe<Scalars['Boolean']['input']>
+  /** HTTP Cache-Control max-age directive for a saved GraphQL document */
+  maxAgeHeader?: InputMaybe<Scalars['Int']['input']>
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars['Int']['input']>
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars['String']['input']>
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>
+  /** The title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+  /** JSON-encoded variables to send with this query (IDE execution context). */
+  variables?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the updateGraphqlDocument mutation. */
+export type UpdateGraphqlDocumentPayload = {
+  __typename?: 'UpdateGraphqlDocumentPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The Post object mutation type. */
+  graphqlDocument?: Maybe<GraphqlDocument>
+}
+
 /** Input for the updateGraphqlSetting mutation. */
 export type UpdateGraphqlSettingInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -22791,6 +24076,8 @@ export type UpdateSettingsInput = {
   generalSettingsDateFormat?: InputMaybe<Scalars['String']['input']>
   /** Site tagline. */
   generalSettingsDescription?: InputMaybe<Scalars['String']['input']>
+  /** This address is used for admin purposes, like new user notification. */
+  generalSettingsEmail?: InputMaybe<Scalars['String']['input']>
   /** WordPress locale code. */
   generalSettingsLanguage?: InputMaybe<Scalars['String']['input']>
   /** A day number of the week that the week should start on. */
@@ -23042,6 +24329,8 @@ export type User = Commenter &
     extraCapabilities?: Maybe<Array<Maybe<Scalars['String']['output']>>>
     /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
     firstName?: Maybe<Scalars['String']['output']>
+    /** Connection between the User type and the graphqlDocument type */
+    graphqlDocuments?: Maybe<UserToGraphqlDocumentConnection>
     /** Whether the user has enabled keyboard shortcuts for comment moderation. Defaults to false. */
     hasCommentShortcutsEnabled?: Maybe<Scalars['Boolean']['output']>
     /** Whether the user has enabled the visual editor. When enabled, the WYSIWYG editor is used for content editing. Defaults to true. */
@@ -23177,6 +24466,15 @@ export type UserEventsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   where?: InputMaybe<UserToEventsConnectionWhereArgs>
+}
+
+/** A registered user account. Users can be assigned roles, author content, and have various capabilities within the site. */
+export type UserGraphqlDocumentsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<UserToGraphqlDocumentConnectionWhereArgs>
 }
 
 /** A registered user account. Users can be assigned roles, author content, and have various capabilities within the site. */
@@ -23852,6 +25150,95 @@ export type UserToEventsConnectionPageInfo = EventsConnectionPageInfo &
 
 /** Arguments for filtering the UserToEventsConnection connection */
 export type UserToEventsConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the User type and the graphqlDocument type */
+export type UserToGraphqlDocumentConnection = Connection &
+  GraphqlDocumentConnection & {
+    __typename?: 'UserToGraphqlDocumentConnection'
+    /** Edges for the UserToGraphqlDocumentConnection connection */
+    edges: Array<UserToGraphqlDocumentConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<GraphqlDocument>
+    /** Information about pagination in a connection. */
+    pageInfo: UserToGraphqlDocumentConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type UserToGraphqlDocumentConnectionEdge = Edge &
+  GraphqlDocumentConnectionEdge & {
+    __typename?: 'UserToGraphqlDocumentConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: GraphqlDocument
+  }
+
+/** Pagination metadata specific to &quot;UserToGraphqlDocumentConnection&quot; collections. Provides cursors and flags for navigating through sets of UserToGraphqlDocumentConnection Nodes. */
+export type UserToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'UserToGraphqlDocumentConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the UserToGraphqlDocumentConnection connection */
+export type UserToGraphqlDocumentConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
   author?: InputMaybe<Scalars['Int']['input']>
   /** Find objects connected to author(s) in the array of author's userIds */
@@ -25098,6 +26485,15 @@ export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Events = {
   isRestricted?: boolean | null
 }
 
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_GraphqlDocument = {
+  __typename: 'GraphqlDocument'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
 export type GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaBank = {
   __typename: 'MediaBank'
   id: string
@@ -25203,6 +26599,7 @@ export type GetPreviewAccessByUriQuery_RootQuery_contentNode =
   | GetPreviewAccessByUriQuery_RootQuery_contentNode_DataChart
   | GetPreviewAccessByUriQuery_RootQuery_contentNode_Diseases
   | GetPreviewAccessByUriQuery_RootQuery_contentNode_Events
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_GraphqlDocument
   | GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaBank
   | GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaItem
   | GetPreviewAccessByUriQuery_RootQuery_contentNode_Member
@@ -25656,6 +27053,46 @@ type PageInfo_EventsToTermNodeConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_GraphqlDocumentGroupToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentGroupToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_GraphqlDocumentToTermNodeConnectionPageInfo_Fragment = {
+  __typename?: 'GraphqlDocumentToTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_HierarchicalContentNodeToContentNodeAncestorsConnectionPageInfo_Fragment = {
   __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnectionPageInfo'
   endCursor?: string | null
@@ -26040,6 +27477,22 @@ type PageInfo_RootQueryToEventsConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_RootQueryToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToGraphqlDocumentGroupConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToGraphqlDocumentGroupConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_RootQueryToInstitutionConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToInstitutionConnectionPageInfo'
   endCursor?: string | null
@@ -26400,6 +27853,14 @@ type PageInfo_UserToEventsConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_UserToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'UserToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_UserToMediaBankConnectionPageInfo_Fragment = {
   __typename?: 'UserToMediaBankConnectionPageInfo'
   endCursor?: string | null
@@ -26491,6 +27952,11 @@ export type PageInfoFragment =
   | PageInfo_EventsToCategoryEventConnectionPageInfo_Fragment
   | PageInfo_EventsToEventsConnectionPageInfo_Fragment
   | PageInfo_EventsToTermNodeConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentGroupToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentToGraphqlDocumentConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo_Fragment
+  | PageInfo_GraphqlDocumentToTermNodeConnectionPageInfo_Fragment
   | PageInfo_HierarchicalContentNodeToContentNodeAncestorsConnectionPageInfo_Fragment
   | PageInfo_HierarchicalContentNodeToContentNodeChildrenConnectionPageInfo_Fragment
   | PageInfo_InstitutionToCaseStudiesConnectionPageInfo_Fragment
@@ -26539,6 +28005,8 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToEnqueuedScriptConnectionPageInfo_Fragment
   | PageInfo_RootQueryToEnqueuedStylesheetConnectionPageInfo_Fragment
   | PageInfo_RootQueryToEventsConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToGraphqlDocumentConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToGraphqlDocumentGroupConnectionPageInfo_Fragment
   | PageInfo_RootQueryToInstitutionConnectionPageInfo_Fragment
   | PageInfo_RootQueryToMediaBankConnectionPageInfo_Fragment
   | PageInfo_RootQueryToMediaItemConnectionPageInfo_Fragment
@@ -26584,6 +28052,7 @@ export type PageInfoFragment =
   | PageInfo_UserToEnqueuedScriptConnectionPageInfo_Fragment
   | PageInfo_UserToEnqueuedStylesheetConnectionPageInfo_Fragment
   | PageInfo_UserToEventsConnectionPageInfo_Fragment
+  | PageInfo_UserToGraphqlDocumentConnectionPageInfo_Fragment
   | PageInfo_UserToMediaBankConnectionPageInfo_Fragment
   | PageInfo_UserToMediaItemConnectionPageInfo_Fragment
   | PageInfo_UserToMemberConnectionPageInfo_Fragment
@@ -26781,6 +28250,14 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfCont
     seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_ContentNode_seo_PostTypeSEO | null
   }
 
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument =
+  {
+    __typename?: 'GraphqlDocument'
+    id: string
+    slug?: string | null
+    seo?: GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_ContentNode_seo_PostTypeSEO | null
+  }
+
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_MediaBank =
   {
     __typename?: 'MediaBank'
@@ -26876,6 +28353,7 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfCont
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_DataChart
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Diseases
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Events
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_MediaBank
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_MediaItem
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_relatedNews_AcfContentNodeConnection_nodes_Member
@@ -26908,6 +28386,9 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentN
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events =
   { __typename?: 'Events'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; slug?: string | null }
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaBank =
   { __typename?: 'MediaBank'; id: string; slug?: string | null }
@@ -26949,6 +28430,7 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentN
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_DataChart
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events
+    | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaBank
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaItem
     | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Member
@@ -26980,6 +28462,9 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNo
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events =
   { __typename?: 'Events'; id: string; slug?: string | null }
+
+export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; slug?: string | null }
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaBank =
   { __typename?: 'MediaBank'; id: string; slug?: string | null }
@@ -27020,6 +28505,7 @@ export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNo
   | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_DataChart
   | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases
   | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events
+  | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument
   | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaBank
   | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaItem
   | GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Member
@@ -27185,6 +28671,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events =
   { __typename?: 'Events'; id: string; slug?: string | null }
 
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; slug?: string | null }
+
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaBank =
   { __typename?: 'MediaBank'; id: string; slug?: string | null }
 
@@ -27225,6 +28714,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_DataChart
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Diseases
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Events
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_GraphqlDocument
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaBank
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_MediaItem
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Member
@@ -27257,6 +28747,9 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events =
   { __typename?: 'Events'; id: string; slug?: string | null }
+
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; slug?: string | null }
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaBank =
   { __typename?: 'MediaBank'; id: string; slug?: string | null }
@@ -27298,6 +28791,7 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_DataChart
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Diseases
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Events
+    | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_GraphqlDocument
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaBank
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_MediaItem
     | GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_animal_AcfContentNodeConnection_nodes_Member
@@ -27480,6 +28974,9 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
     seo?: RelatedEventsFragment_Events_seo_PostTypeSEO | null
   }
 
+export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument' }
+
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_MediaBank =
   { __typename?: 'MediaBank' }
 
@@ -27520,6 +29017,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_DataChart
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Diseases
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Events
+    | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_GraphqlDocument
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_MediaBank
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_MediaItem
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedEvents_AcfContentNodeConnection_nodes_Member
@@ -27552,6 +29050,9 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Events =
   { __typename?: 'Events' }
+
+export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument =
+  { __typename?: 'GraphqlDocument' }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_MediaBank =
   { __typename?: 'MediaBank' }
@@ -27601,6 +29102,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_DataChart
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Diseases
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Events
+    | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_GraphqlDocument
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_MediaBank
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_MediaItem
     | GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_relatedNews_AcfContentNodeConnection_nodes_Member
@@ -27620,7 +29122,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
   }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; sourceUrl?: string | null }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -28068,6 +29570,9 @@ export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_T
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Events =
   { __typename?: 'Events'; id: string; uri?: string | null }
 
+export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_GraphqlDocument =
+  { __typename?: 'GraphqlDocument'; id: string; uri?: string | null }
+
 export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_MediaBank =
   { __typename?: 'MediaBank'; id: string; uri?: string | null }
 
@@ -28108,6 +29613,7 @@ export type GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_T
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_DataChart
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Diseases
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Events
+    | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_GraphqlDocument
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_MediaBank
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_MediaItem
     | GetSettingsQuery_RootQuery_earaSettings_EaraSettings_themeSettings_ThemeSettings_archiveTeams_AcfContentNodeConnectionEdge_node_Member
@@ -31188,7 +32694,7 @@ export const GetEventsDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
-                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'sourceUrl' } },
                                 ],
                               },
                             },
