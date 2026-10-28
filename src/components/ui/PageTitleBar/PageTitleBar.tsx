@@ -91,7 +91,7 @@ function PageTitleBarComponent({
                 backgroundTitle && 'bg-black/50 p-5'
               )}
             >
-              <Title order={2}>{title}</Title>
+              <Title order={1}>{title}</Title>
               {EventinfoTable}
               {newsIngoTable}
               {AditionalInforTable}
@@ -104,7 +104,7 @@ function PageTitleBarComponent({
                 backgroundTitle || featuredImage ? 'w-fit max-w-5xl bg-black/50 p-5' : ''
               )}
             >
-              <Title order={2} mb={10}>
+              <Title order={1} mb={10}>
                 {title}
               </Title>
               {EventinfoTable}
