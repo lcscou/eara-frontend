@@ -554,7 +554,7 @@ export const GetEvents = gql`
         }
         pageHeaderImage {
           node {
-            link
+            sourceUrl
           }
         }
         endDate

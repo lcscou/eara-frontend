@@ -27,7 +27,7 @@ export default function SingleEvents({ data }: { data: GetEventsQuery }) {
     <>
       <PageTitleBar
         title={data.events?.title || undefined}
-        featuredImage={data.events?.customFields?.pageHeaderImage?.node?.link}
+        featuredImage={data.events?.customFields?.pageHeaderImage?.node?.sourceUrl}
         eventStartDate={data.events?.customFields?.startDate}
         eventEndDate={data.events?.customFields?.endDate}
         organizer={data.events?.customFields?.organizer}

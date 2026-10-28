@@ -51,9 +51,23 @@ export default function ArchiveMembers() {
     ? selectedCountry
     : null
 
+  // O cursor de paginação do backend não resume corretamente quando combinado com o
+  // filtro "where: { country }" (perde e duplica itens entre páginas). Como já sabemos
+  // o total exato de membros por país, buscamos tudo de uma vez para esse filtro e
+  // evitamos acionar a paginação por cursor quebrada.
+  const selectedCountryCount = effectiveSelectedCountry
+    ? countriesData?.getAllCountriesInMembers?.find(
+        (country) => country?.value === effectiveSelectedCountry
+      )?.count
+    : undefined
+  const effectiveFirst =
+    effectiveSelectedCountry && selectedCountryCount
+      ? Math.max(selectedCountryCount, PAGE_SIZE)
+      : PAGE_SIZE
+
   const { data, networkStatus } = useSuspenseQuery(GetAllMembersDocument, {
     variables: {
-      first: PAGE_SIZE,
+      first: effectiveFirst,
       country: effectiveSelectedCountry ?? undefined,
       search: debouncedSearch.trim() || undefined,
     },
