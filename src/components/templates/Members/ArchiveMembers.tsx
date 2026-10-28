@@ -41,13 +41,39 @@ export default function ArchiveMembers() {
   // Query para buscar países de todos os membros (sem paginação)
   const { data: countriesData } = useSuspenseQuery(GetAllCountriesInMembersDocument)
 
+  // O backend pode retornar o mesmo país com variações de capitalização no value.
+  // Consolidamos pelo label para evitar opções duplicadas e somamos as contagens.
+  const { countryOptions, totalMembers } = useMemo(() => {
+    const optionsByCountry = new Map<string, { value: string; label: string; count: number }>()
+
+    for (const country of countriesData?.getAllCountriesInMembers ?? []) {
+      if (!country?.value || !country.label || typeof country.count !== 'number') {
+        continue
+      }
+
+      const label = country.label.trim()
+      const key = label.toLocaleLowerCase()
+      const existing = optionsByCountry.get(key)
+
+      if (existing) {
+        existing.count += country.count
+      } else {
+        optionsByCountry.set(key, {
+          value: country.value,
+          label,
+          count: country.count,
+        })
+      }
+    }
+
+    const options = [...optionsByCountry.values()].sort((a, b) => a.label.localeCompare(b.label))
+    const membersCount = options.reduce((acc, country) => acc + country.count, 0)
+
+    return { countryOptions: options, totalMembers: membersCount }
+  }, [countriesData])
+
   // Query principal para buscar membros paginados
-  const effectiveSelectedCountry = isCountryValueValid(
-    selectedCountry,
-    (countriesData?.getAllCountriesInMembers ?? [])
-      .filter((country): country is { value: string } => Boolean(country?.value))
-      .map((country) => ({ value: country.value }))
-  )
+  const effectiveSelectedCountry = isCountryValueValid(selectedCountry, countryOptions)
     ? selectedCountry
     : null
 
@@ -56,9 +82,7 @@ export default function ArchiveMembers() {
   // o total exato de membros por país, buscamos tudo de uma vez para esse filtro e
   // evitamos acionar a paginação por cursor quebrada.
   const selectedCountryCount = effectiveSelectedCountry
-    ? countriesData?.getAllCountriesInMembers?.find(
-        (country) => country?.value === effectiveSelectedCountry
-      )?.count
+    ? countryOptions.find((country) => country.value === effectiveSelectedCountry)?.count
     : undefined
   const effectiveFirst =
     effectiveSelectedCountry && selectedCountryCount
@@ -82,20 +106,6 @@ export default function ArchiveMembers() {
       setCountrySearch('')
     },
   })
-
-  // Opcoes de pais vindas do backend ja com label/value/count
-  const { countryOptions, totalMembers } = useMemo(() => {
-    const options = (countriesData?.getAllCountriesInMembers ?? [])
-      .filter(
-        (country): country is { value: string; label: string; count: number } =>
-          Boolean(country?.value && country?.label) && typeof country?.count === 'number'
-      )
-      .sort((a, b) => a.label.localeCompare(b.label))
-
-    const membersCount = options.reduce((acc, country) => acc + country.count, 0)
-
-    return { countryOptions: options, totalMembers: membersCount }
-  }, [countriesData])
 
   const allMembers = useMemo(() => data?.members?.nodes ?? [], [data])
   const baseMembers = useMemo(
