@@ -25,7 +25,8 @@ const getNewsData = cache(async (uri: string[]) => {
 
   return await queryWithAuthFallback<GetNewsQuery>({
     query: GetNewsDocument,
-    variables: { id: uri?.join('') },
+    // No WordPress, o URI canônico das notícias é /blog/news/<slug>/
+    variables: { id: `/blog/news/${uri?.join('/')}/` },
     previewUri: path,
     context: {
       fetchOptions: {
