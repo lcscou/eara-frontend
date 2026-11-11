@@ -41,6 +41,7 @@ import ProtectedDownloadButton from '@/components/ui/ProtectedDownloadButton/Pro
 import Quote from '@/components/ui/Quote/Quote'
 import Section from '@/components/ui/Section/Section'
 import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
+import { getHeroBackgroundStyle } from '@/lib/heroBackground'
 import { isPrivateUploadsUrl } from '@/lib/protected-files/shared'
 
 import { CardProps } from './types'
@@ -3947,6 +3948,13 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           <HomeHero
             overlayOpacity={attributes.overlayOpacity as number | undefined}
             overlayColor={attributes.overlayColor as string | undefined}
+            backgroundType={attributes.backgroundType as string | undefined}
+            backgroundValue={attributes.backgroundValue as string | undefined}
+            backgroundColor={attributes.backgroundColor as string | undefined}
+            gradientStartColor={attributes.gradientStartColor as string | undefined}
+            gradientEndColor={attributes.gradientEndColor as string | undefined}
+            gradientType={attributes.gradientType as string | undefined}
+            gradientAngle={attributes.gradientAngle as number | undefined}
           >
             {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </HomeHero>
@@ -4141,7 +4149,18 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           ml={marginLeft}
           mr={marginRight}
         >
-          <HeroSlideItem bgImageSrc={backgroundImage?.url}>
+          <HeroSlideItem
+            backgroundStyle={getHeroBackgroundStyle({
+              backgroundType: attributes.backgroundType as string | undefined,
+              backgroundValue: attributes.backgroundValue as string | undefined,
+              backgroundColor: attributes.backgroundColor as string | undefined,
+              gradientStartColor: attributes.gradientStartColor as string | undefined,
+              gradientEndColor: attributes.gradientEndColor as string | undefined,
+              gradientType: attributes.gradientType as string | undefined,
+              gradientAngle: attributes.gradientAngle as number | undefined,
+              imageUrl: backgroundImage?.url,
+            })}
+          >
             {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </HeroSlideItem>
         </Box>
