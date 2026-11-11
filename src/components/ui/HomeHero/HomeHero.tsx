@@ -3,7 +3,8 @@ import { Box, Container } from '@mantine/core'
 import Link from 'next/link'
 
 import { GetHeroHomeOfTheDayDocument } from '@/graphql/generated/graphql'
-import { HomeHeroProps } from '@/lib/types'
+import { getHeroBackgroundStyle } from '@/lib/heroBackground'
+import type { HomeHeroProps } from '@/lib/types'
 
 import InfoButton from '../InfoButton/InfoButton'
 
@@ -11,8 +12,25 @@ export default function HomeHero({
   children,
   overlayColor = 'black',
   overlayOpacity = 40,
+  backgroundType,
+  backgroundValue,
+  backgroundColor,
+  gradientStartColor,
+  gradientEndColor,
+  gradientType,
+  gradientAngle,
 }: HomeHeroProps) {
   const { data } = useSuspenseQuery(GetHeroHomeOfTheDayDocument)
+  const backgroundStyle = getHeroBackgroundStyle({
+    backgroundType,
+    backgroundValue,
+    backgroundColor,
+    gradientStartColor,
+    gradientEndColor,
+    gradientType,
+    gradientAngle,
+    imageUrl: data?.heroHomeOfTheDay?.featuredImageUrl || undefined,
+  })
 
   const credits = (
     <>
@@ -47,7 +65,7 @@ export default function HomeHero({
     <>
       <Box
         style={{
-          backgroundImage: `url(${data?.heroHomeOfTheDay?.featuredImageUrl})`,
+          ...backgroundStyle,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',

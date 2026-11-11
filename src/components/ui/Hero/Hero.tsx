@@ -1,7 +1,10 @@
 'use client'
 import { Carousel } from '@mantine/carousel'
 import clsx from 'clsx'
+import type { CSSProperties } from 'react'
 import { createContext, ReactNode, useContext, useState } from 'react'
+
+import { getHeroBackgroundStyle } from '@/lib/heroBackground'
 
 import s from './Hero.module.css'
 
@@ -19,15 +22,30 @@ type HeroSlideProps = {
 interface HeroSlideItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode
   bgImageSrc?: string
+  backgroundStyle?: CSSProperties
 }
 
-export function HeroSlideItem({ children, bgImageSrc, ...props }: HeroSlideItemProps) {
+export function HeroSlideItem({
+  children,
+  bgImageSrc,
+  backgroundStyle,
+  style,
+  ...props
+}: HeroSlideItemProps) {
   const ctx = useContext(HeroSlideContext)
-  if (!ctx) throw new Error('HeroSlide.Item deve ser usado dentro de <HeroSlide>')
+  if (!ctx) {
+    console.error(
+      'HeroSlide.Item was rendered outside <HeroSlide>. This slide was skipped. Wrap it in <HeroSlide> to render it correctly.'
+    )
+    return null
+  }
   return (
     <Carousel.Slide>
       <div
-        style={{ backgroundImage: `url(${bgImageSrc})` }}
+        style={{
+          ...(backgroundStyle ?? getHeroBackgroundStyle({ imageUrl: bgImageSrc })),
+          ...style,
+        }}
         className={clsx(
           'bg-primaryColor flex min-h-svh items-center justify-center bg-cover',
           s.bgOverlay
