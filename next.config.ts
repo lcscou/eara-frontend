@@ -5,6 +5,7 @@ import type { NextConfig } from 'next'
 const hosts = [
   'eara.x00.online',
   'eara.local',
+  'conference.eara.eu',
   'x00.online',
   'conference.x00.online',
   'eara-frontend.vercel.app',
