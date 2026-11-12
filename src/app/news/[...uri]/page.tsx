@@ -23,20 +23,30 @@ type NewsProps = {
 const getNewsData = cache(async (uri: string[]) => {
   const path = `/news/${uri?.join('/')}`
 
-  return await queryWithAuthFallback<GetNewsQuery>({
-    query: GetNewsDocument,
-    // No WordPress, o URI canônico das notícias é /blog/news/<slug>/
-    variables: { id: `/blog/news/${uri?.join('/')}/` },
-    previewUri: path,
-    context: {
-      fetchOptions: {
-        next: {
-          revalidate: 1800,
-          tags: ['news', `news-${uri?.join('')}`],
+  const slug = uri?.join('/')
+  // O URI canônico varia conforme o permalink do WordPress (produção: /blog/news/<slug>/)
+  const candidateIds = [`/blog/news/${slug}/`, `/news/${slug}/`, slug]
+
+  let result!: Awaited<ReturnType<typeof queryWithAuthFallback<GetNewsQuery>>>
+  for (const id of candidateIds) {
+    result = await queryWithAuthFallback<GetNewsQuery>({
+      query: GetNewsDocument,
+      variables: { id },
+      previewUri: path,
+      context: {
+        fetchOptions: {
+          next: {
+            revalidate: 1800,
+            tags: ['news', `news-${uri?.join('')}`],
+          },
         },
       },
-    },
-  })
+    })
+
+    if (result.data?.news || result.authRequired) break
+  }
+
+  return result
 })
 
 const getAllNewsData = cache(async (): Promise<GetAllNewsQuery> => {
