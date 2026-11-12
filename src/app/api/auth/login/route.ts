@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
-import { AUTH_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from '@/lib/auth/constants'
+import { getAuthCookieName, getRefreshTokenCookieName } from '@/lib/auth/constants'
+import { getSiteConfig } from '@/lib/site-config'
 
 const LOGIN_MUTATION = `
   mutation Login($username: String!, $password: String!) {
@@ -29,17 +30,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Email and password are required.' }, { status: 400 })
     }
 
-    const endpoint =
-      process.env.WORDPRESS_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT
+    const site = getSiteConfig(
+      request.headers.get('x-forwarded-host') || request.headers.get('host') || ''
+    )
 
-    if (!endpoint) {
-      return NextResponse.json(
-        { error: 'WordPress GraphQL endpoint is not configured.' },
-        { status: 500 }
-      )
-    }
-
-    const response = await fetch(endpoint, {
+    const response = await fetch(site.graphqlEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +74,7 @@ export async function POST(request: Request) {
 
     // Armazena o JWT token para autenticação nas requisições GraphQL
     res.cookies.set({
-      name: AUTH_COOKIE_NAME,
+      name: getAuthCookieName(site.key),
       value: login.authToken,
       httpOnly: true,
       sameSite: 'lax',
@@ -93,7 +88,7 @@ export async function POST(request: Request) {
     // Armazena o refresh token para renovação automática
     if (login.refreshToken) {
       res.cookies.set({
-        name: REFRESH_TOKEN_COOKIE_NAME,
+        name: getRefreshTokenCookieName(site.key),
         value: login.refreshToken,
         httpOnly: true,
         sameSite: 'lax',

@@ -1,10 +1,12 @@
 import { cookies } from 'next/headers'
 
-import { AUTH_COOKIE_NAME } from './constants'
+import { getCurrentServerSiteConfig } from '../site-config-server'
+import { getAuthCookieName } from './constants'
 
 export async function getAuthToken() {
   const cookieStore = await cookies()
-  return cookieStore.get(AUTH_COOKIE_NAME)?.value ?? null
+  const site = await getCurrentServerSiteConfig()
+  return cookieStore.get(getAuthCookieName(site.key))?.value ?? null
 }
 
 /**
@@ -18,15 +20,10 @@ export async function validateAuthToken(): Promise<boolean> {
     return false
   }
 
-  const endpoint =
-    process.env.WORDPRESS_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT
-
-  if (!endpoint) {
-    return false
-  }
+  const site = await getCurrentServerSiteConfig()
 
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch(site.graphqlEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

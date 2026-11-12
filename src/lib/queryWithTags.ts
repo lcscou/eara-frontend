@@ -1,6 +1,7 @@
 import { DocumentNode, OperationVariables } from '@apollo/client'
 
 import { getClient } from './apollo-client'
+import { getCurrentServerSiteConfig } from './site-config-server'
 
 interface QueryWithTagsOptions<TVariables extends OperationVariables = OperationVariables> {
   query: DocumentNode
@@ -18,6 +19,7 @@ export async function queryWithTags<
   TVariables extends OperationVariables = OperationVariables,
 >({ query, variables, tags = [], revalidate = 3600 }: QueryWithTagsOptions<TVariables>) {
   const client = getClient()
+  const site = await getCurrentServerSiteConfig()
 
   return client.query<TData, TVariables>({
     query,
@@ -26,7 +28,7 @@ export async function queryWithTags<
       fetchOptions: {
         next: {
           revalidate,
-          tags: ['wordpress', ...tags],
+          tags: [`site:${site.key}:wordpress`, ...tags.map((tag) => `site:${site.key}:${tag}`)],
         },
       },
     },

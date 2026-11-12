@@ -1,19 +1,10 @@
 import 'server-only'
 
+import { getCurrentServerSiteConfig } from '@/lib/site-config-server'
+
 import { isPrivateUploadsUrl } from './shared'
 
-function getWordPressOrigin(): string {
-  const endpoint =
-    process.env.WORDPRESS_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT
-
-  if (!endpoint) {
-    throw new Error('WordPress GraphQL endpoint is not configured.')
-  }
-
-  return new URL(endpoint).origin
-}
-
-function resolveWordPressFileUrl(rawUrl: string): string {
+function resolveWordPressFileUrl(rawUrl: string, wordpressOrigin: string): string {
   if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
     return rawUrl
   }
@@ -22,19 +13,21 @@ function resolveWordPressFileUrl(rawUrl: string): string {
     return `https:${rawUrl}`
   }
 
-  return new URL(rawUrl, getWordPressOrigin()).toString()
+  return new URL(rawUrl, wordpressOrigin).toString()
 }
 
 export async function fetchProtectedFileFromWordPress(rawUrl: string): Promise<Response> {
+  const site = await getCurrentServerSiteConfig()
   const secret = process.env.PROTECTED_FILES_SECRET
 
   if (!secret) {
     throw new Error('PROTECTED_FILES_SECRET is not configured.')
   }
 
-  const resolvedUrl = resolveWordPressFileUrl(rawUrl)
+  const resolvedUrl = resolveWordPressFileUrl(rawUrl, site.wordpressOrigin)
+  const resolvedOrigin = new URL(resolvedUrl).origin
 
-  if (!isPrivateUploadsUrl(resolvedUrl)) {
+  if (resolvedOrigin !== site.wordpressOrigin || !isPrivateUploadsUrl(resolvedUrl)) {
     throw new Error('Only private upload URLs are allowed.')
   }
 

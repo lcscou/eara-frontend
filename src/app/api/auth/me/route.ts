@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-import { AUTH_COOKIE_NAME } from '@/lib/auth/constants'
+import { getAuthCookieName } from '@/lib/auth/constants'
+import { getCurrentServerSiteConfig } from '@/lib/site-config-server'
 
 const VIEWER_QUERY = `
   query Viewer {
@@ -27,23 +28,14 @@ function decodeJWT(token: string) {
 
 export async function GET() {
   const cookieStore = await cookies()
-  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value
+  const site = await getCurrentServerSiteConfig()
+  const token = cookieStore.get(getAuthCookieName(site.key))?.value
 
   if (!token) {
     return NextResponse.json({ authenticated: false }, { status: 401 })
   }
 
-  const endpoint =
-    process.env.WORDPRESS_GRAPHQL_ENDPOINT || process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT
-
-  if (!endpoint) {
-    return NextResponse.json(
-      { error: 'WordPress GraphQL endpoint is not configured.' },
-      { status: 500 }
-    )
-  }
-
-  const response = await fetch(endpoint, {
+  const response = await fetch(site.graphqlEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

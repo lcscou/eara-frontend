@@ -8,6 +8,7 @@ import { setContext } from '@apollo/client/link/context'
 import { RetryLink } from '@apollo/client/link/retry'
 
 import { getAuthToken } from './auth/server'
+import { getSiteConfig } from './site-config'
 
 type NetworkErrorLike = {
   statusCode?: number
@@ -215,12 +216,14 @@ const cache = new InMemoryCache({
 })
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
+  const site = getSiteConfig()
+
   return new ApolloClient({
     cache,
     link: ApolloLink.from([
       createRetryLink(),
       new HttpLink({
-        uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+        uri: site.graphqlEndpoint,
         fetchOptions: {
           next: {
             revalidate: 3600, // Cache de 1 hora por padrão
@@ -257,6 +260,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
  */
 export async function getAuthenticatedClient() {
   const token = await getAuthToken()
+  const site = getSiteConfig()
 
   const authLink = setContext(async (_, { headers }) => {
     return {
@@ -268,7 +272,7 @@ export async function getAuthenticatedClient() {
   })
 
   const httpLink = new HttpLink({
-    uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+    uri: site.graphqlEndpoint,
 
     fetchOptions: {
       cache: 'no-store', // Conteúdo privado não deve ser cacheado

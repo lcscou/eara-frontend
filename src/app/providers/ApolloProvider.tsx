@@ -8,11 +8,14 @@ import {
   InMemoryCache,
 } from '@apollo/client-integration-nextjs'
 
+import { getCurrentSiteConfig } from '@/lib/site-config'
+
 // have a function to create a client for you
 function makeClient() {
+  const site = getCurrentSiteConfig()
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
-    uri: process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT,
+    uri: site.graphqlEndpoint,
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
     fetchOptions: {

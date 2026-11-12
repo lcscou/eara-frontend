@@ -1,11 +1,15 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextResponse } from 'next/server'
 
+import { getCurrentServerSiteConfig } from '@/lib/site-config-server'
+
 const REVALIDATE_TAG_PROFILE = 'max'
 
 export async function GET() {
   try {
     console.log('Starting cache clear...')
+    const site = await getCurrentServerSiteConfig()
+    const siteTag = (tag: string) => `site:${site.key}:${tag}`
 
     // Revalidar todas as tags
     const tags = [
@@ -24,8 +28,8 @@ export async function GET() {
     ]
 
     tags.forEach((tag) => {
-      revalidateTag(tag, REVALIDATE_TAG_PROFILE)
-      console.log(`Revalidated tag: ${tag}`)
+      revalidateTag(siteTag(tag), REVALIDATE_TAG_PROFILE)
+      console.log(`Revalidated tag: ${siteTag(tag)}`)
     })
 
     // Revalidar paths principais

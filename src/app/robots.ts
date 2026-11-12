@@ -1,15 +1,17 @@
 import type { MetadataRoute } from 'next'
 
-import { PUBLIC_SITE_ORIGIN } from '@/lib/seo/site-url'
+import { getCurrentServerSiteConfig } from '@/lib/site-config-server'
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const site = await getCurrentServerSiteConfig()
+
   return {
     rules: {
       userAgent: '*',
       allow: '/',
       disallow: ['/api/', '/maintenance'],
     },
-    host: new URL(PUBLIC_SITE_ORIGIN).host,
-    sitemap: `${PUBLIC_SITE_ORIGIN}/sitemap.xml`,
+    host: new URL(site.publicOrigin).host,
+    sitemap: `${site.publicOrigin}/sitemap.xml`,
   }
 }

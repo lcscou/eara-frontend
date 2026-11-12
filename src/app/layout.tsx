@@ -12,7 +12,7 @@ import { AuthRefreshProvider } from '@/components/auth/AuthRefreshProvider'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import TranslationWidget from '@/components/ui/TranslationWidget/TranslationWidget'
 import { ModalsProvider } from '@/contexts/ModalsContext'
-import { PUBLIC_SITE_ORIGIN } from '@/lib/seo/site-url'
+import { getCurrentServerSiteConfig } from '@/lib/site-config-server'
 
 import { ApolloWrapper } from './providers/ApolloProvider'
 import { MantineProvider } from './providers/MantineProvider'
@@ -21,21 +21,25 @@ const hankenGrotesk = Hanken_Grotesk({
   subsets: ['latin'],
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL(PUBLIC_SITE_ORIGIN),
-  title: 'EARA',
-  description: 'European Animal Research Association',
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getCurrentServerSiteConfig()
+
+  return {
+    metadataBase: new URL(site.publicOrigin),
+    title: 'EARA',
+    description: 'European Animal Research Association',
+    robots: {
       index: true,
       follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
     },
-  },
+  }
 }
 
 export default async function RootLayout({
