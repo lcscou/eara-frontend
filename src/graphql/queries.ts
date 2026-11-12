@@ -143,6 +143,7 @@ export const GetAnimal = gql`
         pageHeaderImage {
           node {
             link
+            guid
           }
         }
       }
@@ -334,6 +335,7 @@ export const GetNews = gql`
         pageHeaderImage {
           node {
             link
+            guid
           }
         }
         relatedNews {
@@ -555,6 +557,7 @@ export const GetEvents = gql`
         pageHeaderImage {
           node {
             sourceUrl
+            guid
           }
         }
         endDate
@@ -692,6 +695,7 @@ export const GetDiseases = gql`
       acfDiseases {
         pageHeaderImage {
           node {
+            guid
             link
           }
         }
@@ -785,6 +789,7 @@ export const GetMembers = gql`
         pageHeaderImage {
           node {
             link
+            guid
           }
         }
       }
@@ -1052,6 +1057,7 @@ export const GetCaseStudies = gql`
         pageHeaderImage {
           node {
             link
+            guid
           }
         }
       }
@@ -1123,6 +1129,7 @@ export const GetTeam = gql`
         pageHeaderImage {
           node {
             link
+            guid
           }
         }
       }
@@ -1272,6 +1279,7 @@ export const GetPressRelease = gql`
         pageHeaderImage {
           node {
             link
+            guid
           }
         }
         documents {

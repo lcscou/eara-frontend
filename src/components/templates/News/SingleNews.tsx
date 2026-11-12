@@ -37,7 +37,7 @@ export default function SingleNews({ data, allNews }: SingleNewsProps) {
     <>
       <PageTitleBar
         title={data.news?.title || undefined}
-        featuredImage={data.news?.acfNews?.pageHeaderImage?.node?.link}
+        featuredImage={data.news?.acfNews?.pageHeaderImage?.node?.guid}
         date={data.news?.date}
         readingTime={data.news?.seo?.readingTime}
         author={`${data.news?.author?.node.firstName} ${data.news?.author?.node.lastName}`}

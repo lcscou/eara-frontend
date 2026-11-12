@@ -14,7 +14,7 @@ export default function SingleDiseases({ data }: { data: GetDiseasesQuery }) {
     <>
       <PageTitleBar
         title={data.diseases?.title || undefined}
-        featuredImage={data.diseases?.acfDiseases?.pageHeaderImage?.node?.link}
+        featuredImage={data.diseases?.acfDiseases?.pageHeaderImage?.node?.guid}
         date={data.diseases?.date}
         readingTime={data.diseases?.seo?.readingTime || 0}
         author={`${data.diseases?.author?.node.firstName} ${data.diseases?.author?.node.lastName}`}

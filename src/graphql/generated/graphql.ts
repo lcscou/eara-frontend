@@ -7277,8 +7277,6 @@ export type GeneralSettings = Node & {
   dateFormat?: Maybe<Scalars['String']['output']>
   /** Site tagline. */
   description?: Maybe<Scalars['String']['output']>
-  /** This address is used for admin purposes, like new user notification. */
-  email?: Maybe<Scalars['String']['output']>
   /** The address at which visitors reach the site&#039;s front end. Can differ from the `url` field when the front end and the content management backend are served from different addresses, such as on headless or decoupled installs. */
   homeUrl?: Maybe<Scalars['String']['output']>
   /** The globally unique identifier of the settings group. */
@@ -7297,7 +7295,7 @@ export type GeneralSettings = Node & {
   timezone?: Maybe<Scalars['String']['output']>
   /** Site title. */
   title?: Maybe<Scalars['String']['output']>
-  /** Site URL. */
+  /** The base URL where the site&#039;s application and content management backend are served. Can differ from the `homeUrl` field when the front end and backend are served from different addresses, such as on headless or decoupled installs. */
   url?: Maybe<Scalars['String']['output']>
 }
 
@@ -12475,6 +12473,10 @@ export enum PluginStatusEnum {
   Inactive = 'INACTIVE',
   /** The plugin is a must-use plugin. */
   MustUse = 'MUST_USE',
+  /** The plugin is activated on the multisite network. */
+  NetworkActivated = 'NETWORK_ACTIVATED',
+  /** The plugin is installed on the multisite network, but is currently inactive. */
+  NetworkInactive = 'NETWORK_INACTIVE',
   /** The plugin is technically active but was paused while loading. */
   Paused = 'PAUSED',
   /** The plugin was active recently. */
@@ -20946,8 +20948,6 @@ export type Settings = {
   /** Settings of the string Settings Group */
   generalSettingsDescription?: Maybe<Scalars['String']['output']>
   /** Settings of the string Settings Group */
-  generalSettingsEmail?: Maybe<Scalars['String']['output']>
-  /** Settings of the string Settings Group */
   generalSettingsHomeUrl?: Maybe<Scalars['String']['output']>
   /** Settings of the string Settings Group */
   generalSettingsLanguage?: Maybe<Scalars['String']['output']>
@@ -24076,8 +24076,6 @@ export type UpdateSettingsInput = {
   generalSettingsDateFormat?: InputMaybe<Scalars['String']['input']>
   /** Site tagline. */
   generalSettingsDescription?: InputMaybe<Scalars['String']['input']>
-  /** This address is used for admin purposes, like new user notification. */
-  generalSettingsEmail?: InputMaybe<Scalars['String']['input']>
   /** WordPress locale code. */
   generalSettingsLanguage?: InputMaybe<Scalars['String']['input']>
   /** A day number of the week that the week should start on. */
@@ -26639,7 +26637,7 @@ export type GetAnimalQuery_RootQuery_animal_Animal_author_NodeWithAuthorToUserCo
 }
 
 export type GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; link?: string | null; guid?: string | null }
 
 export type GetAnimalQuery_RootQuery_animal_Animal_acfAnimal_AcfAnimal_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -28190,7 +28188,7 @@ export type GetNewsQuery_RootQuery_news_News_author_NodeWithAuthorToUserConnecti
 }
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; link?: string | null; guid?: string | null }
 
 export type GetNewsQuery_RootQuery_news_News_acfNews_AcfNews_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -29122,7 +29120,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
   }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; sourceUrl?: string | null }
+  { __typename?: 'MediaItem'; sourceUrl?: string | null; guid?: string | null }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -29337,7 +29335,7 @@ export type GetDiseasesQuery_RootQuery_diseases_Diseases_author_NodeWithAuthorTo
   }
 
 export type GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; guid?: string | null; link?: string | null }
 
 export type GetDiseasesQuery_RootQuery_diseases_Diseases_acfDiseases_AcfDiseases_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -29493,7 +29491,7 @@ export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_geoloc
   { __typename?: 'AcfMembersGeolocation'; latitude?: string | null; longitude?: string | null }
 
 export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; link?: string | null; guid?: string | null }
 
 export type GetMembersQuery_RootQuery_member_Member_acfMembers_AcfMembers_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -29969,7 +29967,7 @@ export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_institution_Ca
   }
 
 export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; link?: string | null; guid?: string | null }
 
 export type GetCaseStudiesQuery_RootQuery_caseStudies_CaseStudies_acfCaseStudie_AcfCaseStudie_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -30091,7 +30089,7 @@ export type GetTeamQuery_RootQuery_team_Team_seo_PostTypeSEO = {
 }
 
 export type GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; link?: string | null; guid?: string | null }
 
 export type GetTeamQuery_RootQuery_team_Team_acfTeam_AcfTeam_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -30326,7 +30324,7 @@ export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_seo_PostTyp
 }
 
 export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; link?: string | null; guid?: string | null }
 
 export type GetPressReleaseQuery_RootQuery_pressRelease_PressRelease_acfPressRelease_AcfPressRelease_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -31425,6 +31423,7 @@ export const GetAnimalDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                 ],
                               },
                             },
@@ -31942,6 +31941,7 @@ export const GetNewsDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                 ],
                               },
                             },
@@ -32695,6 +32695,7 @@ export const GetEventsDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'sourceUrl' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                 ],
                               },
                             },
@@ -33295,6 +33296,7 @@ export const GetDiseasesDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
                                 ],
                               },
@@ -33628,6 +33630,7 @@ export const GetMembersDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                 ],
                               },
                             },
@@ -34546,6 +34549,7 @@ export const GetCaseStudiesDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                 ],
                               },
                             },
@@ -34784,6 +34788,7 @@ export const GetTeamDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                 ],
                               },
                             },
@@ -35310,6 +35315,7 @@ export const GetPressReleaseDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'guid' } },
                                 ],
                               },
                             },
