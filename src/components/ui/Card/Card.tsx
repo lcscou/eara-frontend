@@ -53,7 +53,13 @@ export default function Card({
       )}
       {variant === 'layout-2' && (
         <div {...props} className={clsx('rounded-2xl bg-white p-10')}>
-          <Image src="/logo-eara.svg" width={220} height={200} alt="Logo" className="mb-10" />
+          <Image
+            src={featuredImage || '/logo-eara.svg'}
+            width={220}
+            height={200}
+            alt="Logo"
+            className="mb-10 rounded-2xl"
+          />
           <Title order={6} mb={15}>
             {title}
           </Title>

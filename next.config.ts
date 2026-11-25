@@ -5,6 +5,7 @@ const hosts = [
   'raw.githubusercontent.com',
   'lightskyblue-camel-505374.hostingersite.com',
   'backofficeadmin.eara.eu',
+  'backofficeadmin.eara.eu/conference',
   'localhost',
 ]
 

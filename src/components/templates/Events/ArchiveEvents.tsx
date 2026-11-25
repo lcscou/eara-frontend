@@ -352,7 +352,7 @@ function ArchiveEventsContent() {
                 title={event?.title || ''}
                 date={event?.customFields?.startDate || ''}
                 category={event?.categoriesEvents?.nodes?.[0]?.name || 'General'}
-                featuredImage={event?.featuredImage?.node?.guid ?? undefined}
+                featuredImage={event?.featuredImage?.node?.guid || ''}
               />
             ))}
           </div>

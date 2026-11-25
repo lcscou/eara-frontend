@@ -60,6 +60,22 @@ export default function Footer({}: FooterProps) {
     menu?.locations?.find((loc) => loc == 'MAIN_FOOTER')
   )[0]
   const footerItems = MAIN_FOOTER?.menuItems?.nodes ?? []
+  const wordpressEndpoint = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT
+  const subscribeLink =
+    wordpressEndpoint === 'https://backofficeadmin.eara.eu/graphql' ||
+    wordpressEndpoint === 'https://backofficeadmin.eara.eu/graphql/'
+      ? '/newsletter-sign-up'
+      : 'https://www.eara.eu/newsletter-sign-up'
+  const socialMediaLinks = settingsData?.earaSettings?.themeSettings?.socialMediaLinks
+  const hasSocialMediaLinks = [
+    socialMediaLinks?.instagram,
+    socialMediaLinks?.linkedin,
+    socialMediaLinks?.facebook,
+    socialMediaLinks?.youtube,
+    socialMediaLinks?.x,
+    socialMediaLinks?.bluesky,
+    socialMediaLinks?.tiktok,
+  ].some(Boolean)
 
   if ((menuLoading || settingsLoading || menuError || settingsError) && !data && !settingsData) {
     return (
@@ -80,103 +96,108 @@ export default function Footer({}: FooterProps) {
               <Grid.Col span={{ sm: 4 }}>
                 <Image w={350} src="/logo-eara-light.svg" alt="Logo Eara" />
               </Grid.Col>
-              <Grid.Col span={{ sm: 4 }}>
-                <Title order={6} c="earaDark.5">
-                  Social Media
-                </Title>
-                <Group>
-                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook && (
-                    <Button
-                      component="a"
-                      target="_blank"
-                      href={
-                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook || ''
-                      }
-                      unstyled
-                      className="mt-4"
-                    >
-                      <IconBrandFacebook />
-                    </Button>
-                  )}
-                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram && (
-                    <Button
-                      component="a"
-                      target="_blank"
-                      href={
-                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram || ''
-                      }
-                      unstyled
-                      className="mt-4"
-                    >
-                      <IconBrandInstagram />
-                    </Button>
-                  )}
-                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin && (
-                    <Button
-                      component="a"
-                      target="_blank"
-                      href={
-                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin || ''
-                      }
-                      unstyled
-                      className="mt-4"
-                    >
-                      <IconBrandLinkedin />
-                    </Button>
-                  )}
-                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube && (
-                    <Button
-                      component="a"
-                      target="_blank"
-                      href={
-                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube || ''
-                      }
-                      unstyled
-                      className="mt-4"
-                    >
-                      <IconBrandYoutube />
-                    </Button>
-                  )}
-                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x && (
-                    <Button
-                      component="a"
-                      target="_blank"
-                      href={settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x || ''}
-                      unstyled
-                      className="mt-4"
-                    >
-                      <IconBrandX />
-                    </Button>
-                  )}
-                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.bluesky && (
-                    <Button
-                      component="a"
-                      target="_blank"
-                      href={
-                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.bluesky || ''
-                      }
-                      unstyled
-                      className="mt-4"
-                    >
-                      <IconBrandBluesky />
-                    </Button>
-                  )}
+              {hasSocialMediaLinks && (
+                <Grid.Col span={{ sm: 4 }}>
+                  <Title order={6} c="earaDark.5">
+                    Social Media
+                  </Title>
+                  <Group>
+                    {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook && (
+                      <Button
+                        component="a"
+                        target="_blank"
+                        href={
+                          settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.facebook ||
+                          ''
+                        }
+                        unstyled
+                        className="mt-4"
+                      >
+                        <IconBrandFacebook />
+                      </Button>
+                    )}
+                    {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram && (
+                      <Button
+                        component="a"
+                        target="_blank"
+                        href={
+                          settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.instagram ||
+                          ''
+                        }
+                        unstyled
+                        className="mt-4"
+                      >
+                        <IconBrandInstagram />
+                      </Button>
+                    )}
+                    {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin && (
+                      <Button
+                        component="a"
+                        target="_blank"
+                        href={
+                          settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.linkedin ||
+                          ''
+                        }
+                        unstyled
+                        className="mt-4"
+                      >
+                        <IconBrandLinkedin />
+                      </Button>
+                    )}
+                    {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube && (
+                      <Button
+                        component="a"
+                        target="_blank"
+                        href={
+                          settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.youtube || ''
+                        }
+                        unstyled
+                        className="mt-4"
+                      >
+                        <IconBrandYoutube />
+                      </Button>
+                    )}
+                    {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x && (
+                      <Button
+                        component="a"
+                        target="_blank"
+                        href={settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.x || ''}
+                        unstyled
+                        className="mt-4"
+                      >
+                        <IconBrandX />
+                      </Button>
+                    )}
+                    {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.bluesky && (
+                      <Button
+                        component="a"
+                        target="_blank"
+                        href={
+                          settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.bluesky || ''
+                        }
+                        unstyled
+                        className="mt-4"
+                      >
+                        <IconBrandBluesky />
+                      </Button>
+                    )}
 
-                  {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.tiktok && (
-                    <Button
-                      component="a"
-                      target="_blank"
-                      href={
-                        settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.tiktok || ''
-                      }
-                      unstyled
-                      className="mt-4"
-                    >
-                      <IconBrandTiktok />
-                    </Button>
-                  )}
-                </Group>
-              </Grid.Col>
+                    {settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.tiktok && (
+                      <Button
+                        component="a"
+                        target="_blank"
+                        href={
+                          settingsData?.earaSettings?.themeSettings?.socialMediaLinks?.tiktok || ''
+                        }
+                        unstyled
+                        className="mt-4"
+                      >
+                        <IconBrandTiktok />
+                      </Button>
+                    )}
+                  </Group>
+                </Grid.Col>
+              )}
               <Grid.Col span={{ sm: 4 }}>
                 <Title order={4} c="white" mb="8px">
                   Subscribe to our newsletter
@@ -184,7 +205,7 @@ export default function Footer({}: FooterProps) {
                 <Text c="earaDark.5" mb="20px">
                   Subscribe to receive the latest updates from us.
                 </Text>
-                <ButtonEara link="/newsletter-sign-up" variant="with-arrow">
+                <ButtonEara link={subscribeLink} variant="with-arrow">
                   Subscribe
                 </ButtonEara>
               </Grid.Col>

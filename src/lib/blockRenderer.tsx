@@ -3595,7 +3595,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             uri={link}
             target={target}
             className={className}
-            featuredImage={featuredImage?.url}
+            featuredImage={featuredImage?.url || ''}
             title={title}
           >
             {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
