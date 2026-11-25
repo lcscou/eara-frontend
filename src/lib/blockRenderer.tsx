@@ -3231,6 +3231,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     }
     case 'eara/section': {
       const title = (attributes.title as string) || ''
+      const description = (attributes.description as string) || ''
       const subtitle = (attributes.subtitle as string) || ''
       const containerSize = containerSizeMap[attributes.containerSize as string] || 'lg'
       const sectionClassName = (attributes.className as string) || ''
@@ -3268,6 +3269,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
         >
           <Section
             title={title}
+            description={description}
             subtitle={subtitle}
             containerSize={containerSize}
             className="relative"
