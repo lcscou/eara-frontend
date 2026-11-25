@@ -22,7 +22,14 @@ export default function NewsError({ error, reset }: NewsErrorProps) {
           We could not load this page due to a temporary data error. Please try again.
         </Text>
         <Alert color="red" variant="light" title="Technical details">
-          {error.message || 'Unknown error'}
+          <Stack gap={4}>
+            <Text size="sm">{error.message || 'Unknown error'}</Text>
+            {error.digest ? (
+              <Text size="xs" c="dimmed">
+                Digest: {error.digest}
+              </Text>
+            ) : null}
+          </Stack>
         </Alert>
         <Group>
           <Button onClick={reset}>Try again</Button>

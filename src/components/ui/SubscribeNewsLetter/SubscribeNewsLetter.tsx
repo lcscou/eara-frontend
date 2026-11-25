@@ -28,6 +28,8 @@ export type SubscribeNewsLetterPayload = {
 export type SubscribeNewsLetterProps = {
   triggerId?: string
   title?: string
+  formId?: string
+  formTitle?: string
   buttonLabel?: string
   description?: string
   submitUrl?: string
@@ -44,10 +46,14 @@ function SubscribeNewsLetterForm({
   submitUrl,
   onSubmit,
   onSuccess,
+  formId,
+  formTitle,
 }: {
   submitUrl?: string
   onSubmit?: (payload: SubscribeNewsLetterPayload) => Promise<void> | void
   onSuccess?: () => void
+  formId?: string
+  formTitle?: string
 }) {
   const createInitialState = (): SubscribeNewsLetterPayload => ({
     firstName: '',
@@ -68,10 +74,16 @@ function SubscribeNewsLetterForm({
       if (onSubmit) {
         await onSubmit(form)
       } else if (submitUrl) {
+        const payload = {
+          ...form,
+          formId: formId || DEFAULT_TRIGGER_ID,
+          formTitle: formTitle || 'Subscribe to our newsletter',
+        }
+
         const response = await fetch(submitUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form),
+          body: JSON.stringify(payload),
         })
         if (!response.ok) {
           throw new Error('Failed to submit newsletter form')
@@ -292,6 +304,8 @@ function SubscribeNewsLetterForm({
 export default function SubscribeNewsLetter({
   triggerId = DEFAULT_TRIGGER_ID,
   title = 'Subscribe to our newsletter',
+  formId,
+  formTitle,
   buttonLabel = 'Subscribe',
   description = 'Subscribe to receive the latest updates from us. ',
   submitUrl = '/api/subscribe-mailchimp',
@@ -312,9 +326,11 @@ export default function SubscribeNewsLetter({
         submitUrl={submitUrl}
         onSubmit={onSubmit}
         onSuccess={handleSuccess}
+        formId={formId || triggerId}
+        formTitle={formTitle || title}
       />
     ),
-    [submitUrl, onSubmit, handleSuccess]
+    [submitUrl, onSubmit, handleSuccess, formId, formTitle, triggerId, title]
   )
   if (renderMode === 'inline') {
     return (

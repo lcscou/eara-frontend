@@ -1,5 +1,11 @@
 import type { ApolloQueryResult, DocumentNode, OperationVariables } from '@apollo/client'
 
+import {
+  GetPreviewAccessByUriDocument,
+  type GetPreviewAccessByUriQuery,
+  type GetPreviewAccessByUriQueryVariables,
+} from '@/graphql/generated/graphql'
+
 import { getAuthenticatedClient, getClient } from './apollo-client'
 import { validateAuthToken } from './auth/server'
 
@@ -21,7 +27,10 @@ export type QueryWithAuthFallbackOptions<
   query: DocumentNode
   variables?: TVariables
   context?: QueryContext
+  previewUri?: string
 }
+
+export type AuthReason = 'private' | 'preview'
 
 export type QueryWithAuthFallbackResult<TData> = {
   data?: TData
@@ -29,6 +38,7 @@ export type QueryWithAuthFallbackResult<TData> = {
   error?: unknown
   usedAuth: boolean
   authRequired?: boolean
+  authReason?: AuthReason
 }
 
 const AUTH_ERROR_CODES = new Set(['FORBIDDEN', 'UNAUTHENTICATED', 'NOT_AUTHORIZED'])
@@ -63,21 +73,103 @@ function getResultErrors(result: unknown): readonly GraphQLErrorLike[] | undefin
   return Array.isArray(candidate) ? (candidate as readonly GraphQLErrorLike[]) : undefined
 }
 
-function isPrivateContent(data: unknown): boolean {
-  if (!data || typeof data !== 'object') return false
+type ContentAccessMetadata = {
+  status?: string | null
+  isPreview?: boolean | null
+}
 
-  // Verifica se algum nó no resultado tem status PRIVATE
+function getContentAccessMetadata(data: unknown): ContentAccessMetadata | undefined {
+  if (!data || typeof data !== 'object') return undefined
+
   const dataObj = data as Record<string, unknown>
   for (const value of Object.values(dataObj)) {
     if (value && typeof value === 'object') {
-      const node = value as { status?: string }
-      if (node.status === 'PRIVATE') {
-        return true
+      const node = value as ContentAccessMetadata
+      if (typeof node.status === 'string' || typeof node.isPreview === 'boolean') {
+        return node
       }
     }
   }
 
-  return false
+  return undefined
+}
+
+function getAuthReasonFromMetadata(
+  metadata?: ContentAccessMetadata | null
+): AuthReason | undefined {
+  const status = metadata?.status?.toUpperCase()
+
+  if (status === 'PRIVATE') {
+    return 'private'
+  }
+
+  if (metadata?.isPreview || (status && status !== 'PUBLISH')) {
+    return 'preview'
+  }
+
+  return undefined
+}
+
+function withProtectedContentVariables<TVariables extends OperationVariables>(
+  variables: TVariables | undefined,
+  enabled: boolean
+): TVariables {
+  if (!enabled) {
+    return (variables ?? {}) as OperationVariables as unknown as TVariables
+  }
+
+  return {
+    ...(variables ? (variables as Record<string, unknown>) : {}),
+    asPreview: true,
+  } as unknown as TVariables
+}
+
+async function detectPreviewAccessByUri(
+  previewUri: string,
+  context?: QueryContext
+): Promise<{ authRequired: boolean; authReason?: AuthReason }> {
+  const client = getClient()
+  const existingFetchOptions = (context?.fetchOptions as Record<string, unknown> | undefined) ?? {}
+
+  const previewResult = (await client.query<
+    GetPreviewAccessByUriQuery,
+    GetPreviewAccessByUriQueryVariables
+  >({
+    query: GetPreviewAccessByUriDocument,
+    variables: {
+      id: previewUri,
+      asPreview: true,
+    },
+    context: {
+      ...context,
+      fetchOptions: {
+        ...existingFetchOptions,
+        cache: 'no-store',
+      },
+    },
+    errorPolicy: 'all',
+  })) as ApolloQueryResult<GetPreviewAccessByUriQuery>
+
+  const previewErrors = getGraphQLErrors(previewResult.error) ?? getResultErrors(previewResult)
+  const previewAuthReason = getAuthReasonFromMetadata(previewResult.data?.contentNode)
+
+  if (previewAuthReason) {
+    return {
+      authRequired: true,
+      authReason: previewAuthReason,
+    }
+  }
+
+  if (isAuthError(previewErrors)) {
+    return {
+      authRequired: true,
+      authReason: 'preview',
+    }
+  }
+
+  return {
+    authRequired: false,
+  }
 }
 
 export async function queryWithAuthFallback<
@@ -87,6 +179,7 @@ export async function queryWithAuthFallback<
   query,
   variables,
   context,
+  previewUri,
 }: QueryWithAuthFallbackOptions<TVariables>): Promise<QueryWithAuthFallbackResult<TData>> {
   const client = getClient()
   const result = (await client.query<TData, TVariables>({
@@ -101,15 +194,15 @@ export async function queryWithAuthFallback<
   // Se há erro explícito de autenticação, tenta com credenciais
   const hasAuthError = isAuthError(graphQLErrors)
 
-  // Verifica se o conteúdo tem status PRIVATE
-  const isPrivate = isPrivateContent(result.data)
+  const publicMetadata = getContentAccessMetadata(result.data)
+  const publicAuthReason = getAuthReasonFromMetadata(publicMetadata)
 
   // Se data é null/undefined, pode ser privado ou inexistente
   // Tentamos com credenciais se o usuário estiver logado
   const isNullData = !result.data || Object.values(result.data as object).every((v) => v === null)
 
   // Se tem dados públicos (não privado, não null, sem erro), retorna
-  if (!hasAuthError && !isNullData && !isPrivate) {
+  if (!hasAuthError && !isNullData && !publicAuthReason) {
     return {
       data: result.data as TData | undefined,
       errors: graphQLErrors,
@@ -121,12 +214,18 @@ export async function queryWithAuthFallback<
   // Se tem erro de auth, data null ou conteúdo privado, verifica se há token válido
   const hasValidToken = await validateAuthToken()
   if (!hasValidToken) {
+    const previewAccess =
+      !publicAuthReason && previewUri
+        ? await detectPreviewAccessByUri(previewUri, context)
+        : undefined
+
     return {
       data: result.data as TData | undefined,
       errors: graphQLErrors,
       error: result.error,
       usedAuth: false,
-      authRequired: hasAuthError || isPrivate, // Marca como authRequired se há erro de auth ou status PRIVATE
+      authRequired: hasAuthError || !!publicAuthReason || previewAccess?.authRequired,
+      authReason: publicAuthReason ?? previewAccess?.authReason,
     }
   }
 
@@ -134,7 +233,7 @@ export async function queryWithAuthFallback<
   const authClient = await getAuthenticatedClient()
   const authResult = (await authClient.query<TData, TVariables>({
     query,
-    variables: variables as TVariables,
+    variables: withProtectedContentVariables(variables, !!previewUri),
     context: {
       ...context,
       fetchOptions: {
@@ -146,13 +245,20 @@ export async function queryWithAuthFallback<
 
   // Se a query autenticada também falhar com erro de auth, token expirou
   const authErrors = getGraphQLErrors(authResult.error) ?? getResultErrors(authResult)
+  const authMetadata = getContentAccessMetadata(authResult.data)
+  const authReason = getAuthReasonFromMetadata(authMetadata)
+
   if (isAuthError(authErrors)) {
+    const previewAccess =
+      !authReason && previewUri ? await detectPreviewAccessByUri(previewUri, context) : undefined
+
     return {
       data: authResult.data as TData | undefined,
       errors: authErrors,
       error: authResult.error,
       usedAuth: true,
-      authRequired: true, // Token expirado - precisa fazer login novamente
+      authRequired: true,
+      authReason: authReason ?? previewAccess?.authReason,
     }
   }
 
@@ -161,5 +267,6 @@ export async function queryWithAuthFallback<
     errors: authErrors,
     error: authResult.error,
     usedAuth: true,
+    authReason,
   }
 }

@@ -12,8 +12,7 @@ import { AuthRefreshProvider } from '@/components/auth/AuthRefreshProvider'
 import BackToTop from '@/components/ui/BackToTop/BackToTop'
 import TranslationWidget from '@/components/ui/TranslationWidget/TranslationWidget'
 import { ModalsProvider } from '@/contexts/ModalsContext'
-import { GetMenuDocument } from '@/graphql/generated/graphql'
-import { PreloadQuery } from '@/lib/apollo-client'
+import { PUBLIC_SITE_ORIGIN } from '@/lib/seo/site-url'
 
 import { ApolloWrapper } from './providers/ApolloProvider'
 import { MantineProvider } from './providers/MantineProvider'
@@ -23,8 +22,20 @@ const hankenGrotesk = Hanken_Grotesk({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(PUBLIC_SITE_ORIGIN),
   title: 'EARA',
   description: 'European Animal Research Association',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
 }
 
 export default async function RootLayout({
@@ -32,31 +43,26 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const translationWidgetEnabled = process.env.NEXT_PUBLIC_ENABLE_TRANSLATION_WIDGET === 'true'
+
   return (
     <html data-scroll-behavior="smooth" lang="en">
       <body className={`${hankenGrotesk.variable} antialiased`}>
         <ApolloWrapper>
-          <PreloadQuery
-            errorPolicy="ignore"
-            fetchPolicy="cache-first"
-            query={GetMenuDocument}
-            context={{ fetchOptions: { next: { tags: ['menus'] } } }}
-          >
-            <MantineProvider>
-              <ModalsProvider>
-                <AuthRefreshProvider />
-                {children}
-                <Analytics />
-                {process.env.NODE_ENV === 'production' ? (
-                  <GoogleTagManager gtmId="GTM-T6WSZKMZ" />
-                ) : null}
-                <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
-                  <TranslationWidget />
-                  <BackToTop />
-                </div>
-              </ModalsProvider>
-            </MantineProvider>
-          </PreloadQuery>
+          <MantineProvider>
+            <ModalsProvider>
+              <AuthRefreshProvider />
+              {children}
+              <Analytics />
+              {process.env.NODE_ENV === 'production' ? (
+                <GoogleTagManager gtmId="GTM-T6WSZKMZ" />
+              ) : null}
+              <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
+                {translationWidgetEnabled ? <TranslationWidget /> : null}
+                <BackToTop />
+              </div>
+            </ModalsProvider>
+          </MantineProvider>
         </ApolloWrapper>
       </body>
     </html>

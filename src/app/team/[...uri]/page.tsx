@@ -1,17 +1,22 @@
 import type { Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { cache } from 'react'
 
+import PreviewLoginGate from '@/components/auth/PreviewLoginGate'
 import SingleTeam from '@/components/templates/Team/SingleTeam'
 import { GetTeamDocument, GetTeamQuery } from '@/graphql/generated/graphql'
+import { isPreviewLoginRequired, requireProtectedContentData } from '@/lib/protectedContent'
 import { queryWithAuthFallback } from '@/lib/queryWithAuthFallback'
 type MemberProps = {
   params: Promise<{ uri: string[] }>
 }
-const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
-  const result = await queryWithAuthFallback<GetTeamQuery>({
+const getTeamData = cache(async (uri: string[]) => {
+  const path = `/team/${uri?.join('/')}`
+
+  return await queryWithAuthFallback<GetTeamQuery>({
     query: GetTeamDocument,
     variables: { id: uri?.join('') },
+    previewUri: path,
     context: {
       fetchOptions: {
         next: {
@@ -21,16 +26,20 @@ const getTeamData = cache(async (uri: string[]): Promise<GetTeamQuery> => {
       },
     },
   })
-  const path = `/team/${uri?.join('/')}`
-  if (result.authRequired) {
-    redirect(`/login?redirect=${encodeURIComponent(path)}`)
-  }
-  if (!result.data) notFound()
-  return result.data
 })
 export async function generateMetadata({ params }: MemberProps): Promise<Metadata> {
   const { uri } = await params
-  const data = await getTeamData(uri)
+  const path = `/team/${uri?.join('/')}`
+  const result = await getTeamData(uri)
+
+  if (isPreviewLoginRequired(result)) {
+    return {
+      title: 'EARA | Restricted Content',
+      description: 'Log in to view this restricted content.',
+    }
+  }
+
+  const data = requireProtectedContentData(result, path)
   if (!data?.team) notFound()
   const title = `EARA | Team - ${data.team.title || data.team.title}`
   const description = data.team.seo?.opengraphDescription || ''
@@ -46,7 +55,14 @@ export async function generateMetadata({ params }: MemberProps): Promise<Metadat
 }
 export default async function Team({ params }: MemberProps) {
   const { uri } = await params
-  const data = await getTeamData(uri)
+  const path = `/team/${uri?.join('/')}`
+  const result = await getTeamData(uri)
+
+  if (isPreviewLoginRequired(result)) {
+    return <PreviewLoginGate redirectTo={path} />
+  }
+
+  const data = requireProtectedContentData(result, path)
   if (!data?.team) notFound()
   return <SingleTeam data={data} />
 }

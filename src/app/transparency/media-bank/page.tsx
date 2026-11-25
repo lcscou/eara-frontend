@@ -2,6 +2,9 @@ import { Metadata } from 'next'
 
 import ArchiveMediaBank from '@/components/templates/MediaBank/ArchiveMediaBank'
 import PageTitleBar from '@/components/ui/PageTitleBar/PageTitleBar'
+
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'EARA | Media Bank',
   description:

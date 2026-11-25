@@ -41,19 +41,57 @@ export default function ArchiveMembers() {
   // Query para buscar países de todos os membros (sem paginação)
   const { data: countriesData } = useSuspenseQuery(GetAllCountriesInMembersDocument)
 
+  // O backend pode retornar o mesmo país com variações de capitalização no value.
+  // Consolidamos pelo label para evitar opções duplicadas e somamos as contagens.
+  const { countryOptions, totalMembers } = useMemo(() => {
+    const optionsByCountry = new Map<string, { value: string; label: string; count: number }>()
+
+    for (const country of countriesData?.getAllCountriesInMembers ?? []) {
+      if (!country?.value || !country.label || typeof country.count !== 'number') {
+        continue
+      }
+
+      const label = country.label.trim()
+      const key = label.toLocaleLowerCase()
+      const existing = optionsByCountry.get(key)
+
+      if (existing) {
+        existing.count += country.count
+      } else {
+        optionsByCountry.set(key, {
+          value: country.value,
+          label,
+          count: country.count,
+        })
+      }
+    }
+
+    const options = [...optionsByCountry.values()].sort((a, b) => a.label.localeCompare(b.label))
+    const membersCount = options.reduce((acc, country) => acc + country.count, 0)
+
+    return { countryOptions: options, totalMembers: membersCount }
+  }, [countriesData])
+
   // Query principal para buscar membros paginados
-  const effectiveSelectedCountry = isCountryValueValid(
-    selectedCountry,
-    (countriesData?.getAllCountriesInMembers ?? [])
-      .filter((country): country is { value: string } => Boolean(country?.value))
-      .map((country) => ({ value: country.value }))
-  )
+  const effectiveSelectedCountry = isCountryValueValid(selectedCountry, countryOptions)
     ? selectedCountry
     : null
 
+  // O cursor de paginação do backend não resume corretamente quando combinado com o
+  // filtro "where: { country }" (perde e duplica itens entre páginas). Como já sabemos
+  // o total exato de membros por país, buscamos tudo de uma vez para esse filtro e
+  // evitamos acionar a paginação por cursor quebrada.
+  const selectedCountryCount = effectiveSelectedCountry
+    ? countryOptions.find((country) => country.value === effectiveSelectedCountry)?.count
+    : undefined
+  const effectiveFirst =
+    effectiveSelectedCountry && selectedCountryCount
+      ? Math.max(selectedCountryCount, PAGE_SIZE)
+      : PAGE_SIZE
+
   const { data, networkStatus } = useSuspenseQuery(GetAllMembersDocument, {
     variables: {
-      first: PAGE_SIZE,
+      first: effectiveFirst,
       country: effectiveSelectedCountry ?? undefined,
       search: debouncedSearch.trim() || undefined,
     },
@@ -61,23 +99,13 @@ export default function ArchiveMembers() {
 
   const isUpdatingFilters = networkStatus === NetworkStatus.setVariables
 
+  const [countrySearch, setCountrySearch] = useState('')
   const countryCombobox = useCombobox({
-    onDropdownClose: () => countryCombobox.resetSelectedOption(),
+    onDropdownClose: () => {
+      countryCombobox.resetSelectedOption()
+      setCountrySearch('')
+    },
   })
-
-  // Opcoes de pais vindas do backend ja com label/value/count
-  const { countryOptions, totalMembers } = useMemo(() => {
-    const options = (countriesData?.getAllCountriesInMembers ?? [])
-      .filter(
-        (country): country is { value: string; label: string; count: number } =>
-          Boolean(country?.value && country?.label) && typeof country?.count === 'number'
-      )
-      .sort((a, b) => a.label.localeCompare(b.label))
-
-    const membersCount = options.reduce((acc, country) => acc + country.count, 0)
-
-    return { countryOptions: options, totalMembers: membersCount }
-  }, [countriesData])
 
   const allMembers = useMemo(() => data?.members?.nodes ?? [], [data])
   const baseMembers = useMemo(
@@ -188,26 +216,28 @@ export default function ArchiveMembers() {
       .sort((a, b) => a.localeCompare(b))
   }, [allMembers])
 
-  const selectedLabel = effectiveSelectedCountry
-    ? countryOptions.find((o) => o.value === effectiveSelectedCountry)?.label || 'Country'
-    : 'Country'
+  const filteredCountryOptions = useMemo(() => {
+    const normalizedSearch = countrySearch.trim().toLowerCase()
+    if (!normalizedSearch) return countryOptions
+
+    return countryOptions.filter((opt) => opt.label.toLowerCase().includes(normalizedSearch))
+  }, [countryOptions, countrySearch])
+
+  const selectedLabel = selectedCountry
+    ? countryOptions.find((o) => o.value === selectedCountry)?.label || 'Country'
+    : 'All Countries'
 
   const hasActiveFilters = effectiveSelectedCountry !== null || searchQuery.trim() !== ''
 
   const handleResetFilters = () => {
     setSelectedCountry(null)
     setSearchQuery('')
-    countryCombobox.resetSelectedOption()
   }
 
-  const handleCountryClick = useCallback(
-    (country: string) => {
-      if (!country) return
-      setSelectedCountry(country)
-      countryCombobox.closeDropdown()
-    },
-    [countryCombobox]
-  )
+  const handleCountryClick = useCallback((country: string) => {
+    if (!country) return
+    setSelectedCountry(country)
+  }, [])
 
   return (
     <>
@@ -249,11 +279,11 @@ export default function ArchiveMembers() {
               },
             }}
             position="bottom-end"
+            store={countryCombobox}
             onOptionSubmit={(value) => {
               setSelectedCountry(value === 'all' ? null : value)
               countryCombobox.closeDropdown()
             }}
-            store={countryCombobox}
           >
             <Combobox.Target>
               <ButtonEara
@@ -265,7 +295,13 @@ export default function ArchiveMembers() {
                 {selectedLabel}
               </ButtonEara>
             </Combobox.Target>
+
             <Combobox.Dropdown>
+              <Combobox.Search
+                value={countrySearch}
+                onChange={(event) => setCountrySearch(event.currentTarget.value)}
+                placeholder="Search country..."
+              />
               <Combobox.Options
                 styles={{
                   options: {
@@ -276,11 +312,15 @@ export default function ArchiveMembers() {
                 }}
               >
                 <Combobox.Option value="all">All Countries ({totalMembers})</Combobox.Option>
-                {countryOptions.map((opt) => (
-                  <Combobox.Option key={opt.value} value={opt.value}>
-                    {opt.label} ({opt.count})
-                  </Combobox.Option>
-                ))}
+                {filteredCountryOptions.length === 0 ? (
+                  <Combobox.Empty>No countries found</Combobox.Empty>
+                ) : (
+                  filteredCountryOptions.map((opt) => (
+                    <Combobox.Option key={opt.value} value={opt.value}>
+                      {opt.label} ({opt.count})
+                    </Combobox.Option>
+                  ))
+                )}
               </Combobox.Options>
             </Combobox.Dropdown>
           </Combobox>
@@ -328,7 +368,7 @@ export default function ArchiveMembers() {
           )}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {filteredMembers?.map((member) => (
-              <div key={member?.slug}>
+              <div key={member?.slug} className="h-full">
                 <MembersCard
                   title={member.title}
                   featuredImage={member.featuredImage?.node?.guid}

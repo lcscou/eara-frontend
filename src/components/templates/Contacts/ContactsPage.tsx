@@ -1,6 +1,6 @@
 'use client'
 
-import { useSuspenseQuery } from '@apollo/client/react'
+import { useQuery } from '@apollo/client/react'
 import { Container, Stack, Text, Title } from '@mantine/core'
 import clsx from 'clsx'
 import { useMemo, useState } from 'react'
@@ -23,7 +23,7 @@ function OfficeMapFrame({ googleMapsUrl }: { googleMapsUrl?: string | null }) {
         className="flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50"
         style={{ height: '550px' }}
       >
-        <Text c="dimmed">Mapa não disponível</Text>
+        <Text c="dimmed">Maps not available</Text>
       </div>
     )
   }
@@ -92,7 +92,7 @@ function OfficesList({
   if (!offices || offices.length === 0) {
     return (
       <Stack gap={10}>
-        <Text c="dimmed">Nenhum escritório disponível</Text>
+        <Text c="dimmed">No offices available</Text>
       </Stack>
     )
   }
@@ -112,23 +112,36 @@ function OfficesList({
 }
 
 export default function ContactPage() {
-  const { data } = useSuspenseQuery(GetAllOfficesDocument)
+  const { data, loading, error } = useQuery(GetAllOfficesDocument, {
+    errorPolicy: 'all',
+    // Avoid hard failures during SSR/prerender when backend is temporarily unavailable.
+    ssr: false,
+  })
 
   // Extrai lista de escritórios com validação
   const offices = useMemo(
-    () => data.offices?.nodes?.filter((office): office is Office => office != null) ?? [],
-    [data.offices?.nodes]
+    () => data?.offices?.nodes?.filter((office): office is Office => office != null) ?? [],
+    [data?.offices?.nodes]
   )
 
-  // Define o primeiro escritório como padrão
-  const defaultOfficeId = offices[0]?.id
+  const [currentTabId, setCurrentTabId] = useState<string | undefined>(undefined)
 
-  const [currentTabId, setCurrentTabId] = useState<string | undefined>(defaultOfficeId)
+  // Usa seleção atual quando válida, senão cai para o primeiro escritório.
+  const selectedOfficeId = useMemo(() => {
+    if (offices.length === 0) return undefined
+
+    const hasValidSelection =
+      currentTabId != null && offices.some((office) => office.id === currentTabId)
+
+    if (hasValidSelection) return currentTabId
+
+    return offices[0].id
+  }, [offices, currentTabId])
 
   // Encontra o escritório atualmente selecionado
   const currentOffice = useMemo(
-    () => offices.find((office) => office.id === currentTabId),
-    [offices, currentTabId]
+    () => offices.find((office) => office.id === selectedOfficeId),
+    [offices, selectedOfficeId]
   )
 
   // Obtém a URL do mapa do escritório selecionado
@@ -137,11 +150,27 @@ export default function ContactPage() {
     [currentOffice]
   )
 
+  if (loading && offices.length === 0) {
+    return (
+      <Container size="xl" my={100}>
+        <Text c="dimmed">Loading contacts...</Text>
+      </Container>
+    )
+  }
+
+  if (error && offices.length === 0) {
+    return (
+      <Container size="xl" my={100}>
+        <Text c="dimmed">Unable to load contacts at this time.</Text>
+      </Container>
+    )
+  }
+
   return (
     <>
       <Container size="xl" my={100}>
         <div className="grid grid-cols-1 gap-20 sm:grid-cols-2">
-          {/* Mapa do Google */}
+          {/* Google Map */}
           <div>
             <OfficeMapFrame googleMapsUrl={currentMapUrl} />
             <div className={clsx('mt-5 w-full rounded-xl bg-white p-8 text-left transition-all')}>
@@ -158,10 +187,10 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Lista de escritórios */}
+          {/* Offices List */}
           <OfficesList
             offices={offices}
-            currentTabId={currentTabId}
+            currentTabId={selectedOfficeId}
             onTabChange={setCurrentTabId}
           />
         </div>

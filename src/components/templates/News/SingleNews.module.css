@@ -1,0 +1,27 @@
+.carouselContainer {
+  display: flex;
+  width: 100%;
+}
+
+.carouselContainer :global(.mantine-Carousel-root) {
+  width: 100%;
+}
+
+.carouselContainer :global(.mantine-Carousel-viewport) {
+  overflow: visible !important;
+  margin: 0 0 35px 0;
+  display: flex;
+}
+
+.carouselContainer :global(.mantine-Carousel-container) {
+  display: flex;
+}
+
+.carouselContainer :global(.mantine-Carousel-slide) {
+  display: flex;
+  align-items: stretch;
+}
+
+.carouselContainer :global(.mantine-Carousel-slide) > * {
+  width: 100%;
+}

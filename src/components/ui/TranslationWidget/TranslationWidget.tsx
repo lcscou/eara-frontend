@@ -4,6 +4,11 @@ import { ActionIcon, Loader, Menu, Tooltip } from '@mantine/core'
 import { IconLanguage, IconX } from '@tabler/icons-react'
 import { useCallback, useRef, useState } from 'react'
 
+import {
+  readCachedBrowserTranslation,
+  writeCachedBrowserTranslation,
+} from '@/lib/translation/shared'
+
 const LANGUAGES = [
   { code: 'ar', label: 'العربية' },
   { code: 'zh', label: '中文' },
@@ -48,6 +53,11 @@ function collectTextNodes(root: Element): TextNodeEntry[] {
 }
 
 async function translateBatch(texts: string[], targetLanguage: string): Promise<string[]> {
+  const cachedTexts = await readCachedBrowserTranslation(texts, targetLanguage)
+  if (cachedTexts) {
+    return cachedTexts
+  }
+
   const response = await fetch('/api/translate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -60,7 +70,11 @@ async function translateBatch(texts: string[], targetLanguage: string): Promise<
 
   const data = await response.json()
   const translated = data.translated_text
-  return Array.isArray(translated) ? translated : [translated]
+  const translatedTexts = Array.isArray(translated) ? translated : [translated]
+
+  await writeCachedBrowserTranslation(texts, targetLanguage, translatedTexts)
+
+  return translatedTexts
 }
 
 export default function TranslationWidget() {

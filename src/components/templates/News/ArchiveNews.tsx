@@ -19,14 +19,16 @@ import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import NewsCard from '@/components/ui/NewsCard/NewsCard'
 import ResultNotFound from '@/components/ui/ResultNotFound/ResultNotFound'
 import {
-  GetAllAnimalsDocument,
-  GetAllAnimalsQuery,
+  GetAllAnimalsNewsDocument,
+  GetAllAnimalsNewsQuery,
   GetAllCategoriesNewsDocument,
   GetAllCategoriesNewsQuery,
   GetAllCountryInNewsDocument,
   GetAllCountryInNewsQuery,
   GetAllNewsDocument,
   GetAllNewsQuery,
+  GetAllResearchAreasNewsDocument,
+  GetAllResearchAreasNewsQuery,
 } from '@/graphql/generated/graphql'
 import { cleanHTMLTAG } from '@/lib/utils'
 
@@ -40,11 +42,13 @@ export default function ArchiveNews() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedAnimal, setSelectedAnimal] = useState<string | null>(null)
+  const [selectedResearchArea, setSelectedResearchArea] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedIsEaraMember, setSelectedIsEaraMember] = useState<boolean | null>(null)
+  const [countrySearch, setCountrySearch] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300)
-  const filterTransitionKey = `${selectedCategory ?? ''}|${selectedCountry ?? ''}|${selectedAnimal ?? ''}|${selectedIsEaraMember ?? ''}|${debouncedSearch.trim()}`
+  const filterTransitionKey = `${selectedCategory ?? ''}|${selectedCountry ?? ''}|${selectedAnimal ?? ''}|${selectedResearchArea ?? ''}|${selectedIsEaraMember ?? ''}|${debouncedSearch.trim()}`
   const [debouncedFilterTransitionKey] = useDebouncedValue(filterTransitionKey, 500)
   const isFiltering = debouncedFilterTransitionKey !== filterTransitionKey
 
@@ -54,7 +58,8 @@ export default function ArchiveNews() {
       search: debouncedSearch.trim() || undefined,
       category: selectedCategory,
       country: selectedCountry,
-      animal: selectedAnimal,
+      animalNews: selectedAnimal,
+      researchAreasNews: selectedResearchArea,
     },
     fetchPolicy: 'cache-and-network',
     context: {
@@ -83,19 +88,37 @@ export default function ArchiveNews() {
     }
   )
 
-  // Fetch animals using dedicated query
-  const { data: animalsData } = useSuspenseQuery<GetAllAnimalsQuery>(GetAllAnimalsDocument, {
-    variables: { first: 100 },
-    fetchPolicy: 'cache-and-network',
-    context: {
-      fetchOptions: {
-        next: {
-          revalidate: 3600,
-          tags: ['animals'],
+  // Fetch animalsNews taxonomy using dedicated query
+  const { data: animalsData } = useSuspenseQuery<GetAllAnimalsNewsQuery>(
+    GetAllAnimalsNewsDocument,
+    {
+      fetchPolicy: 'cache-and-network',
+      context: {
+        fetchOptions: {
+          next: {
+            revalidate: 3600,
+            tags: ['news'],
+          },
         },
       },
-    },
-  })
+    }
+  )
+
+  // Fetch researchAreaNews taxonomy using dedicated query
+  const { data: researchAreasData } = useSuspenseQuery<GetAllResearchAreasNewsQuery>(
+    GetAllResearchAreasNewsDocument,
+    {
+      fetchPolicy: 'cache-and-network',
+      context: {
+        fetchOptions: {
+          next: {
+            revalidate: 3600,
+            tags: ['news'],
+          },
+        },
+      },
+    }
+  )
 
   // Fetch countries using dedicated query
   const { data: countriesData } = useSuspenseQuery<GetAllCountryInNewsQuery>(
@@ -116,14 +139,32 @@ export default function ArchiveNews() {
   // Extract categories from query
   const categories = useMemo(() => categoriesData?.categoriesNews?.nodes ?? [], [categoriesData])
 
-  // Extract animals from query
-  const animals = useMemo(() => animalsData?.animals?.nodes ?? [], [animalsData])
+  // Extract animalsNews taxonomy from query
+  const animals = useMemo(() => animalsData?.animalsNews?.nodes ?? [], [animalsData])
+
+  // Extract researchAreaNews taxonomy from query
+  const researchAreas = useMemo(
+    () => researchAreasData?.researchAreaNews?.nodes ?? [],
+    [researchAreasData]
+  )
 
   // Extract countries from query
   const countries = useMemo(() => countriesData?.newsCountries ?? [], [countriesData])
 
+  const filteredCountryOptions = useMemo(() => {
+    const normalizedSearch = countrySearch.trim().toLowerCase()
+    if (!normalizedSearch) return countries
+
+    return countries.filter((country) =>
+      (country?.label || '').toLowerCase().includes(normalizedSearch)
+    )
+  }, [countries, countrySearch])
+
   const countryCombobox = useCombobox({
-    onDropdownClose: () => countryCombobox.resetSelectedOption(),
+    onDropdownClose: () => {
+      countryCombobox.resetSelectedOption()
+      setCountrySearch('')
+    },
   })
 
   const categoryCombobox = useCombobox({
@@ -132,6 +173,10 @@ export default function ArchiveNews() {
 
   const animalCombobox = useCombobox({
     onDropdownClose: () => animalCombobox.resetSelectedOption(),
+  })
+
+  const researchAreaCombobox = useCombobox({
+    onDropdownClose: () => researchAreaCombobox.resetSelectedOption(),
   })
 
   const hasNextPage = data?.allNews?.pageInfo?.hasNextPage
@@ -162,7 +207,8 @@ export default function ArchiveNews() {
             search: debouncedSearch.trim() || undefined,
             category: selectedCategory,
             country: selectedCountry,
-            animal: selectedAnimal,
+            animalNews: selectedAnimal,
+            researchAreasNews: selectedResearchArea,
           },
           updateQuery: (
             prev: GetAllNewsQuery,
@@ -192,6 +238,7 @@ export default function ArchiveNews() {
     selectedCategory,
     selectedCountry,
     selectedAnimal,
+    selectedResearchArea,
   ])
 
   const handleResetFilters = () => {
@@ -200,6 +247,8 @@ export default function ArchiveNews() {
     countryCombobox.resetSelectedOption()
     setSelectedAnimal(null)
     animalCombobox.resetSelectedOption()
+    setSelectedResearchArea(null)
+    researchAreaCombobox.resetSelectedOption()
     categoryCombobox.resetSelectedOption()
     setSelectedIsEaraMember(null)
     setSearchQuery('')
@@ -209,6 +258,7 @@ export default function ArchiveNews() {
     selectedCategory !== null ||
     selectedCountry !== null ||
     selectedAnimal !== null ||
+    selectedResearchArea !== null ||
     selectedIsEaraMember !== null ||
     searchQuery.trim() !== ''
 
@@ -291,6 +341,11 @@ export default function ArchiveNews() {
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
+                <Combobox.Search
+                  value={countrySearch}
+                  onChange={(event) => setCountrySearch(event.currentTarget.value)}
+                  placeholder="Search country..."
+                />
                 <Combobox.Options
                   styles={{
                     options: {
@@ -301,15 +356,19 @@ export default function ArchiveNews() {
                   }}
                 >
                   <Combobox.Option value="all">All Countries</Combobox.Option>
-                  {countries.map((country) => (
-                    <Combobox.Option
-                      key={country?.value}
-                      value={country?.value || ''}
-                      className="overflow-hidden text-ellipsis whitespace-nowrap"
-                    >
-                      {country?.label}
-                    </Combobox.Option>
-                  ))}
+                  {filteredCountryOptions.length === 0 ? (
+                    <Combobox.Empty>No countries found</Combobox.Empty>
+                  ) : (
+                    filteredCountryOptions.map((country) => (
+                      <Combobox.Option
+                        key={country?.value}
+                        value={country?.value || ''}
+                        className="overflow-hidden text-ellipsis whitespace-nowrap"
+                      >
+                        {country?.label}
+                      </Combobox.Option>
+                    ))
+                  )}
                 </Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
@@ -333,8 +392,7 @@ export default function ArchiveNews() {
                   onClick={() => animalCombobox.toggleDropdown()}
                   rightSection={<IconChevronDown size={14} />}
                 >
-                  {animals.find((animal) => animal?.databaseId?.toString() === selectedAnimal)
-                    ?.title || 'Animal'}
+                  {animals.find((animal) => animal?.slug === selectedAnimal)?.name || 'Animal'}
                 </ButtonEara>
               </Combobox.Target>
               <Combobox.Dropdown>
@@ -349,11 +407,58 @@ export default function ArchiveNews() {
                   <Combobox.Option value="all">All Animals</Combobox.Option>
                   {animals.map((animal) => (
                     <Combobox.Option
-                      key={animal?.databaseId}
-                      value={animal?.databaseId?.toString() || ''}
+                      key={animal?.slug}
+                      value={animal?.slug || ''}
                       className="overflow-hidden text-ellipsis whitespace-nowrap"
                     >
-                      {animal?.title}
+                      {animal?.name}
+                    </Combobox.Option>
+                  ))}
+                </Combobox.Options>
+              </Combobox.Dropdown>
+            </Combobox>
+            <Combobox
+              onOptionSubmit={(value) => {
+                setSelectedResearchArea(value === 'all' ? null : value)
+                researchAreaCombobox.closeDropdown()
+              }}
+              styles={{
+                dropdown: {
+                  minWidth: 'fit-content',
+                  whiteSpace: 'nowrap',
+                },
+              }}
+              store={researchAreaCombobox}
+              disabled={isFiltering}
+            >
+              <Combobox.Target>
+                <ButtonEara
+                  size="md"
+                  onClick={() => researchAreaCombobox.toggleDropdown()}
+                  rightSection={<IconChevronDown size={14} />}
+                >
+                  {researchAreas.find((ra) => ra?.slug === selectedResearchArea)?.name ||
+                    'Research Area'}
+                </ButtonEara>
+              </Combobox.Target>
+              <Combobox.Dropdown>
+                <Combobox.Options
+                  styles={{
+                    options: {
+                      maxHeight: 300,
+                      overflowY: 'auto',
+                      whiteSpace: 'nowrap',
+                    },
+                  }}
+                >
+                  <Combobox.Option value="all">All Research Areas</Combobox.Option>
+                  {researchAreas.map((ra) => (
+                    <Combobox.Option
+                      key={ra?.slug}
+                      value={ra?.slug || ''}
+                      className="overflow-hidden text-ellipsis whitespace-nowrap"
+                    >
+                      {ra?.name}
                     </Combobox.Option>
                   ))}
                 </Combobox.Options>

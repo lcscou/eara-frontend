@@ -6,6 +6,7 @@ import {
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu,
   GetMenuQuery_RootQuery_menus_RootQueryToMenuConnection_nodes_Menu_menuItems_MenuToMenuItemConnection_nodes_MenuItem_childItems_MenuItemToMenuItemConnection,
 } from '@/graphql/generated/graphql'
+import type { HeroBackgroundOptions } from '@/lib/heroBackground'
 
 export interface PageTitleBarProps {
   title?: string | null
@@ -179,6 +180,7 @@ export interface EventCardProps {
   id?: string
   title: string
   date?: string
+  endDate?: string
   excerpt?: string
   category?: string
   featuredImage?: string
@@ -286,7 +288,7 @@ export interface CaseStudiesCardProps {
   description?: string | null
 }
 
-export interface HomeHeroProps extends React.PropsWithChildren {
+export interface HomeHeroProps extends React.PropsWithChildren, HeroBackgroundOptions {
   id?: string
   overlayColor?: string
   overlayOpacity?: number

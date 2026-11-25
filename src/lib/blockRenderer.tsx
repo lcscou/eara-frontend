@@ -12,6 +12,7 @@ import {
   MantineSize,
   SimpleGrid,
   Stack,
+  Table,
   TextProps,
   Title,
 } from '@mantine/core'
@@ -27,6 +28,7 @@ import Accordion from '@/components/ui/Accordion/Accordion'
 import ButtonEara from '@/components/ui/ButtonEara/ButtonEara'
 import Card from '@/components/ui/Card/Card'
 import EaraTabs from '@/components/ui/EaraTabs/EaraTabs'
+import FormContainer, { type EaraFormFieldBlock } from '@/components/ui/FormContainer/FormContainer'
 import { HeroSlideItem, HeroSlideRoot } from '@/components/ui/Hero/Hero'
 import HomeHero from '@/components/ui/HomeHero/HomeHero'
 import JoinEaraForm from '@/components/ui/JoinEaraForm/JoinEaraForm'
@@ -39,6 +41,7 @@ import ProtectedDownloadButton from '@/components/ui/ProtectedDownloadButton/Pro
 import Quote from '@/components/ui/Quote/Quote'
 import Section from '@/components/ui/Section/Section'
 import SubscribeNewsLetter from '@/components/ui/SubscribeNewsLetter/SubscribeNewsLetter'
+import { getHeroBackgroundStyle } from '@/lib/heroBackground'
 import { isPrivateUploadsUrl } from '@/lib/protected-files/shared'
 
 import { CardProps } from './types'
@@ -322,6 +325,7 @@ export interface EaraModalContentAttributes extends BlockAttribute {
 }
 
 export interface EaraNewsletterFormAttributes extends BlockAttribute {
+  id?: string
   triggerId?: string
   title?: string
   description?: string
@@ -331,6 +335,7 @@ export interface EaraNewsletterFormAttributes extends BlockAttribute {
 }
 
 export interface EaraJoinEaraFormAttributes extends BlockAttribute {
+  id?: string
   triggerId?: string
   title?: string
   description?: string
@@ -338,6 +343,17 @@ export interface EaraJoinEaraFormAttributes extends BlockAttribute {
   submitUrl?: string
   renderMode?: 'modal' | 'inline'
   metadata?: Record<string, unknown>
+}
+
+export interface EaraFormContainerAttributes extends BlockAttribute {
+  id?: string
+  title?: string
+  recipient?: string
+  successMessage?: string
+  errorMessage?: string
+  lock?: Record<string, unknown>
+  className?: string
+  style?: Record<string, unknown>
 }
 
 export interface EaraGalleryImage {
@@ -563,6 +579,44 @@ export interface CoreListItemAttributes extends BlockAttribute {
   anchor?: string
 }
 
+export interface CoreTableCell {
+  content?: string
+  tag?: 'th' | 'td'
+  align?: 'left' | 'center' | 'right'
+}
+
+export interface CoreTableRow {
+  cells?: CoreTableCell[]
+}
+
+export interface CoreTableAttributes extends BlockAttribute {
+  hasFixedLayout?: boolean
+  caption?: string
+  head?: CoreTableRow[]
+  body?: CoreTableRow[]
+  foot?: CoreTableRow[]
+  lock?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  className?: string
+  style?: {
+    elements?: { link?: { color?: { text?: string } } }
+    spacing?: {
+      padding?: { bottom?: string; top?: string; left?: string; right?: string }
+      margin?: { bottom?: string; top?: string; left?: string; right?: string }
+    }
+    typography?: { fontSize?: string; fontFamily?: string }
+    color?: { background?: string; text?: string }
+    border?: { color?: string; width?: string; style?: string; radius?: string }
+  }
+  backgroundColor?: string
+  textColor?: string
+  gradient?: string
+  fontSize?: string
+  fontFamily?: string
+  borderColor?: string
+  anchor?: string
+}
+
 // Mapeamento de presets de spacing do WordPress para valores CSS
 const spacingPresets: Record<string, string> = {
   '20': '0.5rem', // 8px
@@ -585,6 +639,7 @@ const colorPresets: Record<string, string> = {
   'eara-bg-dark': '#e2e2e5',
   'eara-bg-light': '#ededfa',
   'eara-gray-light': '#eaeaea',
+  'eara-dark': '#272727',
   accent: '#00cc66',
 }
 
@@ -654,6 +709,9 @@ function resolveWordPressValue(value: unknown): string | undefined {
   }
   if (value === 'eara-gray-light') {
     return colorPresets['eara-gray-light']
+  }
+  if (value === 'eara-dark') {
+    return colorPresets['eara-dark']
   }
   if (value === 'primary-color') {
     return colorPresets['primary']
@@ -1227,7 +1285,7 @@ function renderCoreGrid(block: Block, index: number, freeformContent?: string): 
  */
 function renderCoreColumns(block: Block, index: number, freeformContent?: string): ReactNode {
   const attributes = block.attributes as CoreColumnsAttributes | undefined
-  const className = attributes?.cssClassName || ''
+  const className = attributes?.className || ''
   const verticalAlignment = attributes?.verticalAlignment || 'top'
   const isStackedOnMobile = attributes?.isStackedOnMobile !== false // Default true
 
@@ -1299,6 +1357,7 @@ function renderCoreColumns(block: Block, index: number, freeformContent?: string
         />
       )}
       <Group
+        data-block="core/columns"
         key={index}
         className={clsx(className, 'overflow-hidden', mobileStackClass)}
         gap={gapValue}
@@ -1375,6 +1434,7 @@ function renderCoreColumn(
 
   // Calcular width/flexBasis corretamente com desconto do gap
   let flexBasis: string = 'auto'
+  // let flexValue: string = ''
   let flexValue: string = '1 1 0%'
 
   if (width) {
@@ -1428,6 +1488,7 @@ function renderCoreColumn(
     maxWidth: width ? flexBasis : undefined,
     display: 'flex',
     flexDirection: 'column',
+
     justifyContent:
       verticalAlignment === 'center'
         ? 'center'
@@ -1448,6 +1509,7 @@ function renderCoreColumn(
 
   return (
     <Box
+      data-block="core/column"
       key={index}
       className={clsx('overflow-hidden', className)}
       bdrs="lg"
@@ -2011,6 +2073,94 @@ function renderCoreSeparator(block: Block, index: number): ReactNode {
     >
       <Box component={tagName} className={combinedClassName} style={inlineStyle} />
     </Center>
+  )
+}
+
+/**
+ * Renderiza um bloco core/table usando Table do Mantine
+ */
+function renderCoreTable(block: Block, index: number): ReactNode {
+  const attributes = block.attributes as CoreTableAttributes | undefined
+  const className = attributes?.className || ''
+  const anchor = attributes?.anchor
+  const caption = attributes?.caption
+  const hasFixedLayout = attributes?.hasFixedLayout ?? false
+  const head = attributes?.head || []
+  const body = attributes?.body || []
+  const foot = attributes?.foot || []
+
+  const {
+    bgColor,
+    textColor,
+    gradient,
+    borderColor,
+    paddingBottom,
+    paddingTop,
+    paddingLeft,
+    paddingRight,
+    marginBottom,
+    marginTop,
+    marginLeft,
+    marginRight,
+    fontSize,
+    fontFamily,
+  } = extractCommonStyles(attributes)
+
+  const striped = className.includes('is-style-stripes')
+
+  const renderRow = (row: CoreTableRow, rowIdx: number, defaultTag: 'th' | 'td') => (
+    <Table.Tr key={rowIdx}>
+      {(row.cells || []).map((cell, cellIdx) => {
+        const Tag = (cell.tag || defaultTag) === 'th' ? Table.Th : Table.Td
+        return (
+          <Tag key={cellIdx} style={{ textAlign: cell.align }}>
+            {parseHtmlContent(cell.content || '')}
+          </Tag>
+        )
+      })}
+    </Table.Tr>
+  )
+
+  return (
+    <Table.ScrollContainer
+      key={index}
+      minWidth={0}
+      id={anchor}
+      pb={paddingBottom}
+      pt={paddingTop}
+      pl={paddingLeft}
+      pr={paddingRight}
+      mb={marginBottom}
+      mt={marginTop}
+      ml={marginLeft}
+      mr={marginRight}
+    >
+      <Table
+        className={className}
+        layout={hasFixedLayout ? 'fixed' : 'auto'}
+        striped={striped}
+        withTableBorder={!!borderColor}
+        withColumnBorders={!!borderColor}
+        c={textColor}
+        fz={fontSize}
+        ff={fontFamily}
+        style={{
+          background: gradient ? gradient : bgColor,
+          borderColor: borderColor || undefined,
+        }}
+      >
+        {caption && <Table.Caption>{parseHtmlContent(caption)}</Table.Caption>}
+        {head.length > 0 && (
+          <Table.Thead>{head.map((row, rowIdx) => renderRow(row, rowIdx, 'th'))}</Table.Thead>
+        )}
+        {body.length > 0 && (
+          <Table.Tbody>{body.map((row, rowIdx) => renderRow(row, rowIdx, 'td'))}</Table.Tbody>
+        )}
+        {foot.length > 0 && (
+          <Table.Tfoot>{foot.map((row, rowIdx) => renderRow(row, rowIdx, 'td'))}</Table.Tfoot>
+        )}
+      </Table>
+    </Table.ScrollContainer>
   )
 }
 
@@ -2586,6 +2736,7 @@ function renderEaraCarousel(block: Block, index: number, freeformContent?: strin
         slideGap={slideGap}
         slideSize={slideSize}
         height={height}
+        data-block="eara/carousel"
         initialSlide={initialSlide}
       >
         {block.innerBlocks?.map((innerBlock, idx) => (
@@ -3516,7 +3667,9 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     case 'eara/newsletter-form': {
       const attributes_newsletter = attributes as EaraNewsletterFormAttributes | undefined
       const triggerId = attributes_newsletter?.triggerId || `newsletter-${index}`
+      const formId = attributes_newsletter?.id || triggerId
       const title = attributes_newsletter?.title || 'Subscribe to our newsletter'
+      const formTitle = attributes_newsletter?.title || title
       const description =
         attributes_newsletter?.description || 'Subscribe to receive the latest updates from us.'
       const buttonLabel = attributes_newsletter?.buttonLabel || 'Subscribe'
@@ -3527,6 +3680,8 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           key={index}
           triggerId={triggerId}
           title={title}
+          formId={formId}
+          formTitle={formTitle}
           description={description}
           buttonLabel={buttonLabel}
           renderMode={renderMode}
@@ -3537,7 +3692,9 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     case 'eara/join-eara-form': {
       const attributes_join = attributes as EaraJoinEaraFormAttributes | undefined
       const triggerId = attributes_join?.triggerId || `join-eara-${index}`
+      const formId = attributes_join?.id || triggerId
       const title = attributes_join?.title || 'Join EARA'
+      const formTitle = attributes_join?.title || title
       const description = attributes_join?.description
       const buttonLabel = attributes_join?.buttonLabel || 'Join Now'
       const submitUrl = process.env.NEXT_PUBLIC_WORDPRESS_GRAPHQL_ENDPOINT?.replace(
@@ -3551,11 +3708,60 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           key={index}
           triggerId={triggerId}
           title={title}
+          formId={formId}
+          formTitle={formTitle}
           description={description}
           buttonLabel={buttonLabel}
           submitUrl={submitUrl}
           renderMode={renderMode}
         />
+      )
+    }
+
+    case 'eara/form-container': {
+      const attributes_form_container = attributes as EaraFormContainerAttributes | undefined
+      const formId = attributes_form_container?.id || ''
+      const formTitle = attributes_form_container?.title || ''
+      const recipient = attributes_form_container?.recipient || ''
+      const successMessage =
+        attributes_form_container?.successMessage || 'Thank you! Your message has been sent.'
+      const errorMessage =
+        attributes_form_container?.errorMessage || 'Something went wrong. Please try again.'
+      const className = attributes_form_container?.className || ''
+
+      const {
+        paddingBottom,
+        paddingTop,
+        paddingLeft,
+        paddingRight,
+        marginBottom,
+        marginTop,
+        marginLeft,
+        marginRight,
+      } = extractCommonStyles(attributes)
+
+      return (
+        <Box
+          key={index}
+          pb={paddingBottom}
+          pt={paddingTop}
+          pl={paddingLeft}
+          pr={paddingRight}
+          mb={marginBottom}
+          mt={marginTop}
+          ml={marginLeft}
+          mr={marginRight}
+        >
+          <FormContainer
+            className={className}
+            recipient={recipient}
+            formId={formId}
+            formTitle={formTitle}
+            successMessage={successMessage}
+            errorMessage={errorMessage}
+            fields={innerBlocks as EaraFormFieldBlock[]}
+          />
+        </Box>
       )
     }
 
@@ -3593,6 +3799,7 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
             id={index.toString()}
             variant={variant}
             uri={link}
+            data-block="eara/card"
             target={target}
             className={className}
             featuredImage={featuredImage?.url || ''}
@@ -3743,6 +3950,13 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           <HomeHero
             overlayOpacity={attributes.overlayOpacity as number | undefined}
             overlayColor={attributes.overlayColor as string | undefined}
+            backgroundType={attributes.backgroundType as string | undefined}
+            backgroundValue={attributes.backgroundValue as string | undefined}
+            backgroundColor={attributes.backgroundColor as string | undefined}
+            gradientStartColor={attributes.gradientStartColor as string | undefined}
+            gradientEndColor={attributes.gradientEndColor as string | undefined}
+            gradientType={attributes.gradientType as string | undefined}
+            gradientAngle={attributes.gradientAngle as number | undefined}
           >
             {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </HomeHero>
@@ -3937,7 +4151,18 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
           ml={marginLeft}
           mr={marginRight}
         >
-          <HeroSlideItem bgImageSrc={backgroundImage?.url}>
+          <HeroSlideItem
+            backgroundStyle={getHeroBackgroundStyle({
+              backgroundType: attributes.backgroundType as string | undefined,
+              backgroundValue: attributes.backgroundValue as string | undefined,
+              backgroundColor: attributes.backgroundColor as string | undefined,
+              gradientStartColor: attributes.gradientStartColor as string | undefined,
+              gradientEndColor: attributes.gradientEndColor as string | undefined,
+              gradientType: attributes.gradientType as string | undefined,
+              gradientAngle: attributes.gradientAngle as number | undefined,
+              imageUrl: backgroundImage?.url,
+            })}
+          >
             {innerBlocks.map((innerBlock, idx) => renderBlock(innerBlock, idx, freeformContent))}
           </HeroSlideItem>
         </Box>
@@ -3974,6 +4199,10 @@ function renderBlock(block: Block, index: number, freeformContent?: string): Rea
     // Core List Item
     case 'core/list-item': {
       return renderCoreListItem(block, index)
+    }
+    // Core Table
+    case 'core/table': {
+      return renderCoreTable(block, index)
     }
     // Bloco desconhecido - renderiza HTML bruto ou aviso
     default: {

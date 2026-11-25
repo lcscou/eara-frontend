@@ -9,9 +9,35 @@ import { formatEventDate } from '@/lib/utils'
 import ButtonEara from '../ButtonEara/ButtonEara'
 import s from './EventCard.module.css'
 
+function getCalendarDateKey(date?: string): string | null {
+  if (!date) {
+    return null
+  }
+
+  const value = date.trim()
+  const isoCalendarMatch = value.match(/^(\d{4})-(\d{2})-(\d{2})(?:$|[T\s])/)
+
+  if (isoCalendarMatch) {
+    return `${isoCalendarMatch[1]}-${isoCalendarMatch[2]}-${isoCalendarMatch[3]}`
+  }
+
+  const parsedDate = new Date(value)
+
+  if (isNaN(parsedDate.getTime())) {
+    return null
+  }
+
+  const year = parsedDate.getUTCFullYear()
+  const month = String(parsedDate.getUTCMonth() + 1).padStart(2, '0')
+  const day = String(parsedDate.getUTCDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
 export default function EventCard({
   title,
   date,
+  endDate,
   link,
   excerpt,
   category,
@@ -19,15 +45,24 @@ export default function EventCard({
   featuredImage,
   orientation = 'horizontal',
 }: EventCardProps) {
-  const formattedDate = formatEventDate(date)
+  const formattedStartDate = formatEventDate(date)
+  const formattedEndDate = formatEventDate(endDate)
+  const startDateKey = getCalendarDateKey(date)
+  const endDateKey = getCalendarDateKey(endDate)
+  const shouldShowEndDate =
+    Boolean(formattedEndDate) && (!startDateKey || !endDateKey || startDateKey !== endDateKey)
+  const formattedDate =
+    formattedStartDate && shouldShowEndDate
+      ? `${formattedStartDate} - ${formattedEndDate}`
+      : (formattedStartDate ?? (shouldShowEndDate ? formattedEndDate : null))
 
   return (
     <>
       {orientation === 'horizontal' && (
-        <Link href={link || '#'}>
+        <Link href={link || '#'} className="block h-full">
           <div
             className={clsx(
-              'my-5 flex min-h-80 w-fit flex-col overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',
+              'my-5 flex h-full min-h-80 w-fit flex-col overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',
               s.root
             )}
           >
@@ -64,7 +99,7 @@ export default function EventCard({
         </Link>
       )}
       {orientation === 'vertical' && (
-        <Link href={link || '#'}>
+        <Link href={link || '#'} className="block h-full">
           <div
             className={clsx(
               'my-5 h-full w-full overflow-hidden rounded-2xl bg-white hover:shadow-lg sm:flex-row',

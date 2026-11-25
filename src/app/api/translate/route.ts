@@ -1,16 +1,8 @@
-import { JigsawStack } from 'jigsawstack'
 import { NextRequest, NextResponse } from 'next/server'
 
-const jigsawstack = JigsawStack({
-  apiKey: process.env.JIGSAWSTACK_API_KEY!,
-})
+import { translateWithCache } from '@/lib/translation/kv-cache'
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.JIGSAWSTACK_API_KEY
-  if (!apiKey) {
-    return NextResponse.json({ error: 'Translation service not configured' }, { status: 503 })
-  }
-
   let body: { text: string | string[]; target_language: string }
   try {
     body = await request.json()
@@ -44,15 +36,39 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  const totalCharacters = Array.isArray(text)
+    ? text.reduce((count, item) => count + item.length, 0)
+    : text.length
+
+  if (totalCharacters > 20_000) {
+    return NextResponse.json(
+      { error: 'Text payload exceeds maximum total size of 20000 characters' },
+      { status: 400 }
+    )
+  }
+
   try {
-    const response = await jigsawstack.translate.text({
+    const { cacheKey, cacheStatus, translatedText } = await translateWithCache(
       text,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      target_language: target_language as any,
-    })
-    return NextResponse.json(response)
+      target_language
+    )
+
+    return NextResponse.json(
+      {
+        cacheKey,
+        cacheStatus,
+        translated_text: translatedText,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+          'X-Translation-Cache': cacheStatus,
+        },
+      }
+    )
   } catch (error) {
-    console.error('JigsawStack translate error:', error)
+    console.error('Translation error:', error)
+
     return NextResponse.json({ error: 'Translation failed' }, { status: 500 })
   }
 }

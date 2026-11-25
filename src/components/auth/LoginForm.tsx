@@ -6,10 +6,15 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 import ButtonEara from '../ui/ButtonEara/ButtonEara'
-export default function LoginForm() {
+
+type LoginFormProps = {
+  redirectTo?: string
+}
+
+export default function LoginForm({ redirectTo }: LoginFormProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirect') || '/membership/members-area'
+  const redirectTarget = redirectTo || searchParams.get('redirect') || '/membership/members-area'
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -36,7 +41,7 @@ export default function LoginForm() {
         return
       }
 
-      router.push(redirectTo)
+      router.push(redirectTarget)
       router.refresh()
     } catch {
       setError('Unable to authenticate.')

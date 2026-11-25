@@ -884,6 +884,329 @@ export enum AnimalIdType {
   Uri = 'URI',
 }
 
+/** The animalNews type */
+export type AnimalNews = DatabaseIdentifier &
+  MenuItemLinkable &
+  Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'AnimalNews'
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    animalNewsId?: Maybe<Scalars['Int']['output']>
+    /** Connection between the AnimalNews type and the ContentNode type */
+    contentNodes?: Maybe<AnimalNewsToContentNodeConnection>
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']['output']>
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output']
+    /** The description of the object */
+    description?: Maybe<Scalars['String']['output']>
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>
+    /** The globally unique ID for the object */
+    id: Scalars['ID']['output']
+    /** Whether the node is a Comment */
+    isComment: Scalars['Boolean']['output']
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output']
+    /** Whether the node represents the front page. */
+    isFrontPage: Scalars['Boolean']['output']
+    /** Whether  the node represents the blog page. */
+    isPostsPage: Scalars['Boolean']['output']
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output']
+    /** The link to the term */
+    link?: Maybe<Scalars['String']['output']>
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']['output']>
+    /** Connection between the AnimalNews type and the news type */
+    news?: Maybe<AnimalNewsToNewsConnection>
+    /** The Yoast SEO data of the Animals taxonomy. */
+    seo?: Maybe<TaxonomySeo>
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']['output']>
+    /** Connection between the AnimalNews type and the Taxonomy type */
+    taxonomy?: Maybe<AnimalNewsToTaxonomyConnectionEdge>
+    /** The name of the taxonomy that the object is associated with */
+    taxonomyName?: Maybe<Scalars['String']['output']>
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']['output']>
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']['output']>
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>
+  }
+
+/** The animalNews type */
+export type AnimalNewsContentNodesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<AnimalNewsToContentNodeConnectionWhereArgs>
+}
+
+/** The animalNews type */
+export type AnimalNewsEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** The animalNews type */
+export type AnimalNewsEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** The animalNews type */
+export type AnimalNewsNewsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<AnimalNewsToNewsConnectionWhereArgs>
+}
+
+/** A paginated collection of animalNews Nodes, Supports cursor-based pagination and filtering to efficiently retrieve sets of animalNews Nodes */
+export type AnimalNewsConnection = {
+  /** A list of edges (relational context) between RootQuery and connected animalNews Nodes */
+  edges: Array<AnimalNewsConnectionEdge>
+  /** A list of connected animalNews Nodes */
+  nodes: Array<AnimalNews>
+  /** Information about pagination in a connection. */
+  pageInfo: AnimalNewsConnectionPageInfo
+}
+
+/** Represents a connection to a animalNews. Contains both the animalNews Node and metadata about the relationship. */
+export type AnimalNewsConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']['output']>
+  /** The connected animalNews Node */
+  node: AnimalNews
+}
+
+/** Pagination metadata specific to &quot;AnimalNewsConnectionEdge&quot; collections. Provides cursors and flags for navigating through sets of &quot;AnimalNewsConnectionEdge&quot; Nodes. */
+export type AnimalNewsConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output']
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output']
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>
+}
+
+/** Identifier types for retrieving a specific AnimalNews. Determines which unique property (global ID, database ID, slug, etc.) is used to locate the AnimalNews. */
+export enum AnimalNewsIdType {
+  /** The Database ID for the node */
+  DatabaseId = 'DATABASE_ID',
+  /** The hashed Global ID */
+  Id = 'ID',
+  /** The name of the node */
+  Name = 'NAME',
+  /** Url friendly name of the node */
+  Slug = 'SLUG',
+  /** The URI for the node */
+  Uri = 'URI',
+}
+
+/** Connection between the AnimalNews type and the ContentNode type */
+export type AnimalNewsToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'AnimalNewsToContentNodeConnection'
+    /** Edges for the AnimalNewsToContentNodeConnection connection */
+    edges: Array<AnimalNewsToContentNodeConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>
+    /** Information about pagination in a connection. */
+    pageInfo: AnimalNewsToContentNodeConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type AnimalNewsToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'AnimalNewsToContentNodeConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: ContentNode
+  }
+
+/** Pagination metadata specific to &quot;AnimalNewsToContentNodeConnection&quot; collections. Provides cursors and flags for navigating through sets of AnimalNewsToContentNodeConnection Nodes. */
+export type AnimalNewsToContentNodeConnectionPageInfo = ContentNodeConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'AnimalNewsToContentNodeConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the AnimalNewsToContentNodeConnection connection */
+export type AnimalNewsToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypesOfAnimalNewsEnum>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the AnimalNews type and the news type */
+export type AnimalNewsToNewsConnection = Connection &
+  NewsConnection & {
+    __typename?: 'AnimalNewsToNewsConnection'
+    /** Edges for the AnimalNewsToNewsConnection connection */
+    edges: Array<AnimalNewsToNewsConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<News>
+    /** Information about pagination in a connection. */
+    pageInfo: AnimalNewsToNewsConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type AnimalNewsToNewsConnectionEdge = Edge &
+  NewsConnectionEdge & {
+    __typename?: 'AnimalNewsToNewsConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: News
+  }
+
+/** Pagination metadata specific to &quot;AnimalNewsToNewsConnection&quot; collections. Provides cursors and flags for navigating through sets of AnimalNewsToNewsConnection Nodes. */
+export type AnimalNewsToNewsConnectionPageInfo = NewsConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'AnimalNewsToNewsConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the AnimalNewsToNewsConnection connection */
+export type AnimalNewsToNewsConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the AnimalNews type and the Taxonomy type */
+export type AnimalNewsToTaxonomyConnectionEdge = Edge &
+  OneToOneConnection &
+  TaxonomyConnectionEdge & {
+    __typename?: 'AnimalNewsToTaxonomyConnectionEdge'
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The node of the connection, without the edges */
+    node: Taxonomy
+  }
+
 /** Connection between the animal type and the animal type */
 export type AnimalToAnimalConnection = AnimalConnection &
   Connection & {
@@ -900,15 +1223,9 @@ export type AnimalToAnimalConnection = AnimalConnection &
 export type AnimalToAnimalConnectionEdge = AnimalConnectionEdge &
   Edge & {
     __typename?: 'AnimalToAnimalConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Animal
   }
 
@@ -936,10 +1253,7 @@ export type AnimalToParentConnectionEdge = AnimalConnectionEdge &
     __typename?: 'AnimalToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Animal
   }
 
@@ -1280,15 +1594,9 @@ export type CaseStudiesToCaseStudiesConnection = CaseStudiesConnection &
 export type CaseStudiesToCaseStudiesConnectionEdge = CaseStudiesConnectionEdge &
   Edge & {
     __typename?: 'CaseStudiesToCaseStudiesConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: CaseStudies
   }
 
@@ -1401,10 +1709,7 @@ export type CaseStudiesToParentConnectionEdge = CaseStudiesConnectionEdge &
     __typename?: 'CaseStudiesToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: CaseStudies
   }
 
@@ -1850,6 +2155,8 @@ export type CategoryEventToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -1874,6 +2181,8 @@ export type CategoryEventToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -1935,6 +2244,8 @@ export type CategoryEventToEventsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -1959,6 +2270,8 @@ export type CategoryEventToEventsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -2179,6 +2492,8 @@ export type CategoryNewsToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -2203,6 +2518,8 @@ export type CategoryNewsToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -2264,6 +2581,8 @@ export type CategoryNewsToNewsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -2288,6 +2607,8 @@ export type CategoryNewsToNewsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -2476,6 +2797,8 @@ export type CategoryToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -2500,6 +2823,8 @@ export type CategoryToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -2580,6 +2905,8 @@ export type CategoryToPostConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -2616,6 +2943,8 @@ export type CategoryToPostConnectionWhereArgs = {
   tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -3443,6 +3772,12 @@ export type ContentTemplate = {
   templateName?: Maybe<Scalars['String']['output']>
 }
 
+/** The templates that can be assigned to content. Used to filter a connection by the template its content uses. */
+export enum ContentTemplateEnum {
+  /** The default template, applied when no specific template is assigned. */
+  DefaultTemplate = 'DEFAULT_TEMPLATE',
+}
+
 /** An Post Type object */
 export type ContentType = Node &
   UniformResourceIdentifiable & {
@@ -3661,6 +3996,8 @@ export type ContentTypeToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -3685,6 +4022,8 @@ export type ContentTypeToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -3728,6 +4067,12 @@ export type ContentTypeToTaxonomyConnectionPageInfo = PageInfo &
     startCursor?: Maybe<Scalars['String']['output']>
   }
 
+/** Allowed Content Types of the AnimalNews taxonomy. */
+export enum ContentTypesOfAnimalNewsEnum {
+  /** The Type of Content object */
+  News = 'NEWS',
+}
+
 /** Allowed Content Types of the Category taxonomy. */
 export enum ContentTypesOfCategoryEnum {
   /** The Type of Content object */
@@ -3762,6 +4107,12 @@ export enum ContentTypesOfInstitutionEnum {
 export enum ContentTypesOfPostFormatEnum {
   /** The Type of Content object */
   Post = 'POST',
+}
+
+/** Allowed Content Types of the ResearchAreasNews taxonomy. */
+export enum ContentTypesOfResearchAreasNewsEnum {
+  /** The Type of Content object */
+  News = 'NEWS',
 }
 
 /** Allowed Content Types of the Role taxonomy. */
@@ -3813,6 +4164,29 @@ export type CreateAnimalInput = {
   status?: InputMaybe<PostStatusEnum>
   /** The title of the object */
   title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Input for the createAnimalNews mutation. */
+export type CreateAnimalNewsInput = {
+  /** The slug that the animals-news will be an alias of */
+  aliasOf?: InputMaybe<Scalars['String']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The description of the animals-news object */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The name of the animals-news object to mutate */
+  name: Scalars['String']['input']
+  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the createAnimalNews mutation. */
+export type CreateAnimalNewsPayload = {
+  __typename?: 'CreateAnimalNewsPayload'
+  /** The created animals-news */
+  animalNews?: Maybe<AnimalNews>
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
 }
 
 /** The payload for the createAnimal mutation. */
@@ -4083,6 +4457,8 @@ export type CreateGraphqlDocumentGroupPayload = {
 export type CreateGraphqlDocumentInput = {
   /** Alias names for saved GraphQL query documents */
   alias?: InputMaybe<Array<Scalars['String']['input']>>
+  /** The userId to assign as the author of the object */
+  authorId?: InputMaybe<Scalars['ID']['input']>
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The content of the object */
@@ -4091,10 +4467,14 @@ export type CreateGraphqlDocumentInput = {
   date?: InputMaybe<Scalars['String']['input']>
   /** Description for the saved GraphQL document */
   description?: InputMaybe<Scalars['String']['input']>
+  /** The excerpt of the object */
+  excerpt?: InputMaybe<Scalars['String']['input']>
   /** Allow, deny or default access grant for specific query */
   grant?: InputMaybe<Scalars['String']['input']>
   /** Set connections between the graphqlDocument and graphqlDocumentGroups */
   graphqlDocumentGroups?: InputMaybe<GraphqlDocumentGraphqlDocumentGroupsInput>
+  /** JSON-encoded HTTP headers to send with this query (IDE execution context). */
+  headers?: InputMaybe<Scalars['String']['input']>
   /** HTTP Cache-Control max-age directive for a saved GraphQL document */
   maxAgeHeader?: InputMaybe<Scalars['Int']['input']>
   /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
@@ -4107,6 +4487,8 @@ export type CreateGraphqlDocumentInput = {
   status?: InputMaybe<PostStatusEnum>
   /** The title of the object */
   title?: InputMaybe<Scalars['String']['input']>
+  /** JSON-encoded variables to send with this query (IDE execution context). */
+  variables?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The payload for the createGraphqlDocument mutation. */
@@ -4246,6 +4628,8 @@ export type CreateMemberPayload = {
 
 /** Input for the createNews mutation. */
 export type CreateNewsInput = {
+  /** Set connections between the news and animalsNews */
+  animalsNews?: InputMaybe<NewsAnimalsNewsInput>
   /** The userId to assign as the author of the object */
   authorId?: InputMaybe<Scalars['ID']['input']>
   /** Set connections between the news and categoriesNews */
@@ -4260,6 +4644,8 @@ export type CreateNewsInput = {
   menuOrder?: InputMaybe<Scalars['Int']['input']>
   /** The password used to protect the content of the object */
   password?: InputMaybe<Scalars['String']['input']>
+  /** Set connections between the news and researchAreaNews */
+  researchAreaNews?: InputMaybe<NewsResearchAreaNewsInput>
   /** The slug of the object */
   slug?: InputMaybe<Scalars['String']['input']>
   /** The status of the object */
@@ -4469,6 +4855,29 @@ export type CreateResearchAreaPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>
   /** The Post object mutation type. */
   researchArea?: Maybe<ResearchArea>
+}
+
+/** Input for the createResearchAreasNews mutation. */
+export type CreateResearchAreasNewsInput = {
+  /** The slug that the research-areas-news will be an alias of */
+  aliasOf?: InputMaybe<Scalars['String']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The description of the research-areas-news object */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The name of the research-areas-news object to mutate */
+  name: Scalars['String']['input']
+  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the createResearchAreasNews mutation. */
+export type CreateResearchAreasNewsPayload = {
+  __typename?: 'CreateResearchAreasNewsPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The created research-areas-news */
+  researchAreasNews?: Maybe<ResearchAreasNews>
 }
 
 /** Input for the createRole mutation. */
@@ -4965,15 +5374,9 @@ export type DataChartToDataChartConnection = Connection &
 export type DataChartToDataChartConnectionEdge = DataChartConnectionEdge &
   Edge & {
     __typename?: 'DataChartToDataChartConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: DataChart
   }
 
@@ -5001,10 +5404,7 @@ export type DataChartToParentConnectionEdge = DataChartConnectionEdge &
     __typename?: 'DataChartToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: DataChart
   }
 
@@ -5186,8 +5586,14 @@ export type DatabaseIdentifier = {
 export type DateInput = {
   /** Day of the month (from 1 to 31) */
   day?: InputMaybe<Scalars['Int']['input']>
+  /** Hour of the day (from 0 to 23) */
+  hour?: InputMaybe<Scalars['Int']['input']>
+  /** Minute of the hour (from 0 to 59) */
+  minute?: InputMaybe<Scalars['Int']['input']>
   /** Month number (from 1 to 12) */
   month?: InputMaybe<Scalars['Int']['input']>
+  /** Second of the minute (from 0 to 59) */
+  second?: InputMaybe<Scalars['Int']['input']>
   /** 4 digit year (e.g. 2017) */
   year?: InputMaybe<Scalars['Int']['input']>
 }
@@ -5242,6 +5648,25 @@ export type DeleteAnimalInput = {
   id: Scalars['ID']['input']
   /** Override the edit lock when another user is editing the post */
   ignoreEditLock?: InputMaybe<Scalars['Boolean']['input']>
+}
+
+/** Input for the deleteAnimalNews mutation. */
+export type DeleteAnimalNewsInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the animalNews to delete */
+  id: Scalars['ID']['input']
+}
+
+/** The payload for the deleteAnimalNews mutation. */
+export type DeleteAnimalNewsPayload = {
+  __typename?: 'DeleteAnimalNewsPayload'
+  /** The deleted term object */
+  animalNews?: Maybe<AnimalNews>
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The ID of the deleted object */
+  deletedId?: Maybe<Scalars['ID']['output']>
 }
 
 /** The payload for the deleteAnimal mutation. */
@@ -5710,6 +6135,25 @@ export type DeleteResearchAreaPayload = {
   researchArea?: Maybe<ResearchArea>
 }
 
+/** Input for the deleteResearchAreasNews mutation. */
+export type DeleteResearchAreasNewsInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the researchAreasNews to delete */
+  id: Scalars['ID']['input']
+}
+
+/** The payload for the deleteResearchAreasNews mutation. */
+export type DeleteResearchAreasNewsPayload = {
+  __typename?: 'DeleteResearchAreasNewsPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The ID of the deleted object */
+  deletedId?: Maybe<Scalars['ID']['output']>
+  /** The deleted term object */
+  researchAreasNews?: Maybe<ResearchAreasNews>
+}
+
 /** Input for the deleteRole mutation. */
 export type DeleteRoleInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -5835,12 +6279,14 @@ export type DeleteUserPayload = {
 }
 
 /** The discussion setting type */
-export type DiscussionSettings = {
+export type DiscussionSettings = Node & {
   __typename?: 'DiscussionSettings'
   /** Allow people to submit comments on new posts. */
   defaultCommentStatus?: Maybe<Scalars['String']['output']>
   /** Allow link notifications from other blogs (pingbacks and trackbacks) on new articles. */
   defaultPingStatus?: Maybe<Scalars['String']['output']>
+  /** The globally unique identifier of the settings group. */
+  id: Scalars['ID']['output']
 }
 
 /** The diseases type */
@@ -6066,15 +6512,9 @@ export type DiseasesToDiseasesConnection = Connection &
 export type DiseasesToDiseasesConnectionEdge = DiseasesConnectionEdge &
   Edge & {
     __typename?: 'DiseasesToDiseasesConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Diseases
   }
 
@@ -6102,10 +6542,7 @@ export type DiseasesToParentConnectionEdge = DiseasesConnectionEdge &
     __typename?: 'DiseasesToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Diseases
   }
 
@@ -6673,15 +7110,9 @@ export type EventsToEventsConnection = Connection &
 export type EventsToEventsConnectionEdge = Edge &
   EventsConnectionEdge & {
     __typename?: 'EventsToEventsConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Events
   }
 
@@ -6709,10 +7140,7 @@ export type EventsToParentConnectionEdge = Edge &
     __typename?: 'EventsToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Events
   }
 
@@ -6843,7 +7271,7 @@ export type FacebookLoginOptions = LoginOptions & {
 }
 
 /** The general setting type */
-export type GeneralSettings = {
+export type GeneralSettings = Node & {
   __typename?: 'GeneralSettings'
   /** A date format for all date strings. */
   dateFormat?: Maybe<Scalars['String']['output']>
@@ -6851,6 +7279,10 @@ export type GeneralSettings = {
   description?: Maybe<Scalars['String']['output']>
   /** This address is used for admin purposes, like new user notification. */
   email?: Maybe<Scalars['String']['output']>
+  /** The address at which visitors reach the site&#039;s front end. Can differ from the `url` field when the front end and the content management backend are served from different addresses, such as on headless or decoupled installs. */
+  homeUrl?: Maybe<Scalars['String']['output']>
+  /** The globally unique identifier of the settings group. */
+  id: Scalars['ID']['output']
   /** WordPress locale code. */
   language?: Maybe<Scalars['String']['output']>
   /** The media item representing the site icon configured in site settings, used as the site&#039;s favicon and app icon. */
@@ -6955,7 +7387,10 @@ export enum GoogleProviderPromptTypeEnum {
 export type GraphqlDocument = ContentNode &
   DatabaseIdentifier &
   Node &
+  NodeWithAuthor &
   NodeWithContentEditor &
+  NodeWithExcerpt &
+  NodeWithPageAttributes &
   NodeWithTemplate &
   NodeWithTitle &
   UniformResourceIdentifiable &
@@ -6968,6 +7403,12 @@ export type GraphqlDocument = ContentNode &
      * @deprecated This content type is not hierarchical and typically will not have ancestors
      */
     ancestors?: Maybe<GraphqlDocumentToGraphqlDocumentConnection>
+    /** Connection between the NodeWithAuthor type and the User type */
+    author?: Maybe<NodeWithAuthorToUserConnectionEdge>
+    /** The database identifier of the author of the node */
+    authorDatabaseId?: Maybe<Scalars['Int']['output']>
+    /** The globally unique identifier of the author of the node */
+    authorId?: Maybe<Scalars['ID']['output']>
     /** Returns all blocks as a JSON object */
     blocks?: Maybe<Scalars['JSON']['output']>
     /** Fields of the CommonProps ACF Field Group */
@@ -6996,6 +7437,8 @@ export type GraphqlDocument = ContentNode &
     enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>
     /** Connection between the ContentNode type and the EnqueuedStylesheet type */
     enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>
+    /** The excerpt of the post. */
+    excerpt?: Maybe<Scalars['String']['output']>
     /** Allow, deny or default access grant for specific query */
     grant?: Maybe<Scalars['String']['output']>
     /** Connection between the GraphqlDocument type and the graphqlDocumentGroup type */
@@ -7009,6 +7452,8 @@ export type GraphqlDocument = ContentNode &
     guid?: Maybe<Scalars['String']['output']>
     /** Whether the graphql_document object is password protected. */
     hasPassword?: Maybe<Scalars['Boolean']['output']>
+    /** JSON-encoded HTTP headers to send with this query (IDE execution context). */
+    headers?: Maybe<Scalars['String']['output']>
     /** The globally unique identifier of the graphql_document object. */
     id: Scalars['ID']['output']
     /** Whether the node is a Comment */
@@ -7031,6 +7476,8 @@ export type GraphqlDocument = ContentNode &
     link?: Maybe<Scalars['String']['output']>
     /** HTTP Cache-Control max-age directive for a saved GraphQL document */
     maxAgeHeader?: Maybe<Scalars['Int']['output']>
+    /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+    menuOrder?: Maybe<Scalars['Int']['output']>
     /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
     modified?: Maybe<Scalars['String']['output']>
     /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
@@ -7065,6 +7512,8 @@ export type GraphqlDocument = ContentNode &
     title?: Maybe<Scalars['String']['output']>
     /** The unique resource identifier path */
     uri?: Maybe<Scalars['String']['output']>
+    /** JSON-encoded variables to send with this query (IDE execution context). */
+    variables?: Maybe<Scalars['String']['output']>
   }
 
 /** Saved GraphQL Documents */
@@ -7103,6 +7552,11 @@ export type GraphqlDocumentEnqueuedStylesheetsArgs = {
   before?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** Saved GraphQL Documents */
+export type GraphqlDocumentExcerptArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>
 }
 
 /** Saved GraphQL Documents */
@@ -7370,6 +7824,8 @@ export type GraphqlDocumentGroupToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -7394,6 +7850,8 @@ export type GraphqlDocumentGroupToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -7440,6 +7898,14 @@ export type GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo =
 
 /** Arguments for filtering the GraphqlDocumentGroupToGraphqlDocumentConnection connection */
 export type GraphqlDocumentGroupToGraphqlDocumentConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
   /** Filter the connection based on dates */
   dateQuery?: InputMaybe<DateQueryInput>
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -7448,6 +7914,8 @@ export type GraphqlDocumentGroupToGraphqlDocumentConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -7472,6 +7940,8 @@ export type GraphqlDocumentGroupToGraphqlDocumentConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -7515,15 +7985,9 @@ export type GraphqlDocumentToGraphqlDocumentConnection = Connection &
 export type GraphqlDocumentToGraphqlDocumentConnectionEdge = Edge &
   GraphqlDocumentConnectionEdge & {
     __typename?: 'GraphqlDocumentToGraphqlDocumentConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: GraphqlDocument
   }
 
@@ -7637,10 +8101,7 @@ export type GraphqlDocumentToParentConnectionEdge = Edge &
     __typename?: 'GraphqlDocumentToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: GraphqlDocument
   }
 
@@ -7651,10 +8112,7 @@ export type GraphqlDocumentToPreviewConnectionEdge = Edge &
     __typename?: 'GraphqlDocumentToPreviewConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated The &quot;GraphqlDocument&quot; Type is not publicly queryable and does not support previews. This field will be removed in the future.
-     */
+    /** The node of the connection, without the edges */
     node: GraphqlDocument
   }
 
@@ -7929,6 +8387,8 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -7953,6 +8413,8 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -8009,6 +8471,8 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -8033,6 +8497,8 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -8348,6 +8814,8 @@ export type InstitutionToCaseStudiesConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -8372,6 +8840,8 @@ export type InstitutionToCaseStudiesConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -8427,6 +8897,8 @@ export type InstitutionToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -8451,6 +8923,8 @@ export type InstitutionToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -8818,15 +9292,9 @@ export type MediaBankToMediaBankConnection = Connection &
 export type MediaBankToMediaBankConnectionEdge = Edge &
   MediaBankConnectionEdge & {
     __typename?: 'MediaBankToMediaBankConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: MediaBank
   }
 
@@ -8854,10 +9322,7 @@ export type MediaBankToParentConnectionEdge = Edge &
     __typename?: 'MediaBankToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: MediaBank
   }
 
@@ -9581,15 +10046,9 @@ export type MemberToMemberConnection = Connection &
 export type MemberToMemberConnectionEdge = Edge &
   MemberConnectionEdge & {
     __typename?: 'MemberToMemberConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Member
   }
 
@@ -9617,10 +10076,7 @@ export type MemberToParentConnectionEdge = Edge &
     __typename?: 'MemberToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Member
   }
 
@@ -9908,6 +10364,7 @@ export enum MenuItemNodeIdTypeEnum {
 /** Deprecated in favor of MenuItemLinkable Interface */
 export type MenuItemObjectUnion =
   | Animal
+  | AnimalNews
   | CaseStudies
   | Category
   | CategoryEvent
@@ -9924,6 +10381,7 @@ export type MenuItemObjectUnion =
   | Post
   | PressRelease
   | ResearchArea
+  | ResearchAreasNews
   | Role
   | Tag
   | Team
@@ -10292,6 +10750,8 @@ export type News = ContentNode &
      * @deprecated This content type is not hierarchical and typically will not have ancestors
      */
     ancestors?: Maybe<NewsToNewsConnection>
+    /** Connection between the News type and the animalNews type */
+    animalsNews?: Maybe<NewsToAnimalNewsConnection>
     /** Connection between the NodeWithAuthor type and the User type */
     author?: Maybe<NodeWithAuthorToUserConnectionEdge>
     /** The database identifier of the author of the node */
@@ -10378,6 +10838,8 @@ export type News = ContentNode &
     previewRevisionDatabaseId?: Maybe<Scalars['Int']['output']>
     /** Whether the object is a node in the preview state */
     previewRevisionId?: Maybe<Scalars['ID']['output']>
+    /** Connection between the News type and the researchAreasNews type */
+    researchAreaNews?: Maybe<NewsToResearchAreasNewsConnection>
     /** The Yoast SEO data of the ContentNode */
     seo?: Maybe<PostTypeSeo>
     /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
@@ -10400,6 +10862,15 @@ export type NewsAncestorsArgs = {
   before?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** The news type */
+export type NewsAnimalsNewsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<NewsToAnimalNewsConnectionWhereArgs>
 }
 
 /** The news type */
@@ -10442,6 +10913,15 @@ export type NewsEnqueuedStylesheetsArgs = {
 }
 
 /** The news type */
+export type NewsResearchAreaNewsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<NewsToResearchAreasNewsConnectionWhereArgs>
+}
+
+/** The news type */
 export type NewsTermsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
@@ -10453,6 +10933,26 @@ export type NewsTermsArgs = {
 /** The news type */
 export type NewsTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>
+}
+
+/** Set relationships between the news to animalsNews */
+export type NewsAnimalsNewsInput = {
+  /** If true, this will append the animalNews to existing related animalsNews. If false, this will replace existing relationships. Default true. */
+  append?: InputMaybe<Scalars['Boolean']['input']>
+  /** The input list of items to set. */
+  nodes?: InputMaybe<Array<InputMaybe<NewsAnimalsNewsNodeInput>>>
+}
+
+/** List of animalsNews to connect the news to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
+export type NewsAnimalsNewsNodeInput = {
+  /** The description of the animalNews. This field is used to set a description of the animalNews if a new one is created during the mutation. */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the animalNews. If present, this will be used to connect to the news. If no existing animalNews exists with this ID, no connection will be made. */
+  id?: InputMaybe<Scalars['ID']['input']>
+  /** The name of the animalNews. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** The slug of the animalNews. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
+  slug?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Set relationships between the news to categoriesNews */
@@ -10517,6 +11017,111 @@ export enum NewsIdType {
   Slug = 'SLUG',
   /** Identify a resource by the URI. */
   Uri = 'URI',
+}
+
+/** Set relationships between the news to researchAreaNews */
+export type NewsResearchAreaNewsInput = {
+  /** If true, this will append the researchAreasNews to existing related researchAreaNews. If false, this will replace existing relationships. Default true. */
+  append?: InputMaybe<Scalars['Boolean']['input']>
+  /** The input list of items to set. */
+  nodes?: InputMaybe<Array<InputMaybe<NewsResearchAreaNewsNodeInput>>>
+}
+
+/** List of researchAreaNews to connect the news to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
+export type NewsResearchAreaNewsNodeInput = {
+  /** The description of the researchAreasNews. This field is used to set a description of the researchAreasNews if a new one is created during the mutation. */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the researchAreasNews. If present, this will be used to connect to the news. If no existing researchAreasNews exists with this ID, no connection will be made. */
+  id?: InputMaybe<Scalars['ID']['input']>
+  /** The name of the researchAreasNews. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** The slug of the researchAreasNews. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the News type and the animalNews type */
+export type NewsToAnimalNewsConnection = AnimalNewsConnection &
+  Connection & {
+    __typename?: 'NewsToAnimalNewsConnection'
+    /** Edges for the NewsToAnimalNewsConnection connection */
+    edges: Array<NewsToAnimalNewsConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<AnimalNews>
+    /** Information about pagination in a connection. */
+    pageInfo: NewsToAnimalNewsConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type NewsToAnimalNewsConnectionEdge = AnimalNewsConnectionEdge &
+  Edge & {
+    __typename?: 'NewsToAnimalNewsConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The Yoast SEO Primary animals-news */
+    isPrimary?: Maybe<Scalars['Boolean']['output']>
+    /** The item at the end of the edge */
+    node: AnimalNews
+  }
+
+/** Pagination metadata specific to &quot;NewsToAnimalNewsConnection&quot; collections. Provides cursors and flags for navigating through sets of NewsToAnimalNewsConnection Nodes. */
+export type NewsToAnimalNewsConnectionPageInfo = AnimalNewsConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'NewsToAnimalNewsConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the NewsToAnimalNewsConnection connection */
+export type NewsToAnimalNewsConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Connection between the News type and the categoryNews type */
@@ -10620,15 +11225,9 @@ export type NewsToNewsConnection = Connection &
 export type NewsToNewsConnectionEdge = Edge &
   NewsConnectionEdge & {
     __typename?: 'NewsToNewsConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: News
   }
 
@@ -10656,10 +11255,7 @@ export type NewsToParentConnectionEdge = Edge &
     __typename?: 'NewsToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: News
   }
 
@@ -10673,6 +11269,91 @@ export type NewsToPreviewConnectionEdge = Edge &
     /** The node of the connection, without the edges */
     node: News
   }
+
+/** Connection between the News type and the researchAreasNews type */
+export type NewsToResearchAreasNewsConnection = Connection &
+  ResearchAreasNewsConnection & {
+    __typename?: 'NewsToResearchAreasNewsConnection'
+    /** Edges for the NewsToResearchAreasNewsConnection connection */
+    edges: Array<NewsToResearchAreasNewsConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ResearchAreasNews>
+    /** Information about pagination in a connection. */
+    pageInfo: NewsToResearchAreasNewsConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type NewsToResearchAreasNewsConnectionEdge = Edge &
+  ResearchAreasNewsConnectionEdge & {
+    __typename?: 'NewsToResearchAreasNewsConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The Yoast SEO Primary research-areas-news */
+    isPrimary?: Maybe<Scalars['Boolean']['output']>
+    /** The item at the end of the edge */
+    node: ResearchAreasNews
+  }
+
+/** Pagination metadata specific to &quot;NewsToResearchAreasNewsConnection&quot; collections. Provides cursors and flags for navigating through sets of NewsToResearchAreasNewsConnection Nodes. */
+export type NewsToResearchAreasNewsConnectionPageInfo = PageInfo &
+  ResearchAreasNewsConnectionPageInfo &
+  WpPageInfo & {
+    __typename?: 'NewsToResearchAreasNewsConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the NewsToResearchAreasNewsConnection connection */
+export type NewsToResearchAreasNewsConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>
+}
 
 /** Connection between the News type and the TermNode type */
 export type NewsToTermNodeConnection = Connection &
@@ -11169,15 +11850,9 @@ export type OfficeToOfficeConnection = Connection &
 export type OfficeToOfficeConnectionEdge = Edge &
   OfficeConnectionEdge & {
     __typename?: 'OfficeToOfficeConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Office
   }
 
@@ -11205,10 +11880,7 @@ export type OfficeToParentConnectionEdge = Edge &
     __typename?: 'OfficeToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Office
   }
 
@@ -11671,6 +12343,8 @@ export type PageToRevisionConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -11695,6 +12369,8 @@ export type PageToRevisionConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -11719,6 +12395,19 @@ export type PasswordProviderResponseInput = {
   password: Scalars['String']['input']
   /** The WordPress username to authenticate ass */
   username: Scalars['String']['input']
+}
+
+/** The permalink setting type */
+export type PermalinkSettings = Node & {
+  __typename?: 'PermalinkSettings'
+  /** The prefix used in the URLs of category archive pages. */
+  categoryBase?: Maybe<Scalars['String']['output']>
+  /** The globally unique identifier of the settings group. */
+  id: Scalars['ID']['output']
+  /** The structure used to build the URLs for content on the site. */
+  structure?: Maybe<Scalars['String']['output']>
+  /** The prefix used in the URLs of tag archive pages. */
+  tagBase?: Maybe<Scalars['String']['output']>
 }
 
 /** An plugin object */
@@ -12289,6 +12978,8 @@ export type PostFormatToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -12313,6 +13004,8 @@ export type PostFormatToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -12382,6 +13075,8 @@ export type PostFormatToPostConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -12418,6 +13113,8 @@ export type PostFormatToPostConnectionWhereArgs = {
   tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -12519,8 +13216,6 @@ export enum PostStatusEnum {
   AcfDisabled = 'ACF_DISABLED',
   /** Automatically saved content that has not been manually saved */
   AutoDraft = 'AUTO_DRAFT',
-  /** Objects with the dp-rewrite-republish status */
-  DpRewriteRepublish = 'DP_REWRITE_REPUBLISH',
   /** Content that is saved but not yet published or visible to the public */
   Draft = 'DRAFT',
   /** Objects with the future status */
@@ -12758,10 +13453,7 @@ export type PostToParentConnectionEdge = Edge &
     __typename?: 'PostToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Post
   }
 
@@ -12781,15 +13473,9 @@ export type PostToPostConnection = Connection &
 export type PostToPostConnectionEdge = Edge &
   PostConnectionEdge & {
     __typename?: 'PostToPostConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Post
   }
 
@@ -12971,6 +13657,8 @@ export type PostToRevisionConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -13007,6 +13695,8 @@ export type PostToRevisionConnectionWhereArgs = {
   tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -13260,6 +13950,7 @@ export type PostTypeSeo = {
   readingTime?: Maybe<Scalars['Float']['output']>
   schema?: Maybe<SeoPostTypeSchema>
   title?: Maybe<Scalars['String']['output']>
+  twitterCardType?: Maybe<Scalars['String']['output']>
   twitterDescription?: Maybe<Scalars['String']['output']>
   twitterImage?: Maybe<MediaItem>
   twitterTitle?: Maybe<Scalars['String']['output']>
@@ -13494,10 +14185,7 @@ export type PressReleaseToParentConnectionEdge = Edge &
     __typename?: 'PressReleaseToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: PressRelease
   }
 
@@ -13517,15 +14205,9 @@ export type PressReleaseToPressReleaseConnection = Connection &
 export type PressReleaseToPressReleaseConnectionEdge = Edge &
   PressReleaseConnectionEdge & {
     __typename?: 'PressReleaseToPressReleaseConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: PressRelease
   }
 
@@ -13783,8 +14465,10 @@ export type ProtectedMedia_Fields = {
 }
 
 /** The reading setting type */
-export type ReadingSettings = {
+export type ReadingSettings = Node & {
   __typename?: 'ReadingSettings'
+  /** The globally unique identifier of the settings group. */
+  id: Scalars['ID']['output']
   /** The ID of the page that should display the latest posts */
   pageForPosts?: Maybe<Scalars['Int']['output']>
   /** The ID of the page that should be displayed on the front page */
@@ -14100,10 +14784,7 @@ export type ResearchAreaToParentConnectionEdge = Edge &
     __typename?: 'ResearchAreaToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: ResearchArea
   }
 
@@ -14134,15 +14815,9 @@ export type ResearchAreaToResearchAreaConnection = Connection &
 export type ResearchAreaToResearchAreaConnectionEdge = Edge &
   ResearchAreaConnectionEdge & {
     __typename?: 'ResearchAreaToResearchAreaConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: ResearchArea
   }
 
@@ -14161,6 +14836,329 @@ export type ResearchAreaToResearchAreaConnectionPageInfo = PageInfo &
     seo?: Maybe<SeoPostTypePageInfo>
     /** When paginating backwards, the cursor to continue. */
     startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** The researchAreasNews type */
+export type ResearchAreasNews = DatabaseIdentifier &
+  MenuItemLinkable &
+  Node &
+  TermNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'ResearchAreasNews'
+    /** Connection between the ResearchAreasNews type and the ContentNode type */
+    contentNodes?: Maybe<ResearchAreasNewsToContentNodeConnection>
+    /** The number of objects connected to the object */
+    count?: Maybe<Scalars['Int']['output']>
+    /** The unique identifier stored in the database */
+    databaseId: Scalars['Int']['output']
+    /** The description of the object */
+    description?: Maybe<Scalars['String']['output']>
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>
+    /** The globally unique ID for the object */
+    id: Scalars['ID']['output']
+    /** Whether the node is a Comment */
+    isComment: Scalars['Boolean']['output']
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars['Boolean']['output']
+    /** Whether the node represents the front page. */
+    isFrontPage: Scalars['Boolean']['output']
+    /** Whether  the node represents the blog page. */
+    isPostsPage: Scalars['Boolean']['output']
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars['Boolean']['output']>
+    /** Whether the node is a Term */
+    isTermNode: Scalars['Boolean']['output']
+    /** The link to the term */
+    link?: Maybe<Scalars['String']['output']>
+    /** The human friendly name of the object. */
+    name?: Maybe<Scalars['String']['output']>
+    /** Connection between the ResearchAreasNews type and the news type */
+    news?: Maybe<ResearchAreasNewsToNewsConnection>
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of databaseId
+     */
+    researchAreasNewsId?: Maybe<Scalars['Int']['output']>
+    /** The Yoast SEO data of the Research Areas taxonomy. */
+    seo?: Maybe<TaxonomySeo>
+    /** An alphanumeric identifier for the object unique to its type. */
+    slug?: Maybe<Scalars['String']['output']>
+    /** Connection between the ResearchAreasNews type and the Taxonomy type */
+    taxonomy?: Maybe<ResearchAreasNewsToTaxonomyConnectionEdge>
+    /** The name of the taxonomy that the object is associated with */
+    taxonomyName?: Maybe<Scalars['String']['output']>
+    /** The ID of the term group that this term object belongs to */
+    termGroupId?: Maybe<Scalars['Int']['output']>
+    /** The taxonomy ID that the object is associated with */
+    termTaxonomyId?: Maybe<Scalars['Int']['output']>
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars['String']['output']>
+  }
+
+/** The researchAreasNews type */
+export type ResearchAreasNewsContentNodesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<ResearchAreasNewsToContentNodeConnectionWhereArgs>
+}
+
+/** The researchAreasNews type */
+export type ResearchAreasNewsEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** The researchAreasNews type */
+export type ResearchAreasNewsEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** The researchAreasNews type */
+export type ResearchAreasNewsNewsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<ResearchAreasNewsToNewsConnectionWhereArgs>
+}
+
+/** A paginated collection of researchAreasNews Nodes, Supports cursor-based pagination and filtering to efficiently retrieve sets of researchAreasNews Nodes */
+export type ResearchAreasNewsConnection = {
+  /** A list of edges (relational context) between RootQuery and connected researchAreasNews Nodes */
+  edges: Array<ResearchAreasNewsConnectionEdge>
+  /** A list of connected researchAreasNews Nodes */
+  nodes: Array<ResearchAreasNews>
+  /** Information about pagination in a connection. */
+  pageInfo: ResearchAreasNewsConnectionPageInfo
+}
+
+/** Represents a connection to a researchAreasNews. Contains both the researchAreasNews Node and metadata about the relationship. */
+export type ResearchAreasNewsConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor?: Maybe<Scalars['String']['output']>
+  /** The connected researchAreasNews Node */
+  node: ResearchAreasNews
+}
+
+/** Pagination metadata specific to &quot;ResearchAreasNewsConnectionEdge&quot; collections. Provides cursors and flags for navigating through sets of &quot;ResearchAreasNewsConnectionEdge&quot; Nodes. */
+export type ResearchAreasNewsConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']['output']>
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output']
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output']
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']['output']>
+}
+
+/** Identifier types for retrieving a specific ResearchAreasNews. Determines which unique property (global ID, database ID, slug, etc.) is used to locate the ResearchAreasNews. */
+export enum ResearchAreasNewsIdType {
+  /** The Database ID for the node */
+  DatabaseId = 'DATABASE_ID',
+  /** The hashed Global ID */
+  Id = 'ID',
+  /** The name of the node */
+  Name = 'NAME',
+  /** Url friendly name of the node */
+  Slug = 'SLUG',
+  /** The URI for the node */
+  Uri = 'URI',
+}
+
+/** Connection between the ResearchAreasNews type and the ContentNode type */
+export type ResearchAreasNewsToContentNodeConnection = Connection &
+  ContentNodeConnection & {
+    __typename?: 'ResearchAreasNewsToContentNodeConnection'
+    /** Edges for the ResearchAreasNewsToContentNodeConnection connection */
+    edges: Array<ResearchAreasNewsToContentNodeConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ContentNode>
+    /** Information about pagination in a connection. */
+    pageInfo: ResearchAreasNewsToContentNodeConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type ResearchAreasNewsToContentNodeConnectionEdge = ContentNodeConnectionEdge &
+  Edge & {
+    __typename?: 'ResearchAreasNewsToContentNodeConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: ContentNode
+  }
+
+/** Pagination metadata specific to &quot;ResearchAreasNewsToContentNodeConnection&quot; collections. Provides cursors and flags for navigating through sets of ResearchAreasNewsToContentNodeConnection Nodes. */
+export type ResearchAreasNewsToContentNodeConnectionPageInfo = ContentNodeConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'ResearchAreasNewsToContentNodeConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the ResearchAreasNewsToContentNodeConnection connection */
+export type ResearchAreasNewsToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: InputMaybe<Array<InputMaybe<ContentTypesOfResearchAreasNewsEnum>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the ResearchAreasNews type and the news type */
+export type ResearchAreasNewsToNewsConnection = Connection &
+  NewsConnection & {
+    __typename?: 'ResearchAreasNewsToNewsConnection'
+    /** Edges for the ResearchAreasNewsToNewsConnection connection */
+    edges: Array<ResearchAreasNewsToNewsConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<News>
+    /** Information about pagination in a connection. */
+    pageInfo: ResearchAreasNewsToNewsConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type ResearchAreasNewsToNewsConnectionEdge = Edge &
+  NewsConnectionEdge & {
+    __typename?: 'ResearchAreasNewsToNewsConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: News
+  }
+
+/** Pagination metadata specific to &quot;ResearchAreasNewsToNewsConnection&quot; collections. Provides cursors and flags for navigating through sets of ResearchAreasNewsToNewsConnection Nodes. */
+export type ResearchAreasNewsToNewsConnectionPageInfo = NewsConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'ResearchAreasNewsToNewsConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the ResearchAreasNewsToNewsConnection connection */
+export type ResearchAreasNewsToNewsConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the ResearchAreasNews type and the Taxonomy type */
+export type ResearchAreasNewsToTaxonomyConnectionEdge = Edge &
+  OneToOneConnection &
+  TaxonomyConnectionEdge & {
+    __typename?: 'ResearchAreasNewsToTaxonomyConnectionEdge'
+    /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The node of the connection, without the edges */
+    node: Taxonomy
   }
 
 /** Input for the resetUserPassword mutation. */
@@ -14413,6 +15411,8 @@ export type RoleToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -14437,6 +15437,8 @@ export type RoleToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -14501,6 +15503,8 @@ export type RoleToTeamConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -14525,6 +15529,8 @@ export type RoleToTeamConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -14534,6 +15540,8 @@ export type RootMutation = {
   __typename?: 'RootMutation'
   /** The createAnimal mutation */
   createAnimal?: Maybe<CreateAnimalPayload>
+  /** The createAnimalNews mutation */
+  createAnimalNews?: Maybe<CreateAnimalNewsPayload>
   /** The createCaseStudies mutation */
   createCaseStudies?: Maybe<CreateCaseStudiesPayload>
   /** The createCategory mutation */
@@ -14576,6 +15584,8 @@ export type RootMutation = {
   createPressRelease?: Maybe<CreatePressReleasePayload>
   /** The createResearchArea mutation */
   createResearchArea?: Maybe<CreateResearchAreaPayload>
+  /** The createResearchAreasNews mutation */
+  createResearchAreasNews?: Maybe<CreateResearchAreasNewsPayload>
   /** The createRole mutation */
   createRole?: Maybe<CreateRolePayload>
   /** The createTag mutation */
@@ -14590,6 +15600,8 @@ export type RootMutation = {
   createUser?: Maybe<CreateUserPayload>
   /** The deleteAnimal mutation */
   deleteAnimal?: Maybe<DeleteAnimalPayload>
+  /** The deleteAnimalNews mutation */
+  deleteAnimalNews?: Maybe<DeleteAnimalNewsPayload>
   /** The deleteCaseStudies mutation */
   deleteCaseStudies?: Maybe<DeleteCaseStudiesPayload>
   /** The deleteCategory mutation */
@@ -14632,6 +15644,8 @@ export type RootMutation = {
   deletePressRelease?: Maybe<DeletePressReleasePayload>
   /** The deleteResearchArea mutation */
   deleteResearchArea?: Maybe<DeleteResearchAreaPayload>
+  /** The deleteResearchAreasNews mutation */
+  deleteResearchAreasNews?: Maybe<DeleteResearchAreasNewsPayload>
   /** The deleteRole mutation */
   deleteRole?: Maybe<DeleteRolePayload>
   /** The deleteTag mutation */
@@ -14666,6 +15680,8 @@ export type RootMutation = {
   sendPasswordResetEmail?: Maybe<SendPasswordResetEmailPayload>
   /** The updateAnimal mutation */
   updateAnimal?: Maybe<UpdateAnimalPayload>
+  /** The updateAnimalNews mutation */
+  updateAnimalNews?: Maybe<UpdateAnimalNewsPayload>
   /** The updateCaseStudies mutation */
   updateCaseStudies?: Maybe<UpdateCaseStudiesPayload>
   /** The updateCategory mutation */
@@ -14686,6 +15702,8 @@ export type RootMutation = {
   updateGraphqlDocument?: Maybe<UpdateGraphqlDocumentPayload>
   /** The updateGraphqlDocumentGroup mutation */
   updateGraphqlDocumentGroup?: Maybe<UpdateGraphqlDocumentGroupPayload>
+  /** Updates a single WPGraphQL setting field. Requires the manage-settings capability. */
+  updateGraphqlSetting?: Maybe<UpdateGraphqlSettingPayload>
   /** The updateInstitution mutation */
   updateInstitution?: Maybe<UpdateInstitutionPayload>
   /** The updateMediaBank mutation */
@@ -14708,6 +15726,8 @@ export type RootMutation = {
   updatePressRelease?: Maybe<UpdatePressReleasePayload>
   /** The updateResearchArea mutation */
   updateResearchArea?: Maybe<UpdateResearchAreaPayload>
+  /** The updateResearchAreasNews mutation */
+  updateResearchAreasNews?: Maybe<UpdateResearchAreasNewsPayload>
   /** The updateRole mutation */
   updateRole?: Maybe<UpdateRolePayload>
   /** The updateSettings mutation */
@@ -14727,6 +15747,11 @@ export type RootMutation = {
 /** The root mutation */
 export type RootMutationCreateAnimalArgs = {
   input: CreateAnimalInput
+}
+
+/** The root mutation */
+export type RootMutationCreateAnimalNewsArgs = {
+  input: CreateAnimalNewsInput
 }
 
 /** The root mutation */
@@ -14835,6 +15860,11 @@ export type RootMutationCreateResearchAreaArgs = {
 }
 
 /** The root mutation */
+export type RootMutationCreateResearchAreasNewsArgs = {
+  input: CreateResearchAreasNewsInput
+}
+
+/** The root mutation */
 export type RootMutationCreateRoleArgs = {
   input: CreateRoleInput
 }
@@ -14867,6 +15897,11 @@ export type RootMutationCreateUserArgs = {
 /** The root mutation */
 export type RootMutationDeleteAnimalArgs = {
   input: DeleteAnimalInput
+}
+
+/** The root mutation */
+export type RootMutationDeleteAnimalNewsArgs = {
+  input: DeleteAnimalNewsInput
 }
 
 /** The root mutation */
@@ -14975,6 +16010,11 @@ export type RootMutationDeleteResearchAreaArgs = {
 }
 
 /** The root mutation */
+export type RootMutationDeleteResearchAreasNewsArgs = {
+  input: DeleteResearchAreasNewsInput
+}
+
+/** The root mutation */
 export type RootMutationDeleteRoleArgs = {
   input: DeleteRoleInput
 }
@@ -15060,6 +16100,11 @@ export type RootMutationUpdateAnimalArgs = {
 }
 
 /** The root mutation */
+export type RootMutationUpdateAnimalNewsArgs = {
+  input: UpdateAnimalNewsInput
+}
+
+/** The root mutation */
 export type RootMutationUpdateCaseStudiesArgs = {
   input: UpdateCaseStudiesInput
 }
@@ -15107,6 +16152,11 @@ export type RootMutationUpdateGraphqlDocumentArgs = {
 /** The root mutation */
 export type RootMutationUpdateGraphqlDocumentGroupArgs = {
   input: UpdateGraphqlDocumentGroupInput
+}
+
+/** The root mutation */
+export type RootMutationUpdateGraphqlSettingArgs = {
+  input: UpdateGraphqlSettingInput
 }
 
 /** The root mutation */
@@ -15162,6 +16212,11 @@ export type RootMutationUpdatePressReleaseArgs = {
 /** The root mutation */
 export type RootMutationUpdateResearchAreaArgs = {
   input: UpdateResearchAreaInput
+}
+
+/** The root mutation */
+export type RootMutationUpdateResearchAreasNewsArgs = {
+  input: UpdateResearchAreasNewsInput
 }
 
 /** The root mutation */
@@ -15227,8 +16282,12 @@ export type RootQuery = WithAcfOptionsPageEaraSettings & {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   animalBy?: Maybe<Animal>
+  /** A 0bject */
+  animalNews?: Maybe<AnimalNews>
   /** Connection between the RootQuery type and the animal type */
   animals?: Maybe<RootQueryToAnimalConnection>
+  /** Connection between the RootQuery type and the animalNews type */
+  animalsNews?: Maybe<RootQueryToAnimalNewsConnection>
   /** An object of the caseStudies Type.  */
   caseStudies?: Maybe<CaseStudies>
   /**
@@ -15385,6 +16444,8 @@ export type RootQuery = WithAcfOptionsPageEaraSettings & {
   pageBy?: Maybe<Page>
   /** Connection between the RootQuery type and the page type */
   pages?: Maybe<RootQueryToPageConnection>
+  /** Fields of the &#039;PermalinkSettings&#039; settings group */
+  permalinkSettings?: Maybe<PermalinkSettings>
   /** A WordPress plugin */
   plugin?: Maybe<Plugin>
   /** Connection between the RootQuery type and the Plugin type */
@@ -15424,6 +16485,10 @@ export type RootQuery = WithAcfOptionsPageEaraSettings & {
    * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
    */
   researchAreaBy?: Maybe<ResearchArea>
+  /** Connection between the RootQuery type and the researchAreasNews type */
+  researchAreaNews?: Maybe<RootQueryToResearchAreasNewsConnection>
+  /** A 0bject */
+  researchAreasNews?: Maybe<ResearchAreasNews>
   /** Connection between the RootQuery type and the ContentNode type */
   revisions?: Maybe<RootQueryToRevisionsConnection>
   /** A 0bject */
@@ -15570,12 +16635,27 @@ export type RootQueryAnimalByArgs = {
 }
 
 /** The root entry point into the Graph */
+export type RootQueryAnimalNewsArgs = {
+  id: Scalars['ID']['input']
+  idType?: InputMaybe<AnimalNewsIdType>
+}
+
+/** The root entry point into the Graph */
 export type RootQueryAnimalsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   where?: InputMaybe<RootQueryToAnimalConnectionWhereArgs>
+}
+
+/** The root entry point into the Graph */
+export type RootQueryAnimalsNewsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<RootQueryToAnimalNewsConnectionWhereArgs>
 }
 
 /** The root entry point into the Graph */
@@ -16078,6 +17158,21 @@ export type RootQueryResearchAreaByArgs = {
 }
 
 /** The root entry point into the Graph */
+export type RootQueryResearchAreaNewsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<RootQueryToResearchAreasNewsConnectionWhereArgs>
+}
+
+/** The root entry point into the Graph */
+export type RootQueryResearchAreasNewsArgs = {
+  id: Scalars['ID']['input']
+  idType?: InputMaybe<ResearchAreasNewsIdType>
+}
+
+/** The root entry point into the Graph */
 export type RootQueryRevisionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
@@ -16289,6 +17384,8 @@ export type RootQueryToAnimalConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -16313,8 +17410,93 @@ export type RootQueryToAnimalConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the RootQuery type and the animalNews type */
+export type RootQueryToAnimalNewsConnection = AnimalNewsConnection &
+  Connection & {
+    __typename?: 'RootQueryToAnimalNewsConnection'
+    /** Edges for the RootQueryToAnimalNewsConnection connection */
+    edges: Array<RootQueryToAnimalNewsConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<AnimalNews>
+    /** Information about pagination in a connection. */
+    pageInfo: RootQueryToAnimalNewsConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type RootQueryToAnimalNewsConnectionEdge = AnimalNewsConnectionEdge &
+  Edge & {
+    __typename?: 'RootQueryToAnimalNewsConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: AnimalNews
+  }
+
+/** Pagination metadata specific to &quot;RootQueryToAnimalNewsConnection&quot; collections. Provides cursors and flags for navigating through sets of RootQueryToAnimalNewsConnection Nodes. */
+export type RootQueryToAnimalNewsConnectionPageInfo = AnimalNewsConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'RootQueryToAnimalNewsConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the RootQueryToAnimalNewsConnection connection */
+export type RootQueryToAnimalNewsConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Connection between the RootQuery type and the caseStudies type */
@@ -16376,6 +17558,8 @@ export type RootQueryToCaseStudiesConnectionWhereArgs = {
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
   /** Filter Case Studies by institution field */
   institution?: InputMaybe<Scalars['String']['input']>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -16400,6 +17584,8 @@ export type RootQueryToCaseStudiesConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -16805,6 +17991,8 @@ export type RootQueryToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -16829,6 +18017,8 @@ export type RootQueryToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -16921,6 +18111,8 @@ export type RootQueryToDataChartConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -16945,6 +18137,8 @@ export type RootQueryToDataChartConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17006,6 +18200,8 @@ export type RootQueryToDiseasesConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -17030,6 +18226,8 @@ export type RootQueryToDiseasesConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17171,6 +18369,8 @@ export type RootQueryToEventsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Filter events by location-type field */
   locationType?: InputMaybe<Scalars['String']['input']>
   /** Get objects with a specific mimeType property */
@@ -17199,6 +18399,8 @@ export type RootQueryToEventsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17244,6 +18446,14 @@ export type RootQueryToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnec
 
 /** Arguments for filtering the RootQueryToGraphqlDocumentConnection connection */
 export type RootQueryToGraphqlDocumentConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
   /** Filter the connection based on dates */
   dateQuery?: InputMaybe<DateQueryInput>
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -17252,6 +18462,8 @@ export type RootQueryToGraphqlDocumentConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -17276,6 +18488,8 @@ export type RootQueryToGraphqlDocumentConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17508,6 +18722,8 @@ export type RootQueryToMediaBankConnectionWhereArgs = {
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
   /** Filter media bank by ACF field is_featured (featured for homepage) */
   isFeatured?: InputMaybe<Scalars['Boolean']['input']>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -17534,6 +18750,8 @@ export type RootQueryToMediaBankConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17595,6 +18813,8 @@ export type RootQueryToMediaItemConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -17619,6 +18839,8 @@ export type RootQueryToMediaItemConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17682,6 +18904,8 @@ export type RootQueryToMemberConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -17706,6 +18930,8 @@ export type RootQueryToMemberConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17853,6 +19079,8 @@ export type RootQueryToNewsConnectionPageInfo = NewsConnectionPageInfo &
 export type RootQueryToNewsConnectionWhereArgs = {
   /** Filter News by animal field */
   animal?: InputMaybe<Scalars['String']['input']>
+  /** Filter News by animals-news taxonomy slug */
+  animalsNews?: InputMaybe<Scalars['String']['input']>
   /** The user that's connected as the author of the object. Use the userId for the author object. */
   author?: InputMaybe<Scalars['Int']['input']>
   /** Find objects connected to author(s) in the array of author's userIds */
@@ -17873,6 +19101,8 @@ export type RootQueryToNewsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -17891,12 +19121,16 @@ export type RootQueryToNewsConnectionWhereArgs = {
   parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
   /** Show posts with a specific password. */
   password?: InputMaybe<Scalars['String']['input']>
+  /** Filter News by research-areas-news taxonomy slug */
+  researchAreasNews?: InputMaybe<Scalars['String']['input']>
   /** Show Posts based on a keyword search */
   search?: InputMaybe<Scalars['String']['input']>
   /** Retrieve posts where post status is in an array. */
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -17950,6 +19184,8 @@ export type RootQueryToOfficeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -17974,6 +19210,8 @@ export type RootQueryToOfficeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -18035,6 +19273,8 @@ export type RootQueryToPageConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -18059,6 +19299,8 @@ export type RootQueryToPageConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -18177,6 +19419,8 @@ export type RootQueryToPostConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -18213,6 +19457,8 @@ export type RootQueryToPostConnectionWhereArgs = {
   tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -18349,6 +19595,8 @@ export type RootQueryToPressReleaseConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -18373,6 +19621,8 @@ export type RootQueryToPressReleaseConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -18426,6 +19676,8 @@ export type RootQueryToResearchAreaConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -18450,8 +19702,93 @@ export type RootQueryToResearchAreaConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the RootQuery type and the researchAreasNews type */
+export type RootQueryToResearchAreasNewsConnection = Connection &
+  ResearchAreasNewsConnection & {
+    __typename?: 'RootQueryToResearchAreasNewsConnection'
+    /** Edges for the RootQueryToResearchAreasNewsConnection connection */
+    edges: Array<RootQueryToResearchAreasNewsConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<ResearchAreasNews>
+    /** Information about pagination in a connection. */
+    pageInfo: RootQueryToResearchAreasNewsConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type RootQueryToResearchAreasNewsConnectionEdge = Edge &
+  ResearchAreasNewsConnectionEdge & {
+    __typename?: 'RootQueryToResearchAreasNewsConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: ResearchAreasNews
+  }
+
+/** Pagination metadata specific to &quot;RootQueryToResearchAreasNewsConnection&quot; collections. Provides cursors and flags for navigating through sets of RootQueryToResearchAreasNewsConnection Nodes. */
+export type RootQueryToResearchAreasNewsConnectionPageInfo = PageInfo &
+  ResearchAreasNewsConnectionPageInfo &
+  WpPageInfo & {
+    __typename?: 'RootQueryToResearchAreasNewsConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the RootQueryToResearchAreasNewsConnection connection */
+export type RootQueryToResearchAreasNewsConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: InputMaybe<Scalars['String']['input']>
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: InputMaybe<Scalars['Int']['input']>
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: InputMaybe<Scalars['Boolean']['input']>
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: InputMaybe<Scalars['Boolean']['input']>
+  /** Array of term ids to include. Default empty array. */
+  include?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Array of names to return term(s) for. Default empty. */
+  name?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: InputMaybe<Scalars['String']['input']>
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Direction the connection should be ordered in */
+  order?: InputMaybe<OrderEnum>
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: InputMaybe<TermObjectsConnectionOrderbyEnum>
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: InputMaybe<Scalars['Boolean']['input']>
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: InputMaybe<Scalars['Int']['input']>
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomyId?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Connection between the RootQuery type and the ContentNode type */
@@ -18505,6 +19842,8 @@ export type RootQueryToRevisionsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -18529,6 +19868,8 @@ export type RootQueryToRevisionsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -18787,6 +20128,8 @@ export type RootQueryToTeamConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -18811,6 +20154,8 @@ export type RootQueryToTeamConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -18988,6 +20333,8 @@ export type RootQueryToTickerConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -19012,6 +20359,8 @@ export type RootQueryToTickerConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -19483,12 +20832,14 @@ export type SeoTaxonomyTypeArchive = {
 /** The Yoast SEO archive configuration data for taxonomies */
 export type SeoTaxonomyTypes = {
   __typename?: 'SEOTaxonomyTypes'
+  animalNews?: Maybe<SeoTaxonomyType>
   category?: Maybe<SeoTaxonomyType>
   categoryEvent?: Maybe<SeoTaxonomyType>
   categoryNews?: Maybe<SeoTaxonomyType>
   graphqlDocumentGroup?: Maybe<SeoTaxonomyType>
   institution?: Maybe<SeoTaxonomyType>
   postFormat?: Maybe<SeoTaxonomyType>
+  researchAreasNews?: Maybe<SeoTaxonomyType>
   role?: Maybe<SeoTaxonomyType>
   tag?: Maybe<SeoTaxonomyType>
   type?: Maybe<SeoTaxonomyType>
@@ -19586,41 +20937,49 @@ export type SendPasswordResetEmailPayload = {
 /** All of the registered settings */
 export type Settings = {
   __typename?: 'Settings'
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   discussionSettingsDefaultCommentStatus?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   discussionSettingsDefaultPingStatus?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   generalSettingsDateFormat?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   generalSettingsDescription?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   generalSettingsEmail?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
+  generalSettingsHomeUrl?: Maybe<Scalars['String']['output']>
+  /** Settings of the string Settings Group */
   generalSettingsLanguage?: Maybe<Scalars['String']['output']>
-  /** Settings of the the integer Settings Group */
+  /** Settings of the integer Settings Group */
   generalSettingsStartOfWeek?: Maybe<Scalars['Int']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   generalSettingsTimeFormat?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   generalSettingsTimezone?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   generalSettingsTitle?: Maybe<Scalars['String']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   generalSettingsUrl?: Maybe<Scalars['String']['output']>
-  /** Settings of the the integer Settings Group */
+  /** Settings of the string Settings Group */
+  permalinkSettingsCategoryBase?: Maybe<Scalars['String']['output']>
+  /** Settings of the string Settings Group */
+  permalinkSettingsStructure?: Maybe<Scalars['String']['output']>
+  /** Settings of the string Settings Group */
+  permalinkSettingsTagBase?: Maybe<Scalars['String']['output']>
+  /** Settings of the integer Settings Group */
   readingSettingsPageForPosts?: Maybe<Scalars['Int']['output']>
-  /** Settings of the the integer Settings Group */
+  /** Settings of the integer Settings Group */
   readingSettingsPageOnFront?: Maybe<Scalars['Int']['output']>
-  /** Settings of the the integer Settings Group */
+  /** Settings of the integer Settings Group */
   readingSettingsPostsPerPage?: Maybe<Scalars['Int']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   readingSettingsShowOnFront?: Maybe<Scalars['String']['output']>
-  /** Settings of the the integer Settings Group */
+  /** Settings of the integer Settings Group */
   writingSettingsDefaultCategory?: Maybe<Scalars['Int']['output']>
-  /** Settings of the the string Settings Group */
+  /** Settings of the string Settings Group */
   writingSettingsDefaultPostFormat?: Maybe<Scalars['String']['output']>
-  /** Settings of the the boolean Settings Group */
+  /** Settings of the boolean Settings Group */
   writingSettingsUseSmilies?: Maybe<Scalars['Boolean']['output']>
 }
 
@@ -19838,6 +21197,8 @@ export type TagToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -19862,6 +21223,8 @@ export type TagToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -19931,6 +21294,8 @@ export type TagToPostConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -19967,6 +21332,8 @@ export type TagToPostConnectionWhereArgs = {
   tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -20079,6 +21446,8 @@ export type TaxonomyConnectionPageInfo = {
 
 /** Available classification systems for organizing content. Identifies the different taxonomy types that can be used for content categorization. */
 export enum TaxonomyEnum {
+  /** Taxonomy enum animals-news */
+  Animalnews = 'ANIMALNEWS',
   /** Taxonomy enum category */
   Category = 'CATEGORY',
   /** Taxonomy enum category_events */
@@ -20091,6 +21460,8 @@ export enum TaxonomyEnum {
   Institution = 'INSTITUTION',
   /** Taxonomy enum post_format */
   Postformat = 'POSTFORMAT',
+  /** Taxonomy enum research-areas-news */
+  Researchareasnews = 'RESEARCHAREASNEWS',
   /** Taxonomy enum role */
   Role = 'ROLE',
   /** Taxonomy enum post_tag */
@@ -20130,6 +21501,7 @@ export type TaxonomySeo = {
   opengraphUrl?: Maybe<Scalars['String']['output']>
   schema?: Maybe<SeoTaxonomySchema>
   title?: Maybe<Scalars['String']['output']>
+  twitterCardType?: Maybe<Scalars['String']['output']>
   twitterDescription?: Maybe<Scalars['String']['output']>
   twitterImage?: Maybe<MediaItem>
   twitterTitle?: Maybe<Scalars['String']['output']>
@@ -20462,10 +21834,7 @@ export type TeamToParentConnectionEdge = Edge &
     __typename?: 'TeamToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Team
   }
 
@@ -20581,15 +21950,9 @@ export type TeamToTeamConnection = Connection &
 export type TeamToTeamConnectionEdge = Edge &
   TeamConnectionEdge & {
     __typename?: 'TeamToTeamConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Team
   }
 
@@ -21397,10 +22760,7 @@ export type TickerToParentConnectionEdge = Edge &
     __typename?: 'TickerToParentConnectionEdge'
     /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The node of the connection, without the edges
-     * @deprecated This content type is not hierarchical and typically will not have a parent
-     */
+    /** The node of the connection, without the edges */
     node: Ticker
   }
 
@@ -21431,15 +22791,9 @@ export type TickerToTickerConnection = Connection &
 export type TickerToTickerConnectionEdge = Edge &
   TickerConnectionEdge & {
     __typename?: 'TickerToTickerConnectionEdge'
-    /**
-     * A cursor for use in pagination
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** A cursor for use in pagination */
     cursor?: Maybe<Scalars['String']['output']>
-    /**
-     * The item at the end of the edge
-     * @deprecated This content type is not hierarchical and typically will not have ancestors
-     */
+    /** The item at the end of the edge */
     node: Ticker
   }
 
@@ -21651,6 +23005,8 @@ export type TypeToContentNodeConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -21675,6 +23031,8 @@ export type TypeToContentNodeConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -21728,6 +23086,8 @@ export type TypeToPressReleaseConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -21752,6 +23112,8 @@ export type TypeToPressReleaseConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -21809,6 +23171,31 @@ export type UpdateAnimalInput = {
   status?: InputMaybe<PostStatusEnum>
   /** The title of the object */
   title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Input for the updateAnimalNews mutation. */
+export type UpdateAnimalNewsInput = {
+  /** The slug that the animals-news will be an alias of */
+  aliasOf?: InputMaybe<Scalars['String']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The description of the animals-news object */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the animalNews object to update */
+  id: Scalars['ID']['input']
+  /** The name of the animals-news object to mutate */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the updateAnimalNews mutation. */
+export type UpdateAnimalNewsPayload = {
+  __typename?: 'UpdateAnimalNewsPayload'
+  /** The created animals-news */
+  animalNews?: Maybe<AnimalNews>
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
 }
 
 /** The payload for the updateAnimal mutation. */
@@ -22105,6 +23492,8 @@ export type UpdateGraphqlDocumentGroupPayload = {
 export type UpdateGraphqlDocumentInput = {
   /** Alias names for saved GraphQL query documents */
   alias?: InputMaybe<Array<Scalars['String']['input']>>
+  /** The userId to assign as the author of the object */
+  authorId?: InputMaybe<Scalars['ID']['input']>
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The content of the object */
@@ -22113,10 +23502,14 @@ export type UpdateGraphqlDocumentInput = {
   date?: InputMaybe<Scalars['String']['input']>
   /** Description for the saved GraphQL document */
   description?: InputMaybe<Scalars['String']['input']>
+  /** The excerpt of the object */
+  excerpt?: InputMaybe<Scalars['String']['input']>
   /** Allow, deny or default access grant for specific query */
   grant?: InputMaybe<Scalars['String']['input']>
   /** Set connections between the graphqlDocument and graphqlDocumentGroups */
   graphqlDocumentGroups?: InputMaybe<GraphqlDocumentGraphqlDocumentGroupsInput>
+  /** JSON-encoded HTTP headers to send with this query (IDE execution context). */
+  headers?: InputMaybe<Scalars['String']['input']>
   /** The ID of the graphqlDocument object */
   id: Scalars['ID']['input']
   /** Override the edit lock when another user is editing the post */
@@ -22133,6 +23526,8 @@ export type UpdateGraphqlDocumentInput = {
   status?: InputMaybe<PostStatusEnum>
   /** The title of the object */
   title?: InputMaybe<Scalars['String']['input']>
+  /** JSON-encoded variables to send with this query (IDE execution context). */
+  variables?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The payload for the updateGraphqlDocument mutation. */
@@ -22142,6 +23537,86 @@ export type UpdateGraphqlDocumentPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>
   /** The Post object mutation type. */
   graphqlDocument?: Maybe<GraphqlDocument>
+}
+
+/** Input for the updateGraphqlSetting mutation. */
+export type UpdateGraphqlSettingInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The field name within the section. */
+  field: Scalars['String']['input']
+  /** The settings section slug (e.g. "graphql_general_settings"). */
+  section: Scalars['String']['input']
+  /** The new value. The variant key must match the field's registered type (text → text, checkbox → checkbox, etc). */
+  value: UpdateGraphqlSettingValueInput
+}
+
+/** The payload for the updateGraphqlSetting mutation. */
+export type UpdateGraphqlSettingPayload = {
+  __typename?: 'UpdateGraphqlSettingPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The field name that was updated. */
+  field: Scalars['String']['output']
+  /** The registered type of the field, so the client knows which `value` variant to read. */
+  fieldType: Scalars['String']['output']
+  /** Optional human-readable status message. */
+  message?: Maybe<Scalars['String']['output']>
+  /** The section slug that was updated. */
+  section: Scalars['String']['output']
+  /** Whether the setting was persisted. */
+  success: Scalars['Boolean']['output']
+  /** The persisted value, in the variant matching the field type. */
+  value: UpdateGraphqlSettingValue
+}
+
+/** The current value of a WPGraphQL setting, surfaced in the variant that matches the registered field type. Other variants are null. */
+export type UpdateGraphqlSettingValue = {
+  __typename?: 'UpdateGraphqlSettingValue'
+  /** Boolean value (checkbox-typed setting). */
+  checkbox?: Maybe<Scalars['Boolean']['output']>
+  /** CSS color value. */
+  color?: Maybe<Scalars['String']['output']>
+  /** Array of string values matching the registered multicheck options. */
+  multicheck?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  /** Numeric value. */
+  number?: Maybe<Scalars['Float']['output']>
+  /** String value matching one of the registered radio options. */
+  radio?: Maybe<Scalars['String']['output']>
+  /** String value matching one of the registered select options. */
+  select?: Maybe<Scalars['String']['output']>
+  /** Plain text value. */
+  text?: Maybe<Scalars['String']['output']>
+  /** Multi-line text value. */
+  textarea?: Maybe<Scalars['String']['output']>
+  /** URL value. */
+  url?: Maybe<Scalars['String']['output']>
+  /** WordPress user role slug. */
+  userRoleSelect?: Maybe<Scalars['String']['output']>
+}
+
+/** Value to set for a WPGraphQL setting. Exactly one variant must be provided, matching the registered field type. */
+export type UpdateGraphqlSettingValueInput = {
+  /** Boolean value (checkbox-typed setting). */
+  checkbox?: InputMaybe<Scalars['Boolean']['input']>
+  /** CSS color value. */
+  color?: InputMaybe<Scalars['String']['input']>
+  /** Array of string values matching the registered multicheck options. */
+  multicheck?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Numeric value. */
+  number?: InputMaybe<Scalars['Float']['input']>
+  /** String value matching one of the registered radio options. */
+  radio?: InputMaybe<Scalars['String']['input']>
+  /** String value matching one of the registered select options. */
+  select?: InputMaybe<Scalars['String']['input']>
+  /** Plain text value. */
+  text?: InputMaybe<Scalars['String']['input']>
+  /** Multi-line text value. */
+  textarea?: InputMaybe<Scalars['String']['input']>
+  /** URL value. */
+  url?: InputMaybe<Scalars['String']['input']>
+  /** WordPress user role slug. */
+  userRoleSelect?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Input for the updateInstitution mutation. */
@@ -22284,6 +23759,8 @@ export type UpdateMemberPayload = {
 
 /** Input for the updateNews mutation. */
 export type UpdateNewsInput = {
+  /** Set connections between the news and animalsNews */
+  animalsNews?: InputMaybe<NewsAnimalsNewsInput>
   /** The userId to assign as the author of the object */
   authorId?: InputMaybe<Scalars['ID']['input']>
   /** Set connections between the news and categoriesNews */
@@ -22302,6 +23779,8 @@ export type UpdateNewsInput = {
   menuOrder?: InputMaybe<Scalars['Int']['input']>
   /** The password used to protect the content of the object */
   password?: InputMaybe<Scalars['String']['input']>
+  /** Set connections between the news and researchAreaNews */
+  researchAreaNews?: InputMaybe<NewsResearchAreaNewsInput>
   /** The slug of the object */
   slug?: InputMaybe<Scalars['String']['input']>
   /** The status of the object */
@@ -22535,6 +24014,31 @@ export type UpdateResearchAreaPayload = {
   researchArea?: Maybe<ResearchArea>
 }
 
+/** Input for the updateResearchAreasNews mutation. */
+export type UpdateResearchAreasNewsInput = {
+  /** The slug that the research-areas-news will be an alias of */
+  aliasOf?: InputMaybe<Scalars['String']['input']>
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The description of the research-areas-news object */
+  description?: InputMaybe<Scalars['String']['input']>
+  /** The ID of the researchAreasNews object to update */
+  id: Scalars['ID']['input']
+  /** The name of the research-areas-news object to mutate */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
+  slug?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The payload for the updateResearchAreasNews mutation. */
+export type UpdateResearchAreasNewsPayload = {
+  __typename?: 'UpdateResearchAreasNewsPayload'
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The created research-areas-news */
+  researchAreasNews?: Maybe<ResearchAreasNews>
+}
+
 /** Input for the updateRole mutation. */
 export type UpdateRoleInput = {
   /** The slug that the role will be an alias of */
@@ -22584,8 +24088,6 @@ export type UpdateSettingsInput = {
   generalSettingsTimezone?: InputMaybe<Scalars['String']['input']>
   /** Site title. */
   generalSettingsTitle?: InputMaybe<Scalars['String']['input']>
-  /** Site URL. */
-  generalSettingsUrl?: InputMaybe<Scalars['String']['input']>
   /** The ID of the page that should display the latest posts */
   readingSettingsPageForPosts?: InputMaybe<Scalars['Int']['input']>
   /** The ID of the page that should be displayed on the front page */
@@ -22613,6 +24115,8 @@ export type UpdateSettingsPayload = {
   discussionSettings?: Maybe<DiscussionSettings>
   /** Update the GeneralSettings setting. */
   generalSettings?: Maybe<GeneralSettings>
+  /** Update the PermalinkSettings setting. */
+  permalinkSettings?: Maybe<PermalinkSettings>
   /** Update the ReadingSettings setting. */
   readingSettings?: Maybe<ReadingSettings>
   /** Update the WritingSettings setting. */
@@ -22788,7 +24292,8 @@ export type UpdateUserPayload = {
 export type User = Commenter &
   DatabaseIdentifier &
   Node &
-  UniformResourceIdentifiable & {
+  UniformResourceIdentifiable &
+  WithAcfUsers & {
     __typename?: 'User'
     /** The admin color scheme preference for the user. Possible values include &quot;fresh&quot;, &quot;light&quot;, &quot;blue&quot;, &quot;coffee&quot;, &quot;ectoplasm&quot;, &quot;midnight&quot;, &quot;ocean&quot;, &quot;sunrise&quot;. Default is &quot;fresh&quot;. */
     adminColor?: Maybe<Scalars['String']['output']>
@@ -22824,6 +24329,8 @@ export type User = Commenter &
     extraCapabilities?: Maybe<Array<Maybe<Scalars['String']['output']>>>
     /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
     firstName?: Maybe<Scalars['String']['output']>
+    /** Connection between the User type and the graphqlDocument type */
+    graphqlDocuments?: Maybe<UserToGraphqlDocumentConnection>
     /** Whether the user has enabled keyboard shortcuts for comment moderation. Defaults to false. */
     hasCommentShortcutsEnabled?: Maybe<Scalars['Boolean']['output']>
     /** Whether the user has enabled the visual editor. When enabled, the WYSIWYG editor is used for content editing. Defaults to true. */
@@ -22889,6 +24396,8 @@ export type User = Commenter &
     userId?: Maybe<Scalars['Int']['output']>
     /** Username for the user. This field is equivalent to WP_User-&gt;user_login. */
     username?: Maybe<Scalars['String']['output']>
+    /** Fields of the Users ACF Field Group */
+    users?: Maybe<Users>
   }
 
 /** A registered user account. Users can be assigned roles, author content, and have various capabilities within the site. */
@@ -22957,6 +24466,15 @@ export type UserEventsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   where?: InputMaybe<UserToEventsConnectionWhereArgs>
+}
+
+/** A registered user account. Users can be assigned roles, author content, and have various capabilities within the site. */
+export type UserGraphqlDocumentsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  where?: InputMaybe<UserToGraphqlDocumentConnectionWhereArgs>
 }
 
 /** A registered user account. Users can be assigned roles, author content, and have various capabilities within the site. */
@@ -23127,13 +24645,13 @@ export type UserRoleConnectionPageInfo = {
 
 /** Permission levels for user accounts. Defines the standard access levels that control what actions users can perform within the system. */
 export enum UserRoleEnum {
-  /** User role with specific capabilities */
+  /** Full system access with ability to manage all aspects of the site. */
   Administrator = 'ADMINISTRATOR',
-  /** User role with specific capabilities */
+  /** Can publish and manage their own content. */
   Author = 'AUTHOR',
-  /** User role with specific capabilities */
+  /** Can write and manage their own content but cannot publish. */
   Contributor = 'CONTRIBUTOR',
-  /** User role with specific capabilities */
+  /** Content management access without administrative capabilities. */
   Editor = 'EDITOR',
   /** User role with specific capabilities */
   Member = 'MEMBER',
@@ -23141,7 +24659,7 @@ export enum UserRoleEnum {
   SeoEditor = 'SEO_EDITOR',
   /** User role with specific capabilities */
   SeoManager = 'SEO_MANAGER',
-  /** User role with specific capabilities */
+  /** Can only manage their profile and read content. */
   Subscriber = 'SUBSCRIBER',
 }
 
@@ -23202,6 +24720,8 @@ export type UserToAnimalConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -23226,6 +24746,8 @@ export type UserToAnimalConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -23287,6 +24809,8 @@ export type UserToCaseStudiesConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -23311,6 +24835,8 @@ export type UserToCaseStudiesConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -23473,6 +24999,8 @@ export type UserToDiseasesConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -23497,6 +25025,8 @@ export type UserToDiseasesConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -23636,6 +25166,8 @@ export type UserToEventsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -23660,6 +25192,97 @@ export type UserToEventsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
+  /** Title of the object */
+  title?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Connection between the User type and the graphqlDocument type */
+export type UserToGraphqlDocumentConnection = Connection &
+  GraphqlDocumentConnection & {
+    __typename?: 'UserToGraphqlDocumentConnection'
+    /** Edges for the UserToGraphqlDocumentConnection connection */
+    edges: Array<UserToGraphqlDocumentConnectionEdge>
+    /** The nodes of the connection, without the edges */
+    nodes: Array<GraphqlDocument>
+    /** Information about pagination in a connection. */
+    pageInfo: UserToGraphqlDocumentConnectionPageInfo
+  }
+
+/** An edge in a connection */
+export type UserToGraphqlDocumentConnectionEdge = Edge &
+  GraphqlDocumentConnectionEdge & {
+    __typename?: 'UserToGraphqlDocumentConnectionEdge'
+    /** A cursor for use in pagination */
+    cursor?: Maybe<Scalars['String']['output']>
+    /** The item at the end of the edge */
+    node: GraphqlDocument
+  }
+
+/** Pagination metadata specific to &quot;UserToGraphqlDocumentConnection&quot; collections. Provides cursors and flags for navigating through sets of UserToGraphqlDocumentConnection Nodes. */
+export type UserToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnectionPageInfo &
+  PageInfo &
+  WpPageInfo & {
+    __typename?: 'UserToGraphqlDocumentConnectionPageInfo'
+    /** When paginating forwards, the cursor to continue. */
+    endCursor?: Maybe<Scalars['String']['output']>
+    /** When paginating forwards, are there more items? */
+    hasNextPage: Scalars['Boolean']['output']
+    /** When paginating backwards, are there more items? */
+    hasPreviousPage: Scalars['Boolean']['output']
+    /** Raw schema for page */
+    seo?: Maybe<SeoPostTypePageInfo>
+    /** When paginating backwards, the cursor to continue. */
+    startCursor?: Maybe<Scalars['String']['output']>
+  }
+
+/** Arguments for filtering the UserToGraphqlDocumentConnection connection */
+export type UserToGraphqlDocumentConnectionWhereArgs = {
+  /** The user that's connected as the author of the object. Use the userId for the author object. */
+  author?: InputMaybe<Scalars['Int']['input']>
+  /** Find objects connected to author(s) in the array of author's userIds */
+  authorIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Find objects connected to the author by the author's nicename */
+  authorName?: InputMaybe<Scalars['String']['input']>
+  /** Find objects NOT connected to author(s) in the array of author's userIds */
+  authorNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars['Boolean']['input']>
+  /** Specific database ID of the object */
+  id?: InputMaybe<Scalars['Int']['input']>
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars['String']['input']>
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** What parameter to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars['ID']['input']>
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars['String']['input']>
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars['String']['input']>
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -23721,6 +25344,8 @@ export type UserToMediaBankConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -23745,6 +25370,8 @@ export type UserToMediaBankConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -23806,6 +25433,8 @@ export type UserToMediaItemConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -23830,6 +25459,8 @@ export type UserToMediaItemConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -23891,6 +25522,8 @@ export type UserToMemberConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -23915,6 +25548,8 @@ export type UserToMemberConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -23976,6 +25611,8 @@ export type UserToNewsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -24000,6 +25637,8 @@ export type UserToNewsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -24061,6 +25700,8 @@ export type UserToPageConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -24085,6 +25726,8 @@ export type UserToPageConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -24154,6 +25797,8 @@ export type UserToPostConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -24190,6 +25835,8 @@ export type UserToPostConnectionWhereArgs = {
   tagSlugAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   /** Array of tag slugs, used to include objects in ANY specified tags */
   tagSlugIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -24245,6 +25892,8 @@ export type UserToRevisionsConnectionWhereArgs = {
   id?: InputMaybe<Scalars['Int']['input']>
   /** Array of IDs for the objects to retrieve */
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>
+  /** True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results. */
+  isSticky?: InputMaybe<Scalars['Boolean']['input']>
   /** Get objects with a specific mimeType property */
   mimeType?: InputMaybe<MimeTypeEnum>
   /** Slug / post_name of the object */
@@ -24269,6 +25918,8 @@ export type UserToRevisionsConnectionWhereArgs = {
   stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>
   /** Show posts with a specific status. */
   status?: InputMaybe<PostStatusEnum>
+  /** Filter the connection to content assigned a specific template. */
+  template?: InputMaybe<ContentTemplateEnum>
   /** Title of the object */
   title?: InputMaybe<Scalars['String']['input']>
 }
@@ -24312,6 +25963,28 @@ export type UserToUserRoleConnectionPageInfo = PageInfo &
     startCursor?: Maybe<Scalars['String']['output']>
   }
 
+/** The &quot;Users&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type Users = AcfFieldGroup &
+  AcfFieldGroupFields &
+  Users_Fields & {
+    __typename?: 'Users'
+    /**
+     * The name of the field group
+     * @deprecated Use __typename instead
+     */
+    fieldGroupName?: Maybe<Scalars['String']['output']>
+    /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Users&quot; Field Group */
+    members?: Maybe<AcfContentNodeConnection>
+  }
+
+/** The &quot;Users&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type UsersMembersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
 /** User attribute sorting options. Determines which property of user accounts is used for ordering user listings. */
 export enum UsersConnectionOrderbyEnum {
   /** Order by display name */
@@ -24352,6 +26025,25 @@ export enum UsersConnectionSearchColumnEnum {
   Nicename = 'NICENAME',
   /** The URL of the user's website. */
   Url = 'URL',
+}
+
+/** Interface representing fields of the ACF &quot;Users&quot; Field Group */
+export type Users_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName?: Maybe<Scalars['String']['output']>
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Users&quot; Field Group */
+  members?: Maybe<AcfContentNodeConnection>
+}
+
+/** Interface representing fields of the ACF &quot;Users&quot; Field Group */
+export type Users_FieldsMembersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
 }
 
 /** Metadata for cursor-based pagination. Provides cursors for continuing pagination and boolean flags indicating if more items exist in either direction. */
@@ -24481,13 +26173,21 @@ export type WithAcfThemeSettings = {
   themeSettings?: Maybe<ThemeSettings>
 }
 
+/** Provides access to fields of the &quot;Users&quot; ACF Field Group via the &quot;users&quot; field */
+export type WithAcfUsers = {
+  /** Fields of the Users ACF Field Group */
+  users?: Maybe<Users>
+}
+
 /** The writing setting type */
-export type WritingSettings = {
+export type WritingSettings = Node & {
   __typename?: 'WritingSettings'
   /** Default post category. */
   defaultCategory?: Maybe<Scalars['Int']['output']>
   /** Default post format. */
   defaultPostFormat?: Maybe<Scalars['String']['output']>
+  /** The globally unique identifier of the settings group. */
+  id: Scalars['ID']['output']
   /** Convert emoticons like :-) and :-P to graphics on display. */
   useSmilies?: Maybe<Scalars['Boolean']['output']>
 }
@@ -24674,6 +26374,7 @@ export type GetPostQuery_RootQuery = {
 export type GetPostQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
   idType?: InputMaybe<PostIdType>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetPostQuery = GetPostQuery_RootQuery
@@ -24734,9 +26435,194 @@ export type GetPageQuery_RootQuery = {
 
 export type GetPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetPageQuery = GetPageQuery_RootQuery
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Animal = {
+  __typename: 'Animal'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_CaseStudies = {
+  __typename: 'CaseStudies'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_DataChart = {
+  __typename: 'DataChart'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Diseases = {
+  __typename: 'Diseases'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Events = {
+  __typename: 'Events'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_GraphqlDocument = {
+  __typename: 'GraphqlDocument'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaBank = {
+  __typename: 'MediaBank'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaItem = {
+  __typename: 'MediaItem'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Member = {
+  __typename: 'Member'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_News = {
+  __typename: 'News'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Office = {
+  __typename: 'Office'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Page = {
+  __typename: 'Page'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Post = {
+  __typename: 'Post'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_PressRelease = {
+  __typename: 'PressRelease'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_ResearchArea = {
+  __typename: 'ResearchArea'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Team = {
+  __typename: 'Team'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode_Ticker = {
+  __typename: 'Ticker'
+  id: string
+  uri?: string | null
+  status?: string | null
+  isPreview?: boolean | null
+  isRestricted?: boolean | null
+}
+
+export type GetPreviewAccessByUriQuery_RootQuery_contentNode =
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Animal
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_CaseStudies
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_DataChart
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Diseases
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Events
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_GraphqlDocument
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaBank
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_MediaItem
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Member
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_News
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Office
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Page
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Post
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_PressRelease
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_ResearchArea
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Team
+  | GetPreviewAccessByUriQuery_RootQuery_contentNode_Ticker
+
+export type GetPreviewAccessByUriQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  contentNode?: GetPreviewAccessByUriQuery_RootQuery_contentNode | null
+}
+
+export type GetPreviewAccessByUriQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
+}>
+
+export type GetPreviewAccessByUriQuery = GetPreviewAccessByUriQuery_RootQuery
 
 export type GetAnimalQuery_RootQuery_animal_Animal_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
@@ -24807,6 +26693,7 @@ export type GetAnimalQuery_RootQuery = {
 
 export type GetAnimalQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetAnimalQuery = GetAnimalQuery_RootQuery
@@ -24968,6 +26855,22 @@ type PageInfo_AcfContentNodeConnectionPageInfo_Fragment = {
 
 type PageInfo_AcfTermNodeConnectionPageInfo_Fragment = {
   __typename?: 'AcfTermNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_AnimalNewsToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'AnimalNewsToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_AnimalNewsToNewsConnectionPageInfo_Fragment = {
+  __typename?: 'AnimalNewsToNewsConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -25262,6 +27165,14 @@ type PageInfo_MenuToMenuItemConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_NewsToAnimalNewsConnectionPageInfo_Fragment = {
+  __typename?: 'NewsToAnimalNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_NewsToCategoryNewsConnectionPageInfo_Fragment = {
   __typename?: 'NewsToCategoryNewsConnectionPageInfo'
   endCursor?: string | null
@@ -25272,6 +27183,14 @@ type PageInfo_NewsToCategoryNewsConnectionPageInfo_Fragment = {
 
 type PageInfo_NewsToNewsConnectionPageInfo_Fragment = {
   __typename?: 'NewsToNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_NewsToResearchAreasNewsConnectionPageInfo_Fragment = {
+  __typename?: 'NewsToResearchAreasNewsConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -25414,6 +27333,22 @@ type PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_ResearchAreasNewsToContentNodeConnectionPageInfo_Fragment = {
+  __typename?: 'ResearchAreasNewsToContentNodeConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_ResearchAreasNewsToNewsConnectionPageInfo_Fragment = {
+  __typename?: 'ResearchAreasNewsToNewsConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_RoleToContentNodeConnectionPageInfo_Fragment = {
   __typename?: 'RoleToContentNodeConnectionPageInfo'
   endCursor?: string | null
@@ -25432,6 +27367,14 @@ type PageInfo_RoleToTeamConnectionPageInfo_Fragment = {
 
 type PageInfo_RootQueryToAnimalConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToAnimalConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToAnimalNewsConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToAnimalNewsConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -25656,6 +27599,14 @@ type PageInfo_RootQueryToPressReleaseConnectionPageInfo_Fragment = {
 
 type PageInfo_RootQueryToResearchAreaConnectionPageInfo_Fragment = {
   __typename?: 'RootQueryToResearchAreaConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
+type PageInfo_RootQueryToResearchAreasNewsConnectionPageInfo_Fragment = {
+  __typename?: 'RootQueryToResearchAreasNewsConnectionPageInfo'
   endCursor?: string | null
   startCursor?: string | null
   hasNextPage: boolean
@@ -25902,6 +27853,14 @@ type PageInfo_UserToEventsConnectionPageInfo_Fragment = {
   hasPreviousPage: boolean
 }
 
+type PageInfo_UserToGraphqlDocumentConnectionPageInfo_Fragment = {
+  __typename?: 'UserToGraphqlDocumentConnectionPageInfo'
+  endCursor?: string | null
+  startCursor?: string | null
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 type PageInfo_UserToMediaBankConnectionPageInfo_Fragment = {
   __typename?: 'UserToMediaBankConnectionPageInfo'
   endCursor?: string | null
@@ -25969,6 +27928,8 @@ type PageInfo_UserToUserRoleConnectionPageInfo_Fragment = {
 export type PageInfoFragment =
   | PageInfo_AcfContentNodeConnectionPageInfo_Fragment
   | PageInfo_AcfTermNodeConnectionPageInfo_Fragment
+  | PageInfo_AnimalNewsToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_AnimalNewsToNewsConnectionPageInfo_Fragment
   | PageInfo_AnimalToAnimalConnectionPageInfo_Fragment
   | PageInfo_CaseStudiesToCaseStudiesConnectionPageInfo_Fragment
   | PageInfo_CaseStudiesToInstitutionConnectionPageInfo_Fragment
@@ -26005,8 +27966,10 @@ export type PageInfoFragment =
   | PageInfo_MemberToMemberConnectionPageInfo_Fragment
   | PageInfo_MenuItemToMenuItemConnectionPageInfo_Fragment
   | PageInfo_MenuToMenuItemConnectionPageInfo_Fragment
+  | PageInfo_NewsToAnimalNewsConnectionPageInfo_Fragment
   | PageInfo_NewsToCategoryNewsConnectionPageInfo_Fragment
   | PageInfo_NewsToNewsConnectionPageInfo_Fragment
+  | PageInfo_NewsToResearchAreasNewsConnectionPageInfo_Fragment
   | PageInfo_NewsToTermNodeConnectionPageInfo_Fragment
   | PageInfo_OfficeToOfficeConnectionPageInfo_Fragment
   | PageInfo_PageToCommentConnectionPageInfo_Fragment
@@ -26024,9 +27987,12 @@ export type PageInfoFragment =
   | PageInfo_PressReleaseToTermNodeConnectionPageInfo_Fragment
   | PageInfo_PressReleaseToTypeConnectionPageInfo_Fragment
   | PageInfo_ResearchAreaToResearchAreaConnectionPageInfo_Fragment
+  | PageInfo_ResearchAreasNewsToContentNodeConnectionPageInfo_Fragment
+  | PageInfo_ResearchAreasNewsToNewsConnectionPageInfo_Fragment
   | PageInfo_RoleToContentNodeConnectionPageInfo_Fragment
   | PageInfo_RoleToTeamConnectionPageInfo_Fragment
   | PageInfo_RootQueryToAnimalConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToAnimalNewsConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCaseStudiesConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCategoryConnectionPageInfo_Fragment
   | PageInfo_RootQueryToCategoryEventConnectionPageInfo_Fragment
@@ -26055,6 +28021,7 @@ export type PageInfoFragment =
   | PageInfo_RootQueryToPostFormatConnectionPageInfo_Fragment
   | PageInfo_RootQueryToPressReleaseConnectionPageInfo_Fragment
   | PageInfo_RootQueryToResearchAreaConnectionPageInfo_Fragment
+  | PageInfo_RootQueryToResearchAreasNewsConnectionPageInfo_Fragment
   | PageInfo_RootQueryToRevisionsConnectionPageInfo_Fragment
   | PageInfo_RootQueryToRoleConnectionPageInfo_Fragment
   | PageInfo_RootQueryToTagConnectionPageInfo_Fragment
@@ -26085,6 +28052,7 @@ export type PageInfoFragment =
   | PageInfo_UserToEnqueuedScriptConnectionPageInfo_Fragment
   | PageInfo_UserToEnqueuedStylesheetConnectionPageInfo_Fragment
   | PageInfo_UserToEventsConnectionPageInfo_Fragment
+  | PageInfo_UserToGraphqlDocumentConnectionPageInfo_Fragment
   | PageInfo_UserToMediaBankConnectionPageInfo_Fragment
   | PageInfo_UserToMediaItemConnectionPageInfo_Fragment
   | PageInfo_UserToMemberConnectionPageInfo_Fragment
@@ -26618,6 +28586,7 @@ export type GetNewsQuery_RootQuery = {
 
 export type GetNewsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetNewsQuery = GetNewsQuery_RootQuery
@@ -26655,6 +28624,36 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
     readingTime?: number | null
     opengraphDescription?: string | null
     breadcrumbs?: Array<GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_seo_PostTypeSEO_breadcrumbs_SEOPostTypeBreadcrumbs | null> | null
+  }
+
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_animalsNews_NewsToAnimalNewsConnection_nodes_AnimalNews =
+  {
+    __typename?: 'AnimalNews'
+    count?: number | null
+    slug?: string | null
+    name?: string | null
+    databaseId: number
+  }
+
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_animalsNews_NewsToAnimalNewsConnection =
+  {
+    __typename?: 'NewsToAnimalNewsConnection'
+    nodes: Array<GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_animalsNews_NewsToAnimalNewsConnection_nodes_AnimalNews>
+  }
+
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_researchAreaNews_NewsToResearchAreasNewsConnection_nodes_ResearchAreasNews =
+  {
+    __typename?: 'ResearchAreasNews'
+    count?: number | null
+    slug?: string | null
+    name?: string | null
+    databaseId: number
+  }
+
+export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_researchAreaNews_NewsToResearchAreasNewsConnection =
+  {
+    __typename?: 'NewsToResearchAreasNewsConnection'
+    nodes: Array<GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_researchAreaNews_NewsToResearchAreasNewsConnection_nodes_ResearchAreasNews>
   }
 
 export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews_disease_AcfContentNodeConnection_nodes_Animal =
@@ -26848,6 +28847,8 @@ export type GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_Ne
   content?: string | null
   author?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_author_NodeWithAuthorToUserConnectionEdge | null
   seo?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_seo_PostTypeSEO | null
+  animalsNews?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_animalsNews_NewsToAnimalNewsConnection | null
+  researchAreaNews?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_researchAreaNews_NewsToResearchAreasNewsConnection | null
   acfNews?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_acfNews_AcfNews | null
   categoriesNews?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_categoriesNews_NewsToCategoryNewsConnection | null
   featuredImage?: GetAllNewsQuery_RootQuery_allNews_RootQueryToNewsConnection_nodes_News_featuredImage_NodeWithFeaturedImageToMediaItemConnectionEdge | null
@@ -26873,9 +28874,58 @@ export type GetAllNewsQueryVariables = Exact<{
   category?: InputMaybe<Scalars['String']['input']>
   country?: InputMaybe<Scalars['String']['input']>
   animal?: InputMaybe<Scalars['String']['input']>
+  animalNews?: InputMaybe<Scalars['String']['input']>
+  researchAreasNews?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type GetAllNewsQuery = GetAllNewsQuery_RootQuery
+
+export type GetAllResearchAreasNewsQuery_RootQuery_researchAreaNews_RootQueryToResearchAreasNewsConnection_nodes_ResearchAreasNews =
+  {
+    __typename?: 'ResearchAreasNews'
+    count?: number | null
+    name?: string | null
+    databaseId: number
+    slug?: string | null
+  }
+
+export type GetAllResearchAreasNewsQuery_RootQuery_researchAreaNews_RootQueryToResearchAreasNewsConnection =
+  {
+    __typename?: 'RootQueryToResearchAreasNewsConnection'
+    nodes: Array<GetAllResearchAreasNewsQuery_RootQuery_researchAreaNews_RootQueryToResearchAreasNewsConnection_nodes_ResearchAreasNews>
+  }
+
+export type GetAllResearchAreasNewsQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  researchAreaNews?: GetAllResearchAreasNewsQuery_RootQuery_researchAreaNews_RootQueryToResearchAreasNewsConnection | null
+}
+
+export type GetAllResearchAreasNewsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllResearchAreasNewsQuery = GetAllResearchAreasNewsQuery_RootQuery
+
+export type GetAllAnimalsNewsQuery_RootQuery_animalsNews_RootQueryToAnimalNewsConnection_nodes_AnimalNews =
+  {
+    __typename?: 'AnimalNews'
+    count?: number | null
+    name?: string | null
+    databaseId: number
+    slug?: string | null
+  }
+
+export type GetAllAnimalsNewsQuery_RootQuery_animalsNews_RootQueryToAnimalNewsConnection = {
+  __typename?: 'RootQueryToAnimalNewsConnection'
+  nodes: Array<GetAllAnimalsNewsQuery_RootQuery_animalsNews_RootQueryToAnimalNewsConnection_nodes_AnimalNews>
+}
+
+export type GetAllAnimalsNewsQuery_RootQuery = {
+  __typename?: 'RootQuery'
+  animalsNews?: GetAllAnimalsNewsQuery_RootQuery_animalsNews_RootQueryToAnimalNewsConnection | null
+}
+
+export type GetAllAnimalsNewsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetAllAnimalsNewsQuery = GetAllAnimalsNewsQuery_RootQuery
 
 export type GetEventsQuery_RootQuery_events_Events_author_NodeWithAuthorToUserConnectionEdge_node_User =
   {
@@ -27072,7 +29122,7 @@ export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_rel
   }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge_node_MediaItem =
-  { __typename?: 'MediaItem'; link?: string | null }
+  { __typename?: 'MediaItem'; sourceUrl?: string | null }
 
 export type GetEventsQuery_RootQuery_events_Events_customFields_CustomFields_pageHeaderImage_AcfMediaItemConnectionEdge =
   {
@@ -27136,6 +29186,7 @@ export type GetEventsQuery_RootQuery = {
 
 export type GetEventsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetEventsQuery = GetEventsQuery_RootQuery
@@ -27340,6 +29391,7 @@ export type GetDiseasesQuery_RootQuery = {
 
 export type GetDiseasesQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetDiseasesQuery = GetDiseasesQuery_RootQuery
@@ -27498,6 +29550,7 @@ export type GetMembersQuery_RootQuery = {
 
 export type GetMembersQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']['input']>
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetMembersQuery = GetMembersQuery_RootQuery
@@ -27986,6 +30039,7 @@ export type GetCaseStudiesQuery_RootQuery = {
 
 export type GetCaseStudiesQueryVariables = Exact<{
   id: Scalars['ID']['input']
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetCaseStudiesQuery = GetCaseStudiesQuery_RootQuery
@@ -28091,6 +30145,7 @@ export type GetTeamQuery_RootQuery = {
 
 export type GetTeamQueryVariables = Exact<{
   id: Scalars['ID']['input']
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetTeamQuery = GetTeamQuery_RootQuery
@@ -28347,6 +30402,7 @@ export type GetPressReleaseQuery_RootQuery = {
 
 export type GetPressReleaseQueryVariables = Exact<{
   id: Scalars['ID']['input']
+  asPreview?: InputMaybe<Scalars['Boolean']['input']>
 }>
 
 export type GetPressReleaseQuery = GetPressReleaseQuery_RootQuery
@@ -29025,6 +31081,12 @@ export const GetPostDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'PostIdType' } },
           defaultValue: { kind: 'EnumValue', value: 'URI' },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -29042,6 +31104,11 @@ export const GetPostDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'idType' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -29092,6 +31159,12 @@ export const GetPageDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -29109,6 +31182,11 @@ export const GetPageDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -29194,6 +31272,67 @@ export const GetPageDocument = {
     },
   ],
 } as unknown as DocumentNode<GetPageQuery, GetPageQueryVariables>
+export const GetPreviewAccessByUriDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPreviewAccessByUri' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          defaultValue: { kind: 'StringValue', value: '', block: false },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: true },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contentNode' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'idType' },
+                value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'uri' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isPreview' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isRestricted' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetPreviewAccessByUriQuery, GetPreviewAccessByUriQueryVariables>
 export const GetAnimalDocument = {
   kind: 'Document',
   definitions: [
@@ -29207,6 +31346,12 @@ export const GetAnimalDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
         },
       ],
       selectionSet: {
@@ -29225,6 +31370,11 @@ export const GetAnimalDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -29713,6 +31863,12 @@ export const GetNewsDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -29730,6 +31886,11 @@ export const GetNewsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -30001,6 +32162,16 @@ export const GetAllNewsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'animal' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'animalNews' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'researchAreasNews' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -30035,6 +32206,19 @@ export const GetAllNewsDocument = {
                 value: {
                   kind: 'ObjectValue',
                   fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'animalsNews' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'animalNews' } },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'researchAreasNews' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'researchAreasNews' },
+                      },
+                    },
                     {
                       kind: 'ObjectField',
                       name: { kind: 'Name', value: 'search' },
@@ -30127,6 +32311,50 @@ export const GetAllNewsDocument = {
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'text' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'animalsNews' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'databaseId' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'researchAreaNews' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'databaseId' } },
                                 ],
                               },
                             },
@@ -30236,6 +32464,80 @@ export const GetAllNewsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllNewsQuery, GetAllNewsQueryVariables>
+export const GetAllResearchAreasNewsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllResearchAreasNews' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'researchAreaNews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'databaseId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllResearchAreasNewsQuery, GetAllResearchAreasNewsQueryVariables>
+export const GetAllAnimalsNewsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAllAnimalsNews' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'animalsNews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'databaseId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllAnimalsNewsQuery, GetAllAnimalsNewsQueryVariables>
 export const GetEventsDocument = {
   kind: 'Document',
   definitions: [
@@ -30249,6 +32551,12 @@ export const GetEventsDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
         },
       ],
       selectionSet: {
@@ -30267,6 +32575,11 @@ export const GetEventsDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -30381,7 +32694,7 @@ export const GetEventsDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
-                                  { kind: 'Field', name: { kind: 'Name', value: 'link' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'sourceUrl' } },
                                 ],
                               },
                             },
@@ -30664,12 +32977,12 @@ export const GetAllEventsDocument = {
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'after' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
               },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'before' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
               },
             ],
             selectionSet: {
@@ -30903,6 +33216,12 @@ export const GetDiseasesDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -30920,6 +33239,11 @@ export const GetDiseasesDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -31212,6 +33536,12 @@ export const GetMembersDocument = {
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           defaultValue: { kind: 'StringValue', value: '', block: false },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -31229,6 +33559,11 @@ export const GetMembersDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -32125,6 +34460,12 @@ export const GetCaseStudiesDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -32142,6 +34483,11 @@ export const GetCaseStudiesDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -32358,6 +34704,12 @@ export const GetTeamDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -32375,6 +34727,11 @@ export const GetTeamDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {
@@ -32873,6 +35230,12 @@ export const GetPressReleaseDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+          defaultValue: { kind: 'BooleanValue', value: false },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -32890,6 +35253,11 @@ export const GetPressReleaseDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'idType' },
                 value: { kind: 'EnumValue', value: 'URI' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'asPreview' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'asPreview' } },
               },
             ],
             selectionSet: {

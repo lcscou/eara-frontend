@@ -37,13 +37,11 @@ function PageTitleBarComponent({
   aditionalInfoTable,
 }: PageTitleBarProps) {
   const dateText = useMemo(() => {
-    if (!eventStartDate) return null
-    const start = new Date(eventStartDate)
-    const end = eventEndDate ? new Date(eventEndDate) : null
-    // const opts: Intl.DateTimeFormatOptions = { dateStyle: 'medium' }
-    return end
-      ? `${formatEventDate(start.toDateString())} - ${formatEventDate(end.toDateString())}`
-      : formatEventDate(start.toDateString())
+    const start = formatEventDate(eventStartDate ?? undefined)
+    if (!start) return null
+
+    const end = formatEventDate(eventEndDate ?? undefined)
+    return end ? `${start} - ${end}` : start
   }, [eventStartDate, eventEndDate])
 
   const containerClass = clsx(
@@ -89,11 +87,11 @@ function PageTitleBarComponent({
             </div>
             <div
               className={clsx(
-                'sm:px-unset mt-5 w-fit max-w-5xl px-[16px] sm:mt-0',
+                'sm:px-unset mt-5 w-fit max-w-5xl px-4 sm:mt-0',
                 backgroundTitle && 'bg-black/50 p-5'
               )}
             >
-              <Title order={2}>{title}</Title>
+              <Title order={1}>{title}</Title>
               {EventinfoTable}
               {newsIngoTable}
               {AditionalInforTable}
@@ -106,7 +104,7 @@ function PageTitleBarComponent({
                 backgroundTitle || featuredImage ? 'w-fit max-w-5xl bg-black/50 p-5' : ''
               )}
             >
-              <Title order={2} mb={10}>
+              <Title order={1} mb={10}>
                 {title}
               </Title>
               {EventinfoTable}
